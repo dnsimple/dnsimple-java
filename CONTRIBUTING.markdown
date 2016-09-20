@@ -1,0 +1,3 @@
+## Testing
+
+`mvn test`
