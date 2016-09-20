@@ -1,5 +1,6 @@
 package com.dnsimple;
 
+import com.dnsimple.response.ListDomainsResponse;
 import com.dnsimple.exception.DnsimpleException;
 
 import java.io.IOException;

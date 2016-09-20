@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.IOException;
 import java.util.List;
 
+import com.dnsimple.response.ApiResponse;
 import com.dnsimple.exception.DnsimpleException;
 
 import com.google.api.client.http.GenericUrl;
@@ -33,12 +34,12 @@ public class Client {
     this.transport = transport;
   }
 
-  public DnsimpleResponse parseResponse(HttpResponse response, Class<?> c) throws IOException {
-    DnsimpleResponse res = null;
+  public ApiResponse parseResponse(HttpResponse response, Class<?> c) throws IOException {
+    ApiResponse res = null;
     InputStream in = response.getContent();
     try {
       JsonParser jsonParser = GsonFactory.getDefaultInstance().createJsonParser(in);
-      res = (DnsimpleResponse)jsonParser.parse(c);
+      res = (ApiResponse)jsonParser.parse(c);
     } finally {
       in.close();
     }

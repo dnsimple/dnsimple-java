@@ -1,8 +1,10 @@
-package com.dnsimple;
+package com.dnsimple.response;
+
+import com.dnsimple.Whoami;
 
 import com.google.api.client.util.Key;
 
-public class WhoamiResponse implements DnsimpleResponse {
+public class WhoamiResponse implements ApiResponse {
   @Key("data")
   private Whoami data;
 

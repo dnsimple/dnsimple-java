@@ -2,6 +2,7 @@ package com.dnsimple;
 
 import java.io.IOException;
 
+import com.dnsimple.response.WhoamiResponse;
 import com.dnsimple.exception.DnsimpleException;
 
 import com.google.api.client.http.HttpResponse;
