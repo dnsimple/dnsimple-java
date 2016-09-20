@@ -5,6 +5,11 @@ public abstract class Dnsimple {
 
   private static volatile String apiBase = PRODUCTION_API_BASE;
 
+  public static String setApiBase(String overriddenApiBase) {
+    apiBase = overriddenApiBase;
+    return apiBase;
+  }
+
   public static String getApiBase() {
     return apiBase;
   }
