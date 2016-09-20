@@ -2,7 +2,7 @@ package com.dnsimple;
 
 import com.google.api.client.util.Key;
 
-public class WhoamiResponse {
+public class WhoamiResponse implements DnsimpleResponse {
   @Key("data")
   private Whoami data;
 

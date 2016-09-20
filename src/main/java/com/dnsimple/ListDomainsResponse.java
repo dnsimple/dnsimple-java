@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.api.client.util.Key;
 
-public class ListDomainsResponse {
+public class ListDomainsResponse implements DnsimpleResponse {
   @Key("data")
   private List<Domain> data;
 
