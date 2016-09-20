@@ -3,9 +3,10 @@ package com.dnsimple;
 import com.google.api.client.util.Key;
 
 public class Account {
-  @Key
+  @Key("id")
   private int id;
-  @Key
+
+  @Key("email")
   private String email;
 
   public Account() {}

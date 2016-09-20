@@ -2,16 +2,16 @@ package com.dnsimple;
 
 import com.google.api.client.util.Key;
 
-public class WhoamiResponse implements ResponseData {
-  @Key("account")
-  private Account account;
+public class WhoamiResponse {
+  @Key("data")
+  private Whoami data;
 
-  public WhoamiResponse() { }
-  public WhoamiResponse(Account account) {
-    this.account = account;
+  public WhoamiResponse() {}
+  public WhoamiResponse(Whoami data) {
+    this.data = data;
   }
 
-  public Account getAccount() {
-    return account;
+  public Whoami getData() {
+    return data;
   }
 }

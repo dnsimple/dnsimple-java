@@ -14,7 +14,7 @@ public class IdentityTest extends DnsimpleTestBase {
   @Test
   public void testWhoami() throws DnsimpleException, IOException {
     Client client = mockClient(resource("whoami/success_account.http"));
-    DnsimpleResponse response = client.identity.whoami();
+    WhoamiResponse response = client.identity.whoami();
     Account account = response.getData().getAccount();
     assertEquals(1, account.getId());
     assertEquals("example-account@example.com", account.getEmail());

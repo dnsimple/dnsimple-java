@@ -21,3 +21,5 @@ Add this dependency to your project's POM:
 ## Usage
 
 ## Testing
+
+`mvn test`

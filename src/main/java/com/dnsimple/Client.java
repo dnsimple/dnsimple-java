@@ -14,11 +14,13 @@ import com.google.api.client.json.gson.GsonFactory;
 public class Client {
 
   public final Identity identity;
+  public final Domains domains;
 
   private HttpTransport transport;
 
   public Client() {
     this.identity = new Identity(this);
+    this.domains = new Domains(this);
     this.transport = new NetHttpTransport();
   }
 
