@@ -11,13 +11,26 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+import com.google.api.client.util.Data;
+
 public class IdentityTest extends DnsimpleTestBase {
   @Test
-  public void testWhoami() throws DnsimpleException, IOException {
+  public void testWhoamiWithAccount() throws DnsimpleException, IOException {
     Client client = mockClient(resource("whoami/success_account.http"));
     WhoamiResponse response = client.identity.whoami();
     Account account = response.getData().getAccount();
     assertEquals(1, account.getId());
     assertEquals("example-account@example.com", account.getEmail());
+    assert(Data.isNull(response.getData().getUser()));
+  }
+
+  @Test
+  public void testWhoamiWithUser() throws DnsimpleException, IOException {
+    Client client = mockClient(resource("whoami/success_user.http"));
+    WhoamiResponse response = client.identity.whoami();
+    User user = response.getData().getUser();
+    assertEquals(1, user.getId());
+    assertEquals("example-user@example.com", user.getEmail());
+    assert(Data.isNull(response.getData().getAccount()));
   }
 }
