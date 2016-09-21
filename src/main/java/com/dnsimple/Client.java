@@ -46,6 +46,26 @@ public class Client {
     this.transport = transport;
   }
 
+  public HttpResponse get(String path) throws IOException {
+    return request(HttpMethods.GET, versionedPath(path), null);
+  }
+
+  public HttpResponse post(String path, HashMap<String, Object> attributes) throws IOException {
+    return request(HttpMethods.POST, versionedPath(path), attributes);
+  }
+
+
+  protected HttpResponse request(String method, String url, Object data) throws IOException {
+    HttpContent content = null;
+    if (data != null) {
+       content = new JsonHttpContent(new GsonFactory(), data);
+    }
+
+    HttpRequest request = transport.createRequestFactory().buildRequest(method, new GenericUrl(url), content);
+
+    return request.execute();
+  }
+
   /**
    * Parse the response from the HTTP call into an instance of the given class.
    *
@@ -53,7 +73,7 @@ public class Client {
    * @param c The class to instantiate and use to build the response object
    * @throws IOException Any IO errors
    */
-  public ApiResponse parseResponse(HttpResponse response, Class<?> c) throws IOException {
+  protected ApiResponse parseResponse(HttpResponse response, Class<?> c) throws IOException {
     ApiResponse res = null;
     InputStream in = response.getContent();
     try {
@@ -65,24 +85,6 @@ public class Client {
     return res;
   }
 
-  public HttpResponse get(String path) throws IOException {
-    return request(HttpMethods.GET, versionedPath(path), null);
-  }
-
-  public HttpResponse post(String path, HashMap<String, Object> attributes) throws IOException {
-    return request(HttpMethods.POST, versionedPath(path), attributes);
-  }
-
-  private HttpResponse request(String method, String url, Object data) throws IOException {
-    HttpContent content = null;
-    if (data != null) {
-       content = new JsonHttpContent(new GsonFactory(), data);
-    }
-
-    HttpRequest request = transport.createRequestFactory().buildRequest(method, new GenericUrl(url), content);
-
-    return request.execute();
-  }
 
   private String versionedPath(String path) {
      return Dnsimple.getApiBase() + API_VERSION_PATH + path;
