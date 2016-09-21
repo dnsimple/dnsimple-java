@@ -3,6 +3,7 @@ package com.dnsimple;
 import java.io.InputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.HashMap;
 
 import com.dnsimple.response.ApiResponse;
 import com.dnsimple.exception.DnsimpleException;
@@ -11,12 +12,16 @@ import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpContent;
+import com.google.api.client.http.HttpMethods;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.http.json.JsonHttpContent;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.json.JsonParser;
 
+/**
+ * Instances of the Client handle low-level HTTP calls to the API.
+ */
 public class Client {
 
   public final Identity identity;
@@ -47,7 +52,11 @@ public class Client {
   }
 
   public HttpResponse get(String path) throws IOException {
-    return request("GET", Dnsimple.getApiBase() + "/v2/" + path, null);
+    return request(HttpMethods.GET, versionedPath(path), null);
+  }
+
+  public HttpResponse post(String path, HashMap<String, Object> attributes) throws IOException {
+    return request(HttpMethods.POST, versionedPath(path), attributes);
   }
 
   private HttpResponse request(String method, String url, Object data) throws IOException {
@@ -59,6 +68,10 @@ public class Client {
     HttpRequest request = transport.createRequestFactory().buildRequest(method, new GenericUrl(url), content);
 
     return request.execute();
+  }
+
+  private String versionedPath(String path) {
+     return Dnsimple.getApiBase() + "/v2/" + path;
   }
 
 }
