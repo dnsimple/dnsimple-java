@@ -24,6 +24,8 @@ import com.google.api.client.json.JsonParser;
  */
 public class Client {
 
+  private static final String API_VERSION_PATH = "/v2/";
+
   public final Identity identity;
   public final Domains domains;
 
@@ -35,10 +37,22 @@ public class Client {
     this.transport = new NetHttpTransport();
   }
 
+  /**
+   * Set the underlying transport mechanism.
+   *
+   * This method is primarily used to specify a mocked transport layer during testing.
+   */
   public void setTransport(HttpTransport transport) {
     this.transport = transport;
   }
 
+  /**
+   * Parse the response from the HTTP call into an instance of the given class.
+   *
+   * @param response The HTTPResponse instance
+   * @param c The class to instantiate and use to build the response object
+   * @throws IOException Any IO errors
+   */
   public ApiResponse parseResponse(HttpResponse response, Class<?> c) throws IOException {
     ApiResponse res = null;
     InputStream in = response.getContent();
@@ -71,7 +85,7 @@ public class Client {
   }
 
   private String versionedPath(String path) {
-     return Dnsimple.getApiBase() + "/v2/" + path;
+     return Dnsimple.getApiBase() + API_VERSION_PATH + path;
   }
 
 }
