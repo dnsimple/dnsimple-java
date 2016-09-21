@@ -7,6 +7,7 @@ import java.util.HashMap;
 import com.dnsimple.response.ListDomainsResponse;
 import com.dnsimple.response.GetDomainResponse;
 import com.dnsimple.response.CreateDomainResponse;
+import com.dnsimple.response.DeleteDomainResponse;
 import com.dnsimple.exception.DnsimpleException;
 
 import com.google.api.client.http.HttpResponse;
@@ -31,5 +32,10 @@ public class Domains {
   public CreateDomainResponse createDomain(String accountId, HashMap<String,Object> attributes) throws DnsimpleException, IOException {
     HttpResponse response = client.post(accountId + "/domains", attributes);
     return (CreateDomainResponse)client.parseResponse(response, CreateDomainResponse.class);
+  }
+
+  public DeleteDomainResponse deleteDomain(String accountId, String domainId) throws DnsimpleException, IOException {
+    HttpResponse response = client.delete(accountId + "/domains/" + domainId);
+    return (DeleteDomainResponse)client.parseResponse(response, DeleteDomainResponse.class);
   }
 }

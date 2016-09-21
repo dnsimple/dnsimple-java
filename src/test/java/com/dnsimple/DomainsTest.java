@@ -3,6 +3,7 @@ package com.dnsimple;
 import com.dnsimple.response.ListDomainsResponse;
 import com.dnsimple.response.GetDomainResponse;
 import com.dnsimple.response.CreateDomainResponse;
+import com.dnsimple.response.DeleteDomainResponse;
 import com.dnsimple.exception.DnsimpleException;
 
 import java.io.IOException;
@@ -67,5 +68,16 @@ public class DomainsTest extends DnsimpleTestBase {
     CreateDomainResponse response = client.domains.createDomain(accountId, attributes);
     Domain domain = response.getData();
     assertEquals(1, domain.getId().intValue());
+  }
+
+  @Test
+  public void testDeleteDomain() throws DnsimpleException, IOException {
+    Client client = mockClient(resource("deleteDomain/success.http"));
+
+    String accountId = "1";
+    String domainId = "example.com";
+
+    DeleteDomainResponse response = client.domains.deleteDomain(accountId, domainId);
+    assert(response.getData() == null);
   }
 }

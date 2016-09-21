@@ -46,25 +46,19 @@ public class Client {
     this.transport = transport;
   }
 
-  public HttpResponse get(String path) throws IOException {
+
+  protected HttpResponse get(String path) throws IOException {
     return request(HttpMethods.GET, versionedPath(path), null);
   }
 
-  public HttpResponse post(String path, HashMap<String, Object> attributes) throws IOException {
+  protected HttpResponse post(String path, HashMap<String, Object> attributes) throws IOException {
     return request(HttpMethods.POST, versionedPath(path), attributes);
   }
 
-
-  protected HttpResponse request(String method, String url, Object data) throws IOException {
-    HttpContent content = null;
-    if (data != null) {
-       content = new JsonHttpContent(new GsonFactory(), data);
-    }
-
-    HttpRequest request = transport.createRequestFactory().buildRequest(method, new GenericUrl(url), content);
-
-    return request.execute();
+  protected HttpResponse delete(String path) throws IOException {
+    return request(HttpMethods.DELETE, versionedPath(path), null);
   }
+
 
   /**
    * Parse the response from the HTTP call into an instance of the given class.
@@ -76,6 +70,15 @@ public class Client {
   protected ApiResponse parseResponse(HttpResponse response, Class<?> c) throws IOException {
     ApiResponse res = null;
     InputStream in = response.getContent();
+
+    if (in == null) {
+      try {
+        return (ApiResponse)c.newInstance();
+      } catch(ReflectiveOperationException e) {
+        throw new RuntimeException("Cannot instantiate " + c, e);
+      }
+    }
+
     try {
       JsonParser jsonParser = GsonFactory.getDefaultInstance().createJsonParser(in);
       res = (ApiResponse)jsonParser.parse(c);
@@ -83,6 +86,17 @@ public class Client {
       in.close();
     }
     return res;
+  }
+
+  protected HttpResponse request(String method, String url, Object data) throws IOException {
+    HttpContent content = null;
+    if (data != null) {
+       content = new JsonHttpContent(new GsonFactory(), data);
+    }
+
+    HttpRequest request = transport.createRequestFactory().buildRequest(method, new GenericUrl(url), content);
+
+    return request.execute();
   }
 
 

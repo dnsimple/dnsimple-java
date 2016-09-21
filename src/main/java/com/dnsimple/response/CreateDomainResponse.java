@@ -14,4 +14,3 @@ public class CreateDomainResponse implements ApiResponse {
     return data;
   }
 }
-
