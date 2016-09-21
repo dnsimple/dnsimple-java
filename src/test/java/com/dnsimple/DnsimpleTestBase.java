@@ -1,6 +1,7 @@
 package com.dnsimple;
 
 import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -40,6 +41,9 @@ public abstract class DnsimpleTestBase {
 
   public String resource(String path) throws IOException {
     InputStream resource = getClass().getResourceAsStream(path);
+    if (resource == null) {
+      throw new FileNotFoundException("Resource " + path + " not found");
+    }
 
     ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
     byte[] buf = new byte [1024];
