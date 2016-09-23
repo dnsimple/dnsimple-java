@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 
+import static org.junit.Assert.assertEquals;
+
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.LowLevelHttpRequest;
 import com.google.api.client.http.LowLevelHttpResponse;
@@ -18,6 +20,12 @@ import com.google.api.client.testing.http.MockLowLevelHttpResponse;
 
 public abstract class DnsimpleTestBase {
 
+  /**
+   * Return a Client that is mocked to return the given HTTP response.
+   *
+   * @param httpResponse The full HTTP response data
+   * @return The Client instance
+   */
   public Client mockClient(final String httpResponse) {
     Client client = new Client();
 
@@ -29,6 +37,35 @@ public abstract class DnsimpleTestBase {
           public LowLevelHttpResponse execute() throws IOException {
             MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
             return mockResponse(response, httpResponse);
+          }
+        };
+      }
+    };
+
+    client.setTransport(transport);
+
+    return client;
+  }
+
+  /**
+   * Return a Client that is configured to expect a specific URL.
+   *
+   * @param expectedUrl The URL string that is expected
+   * @return The Client instance
+   */
+  public Client expectClient(final String expectedUrl) {
+    Client client = new Client();
+
+    HttpTransport transport = new MockHttpTransport() {
+      @Override
+      public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
+        assertEquals(expectedUrl, url);
+
+        return new MockLowLevelHttpRequest() {
+          @Override
+          public LowLevelHttpResponse execute() throws IOException {
+            MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
+            return mockResponse(response, resource("empty-success.http"));
           }
         };
       }

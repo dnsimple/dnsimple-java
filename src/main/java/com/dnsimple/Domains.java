@@ -20,7 +20,10 @@ public class Domains {
   }
 
   public ListDomainsResponse listDomains(String accountId) throws DnsimpleException, IOException {
-    HttpResponse response = client.get(accountId + "/domains");
+    return listDomains(accountId, null);
+  }
+  public ListDomainsResponse listDomains(String accountId, HashMap<String,Object> options) throws DnsimpleException, IOException {
+    HttpResponse response = client.get(accountId + "/domains", options);
     return (ListDomainsResponse)client.parseResponse(response, ListDomainsResponse.class);
   }
 

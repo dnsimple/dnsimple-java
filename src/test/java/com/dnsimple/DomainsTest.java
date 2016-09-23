@@ -14,7 +14,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import com.google.api.client.util.Data;
 
@@ -34,7 +34,16 @@ public class DomainsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testListDomainExposesPaginationInfo() throws DnsimpleException, IOException {
+  public void testListDomainsSupportsPagination() throws DnsimpleException, IOException {
+    Client client = expectClient("https://api.dnsimple.com/v2/1/domains?page=1");
+    String accountId = "1";
+    HashMap<String, Object> options = new HashMap<String, Object>();
+    options.put("page", 1);
+    client.domains.listDomains(accountId, options);
+  }
+
+  @Test
+  public void testListDomainsExposesPaginationInfo() throws DnsimpleException, IOException {
     Client client = mockClient(resource("listDomains/success.http"));
 
     String accountId = "1";
@@ -57,14 +66,14 @@ public class DomainsTest extends DnsimpleTestBase {
     Domain domain = response.getData();
     assertEquals(1, domain.getId().intValue());
     assertEquals(1010, domain.getAccountId().intValue());
-    assert(Data.isNull(domain.getRegistrantId()));
+    assertTrue(Data.isNull(domain.getRegistrantId()));
     assertEquals("example-alpha.com", domain.getName());
     assertEquals("example-alpha.com", domain.getUnicodeName());
     assertEquals("domain-token", domain.getToken());
     assertEquals("hosted", domain.getState());
-    assert(!domain.getAutoRenew());
-    assert(!domain.getPrivateWhois());
-    assert(Data.isNull(domain.getExpiresOn()));
+    assertFalse(domain.getAutoRenew());
+    assertFalse(domain.getPrivateWhois());
+    assertTrue(Data.isNull(domain.getExpiresOn()));
     assertEquals("2014-12-06T15:56:55.573Z", domain.getCreatedAt());
     assertEquals("2015-12-09T00:20:56.056Z", domain.getUpdatedAt());
   }
