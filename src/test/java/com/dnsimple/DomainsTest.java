@@ -34,6 +34,18 @@ public class DomainsTest extends DnsimpleTestBase {
   }
 
   @Test
+  public void testListDomainExposesPaginationInfo() throws DnsimpleException, IOException {
+    Client client = mockClient(resource("listDomains/success.http"));
+
+    String accountId = "1";
+
+    ListDomainsResponse response = client.domains.listDomains(accountId);
+
+    Pagination pagination = response.getPagination();
+    assertEquals(1, pagination.getCurrentPage().intValue());
+  }
+
+  @Test
   public void testGetDomain() throws DnsimpleException, IOException {
     Client client = mockClient(resource("getDomain/success.http"));
 
