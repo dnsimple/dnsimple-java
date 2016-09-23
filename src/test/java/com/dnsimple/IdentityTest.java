@@ -19,7 +19,7 @@ public class IdentityTest extends DnsimpleTestBase {
     Client client = mockClient(resource("whoami/success_account.http"));
     WhoamiResponse response = client.identity.whoami();
     Account account = response.getData().getAccount();
-    assertEquals(1, account.getId());
+    assertEquals(1, account.getId().intValue());
     assertEquals("example-account@example.com", account.getEmail());
     assert(Data.isNull(response.getData().getUser()));
   }
@@ -29,7 +29,7 @@ public class IdentityTest extends DnsimpleTestBase {
     Client client = mockClient(resource("whoami/success_user.http"));
     WhoamiResponse response = client.identity.whoami();
     User user = response.getData().getUser();
-    assertEquals(1, user.getId());
+    assertEquals(1, user.getId().intValue());
     assertEquals("example-user@example.com", user.getEmail());
     assert(Data.isNull(response.getData().getAccount()));
   }
