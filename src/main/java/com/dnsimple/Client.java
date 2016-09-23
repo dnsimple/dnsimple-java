@@ -26,14 +26,16 @@ public class Client {
 
   private static final String API_VERSION_PATH = "/v2/";
 
-  public final Identity identity;
+  public final Accounts accounts;
   public final Domains domains;
+  public final Identity identity;
 
   private HttpTransport transport;
 
   public Client() {
-    this.identity = new Identity(this);
+    this.accounts = new Accounts(this);
     this.domains = new Domains(this);
+    this.identity = new Identity(this);
     this.transport = new NetHttpTransport();
   }
 
