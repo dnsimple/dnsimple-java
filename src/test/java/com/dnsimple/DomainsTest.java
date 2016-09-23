@@ -43,6 +43,15 @@ public class DomainsTest extends DnsimpleTestBase {
   }
 
   @Test
+  public void testListDomainsSupportsExtraRequestOptions() throws DnsimpleException, IOException {
+    Client client = expectClient("https://api.dnsimple.com/v2/1/domains?foo=bar");
+    String accountId = "1";
+    HashMap<String, Object> options = new HashMap<String, Object>();
+    options.put("foo", "bar");
+    client.domains.listDomains(accountId, options);
+  }
+
+  @Test
   public void testListDomainsExposesPaginationInfo() throws DnsimpleException, IOException {
     Client client = mockClient(resource("listDomains/success.http"));
 

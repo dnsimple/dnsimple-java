@@ -2,9 +2,9 @@ package com.dnsimple;
 
 import java.io.InputStream;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 import com.dnsimple.response.ApiResponse;
 import com.dnsimple.exception.DnsimpleException;
@@ -35,6 +35,17 @@ public class Client {
 
   private HttpTransport transport;
 
+  /**
+   * Construct a new API client.
+   *
+   * Once you have a client instance, use the public properties such as `accounts` or `domains`
+   * to communicate with the remote API.
+   *
+   * For example:
+   *
+   * Client client = new Client();
+   * WhoamiResponse response = client.accounts.whoami();
+   */
   public Client() {
     this.accounts = new Accounts(this);
     this.domains = new Domains(this);
@@ -122,9 +133,19 @@ public class Client {
   }
 
   private GenericUrl buildUrl(String url, Map<String, Object> options) {
+    if (options == null) {
+      options = Collections.emptyMap();
+    }
+
     UrlBuilder urlBuilder = UrlBuilder.fromString(url);
-    if (options != null && options.containsKey("page")) {
-      urlBuilder = urlBuilder.addParameter("page", options.get("page").toString());
+    if (options.containsKey("page")) {
+      urlBuilder = urlBuilder.addParameter("page", options.remove("page").toString());
+    }
+
+    if (options.size() > 0) {
+      for (Map.Entry<String, Object> kv : options.entrySet()) {
+        urlBuilder = urlBuilder.addParameter(kv.getKey(), kv.getValue().toString());
+      }
     }
 
     return new GenericUrl(urlBuilder.toString());

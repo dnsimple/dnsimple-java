@@ -18,6 +18,9 @@ import com.google.api.client.testing.http.MockHttpTransport;
 import com.google.api.client.testing.http.MockLowLevelHttpRequest;
 import com.google.api.client.testing.http.MockLowLevelHttpResponse;
 
+/**
+ * A base class that DNSimple tests can inherit from to provide HTTP mocking and expectations.
+ */
 public abstract class DnsimpleTestBase {
 
   /**
@@ -76,6 +79,13 @@ public abstract class DnsimpleTestBase {
     return client;
   }
 
+  /**
+   * Load a resource for the given path relative to the `src/test/resources` directory.
+   *
+   * @param path The path where the resource should be
+   * @return The resource data
+   * @throws IOException Any IO exception
+   */
   public String resource(String path) throws IOException {
     InputStream resource = getClass().getResourceAsStream(path);
     if (resource == null) {
