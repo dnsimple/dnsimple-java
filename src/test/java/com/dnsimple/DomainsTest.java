@@ -5,6 +5,7 @@ import com.dnsimple.response.ListDomainsResponse;
 import com.dnsimple.response.GetDomainResponse;
 import com.dnsimple.response.CreateDomainResponse;
 import com.dnsimple.response.DeleteDomainResponse;
+import com.dnsimple.response.ResetDomainTokenResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
@@ -152,5 +153,17 @@ public class DomainsTest extends DnsimpleTestBase {
 
     DeleteDomainResponse response = client.domains.deleteDomain(accountId, domainId);
     assert(response.getData() == null);
+  }
+
+  @Test
+  public void testResetDomainToken() throws DnsimpleException, IOException {
+    Client client = mockClient(resource("resetDomainToken/success.http"));
+
+    String accountId = "1";
+    String domainId = "example.com";
+
+    ResetDomainTokenResponse response = client.domains.resetDomainToken(accountId, domainId);
+    Domain domain = response.getData();
+    assertEquals(1, domain.getId().intValue());
   }
 }

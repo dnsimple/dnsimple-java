@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 import com.dnsimple.request.Filter;
 import com.dnsimple.response.ApiResponse;
@@ -70,6 +71,10 @@ public class Client {
 
   protected HttpResponse get(String path, Map<String, Object> options) throws IOException {
     return request(HttpMethods.GET, versionedPath(path), null, options);
+  }
+
+  protected HttpResponse post(String path) throws IOException {
+    return post(path, new HashMap<String, Object>());
   }
 
   protected HttpResponse post(String path, Map<String, Object> attributes) throws IOException {

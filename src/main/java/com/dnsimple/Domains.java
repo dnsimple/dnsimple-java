@@ -8,6 +8,7 @@ import com.dnsimple.response.ListDomainsResponse;
 import com.dnsimple.response.GetDomainResponse;
 import com.dnsimple.response.CreateDomainResponse;
 import com.dnsimple.response.DeleteDomainResponse;
+import com.dnsimple.response.ResetDomainTokenResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
@@ -46,5 +47,10 @@ public class Domains {
   public DeleteDomainResponse deleteDomain(String accountId, String domainId) throws DnsimpleException, IOException {
     HttpResponse response = client.delete(accountId + "/domains/" + domainId);
     return (DeleteDomainResponse)client.parseResponse(response, DeleteDomainResponse.class);
+  }
+
+  public ResetDomainTokenResponse resetDomainToken(String accountId, String domainId) throws DnsimpleException, IOException {
+    HttpResponse response = client.post(accountId + "/domains/" + domainId);
+    return (ResetDomainTokenResponse)client.parseResponse(response, ResetDomainTokenResponse.class);
   }
 }
