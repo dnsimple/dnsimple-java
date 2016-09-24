@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import com.dnsimple.request.Filter;
 import com.dnsimple.response.ApiResponse;
 import com.dnsimple.exception.DnsimpleException;
 
@@ -138,8 +139,9 @@ public class Client {
     }
 
     UrlBuilder urlBuilder = UrlBuilder.fromString(url);
-    if (options.containsKey("page")) {
-      urlBuilder = urlBuilder.addParameter("page", options.remove("page").toString());
+    if (options.containsKey("filter")) {
+      Filter filter = (Filter)options.remove("filter");
+      urlBuilder = urlBuilder.addParameter(filter.name, filter.value);
     }
 
     if (options.size() > 0) {
@@ -148,7 +150,7 @@ public class Client {
       }
     }
 
-    return new GenericUrl(urlBuilder.toString());
+    return new GenericUrl(urlBuilder.toUrl());
   }
 
 }

@@ -1,5 +1,6 @@
 package com.dnsimple;
 
+import com.dnsimple.request.Filter;
 import com.dnsimple.response.ListDomainsResponse;
 import com.dnsimple.response.GetDomainResponse;
 import com.dnsimple.response.CreateDomainResponse;
@@ -48,6 +49,24 @@ public class DomainsTest extends DnsimpleTestBase {
     String accountId = "1";
     HashMap<String, Object> options = new HashMap<String, Object>();
     options.put("foo", "bar");
+    client.domains.listDomains(accountId, options);
+  }
+
+  @Test
+  public void testListDomainsSupportsSorting() throws DnsimpleException, IOException {
+    Client client = expectClient("https://api.dnsimple.com/v2/1/domains?sort=expires_on%3Aasc");
+    String accountId = "1";
+    HashMap<String, Object> options = new HashMap<String, Object>();
+    options.put("sort", "expires_on:asc");
+    client.domains.listDomains(accountId, options);
+  }
+
+  @Test
+  public void testListDomainsSupportsFiltering() throws DnsimpleException, IOException {
+    Client client = expectClient("https://api.dnsimple.com/v2/1/domains?name_like=example");
+    String accountId = "1";
+    HashMap<String, Object> options = new HashMap<String, Object>();
+    options.put("filter", new Filter("name_like", "example"));
     client.domains.listDomains(accountId, options);
   }
 

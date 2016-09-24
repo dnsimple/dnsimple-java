@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 
+import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.LowLevelHttpRequest;
 import com.google.api.client.http.LowLevelHttpResponse;
@@ -62,7 +63,7 @@ public abstract class DnsimpleTestBase {
     HttpTransport transport = new MockHttpTransport() {
       @Override
       public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
-        assertEquals(expectedUrl, url);
+        assertEquals(new GenericUrl(expectedUrl), new GenericUrl(url));
 
         return new MockLowLevelHttpRequest() {
           @Override
