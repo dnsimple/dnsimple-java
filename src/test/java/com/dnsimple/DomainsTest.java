@@ -22,19 +22,6 @@ import com.google.api.client.util.Data;
 public class DomainsTest extends DnsimpleTestBase {
 
   @Test
-  public void testListDomains() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listDomains/success.http"));
-
-    String accountId = "1";
-
-    ListDomainsResponse response = client.domains.listDomains(accountId);
-
-    List<Domain> domains = response.getData();
-    assertEquals(2, domains.size());
-    assertEquals(1, domains.get(0).getId().intValue());
-  }
-
-  @Test
   public void testListDomainsSupportsPagination() throws DnsimpleException, IOException {
     Client client = expectClient("https://api.dnsimple.com/v2/1/domains?page=1");
     String accountId = "1";
@@ -68,6 +55,19 @@ public class DomainsTest extends DnsimpleTestBase {
     HashMap<String, Object> options = new HashMap<String, Object>();
     options.put("filter", new Filter("name_like", "example"));
     client.domains.listDomains(accountId, options);
+  }
+
+  @Test
+  public void testListDomainsProductsDomainList() throws DnsimpleException, IOException {
+    Client client = mockClient(resource("listDomains/success.http"));
+
+    String accountId = "1";
+
+    ListDomainsResponse response = client.domains.listDomains(accountId);
+
+    List<Domain> domains = response.getData();
+    assertEquals(2, domains.size());
+    assertEquals(1, domains.get(0).getId().intValue());
   }
 
   @Test
