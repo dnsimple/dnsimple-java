@@ -2,6 +2,7 @@ package com.dnsimple;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.HashMap;
 
 import com.dnsimple.response.ListDomainsResponse;
@@ -9,27 +10,70 @@ import com.dnsimple.response.GetDomainResponse;
 import com.dnsimple.response.CreateDomainResponse;
 import com.dnsimple.response.DeleteDomainResponse;
 import com.dnsimple.response.ResetDomainTokenResponse;
+
+import com.dnsimple.response.ListEmailForwardsResponse;
+
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpResponseException;
 
+/**
+ * Provides access to the DNSimple Domains API.
+ *
+ * @see https://developer.dnsimple.com/v2/domains
+ */
 public class Domains {
   private Client client;
 
-  public Domains(Client client) {
+  protected Domains(Client client) {
     this.client = client;
   }
 
+  // Domains
+
+  /**
+   * Lists the domains in the account.
+   *
+   * @see https://developer.dnsimple.com/v2/domains/#list
+   *
+   * @param accountId The account ID
+   * @return The list domains response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
   public ListDomainsResponse listDomains(String accountId) throws DnsimpleException, IOException {
     return listDomains(accountId, null);
   }
-  public ListDomainsResponse listDomains(String accountId, HashMap<String,Object> options) throws DnsimpleException, IOException {
+
+  /**
+   * Lists the domains in the account.
+   *
+   * @see https://developer.dnsimple.com/v2/domains/#list
+   *
+   * @param accountId The account ID
+   * @param options A Map of options to pass to the domains API
+   * @return The list domains response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public ListDomainsResponse listDomains(String accountId, Map<String,Object> options) throws DnsimpleException, IOException {
     HttpResponse response = client.get(accountId + "/domains", options);
     return (ListDomainsResponse)client.parseResponse(response, ListDomainsResponse.class);
   }
 
+  /**
+   * Get a specific domain associated to an account using the domain's name or ID.
+   *
+   * @see https://developer.dnsimple.com/v2/domains/#get
+   *
+   * @param accountId The account ID
+   * @param domainId The domain name or ID
+   * @return The get domain response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
   public GetDomainResponse getDomain(String accountId, String domainId) throws DnsimpleException, IOException {
     try {
       HttpResponse response = client.get(accountId + "/domains/" + domainId);
@@ -39,18 +83,88 @@ public class Domains {
     }
   }
 
-  public CreateDomainResponse createDomain(String accountId, HashMap<String,Object> attributes) throws DnsimpleException, IOException {
+  /**
+   * Create a domain in an account.
+   *
+   * @see https://developer.dnsimple.com/v2/domains/#create
+   *
+   * @param accountId The account ID
+   * @param attributes A Map of attributes for constructing the domain
+   * @return The create domain response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public CreateDomainResponse createDomain(String accountId, Map<String,Object> attributes) throws DnsimpleException, IOException {
     HttpResponse response = client.post(accountId + "/domains", attributes);
     return (CreateDomainResponse)client.parseResponse(response, CreateDomainResponse.class);
   }
 
+  /**
+   * Delete a domain from an account.
+   *
+   * WARNING: this cannot be undone.
+   *
+   * @see https://developer.dnsimple.com/v2/domains/#delete
+   *
+   * @param accountId The account ID
+   * @param domainId The domain ID or name
+   * @return The delete domain response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
   public DeleteDomainResponse deleteDomain(String accountId, String domainId) throws DnsimpleException, IOException {
     HttpResponse response = client.delete(accountId + "/domains/" + domainId);
     return (DeleteDomainResponse)client.parseResponse(response, DeleteDomainResponse.class);
   }
 
+  /**
+   * Resets the domain token.
+   *
+   * @see https://developer.dnsimple.com/v2/domains/#reset-token
+   *
+   * @param accountId The account ID
+   * @param domainId The domain ID or name
+   * @return The reset token domain response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
   public ResetDomainTokenResponse resetDomainToken(String accountId, String domainId) throws DnsimpleException, IOException {
     HttpResponse response = client.post(accountId + "/domains/" + domainId);
     return (ResetDomainTokenResponse)client.parseResponse(response, ResetDomainTokenResponse.class);
   }
+
+  // Email Forwards
+
+  /**
+   * List email forwards under a given domain.
+   *
+   * @see https://developer.dnsimple.com/v2/domains/email-forwards/#list
+   *
+   * @param accountId The account ID
+   * @param domainId The domain ID or name
+   * @return The list email forwards response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public ListEmailForwardsResponse listEmailForwards(String accountId, String domainId) throws DnsimpleException, IOException {
+    return listEmailForwards(accountId, null);
+  }
+
+  /**
+   * List email forwards under a given domain.
+   *
+   * @see https://developer.dnsimple.com/v2/domains/email-forwards/#list
+   *
+   * @param accountId The account ID
+   * @param domainId The domain ID or name
+   * @param options A Map of options to send to the API
+   * @return The list email forwards response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public ListEmailForwardsResponse listEmailForwards(String accountId, String domainId, HashMap<String,Object> options) throws DnsimpleException, IOException {
+    HttpResponse response = client.get(accountId + "/domains/" + domainId + "/email_forwards", options);
+    return (ListEmailForwardsResponse)client.parseResponse(response, ListEmailForwardsResponse.class);
+  }
+
 }

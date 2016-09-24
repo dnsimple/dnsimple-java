@@ -7,13 +7,27 @@ import com.dnsimple.exception.DnsimpleException;
 
 import com.google.api.client.http.HttpResponse;
 
+/**
+ * Provides access to the DNSimple Identity API.
+ *
+ * @see https://developer.dnsimple.com/v2/identity
+ */
 public class Identity {
   private Client client;
 
-  public Identity(Client client) {
+  protected Identity(Client client) {
     this.client = client;
   }
 
+  /**
+   * Gets the information about the current authenticated context.
+   *
+   * @see https://developer.dnsimple.com/v2/identity/#whoami
+   *
+   * @return The whoami response
+   * @throws DnsimpleException Any API error
+   * @throws IOException Any IO error
+   */
   public WhoamiResponse whoami() throws DnsimpleException, IOException {
     HttpResponse response = client.get("whoami");
     return (WhoamiResponse)client.parseResponse(response, WhoamiResponse.class);
