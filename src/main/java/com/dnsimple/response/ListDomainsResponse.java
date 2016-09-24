@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.google.api.client.util.Key;
 
-public class ListDomainsResponse implements ApiResponse {
+public class ListDomainsResponse extends ApiResponse {
   @Key("data")
   private List<Domain> data;
   @Key("pagination")

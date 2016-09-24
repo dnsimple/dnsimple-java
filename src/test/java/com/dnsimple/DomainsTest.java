@@ -18,6 +18,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import com.google.api.client.http.HttpMethods;
+import com.google.api.client.http.HttpRequest;
 import com.google.api.client.util.Data;
 
 public class DomainsTest extends DnsimpleTestBase {
@@ -118,7 +120,18 @@ public class DomainsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testCreateDomain() throws DnsimpleException, IOException {
+  public void testCreateDomainSendsCorrectRequest() throws DnsimpleException, IOException {
+    String accountId = "1010";
+    HashMap<String, Object> attributes = new HashMap<String, Object>();
+    attributes.put("name", "example.com");
+
+    Client client = expectClient("https://api.dnsimple.com/v2/1010/domains", HttpMethods.POST, attributes);
+
+    client.domains.createDomain(accountId, attributes);
+  }
+
+  @Test
+  public void testCreateDomainProducesDomain() throws DnsimpleException, IOException {
     Client client = mockClient(resource("createDomain/created.http"));
 
     String accountId = "1";

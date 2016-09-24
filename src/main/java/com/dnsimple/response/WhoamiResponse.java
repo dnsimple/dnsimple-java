@@ -4,7 +4,7 @@ import com.dnsimple.Whoami;
 
 import com.google.api.client.util.Key;
 
-public class WhoamiResponse implements ApiResponse {
+public class WhoamiResponse extends ApiResponse {
   @Key("data")
   private Whoami data;
 

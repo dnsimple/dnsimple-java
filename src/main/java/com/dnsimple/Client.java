@@ -102,18 +102,22 @@ public class Client {
 
     if (in == null) {
       try {
-        return (ApiResponse)c.newInstance();
+        res = (ApiResponse)c.newInstance();
       } catch(ReflectiveOperationException e) {
         throw new RuntimeException("Cannot instantiate " + c, e);
       }
+    } else {
+      try {
+        JsonParser jsonParser = GsonFactory.getDefaultInstance().createJsonParser(in);
+        res = (ApiResponse)jsonParser.parse(c);
+      } finally {
+        in.close();
+      }
     }
 
-    try {
-      JsonParser jsonParser = GsonFactory.getDefaultInstance().createJsonParser(in);
-      res = (ApiResponse)jsonParser.parse(c);
-    } finally {
-      in.close();
-    }
+    res.setHttpRequest(response.getRequest());
+    res.setHttpResponse(response);
+
     return res;
   }
 

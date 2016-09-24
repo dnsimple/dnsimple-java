@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.google.api.client.util.Key;
 
-public class DeleteDomainResponse implements ApiResponse {
+public class DeleteDomainResponse extends ApiResponse {
   public Object getData() {
     return null;
   }

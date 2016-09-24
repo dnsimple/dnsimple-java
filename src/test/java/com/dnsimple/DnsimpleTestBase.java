@@ -7,14 +7,19 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.HttpMethods;
 import com.google.api.client.http.LowLevelHttpRequest;
 import com.google.api.client.http.LowLevelHttpResponse;
 import com.google.api.client.json.Json;
+import com.google.api.client.json.JsonParser;
+import com.google.api.client.json.GenericJson;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.testing.http.MockHttpTransport;
 import com.google.api.client.testing.http.MockLowLevelHttpRequest;
 import com.google.api.client.testing.http.MockLowLevelHttpResponse;
@@ -58,16 +63,31 @@ public abstract class DnsimpleTestBase {
    * @return The Client instance
    */
   public Client expectClient(final String expectedUrl) {
+    return expectClient(expectedUrl, HttpMethods.GET);
+  }
+
+  public Client expectClient(final String expectedUrl, final String expectedMethod) {
+    return expectClient(expectedUrl, expectedMethod, new HashMap<String, Object>());
+  }
+
+  public Client expectClient(final String expectedUrl, final String expectedMethod, final Map<String, Object> expectedAttributes) {
     Client client = new Client();
 
     HttpTransport transport = new MockHttpTransport() {
       @Override
       public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
         assertEquals(new GenericUrl(expectedUrl), new GenericUrl(url));
+        assertEquals(expectedMethod, method);
 
         return new MockLowLevelHttpRequest() {
           @Override
           public LowLevelHttpResponse execute() throws IOException {
+            if (!getContentAsString().equals("")) {
+              JsonParser jsonParser = GsonFactory.getDefaultInstance().createJsonParser(getContentAsString());
+              Map<String,Object> attributes = jsonParser.parse(GenericJson.class);
+              assertEquals(expectedAttributes, attributes);
+            }
+
             MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
             return mockResponse(response, resource("empty-success.http"));
           }

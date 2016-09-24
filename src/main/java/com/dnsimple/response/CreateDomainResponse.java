@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.google.api.client.util.Key;
 
-public class CreateDomainResponse implements ApiResponse {
+public class CreateDomainResponse extends ApiResponse {
   @Key("data")
   private Domain data;
 

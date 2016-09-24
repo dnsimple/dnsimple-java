@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.google.api.client.util.Key;
 
-public class ListAccountsResponse implements ApiResponse {
+public class ListAccountsResponse extends ApiResponse {
   @Key("data")
   private List<Account> data;
 
