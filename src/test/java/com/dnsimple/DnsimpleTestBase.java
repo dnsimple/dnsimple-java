@@ -66,10 +66,25 @@ public abstract class DnsimpleTestBase {
     return expectClient(expectedUrl, HttpMethods.GET);
   }
 
+  /**
+   * Return a Client that is configured to expect a specific URL and HTTP method.
+   *
+   * @param expectedUrl The URL string that is expected
+   * @param expectedMethod The HTTP method String that is expected
+   * @return The Client instance
+   */
   public Client expectClient(final String expectedUrl, final String expectedMethod) {
     return expectClient(expectedUrl, expectedMethod, new HashMap<String, Object>());
   }
 
+  /**
+   * Return a Client that is configured to expect a specific URL, HTTP method, and request attributes.
+   *
+   * @param expectedUrl The URL string that is expected
+   * @param expectedMethod The HTTP method String that is expected
+   * @param expectedAttributes A map of values as attributes
+   * @return The Client instance
+   */
   public Client expectClient(final String expectedUrl, final String expectedMethod, final Map<String, Object> expectedAttributes) {
     Client client = new Client();
 
@@ -90,6 +105,59 @@ public abstract class DnsimpleTestBase {
 
             MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
             return mockResponse(response, resource("empty-success.http"));
+          }
+        };
+      }
+    };
+
+    client.setTransport(transport);
+
+    return client;
+  }
+
+  /**
+   * Returns a Client that is configured to expect certain request values and return
+   * the given HTTP response.
+   *
+   * @param expectedUrl The URL string that is expected
+   * @param expectedMethod The HTTP method String that is expected
+   * @param httpResponse The full HTTP response data
+   * @return The Client instance
+   */
+  public Client mockAndExpectClient(final String expectedUrl, final String expectedMethod, final String httpResponse) {
+    return mockAndExpectClient(expectedUrl, expectedMethod, new HashMap<String, Object>(), httpResponse);
+  }
+
+  /**
+   * Returns a Client that is configured to expect certain request values and return
+   * the given HTTP response.
+   *
+   * @param expectedUrl The URL string that is expected
+   * @param expectedMethod The HTTP method String that is expected
+   * @param expectedAttributes A map of values as attributes
+   * @param httpResponse The full HTTP response data
+   * @return The Client instance
+   */
+  public Client mockAndExpectClient(final String expectedUrl, final String expectedMethod, final Map<String, Object> expectedAttributes, final String httpResponse) {
+    Client client = new Client();
+
+    HttpTransport transport = new MockHttpTransport() {
+      @Override
+      public LowLevelHttpRequest buildRequest(String method, String url) throws IOException {
+        assertEquals(new GenericUrl(expectedUrl), new GenericUrl(url));
+        assertEquals(expectedMethod, method);
+
+        return new MockLowLevelHttpRequest() {
+          @Override
+          public LowLevelHttpResponse execute() throws IOException {
+            if (!getContentAsString().equals("")) {
+              JsonParser jsonParser = GsonFactory.getDefaultInstance().createJsonParser(getContentAsString());
+              Map<String,Object> attributes = jsonParser.parse(GenericJson.class);
+              assertEquals(expectedAttributes, attributes);
+            }
+
+            MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
+            return mockResponse(response, httpResponse);
           }
         };
       }

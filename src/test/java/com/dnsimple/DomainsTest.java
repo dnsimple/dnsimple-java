@@ -145,7 +145,7 @@ public class DomainsTest extends DnsimpleTestBase {
 
   @Test
   public void testDeleteDomain() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("deleteDomain/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1/domains/example.com", HttpMethods.DELETE, resource("deleteDomain/success.http"));
 
     String accountId = "1";
     String domainId = "example.com";
