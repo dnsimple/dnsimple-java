@@ -62,7 +62,7 @@ public class DomainsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testListDomainsProductsDomainList() throws DnsimpleException, IOException {
+  public void testListDomainsProducesDomainList() throws DnsimpleException, IOException {
     Client client = mockClient(resource("listDomains/success.http"));
 
     String accountId = "1";
