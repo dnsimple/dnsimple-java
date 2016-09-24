@@ -30,4 +30,38 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
     options.put("page", 1);
     client.domains.listEmailForwards(accountId, domainId, options);
   }
+
+   @Test
+  public void testListEmailForwardsSupportsExtraRequestOptions() throws DnsimpleException, IOException {
+    Client client = expectClient("https://api.dnsimple.com/v2/1/domains/example.com/email_forwards?foo=bar");
+    String accountId = "1";
+    String domainId = "example.com";
+    HashMap<String, Object> options = new HashMap<String, Object>();
+    options.put("foo", "bar");
+    client.domains.listEmailForwards(accountId, domainId, options);
+  }
+
+  @Test
+  public void testListEmailForwardsSupportsSorting() throws DnsimpleException, IOException {
+    Client client = expectClient("https://api.dnsimple.com/v2/1/domains/example.com/email_forwards?sort=from%3Aasc");
+    String accountId = "1";
+    String domainId = "example.com";
+    HashMap<String, Object> options = new HashMap<String, Object>();
+    options.put("sort", "from:asc");
+    client.domains.listEmailForwards(accountId, domainId, options);
+  }
+
+  @Test
+  public void testListEmailForwardsProducesDomainList() throws DnsimpleException, IOException {
+    Client client = mockClient(resource("listEmailForwards/success.http"));
+
+    String accountId = "1";
+    String domainId = "example.com";
+
+    ListEmailForwardsResponse response = client.domains.listEmailForwards(accountId, domainId);
+
+    List<EmailForward> emailForwards = response.getData();
+    assertEquals(2, emailForwards.size());
+    assertEquals(17702, emailForwards.get(0).getId().intValue());
+  }
 }

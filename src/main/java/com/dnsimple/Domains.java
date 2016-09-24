@@ -147,7 +147,7 @@ public class Domains {
    * @throws IOException Any IO errors
    */
   public ListEmailForwardsResponse listEmailForwards(String accountId, String domainId) throws DnsimpleException, IOException {
-    return listEmailForwards(accountId, null);
+    return listEmailForwards(accountId, domainId, null);
   }
 
   /**
