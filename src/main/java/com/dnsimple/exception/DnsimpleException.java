@@ -1,6 +1,8 @@
 package com.dnsimple.exception;
 
-public abstract class DnsimpleException extends Exception {
+import com.google.api.client.http.HttpResponseException;
+
+public class DnsimpleException extends Exception {
 
   private String requestId;
   private Integer statusCode;
@@ -15,6 +17,21 @@ public abstract class DnsimpleException extends Exception {
     super(message, e);
     this.requestId = requestId;
     this.statusCode = statusCode;
+  }
+
+  /**
+   * Transform an HttpResponseException into a DnsimpleException.
+   *
+   * @param e The HttpResponseException
+   * @return The DnsimpleException
+   */
+  public static DnsimpleException transformException(HttpResponseException e) {
+    switch(e.getStatusCode()) {
+      case 404:
+        return new ResourceNotFoundException("Failed to retreive domain: " + e.getMessage(), null, e.getStatusCode(), e);
+      default:
+        return new DnsimpleException(e.getMessage(), null, e.getStatusCode(), e);
+    }
   }
 
   public static final long serialVersionUID = 1L;

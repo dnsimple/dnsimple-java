@@ -9,8 +9,10 @@ import com.dnsimple.response.GetDomainResponse;
 import com.dnsimple.response.CreateDomainResponse;
 import com.dnsimple.response.DeleteDomainResponse;
 import com.dnsimple.exception.DnsimpleException;
+import com.dnsimple.exception.ResourceNotFoundException;
 
 import com.google.api.client.http.HttpResponse;
+import com.google.api.client.http.HttpResponseException;
 
 public class Domains {
   private Client client;
@@ -28,8 +30,12 @@ public class Domains {
   }
 
   public GetDomainResponse getDomain(String accountId, String domainId) throws DnsimpleException, IOException {
-    HttpResponse response = client.get(accountId + "/domains/" + domainId);
-    return (GetDomainResponse)client.parseResponse(response, GetDomainResponse.class);
+    try {
+      HttpResponse response = client.get(accountId + "/domains/" + domainId);
+      return (GetDomainResponse)client.parseResponse(response, GetDomainResponse.class);
+    } catch(HttpResponseException e) {
+      throw DnsimpleException.transformException(e);
+    }
   }
 
   public CreateDomainResponse createDomain(String accountId, HashMap<String,Object> attributes) throws DnsimpleException, IOException {

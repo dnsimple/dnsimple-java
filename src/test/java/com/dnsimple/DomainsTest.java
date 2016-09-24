@@ -6,6 +6,7 @@ import com.dnsimple.response.GetDomainResponse;
 import com.dnsimple.response.CreateDomainResponse;
 import com.dnsimple.response.DeleteDomainResponse;
 import com.dnsimple.exception.DnsimpleException;
+import com.dnsimple.exception.ResourceNotFoundException;
 
 import java.io.IOException;
 import java.util.List;
@@ -104,6 +105,16 @@ public class DomainsTest extends DnsimpleTestBase {
     assertTrue(Data.isNull(domain.getExpiresOn()));
     assertEquals("2014-12-06T15:56:55.573Z", domain.getCreatedAt());
     assertEquals("2015-12-09T00:20:56.056Z", domain.getUpdatedAt());
+  }
+
+  @Test(expected=ResourceNotFoundException.class)
+  public void testGetDomainWhenDomainNotFound() throws DnsimpleException, IOException {
+    Client client = mockClient(resource("notfound-domain.http"));
+
+    String accountId = "1";
+    String domainId = "example.com";
+
+    client.domains.getDomain(accountId, domainId);
   }
 
   @Test
