@@ -64,4 +64,17 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
     assertEquals(2, emailForwards.size());
     assertEquals(17702, emailForwards.get(0).getId().intValue());
   }
+
+  @Test
+  public void testListEmailForwardsExposesPaginationInfo() throws DnsimpleException, IOException {
+    Client client = mockClient(resource("listEmailForwards/success.http"));
+
+    String accountId = "1";
+    String domainId = "example.com";
+
+    ListEmailForwardsResponse response = client.domains.listEmailForwards(accountId, domainId);
+
+    Pagination pagination = response.getPagination();
+    assertEquals(1, pagination.getCurrentPage().intValue());
+  }
 }
