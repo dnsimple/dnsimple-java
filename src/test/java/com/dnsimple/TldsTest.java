@@ -1,7 +1,11 @@
 package com.dnsimple;
 
 import com.dnsimple.request.Filter;
+
 import com.dnsimple.response.ListTldsResponse;
+import com.dnsimple.response.GetTldResponse;
+import com.dnsimple.response.GetTldExtendedAttributesResponse;
+
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
@@ -66,5 +70,50 @@ public class TldsTest extends DnsimpleTestBase {
 
     Pagination pagination = response.getPagination();
     assertEquals(1, pagination.getCurrentPage().intValue());
+  }
+
+  @Test
+  public void testGetTld() throws DnsimpleException, IOException {
+    Client client = mockClient(resource("getTld/success.http"));
+
+    String tldString = "com";
+
+    GetTldResponse response = client.tlds.getTld(tldString);
+
+    Tld tld = response.getData();
+    assertEquals("com", tld.getTld());
+  }
+
+  @Test
+  public void testGetTldExtendedAttributes() throws DnsimpleException, IOException {
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/tlds/uk/extended_attributes", HttpMethods.GET, null, resource("getTldExtendedAttributes/success.http"));
+
+    String tldString = "uk";
+
+    GetTldExtendedAttributesResponse response = client.tlds.getTldExtendedAttributes(tldString);
+
+    List<TldExtendedAttribute> extendedAttributes = response.getData();
+    assertEquals(4, extendedAttributes.size());
+    assertEquals("uk_legal_type", extendedAttributes.get(0).getName());
+    assertEquals("Legal type of registrant contact", extendedAttributes.get(0).getDescription());
+    assertEquals(false, extendedAttributes.get(0).getRequired().booleanValue());
+
+    List<TldExtendedAttributeOption> options = extendedAttributes.get(0).getOptions();
+    assertEquals(17, options.size());
+    assertEquals("UK Individual", options.get(0).getTitle());
+    assertEquals("IND", options.get(0).getValue());
+    assertEquals("UK Individual (our default value)", options.get(0).getDescription());
+  }
+
+  @Test
+  public void testGetTldExtendedAttributesWhenNone() throws DnsimpleException, IOException {
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/tlds/com/extended_attributes", HttpMethods.GET, null, resource("getTldExtendedAttributes/success-noattributes.http"));
+
+    String tldString = "com";
+
+    GetTldExtendedAttributesResponse response = client.tlds.getTldExtendedAttributes(tldString);
+
+    List<TldExtendedAttribute> extendedAttributes = response.getData();
+    assertEquals(0, extendedAttributes.size());
   }
 }

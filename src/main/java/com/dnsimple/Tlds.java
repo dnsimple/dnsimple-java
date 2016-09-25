@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Map;
 
 import com.dnsimple.response.ListTldsResponse;
+import com.dnsimple.response.GetTldResponse;
+import com.dnsimple.response.GetTldExtendedAttributesResponse;
 
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
@@ -52,6 +54,39 @@ public class Tlds {
     return (ListTldsResponse)client.parseResponse(response, ListTldsResponse.class);
   }
 
+  /**
+   * Get details for a specific tld.
+   *
+   * @see https://developer.dnsimple.com/v2/tlds/#get
+   *
+   * @param tld The TLD string (i.e. "com")
+   * @return The get tld response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public GetTldResponse getTld(String tld) throws DnsimpleException, IOException {
+    try {
+      HttpResponse response = client.get("tlds/" + tld);
+      return (GetTldResponse)client.parseResponse(response, GetTldResponse.class);
+    } catch(HttpResponseException e) {
+      throw DnsimpleException.transformException(e);
+    }
+  }
+
+  /**
+   * Get extended attributes for a TLD
+   *
+   * @see https://developer.dnsimple.com/v2/tlds/#extended-attributes
+   *
+   * @param tld The TLD to retrieve extended attributes for
+   * @return The list tlds response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public GetTldExtendedAttributesResponse getTldExtendedAttributes(String tld) throws DnsimpleException, IOException {
+    HttpResponse response = client.get("tlds/" + tld + "/extended_attributes");
+    return (GetTldExtendedAttributesResponse)client.parseResponse(response, GetTldExtendedAttributesResponse.class);
+  }
 
 }
 

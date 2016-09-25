@@ -14,7 +14,7 @@ public class Tld {
 
   @Key("autorenew_only")
   private Boolean autorenewOnly;
-  
+
   @Key("idn")
   private Boolean idn;
 
