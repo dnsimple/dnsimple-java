@@ -8,11 +8,6 @@ public class WhoamiResponse extends ApiResponse {
   @Key("data")
   private Whoami data;
 
-  public WhoamiResponse() {}
-  public WhoamiResponse(Whoami data) {
-    this.data = data;
-  }
-
   public Whoami getData() {
     return data;
   }
