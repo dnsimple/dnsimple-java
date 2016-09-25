@@ -13,6 +13,7 @@ import com.dnsimple.response.ResetDomainTokenResponse;
 
 import com.dnsimple.response.ListEmailForwardsResponse;
 import com.dnsimple.response.GetEmailForwardResponse;
+import com.dnsimple.response.CreateEmailForwardResponse;
 
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
@@ -187,6 +188,23 @@ public class Domains {
     } catch(HttpResponseException e) {
       throw DnsimpleException.transformException(e);
     }
+  }
+
+  /**
+   * Create an email forward for a domain.
+   *
+   * @see https://developer.dnsimple.com/v2/domains/email-forwards/#create
+   *
+   * @param accountId The account ID
+   * @param domainId The domain name or ID
+   * @param attributes A Map of attributes for constructing the email forward
+   * @return The create email forward response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public CreateEmailForwardResponse createEmailForward(String accountId, String domainId, Map<String,Object> attributes) throws DnsimpleException, IOException {
+    HttpResponse response = client.post(accountId + "/domains/" + domainId + "/email_forwards", attributes);
+    return (CreateEmailForwardResponse)client.parseResponse(response, CreateEmailForwardResponse.class);
   }
 
 }

@@ -3,6 +3,7 @@ package com.dnsimple;
 import com.dnsimple.request.Filter;
 import com.dnsimple.response.ListEmailForwardsResponse;
 import com.dnsimple.response.GetEmailForwardResponse;
+import com.dnsimple.response.CreateEmailForwardResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
@@ -114,5 +115,20 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
     String emailForwardId = "0";
 
     client.domains.getEmailForward(accountId, domainId, emailForwardId);
+  }
+
+  @Test
+  public void testCreateEmailForwardProducesEmailForward() throws DnsimpleException, IOException {
+    Client client = mockClient(resource("createEmailForward/created.http"));
+
+    String accountId = "1";
+    String domainId = "example.com";
+    HashMap<String, Object> attributes = new HashMap<String, Object>();
+    attributes.put("from", "john");
+    attributes.put("to", "john@another.com");
+
+    CreateEmailForwardResponse response = client.domains.createEmailForward(accountId, domainId, attributes);
+    EmailForward emailForward = response.getData();
+    assertEquals(17706, emailForward.getId().intValue());
   }
 }
