@@ -152,7 +152,7 @@ public class DomainsTest extends DnsimpleTestBase {
     String domainId = "example.com";
 
     DeleteDomainResponse response = client.domains.deleteDomain(accountId, domainId);
-    assert(response.getData() == null);
+    assertEquals(null, response.getData());
   }
 
   @Test

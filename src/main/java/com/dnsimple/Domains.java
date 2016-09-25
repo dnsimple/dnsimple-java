@@ -17,6 +17,9 @@ import com.dnsimple.response.CreateEmailForwardResponse;
 import com.dnsimple.response.DeleteEmailForwardResponse;
 
 import com.dnsimple.response.InitiatePushResponse;
+import com.dnsimple.response.ListPushesResponse;
+import com.dnsimple.response.AcceptPushResponse;
+import com.dnsimple.response.RejectPushResponse;
 
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
@@ -229,10 +232,12 @@ public class Domains {
     return (DeleteEmailForwardResponse)client.parseResponse(response, DeleteEmailForwardResponse.class);
   }
 
+  // Pushes
+
   /**
    * Initiate a push.
    *
-   * @see https://developer.dnsimple.com/v2/domains/pushes/#create
+   * @see https://developer.dnsimple.com/v2/domains/pushes/#initiate
    *
    * @param accountId The account ID
    * @param domainId The domain name or ID
@@ -244,6 +249,71 @@ public class Domains {
   public InitiatePushResponse initiatePush(String accountId, String domainId, Map<String,Object> attributes) throws DnsimpleException, IOException {
     HttpResponse response = client.post(accountId + "/domains/" + domainId + "/pushes", attributes);
     return (InitiatePushResponse)client.parseResponse(response, InitiatePushResponse.class);
+  }
+
+  /**
+   * List pushes under a given domain.
+   *
+   * @see https://developer.dnsimple.com/v2/domains/pushes/#list
+   *
+   * @param accountId The account ID
+   * @param domainId The domain ID or name
+   * @return The list pushes response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public ListPushesResponse listPushes(String accountId, String domainId) throws DnsimpleException, IOException {
+    return listPushes(accountId, domainId, null);
+  }
+
+  /**
+   * List pushes under a given domain.
+   *
+   * @see https://developer.dnsimple.com/v2/domains/pushes/#list
+   *
+   * @param accountId The account ID
+   * @param domainId The domain ID or name
+   * @param options A Map of options to send to the API
+   * @return The list pushes response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public ListPushesResponse listPushes(String accountId, String domainId, HashMap<String,Object> options) throws DnsimpleException, IOException {
+    HttpResponse response = client.get(accountId + "/domains/" + domainId + "/pushes", options);
+    return (ListPushesResponse)client.parseResponse(response, ListPushesResponse.class);
+  }
+
+  /**
+   * Accept a push.
+   *
+   * @see https://developer.dnsimple.com/v2/domains/pushes/#accept
+   *
+   * @param accountId The account ID
+   * @param domainId The push ID
+   * @param attributes A Map of attributes required when accepting the push
+   * @return The accept push response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public AcceptPushResponse acceptPush(String accountId, String pushId, Map<String,Object> attributes) throws DnsimpleException, IOException {
+    HttpResponse response = client.post(accountId + "/pushes/" + pushId, attributes);
+    return (AcceptPushResponse)client.parseResponse(response, AcceptPushResponse.class);
+  }
+
+  /**
+   * Reject a push.
+   *
+   * @see https://developer.dnsimple.com/v2/domains/pushes/#reject
+   *
+   * @param accountId The account ID
+   * @param domainId The push ID
+   * @return The accept push response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public RejectPushResponse rejectPush(String accountId, String pushId) throws DnsimpleException, IOException {
+    HttpResponse response = client.delete(accountId + "/pushes/" + pushId);
+    return (RejectPushResponse)client.parseResponse(response, RejectPushResponse.class);
   }
 
 }
