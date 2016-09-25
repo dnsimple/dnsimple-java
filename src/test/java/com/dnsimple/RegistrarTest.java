@@ -106,4 +106,29 @@ public class RegistrarTest extends DnsimpleTestBase {
     assertEquals(1, domain.getId().intValue());
   }
 
+  @Test(expected=DnsimpleException.class)
+  public void testTransferDomainAlreadyInDnsimple() throws DnsimpleException, IOException {
+    String accountId = "1010";
+    String name = "example.com";
+    HashMap<String, Object> attributes = new HashMap<String, Object>();
+    attributes.put("registrant_id", "1");
+    attributes.put("auth_info", "x1y2z3");
+
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/transfer", HttpMethods.POST, attributes, resource("transferDomain/error-isdnsimple.http"));
+
+    client.registrar.transferDomain(accountId, name, attributes);
+  }
+
+  @Test(expected=DnsimpleException.class)
+  public void testTransferDomainAuthInfoRequired() throws DnsimpleException, IOException {
+    String accountId = "1010";
+    String name = "example.com";
+    HashMap<String, Object> attributes = new HashMap<String, Object>();
+    attributes.put("registrant_id", "1");
+
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/transfer", HttpMethods.POST, attributes, resource("transferDomain/error-missing-authcode.http"));
+
+    client.registrar.transferDomain(accountId, name, attributes);
+  }
+
 }
