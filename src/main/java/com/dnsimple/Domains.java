@@ -83,12 +83,8 @@ public class Domains {
    * @throws IOException Any IO errors
    */
   public GetDomainResponse getDomain(String accountId, String domainId) throws DnsimpleException, IOException {
-    try {
-      HttpResponse response = client.get(accountId + "/domains/" + domainId);
-      return (GetDomainResponse)client.parseResponse(response, GetDomainResponse.class);
-    } catch(HttpResponseException e) {
-      throw DnsimpleException.transformException(e);
-    }
+    HttpResponse response = client.get(accountId + "/domains/" + domainId);
+    return (GetDomainResponse)client.parseResponse(response, GetDomainResponse.class);
   }
 
   /**

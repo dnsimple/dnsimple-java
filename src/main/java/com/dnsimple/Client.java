@@ -17,6 +17,7 @@ import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpContent;
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.http.json.JsonHttpContent;
 import com.google.api.client.json.gson.GsonFactory;
@@ -70,31 +71,31 @@ public class Client {
   }
 
 
-  protected HttpResponse get(String path) throws IOException {
+  protected HttpResponse get(String path) throws DnsimpleException, IOException {
     return get(path, null);
   }
 
-  protected HttpResponse get(String path, Map<String, Object> options) throws IOException {
+  protected HttpResponse get(String path, Map<String, Object> options) throws DnsimpleException, IOException {
     return request(HttpMethods.GET, versionedPath(path), null, options);
   }
 
-  protected HttpResponse post(String path) throws IOException {
+  protected HttpResponse post(String path) throws DnsimpleException, IOException {
     return post(path, new HashMap<String, Object>());
   }
 
-  protected HttpResponse post(String path, Map<String, Object> attributes) throws IOException {
+  protected HttpResponse post(String path, Map<String, Object> attributes) throws DnsimpleException, IOException {
     return post(path, attributes, null);
   }
 
-  protected HttpResponse post(String path, Map<String, Object> attributes, Map<String, Object> options) throws IOException {
+  protected HttpResponse post(String path, Map<String, Object> attributes, Map<String, Object> options) throws DnsimpleException, IOException {
     return request(HttpMethods.POST, versionedPath(path), attributes, null);
   }
 
-  protected HttpResponse delete(String path) throws IOException {
+  protected HttpResponse delete(String path) throws DnsimpleException, IOException {
     return delete(path, null);
   }
 
-  protected HttpResponse delete(String path, Map<String, Object> options) throws IOException {
+  protected HttpResponse delete(String path, Map<String, Object> options) throws DnsimpleException, IOException {
     return request(HttpMethods.DELETE, versionedPath(path), null, null);
   }
 
@@ -131,7 +132,7 @@ public class Client {
     return res;
   }
 
-  protected HttpResponse request(String method, String url, Object data, Map<String, Object> options) throws IOException {
+  protected HttpResponse request(String method, String url, Object data, Map<String, Object> options) throws DnsimpleException, IOException {
     HttpContent content = null;
     if (data != null) {
        content = new JsonHttpContent(new GsonFactory(), data);
@@ -139,7 +140,11 @@ public class Client {
 
     HttpRequest request = transport.createRequestFactory().buildRequest(method, buildUrl(url, options), content);
 
-    return request.execute();
+    try {
+      return request.execute();
+    } catch(HttpResponseException e) {
+      throw DnsimpleException.transformException(e);
+    }
   }
 
 

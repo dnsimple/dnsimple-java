@@ -1,8 +1,12 @@
 package com.dnsimple;
 
 import com.dnsimple.request.Filter;
+
 import com.dnsimple.response.CheckDomainResponse;
 import com.dnsimple.response.RegisterDomainResponse;
+import com.dnsimple.response.RenewDomainResponse;
+import com.dnsimple.response.TransferDomainResponse;
+
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
@@ -59,6 +63,47 @@ public class RegistrarTest extends DnsimpleTestBase {
     assertEquals("2017-01-16", domain.getExpiresOn());
     assertEquals("2016-01-16T16:08:50.649Z", domain.getCreatedAt());
     assertEquals("2016-01-16T16:09:01.161Z", domain.getUpdatedAt());
+  }
+
+  @Test
+  public void testRenewDomain() throws DnsimpleException, IOException {
+    String accountId = "1010";
+    String name = "example.com";
+    HashMap<String, Object> attributes = new HashMap<String, Object>();
+    attributes.put("period", "3");
+
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/renewal", HttpMethods.POST, attributes, resource("renewDomain/success.http"));
+
+    RenewDomainResponse response = client.registrar.renewDomain(accountId, name, attributes);
+    Domain domain = response.getData();
+    assertEquals(1, domain.getId().intValue());
+  }
+
+  @Test(expected=DnsimpleException.class)
+  public void testRenewDomainTooSoon() throws DnsimpleException, IOException {
+    String accountId = "1010";
+    String name = "example.com";
+    HashMap<String, Object> attributes = new HashMap<String, Object>();
+    attributes.put("period", "3");
+
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/renewal", HttpMethods.POST, attributes, resource("renewDomain/error-tooearly.http"));
+
+    client.registrar.renewDomain(accountId, name, attributes);
+  }
+
+  @Test
+  public void testTransferDomain() throws DnsimpleException, IOException {
+    String accountId = "1010";
+    String name = "example.com";
+    HashMap<String, Object> attributes = new HashMap<String, Object>();
+    attributes.put("registrant_id", "1");
+    attributes.put("auth_info", "x1y2z3");
+
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/transfer", HttpMethods.POST, attributes, resource("transferDomain/success.http"));
+
+    TransferDomainResponse response = client.registrar.transferDomain(accountId, name, attributes);
+    Domain domain = response.getData();
+    assertEquals(1, domain.getId().intValue());
   }
 
 }

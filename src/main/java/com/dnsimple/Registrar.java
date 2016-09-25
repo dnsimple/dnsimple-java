@@ -7,6 +7,8 @@ import java.util.HashMap;
 
 import com.dnsimple.response.CheckDomainResponse;
 import com.dnsimple.response.RegisterDomainResponse;
+import com.dnsimple.response.RenewDomainResponse;
+import com.dnsimple.response.TransferDomainResponse;
 
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
@@ -39,5 +41,15 @@ public class Registrar {
   public RegisterDomainResponse registerDomain(String accountId, String domainName, Map<String,Object> attributes) throws DnsimpleException, IOException {
     HttpResponse response = client.post(accountId + "/registrar/domains/" + domainName + "/register", attributes);
     return (RegisterDomainResponse)client.parseResponse(response, RegisterDomainResponse.class);
+  }
+
+  public RenewDomainResponse renewDomain(String accountId, String domainName, Map<String,Object> attributes) throws DnsimpleException, IOException {
+    HttpResponse response = client.post(accountId + "/registrar/domains/" + domainName + "/renewal", attributes);
+    return (RenewDomainResponse)client.parseResponse(response, RenewDomainResponse.class);
+  }
+
+  public TransferDomainResponse transferDomain(String accountId, String domainName, Map<String,Object> attributes) throws DnsimpleException, IOException {
+    HttpResponse response = client.post(accountId + "/registrar/domains/" + domainName + "/transfer", attributes);
+    return (TransferDomainResponse)client.parseResponse(response, TransferDomainResponse.class);
   }
 }
