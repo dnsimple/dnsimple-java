@@ -16,6 +16,8 @@ import com.dnsimple.response.GetEmailForwardResponse;
 import com.dnsimple.response.CreateEmailForwardResponse;
 import com.dnsimple.response.DeleteEmailForwardResponse;
 
+import com.dnsimple.response.InitiatePushResponse;
+
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
@@ -225,6 +227,23 @@ public class Domains {
   public DeleteEmailForwardResponse deleteEmailForward(String accountId, String domainId, String emailForwardId) throws DnsimpleException, IOException {
     HttpResponse response = client.delete(accountId + "/domains/" + domainId + "/email_forwards/" + emailForwardId);
     return (DeleteEmailForwardResponse)client.parseResponse(response, DeleteEmailForwardResponse.class);
+  }
+
+  /**
+   * Initiate a push.
+   *
+   * @see https://developer.dnsimple.com/v2/domains/pushes/#create
+   *
+   * @param accountId The account ID
+   * @param domainId The domain name or ID
+   * @param attributes A Map of attributes for constructing the push
+   * @return The initiate push response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public InitiatePushResponse initiatePush(String accountId, String domainId, Map<String,Object> attributes) throws DnsimpleException, IOException {
+    HttpResponse response = client.post(accountId + "/domains/" + domainId + "/pushes", attributes);
+    return (InitiatePushResponse)client.parseResponse(response, InitiatePushResponse.class);
   }
 
 }
