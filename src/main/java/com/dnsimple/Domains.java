@@ -12,6 +12,7 @@ import com.dnsimple.response.DeleteDomainResponse;
 import com.dnsimple.response.ResetDomainTokenResponse;
 
 import com.dnsimple.response.ListEmailForwardsResponse;
+import com.dnsimple.response.GetEmailForwardResponse;
 
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
@@ -165,6 +166,27 @@ public class Domains {
   public ListEmailForwardsResponse listEmailForwards(String accountId, String domainId, HashMap<String,Object> options) throws DnsimpleException, IOException {
     HttpResponse response = client.get(accountId + "/domains/" + domainId + "/email_forwards", options);
     return (ListEmailForwardsResponse)client.parseResponse(response, ListEmailForwardsResponse.class);
+  }
+
+  /**
+   * Get a specific email forward associated to a domain using the email forward's ID.
+   *
+   * @see https://developer.dnsimple.com/v2/domains/email-forwards/#get
+   *
+   * @param accountId The account ID
+   * @param domainId The domain name or ID
+   * @param emailForwardId The email forward ID
+   * @return The get email forward response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public GetEmailForwardResponse getEmailForward(String accountId, String domainId, String emailForwardId) throws DnsimpleException, IOException {
+    try {
+      HttpResponse response = client.get(accountId + "/domains/" + domainId + "/email_forwards/" + emailForwardId);
+      return (GetEmailForwardResponse)client.parseResponse(response, GetEmailForwardResponse.class);
+    } catch(HttpResponseException e) {
+      throw DnsimpleException.transformException(e);
+    }
   }
 
 }

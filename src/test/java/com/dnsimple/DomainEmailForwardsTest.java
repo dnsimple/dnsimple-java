@@ -2,6 +2,7 @@ package com.dnsimple;
 
 import com.dnsimple.request.Filter;
 import com.dnsimple.response.ListEmailForwardsResponse;
+import com.dnsimple.response.GetEmailForwardResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
@@ -76,5 +77,42 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
 
     Pagination pagination = response.getPagination();
     assertEquals(1, pagination.getCurrentPage().intValue());
+  }
+
+  @Test
+  public void testGetEmailForward() throws DnsimpleException, IOException {
+    Client client = mockClient(resource("getEmailForward/success.http"));
+
+    String accountId = "1";
+    String domainId = "example.com";
+    String emailForwardId = "17706";
+
+    GetEmailForwardResponse response = client.domains.getEmailForward(accountId, domainId, emailForwardId);
+
+    EmailForward emailForward = response.getData();
+    assertEquals(17706, emailForward.getId().intValue());
+    assertEquals(228963, emailForward.getDomainId().intValue());
+  }
+
+  @Test(expected=ResourceNotFoundException.class)
+  public void testGetEmailForwardWhenDomainNotFound() throws DnsimpleException, IOException {
+    Client client = mockClient(resource("notfound-domain.http"));
+
+    String accountId = "1";
+    String domainId = "0";
+    String emailForwardId = "17706";
+
+    client.domains.getEmailForward(accountId, domainId, emailForwardId);
+  }
+
+  @Test(expected=ResourceNotFoundException.class)
+  public void testGetEmailForwardWhenEmailForwardNotFound() throws DnsimpleException, IOException {
+    Client client = mockClient(resource("notfound-emailforward.http"));
+
+    String accountId = "1";
+    String domainId = "example.com";
+    String emailForwardId = "0";
+
+    client.domains.getEmailForward(accountId, domainId, emailForwardId);
   }
 }
