@@ -34,6 +34,7 @@ public class Client {
   public final Accounts accounts;
   public final Domains domains;
   public final Identity identity;
+  public final Tlds tlds;
 
   private HttpTransport transport;
 
@@ -52,6 +53,8 @@ public class Client {
     this.accounts = new Accounts(this);
     this.domains = new Domains(this);
     this.identity = new Identity(this);
+    this.tlds = new Tlds(this);
+
     this.transport = new NetHttpTransport();
   }
 
