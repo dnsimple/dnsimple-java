@@ -1,9 +1,12 @@
 package com.dnsimple;
 
 import com.dnsimple.request.Filter;
+
 import com.dnsimple.response.ListEmailForwardsResponse;
 import com.dnsimple.response.GetEmailForwardResponse;
 import com.dnsimple.response.CreateEmailForwardResponse;
+import com.dnsimple.response.DeleteEmailForwardResponse;
+
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
@@ -130,5 +133,17 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
     CreateEmailForwardResponse response = client.domains.createEmailForward(accountId, domainId, attributes);
     EmailForward emailForward = response.getData();
     assertEquals(17706, emailForward.getId().intValue());
+  }
+
+  @Test
+  public void testDeleteEmailForward() throws DnsimpleException, IOException {
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1/domains/example.com/email_forwards/2", HttpMethods.DELETE, resource("deleteEmailForward/success.http"));
+
+    String accountId = "1";
+    String domainId = "example.com";
+    String emailForwardId = "2";
+
+    DeleteEmailForwardResponse response = client.domains.deleteEmailForward(accountId, domainId, emailForwardId);
+    assert(response.getData() == null);
   }
 }

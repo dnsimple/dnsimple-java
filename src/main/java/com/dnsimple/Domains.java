@@ -14,6 +14,7 @@ import com.dnsimple.response.ResetDomainTokenResponse;
 import com.dnsimple.response.ListEmailForwardsResponse;
 import com.dnsimple.response.GetEmailForwardResponse;
 import com.dnsimple.response.CreateEmailForwardResponse;
+import com.dnsimple.response.DeleteEmailForwardResponse;
 
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
@@ -205,6 +206,25 @@ public class Domains {
   public CreateEmailForwardResponse createEmailForward(String accountId, String domainId, Map<String,Object> attributes) throws DnsimpleException, IOException {
     HttpResponse response = client.post(accountId + "/domains/" + domainId + "/email_forwards", attributes);
     return (CreateEmailForwardResponse)client.parseResponse(response, CreateEmailForwardResponse.class);
+  }
+
+  /**
+   * Delete an email forward from a domain.
+   *
+   * WARNING: this cannot be undone.
+   *
+   * @see https://developer.dnsimple.com/v2/domains/email-forwards/#delete
+   *
+   * @param accountId The account ID
+   * @param domainId The domain ID or name
+   * @param emailForwardId The email forward ID
+   * @return The delete email forward response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public DeleteEmailForwardResponse deleteEmailForward(String accountId, String domainId, String emailForwardId) throws DnsimpleException, IOException {
+    HttpResponse response = client.delete(accountId + "/domains/" + domainId + "/email_forwards/" + emailForwardId);
+    return (DeleteEmailForwardResponse)client.parseResponse(response, DeleteEmailForwardResponse.class);
   }
 
 }
