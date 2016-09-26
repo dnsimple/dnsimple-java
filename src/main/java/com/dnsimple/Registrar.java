@@ -10,6 +10,7 @@ import com.dnsimple.response.RenewDomainResponse;
 import com.dnsimple.response.TransferDomainResponse;
 import com.dnsimple.response.TransferDomainOutResponse;
 import com.dnsimple.response.EnableAutoRenewalResponse;
+import com.dnsimple.response.DisableAutoRenewalResponse;
 
 import com.dnsimple.exception.DnsimpleException;
 
@@ -120,5 +121,21 @@ public class Registrar {
   public EnableAutoRenewalResponse enableAutoRenewal(String accountId, String domainId) throws DnsimpleException, IOException {
     HttpResponse response = client.put(accountId + "/domains/" + domainId + "/auto_renewal");
     return (EnableAutoRenewalResponse)client.parseResponse(response, EnableAutoRenewalResponse.class);
+  }
+
+  /**
+   * Disable auto renewal for the domain in the account.
+   *
+   * @see https://developer.dnsimple.com/v2/registrar/auto-renewal/
+   *
+   * @param accountId The account ID
+   * @param domainId The domain name or ID
+   * @return The disable auto renewal response
+   * @throws DnsimpleException Any API error
+   * @throws IOException Any IO error
+   */
+  public DisableAutoRenewalResponse disableAutoRenewal(String accountId, String domainId) throws DnsimpleException, IOException {
+    HttpResponse response = client.delete(accountId + "/domains/" + domainId + "/auto_renewal");
+    return (DisableAutoRenewalResponse)client.parseResponse(response, DisableAutoRenewalResponse.class);
   }
 }
