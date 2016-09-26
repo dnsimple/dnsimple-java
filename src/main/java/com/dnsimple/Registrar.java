@@ -119,7 +119,7 @@ public class Registrar {
    * @throws IOException Any IO error
    */
   public EnableAutoRenewalResponse enableAutoRenewal(String accountId, String domainId) throws DnsimpleException, IOException {
-    HttpResponse response = client.put(accountId + "/domains/" + domainId + "/auto_renewal");
+    HttpResponse response = client.put(accountId + "/registrar/domains/" + domainId + "/auto_renewal");
     return (EnableAutoRenewalResponse)client.parseResponse(response, EnableAutoRenewalResponse.class);
   }
 
@@ -135,7 +135,7 @@ public class Registrar {
    * @throws IOException Any IO error
    */
   public DisableAutoRenewalResponse disableAutoRenewal(String accountId, String domainId) throws DnsimpleException, IOException {
-    HttpResponse response = client.delete(accountId + "/domains/" + domainId + "/auto_renewal");
+    HttpResponse response = client.delete(accountId + "/registrar/domains/" + domainId + "/auto_renewal");
     return (DisableAutoRenewalResponse)client.parseResponse(response, DisableAutoRenewalResponse.class);
   }
 }
