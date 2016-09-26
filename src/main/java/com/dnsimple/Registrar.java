@@ -33,29 +33,78 @@ public class Registrar {
    * Checks whether a domain is available for registration.
    *
    * @see https://developer.dnsimple.com/v2/registrar/#check
+   *
+   * @param accountId The account ID
+   * @param domainName The domain to check
+   * @return The check domain response
+   * @throws DnsimpleException Any API error
+   * @throws IOException Any IO error
    */
   public CheckDomainResponse checkDomain(String accountId, String domainName) throws DnsimpleException, IOException {
     HttpResponse response = client.get(accountId + "/registrar/domains/" + domainName + "/check");
     return (CheckDomainResponse)client.parseResponse(response, CheckDomainResponse.class);
   }
 
+  /**
+   * Registers a domain.
+   *
+   * @see https://developer.dnsimple.com/v2/registrar/#register
+   * @param accountId The account ID
+   * @param domainName The domain to register
+   * @return The register domain response
+   * @throws DnsimpleException Any API error
+   * @throws IOException Any IO error
+   */
   public RegisterDomainResponse registerDomain(String accountId, String domainName, Map<String,Object> attributes) throws DnsimpleException, IOException {
     HttpResponse response = client.post(accountId + "/registrar/domains/" + domainName + "/register", attributes);
     return (RegisterDomainResponse)client.parseResponse(response, RegisterDomainResponse.class);
   }
 
-  public RenewDomainResponse renewDomain(String accountId, String domainName, Map<String,Object> attributes) throws DnsimpleException, IOException {
-    HttpResponse response = client.post(accountId + "/registrar/domains/" + domainName + "/renewal", attributes);
+  /**
+   * Renews a domain.
+   *
+   * @see https://developer.dnsimple.com/v2/registrar/#renew
+   *
+   * @param accountId The account ID
+   * @param domainId The domain name or ID
+   * @return The renew domain response
+   * @throws DnsimpleException Any API error
+   * @throws IOException Any IO error
+   */
+  public RenewDomainResponse renewDomain(String accountId, String domainId, Map<String,Object> attributes) throws DnsimpleException, IOException {
+    HttpResponse response = client.post(accountId + "/registrar/domains/" + domainId + "/renewal", attributes);
     return (RenewDomainResponse)client.parseResponse(response, RenewDomainResponse.class);
   }
 
-  public TransferDomainResponse transferDomain(String accountId, String domainName, Map<String,Object> attributes) throws DnsimpleException, IOException {
-    HttpResponse response = client.post(accountId + "/registrar/domains/" + domainName + "/transfer", attributes);
+  /**
+   * Starts the transfer of a domain to DNSimple.
+   *
+   * @see https://developer.dnsimple.com/v2/registrar/#transfer
+   *
+   * @param accountId The account ID
+   * @param domainId The domain name or ID
+   * @return The transfer domain response
+   * @throws DnsimpleException Any API error
+   * @throws IOException Any IO error
+   */
+  public TransferDomainResponse transferDomain(String accountId, String domainId, Map<String,Object> attributes) throws DnsimpleException, IOException {
+    HttpResponse response = client.post(accountId + "/registrar/domains/" + domainId + "/transfer", attributes);
     return (TransferDomainResponse)client.parseResponse(response, TransferDomainResponse.class);
   }
 
-  public TransferDomainOutResponse transferDomainOut(String accountId, String domainName) throws DnsimpleException, IOException {
-    HttpResponse response = client.post(accountId + "/registrar/domains/" + domainName + "/transfer_out");
+  /**
+   * Requests the transfer of a domain out of DNSimple.
+   *
+   * @see https://developer.dnsimple.com/v2/registrar/#transfer-out
+   *
+   * @param accountId The account ID
+   * @param domainId The domain name or ID
+   * @return The transfer domain out response
+   * @throws DnsimpleException Any API error
+   * @throws IOException Any IO error
+   */
+  public TransferDomainOutResponse transferDomainOut(String accountId, String domainId) throws DnsimpleException, IOException {
+    HttpResponse response = client.post(accountId + "/registrar/domains/" + domainId + "/transfer_out");
     return (TransferDomainOutResponse)client.parseResponse(response, TransferDomainOutResponse.class);
   }
 }
