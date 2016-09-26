@@ -17,6 +17,8 @@ import com.dnsimple.response.EnableWhoisPrivacyResponse;
 import com.dnsimple.response.DisableWhoisPrivacyResponse;
 import com.dnsimple.response.GetDomainDelegationResponse;
 import com.dnsimple.response.ChangeDomainDelegationResponse;
+import com.dnsimple.response.ChangeDomainDelegationToVanityResponse;
+import com.dnsimple.response.ChangeDomainDelegationFromVanityResponse;
 
 import com.dnsimple.exception.DnsimpleException;
 
@@ -209,8 +211,53 @@ public class Registrar {
     return (GetDomainDelegationResponse)client.parseResponse(response, GetDomainDelegationResponse.class);
   }
 
+  /**
+   * Change name servers the domain is delegating to.
+   *
+   * @see https://developer.dnsimple.com/v2/registrar/delegation/#update
+   *
+   * @param accountId The account ID
+   * @param domainId The domain ID
+   * @param nameServerNames The name server names to change the delegation to
+   * @return The change domain delegation response
+   * @throws DnsimpleException Any API error
+   * @throws IOException Any IO error
+   */
   public ChangeDomainDelegationResponse changeDomainDelegation(String accountId, String domainId, List<String> nameServerNames) throws DnsimpleException, IOException {
     HttpResponse response = client.put(accountId + "/registrar/domains/" + domainId + "/delegation", nameServerNames);
     return (ChangeDomainDelegationResponse)client.parseResponse(response, ChangeDomainDelegationResponse.class);
+  }
+
+  /**
+   * Change the domain delegation to the specified vanity name servers.
+   *
+   * @see https://developer.dnsimple.com/v2/registrar/delegation/#delegateToVanity
+   *
+   * @param accountId The account ID
+   * @param domainId The domain ID
+   * @param nameServerNames The vanity name server names
+   * @return The change domain delegation to vanity response
+   * @throws DnsimpleException Any API error
+   * @throws IOException Any IO error
+   */
+  public ChangeDomainDelegationToVanityResponse changeDomainDelegationToVanity(String accountId, String domainId, List<String> nameServerNames) throws DnsimpleException, IOException {
+    HttpResponse response = client.put(accountId + "/registrar/domains/" + domainId + "/delegation/vanity", nameServerNames);
+    return (ChangeDomainDelegationToVanityResponse)client.parseResponse(response, ChangeDomainDelegationToVanityResponse.class);
+  }
+
+  /**
+   * Change the domain delegation back to the standard DNSimple name servers.
+   *
+   * @see https://developer.dnsimple.com/v2/registrar/delegation/#delegateFromVanity
+   *
+   * @param accountId The account ID
+   * @param domainId The domain ID
+   * @return The change domain delegation from vanity response
+   * @throws DnsimpleException Any API error
+   * @throws IOException Any IO error
+   */
+  public ChangeDomainDelegationFromVanityResponse changeDomainDelegationFromVanity(String accountId, String domainId) throws DnsimpleException, IOException {
+    HttpResponse response = client.delete(accountId + "/registrar/domains/" + domainId + "/delegation/vanity");
+    return (ChangeDomainDelegationFromVanityResponse)client.parseResponse(response, ChangeDomainDelegationFromVanityResponse.class);
   }
 }
