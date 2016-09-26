@@ -66,4 +66,23 @@ public class OauthTest extends DnsimpleTestBase {
     assertTrue(Data.isNull(token.getScope()));
     assertEquals(1, token.getAccountId().intValue());
   }
+
+  @Test
+  public void testAuthorizeUrlIsCorrect() {
+    Client client = new Client();
+    String authorizeUrl = client.oauth.authorizeUrl("great-app");
+    assertEquals("https://dnsimple.com/oauth/authorize?client_id=great-app&response_type=code", authorizeUrl);
+  }
+
+  @Test
+  public void testAuthorizeUrlIncludesOptions() {
+    Client client = new Client();
+
+    HashMap<Object, Object> options = new HashMap<Object, Object>();
+    options.put("secret", "1");
+    options.put("redirect_uri", "http://example.com");
+
+    String authorizeUrl = client.oauth.authorizeUrl("great-app", options);
+    assertEquals("https://dnsimple.com/oauth/authorize?client_id=great-app&response_type=code&secret=1&redirect_uri=http%3A%2F%2Fexample.com", authorizeUrl);
+  }
 }

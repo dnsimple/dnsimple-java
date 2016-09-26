@@ -2,14 +2,18 @@ package com.dnsimple;
 
 import java.io.InputStream;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Map.Entry.*;
 
 import com.dnsimple.exception.DnsimpleException;
 
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.json.JsonParser;
+
+import io.mikael.urlbuilder.UrlBuilder;
 
 /**
  * Provides access to the DNSimple OAuth API.
@@ -81,5 +85,20 @@ public class Oauth {
         in.close();
       }
     }
+  }
+
+  public String authorizeUrl(String clientId) {
+    return authorizeUrl(clientId, Collections.emptyMap());
+  }
+  public String authorizeUrl(String clientId, Map<Object, Object> options) {
+    UrlBuilder urlBuilder = UrlBuilder.fromString(Dnsimple.getApiBase().replaceFirst("api\\.", "") + "/oauth/authorize")
+      .addParameter("client_id", clientId)
+      .addParameter("response_type", "code");
+
+    for (Map.Entry<Object,Object> entry : options.entrySet()) {
+      urlBuilder = urlBuilder.addParameter(entry.getKey().toString(), entry.getValue().toString());
+    }
+
+    return urlBuilder.toString();
   }
 }
