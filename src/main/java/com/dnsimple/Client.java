@@ -95,11 +95,11 @@ public class Client {
     return put(path, null);
   }
 
-  protected HttpResponse put(String path, Map<String, Object> attributes) throws DnsimpleException, IOException {
+  protected HttpResponse put(String path, Object attributes) throws DnsimpleException, IOException {
     return put(path, attributes, null);
   }
 
-  protected HttpResponse put(String path, Map<String, Object> attributes, Map<String, Object> options) throws DnsimpleException, IOException {
+  protected HttpResponse put(String path, Object attributes, Map<String, Object> options) throws DnsimpleException, IOException {
     return request(HttpMethods.PUT, versionedPath(path), attributes, null);
   }
 

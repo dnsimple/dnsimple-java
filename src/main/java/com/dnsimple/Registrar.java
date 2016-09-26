@@ -1,6 +1,7 @@
 package com.dnsimple;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -14,6 +15,8 @@ import com.dnsimple.response.DisableAutoRenewalResponse;
 import com.dnsimple.response.GetWhoisPrivacyResponse;
 import com.dnsimple.response.EnableWhoisPrivacyResponse;
 import com.dnsimple.response.DisableWhoisPrivacyResponse;
+import com.dnsimple.response.GetDomainDelegationResponse;
+import com.dnsimple.response.ChangeDomainDelegationResponse;
 
 import com.dnsimple.exception.DnsimpleException;
 
@@ -142,18 +145,72 @@ public class Registrar {
     return (DisableAutoRenewalResponse)client.parseResponse(response, DisableAutoRenewalResponse.class);
   }
 
+  /**
+   * Gets the whois privacy for the domain.
+   *
+   * @see https://developer.dnsimple.com/v2/registrar/whois-privacy/#get
+   *
+   * @param accountId The account ID
+   * @param domainId The domain name or ID
+   * @return The get whois privacy response
+   * @throws DnsimpleException Any API error
+   * @throws IOException Any IO error
+   */
   public GetWhoisPrivacyResponse getWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException {
     HttpResponse response = client.get(accountId + "/registrar/domains/" + domainId + "/whois_privacy");
     return (GetWhoisPrivacyResponse)client.parseResponse(response, GetWhoisPrivacyResponse.class);
   }
 
+   /**
+   * Enable whois privacy for the domain.
+   *
+   * @see https://developer.dnsimple.com/v2/registrar/whois-privacy/#enable
+   *
+   * @param accountId The account ID
+   * @param domainId The domain name or ID
+   * @return The enable whois privacy response
+   * @throws DnsimpleException Any API error
+   * @throws IOException Any IO error
+   */
   public EnableWhoisPrivacyResponse enableWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException {
     HttpResponse response = client.put(accountId + "/registrar/domains/" + domainId + "/whois_privacy");
     return (EnableWhoisPrivacyResponse)client.parseResponse(response, EnableWhoisPrivacyResponse.class);
   }
 
+  /**
+   * Disable whois privacy for the domain.
+   *
+   * @see https://developer.dnsimple.com/v2/registrar/whois-privacy/#disable
+   *
+   * @param accountId The account ID
+   * @param domainId The domain name or ID
+   * @return The disable whois privacy response
+   * @throws DnsimpleException Any API error
+   * @throws IOException Any IO error
+   */
   public DisableWhoisPrivacyResponse disableWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException {
     HttpResponse response = client.delete(accountId + "/registrar/domains/" + domainId + "/whois_privacy");
     return (DisableWhoisPrivacyResponse)client.parseResponse(response, DisableWhoisPrivacyResponse.class);
+  }
+
+  /**
+   * Lists name servers the domain is delegating to.
+   *
+   * @see https://developer.dnsimple.com/v2/registrar/delegation/#list
+   *
+   * @param accountId The account ID
+   * @param domainId The domain name or ID
+   * @return The get domain delegation response
+   * @throws DnsimpleException Any API error
+   * @throws IOException Any IO error
+   */
+  public GetDomainDelegationResponse getDomainDelegation(String accountId, String domainId) throws DnsimpleException, IOException {
+    HttpResponse response = client.get(accountId + "/registrar/domains/" + domainId + "/delegation");
+    return (GetDomainDelegationResponse)client.parseResponse(response, GetDomainDelegationResponse.class);
+  }
+
+  public ChangeDomainDelegationResponse changeDomainDelegation(String accountId, String domainId, List<String> nameServerNames) throws DnsimpleException, IOException {
+    HttpResponse response = client.put(accountId + "/registrar/domains/" + domainId + "/delegation", nameServerNames);
+    return (ChangeDomainDelegationResponse)client.parseResponse(response, ChangeDomainDelegationResponse.class);
   }
 }

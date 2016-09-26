@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
@@ -74,7 +75,7 @@ public abstract class DnsimpleTestBase {
    * @return The Client instance
    */
   public Client expectClient(final String expectedUrl, final String expectedMethod) {
-    return expectClient(expectedUrl, expectedMethod, new HashMap<String, Object>());
+    return expectClient(expectedUrl, expectedMethod, new Object());
   }
 
   /**
@@ -85,7 +86,7 @@ public abstract class DnsimpleTestBase {
    * @param expectedAttributes A map of values as attributes
    * @return The Client instance
    */
-  public Client expectClient(final String expectedUrl, final String expectedMethod, final Map<String, Object> expectedAttributes) {
+  public Client expectClient(final String expectedUrl, final String expectedMethod, final Object expectedAttributes) {
     Client client = new Client();
 
     HttpTransport transport = new MockHttpTransport() {
@@ -125,7 +126,7 @@ public abstract class DnsimpleTestBase {
    * @return The Client instance
    */
   public Client mockAndExpectClient(final String expectedUrl, final String expectedMethod, final String httpResponse) {
-    return mockAndExpectClient(expectedUrl, expectedMethod, new HashMap<String, Object>(), httpResponse);
+    return mockAndExpectClient(expectedUrl, expectedMethod, new Object(), httpResponse);
   }
 
   /**
@@ -138,7 +139,7 @@ public abstract class DnsimpleTestBase {
    * @param httpResponse The full HTTP response data
    * @return The Client instance
    */
-  public Client mockAndExpectClient(final String expectedUrl, final String expectedMethod, final Map<String, Object> expectedAttributes, final String httpResponse) {
+  public Client mockAndExpectClient(final String expectedUrl, final String expectedMethod, final Object expectedAttributes, final String httpResponse) {
     Client client = new Client();
 
     HttpTransport transport = new MockHttpTransport() {
@@ -152,8 +153,13 @@ public abstract class DnsimpleTestBase {
           public LowLevelHttpResponse execute() throws IOException {
             if (!getContentAsString().equals("")) {
               JsonParser jsonParser = GsonFactory.getDefaultInstance().createJsonParser(getContentAsString());
-              Map<String,Object> attributes = jsonParser.parse(GenericJson.class);
-              assertEquals(expectedAttributes, attributes);
+              if (expectedAttributes instanceof List) {
+                Object attributes = jsonParser.parse(List.class);
+                assertEquals(expectedAttributes, attributes);
+              } else {
+                Object attributes = jsonParser.parse(GenericJson.class);
+                assertEquals(expectedAttributes, attributes);
+              }
             }
 
             MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
