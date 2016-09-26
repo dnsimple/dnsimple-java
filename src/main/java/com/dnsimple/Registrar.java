@@ -1,7 +1,6 @@
 package com.dnsimple;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -12,10 +11,8 @@ import com.dnsimple.response.TransferDomainResponse;
 import com.dnsimple.response.TransferDomainOutResponse;
 
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.exception.ResourceNotFoundException;
 
 import com.google.api.client.http.HttpResponse;
-import com.google.api.client.http.HttpResponseException;
 
 /**
  * Provides access to the DNSimple Registrar API.

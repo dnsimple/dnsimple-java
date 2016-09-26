@@ -1,11 +1,13 @@
 package com.dnsimple;
 
 import com.dnsimple.request.Filter;
+
 import com.dnsimple.response.ListDomainsResponse;
 import com.dnsimple.response.GetDomainResponse;
 import com.dnsimple.response.CreateDomainResponse;
 import com.dnsimple.response.DeleteDomainResponse;
 import com.dnsimple.response.ResetDomainTokenResponse;
+
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
@@ -20,7 +22,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import com.google.api.client.http.HttpMethods;
-import com.google.api.client.http.HttpRequest;
 import com.google.api.client.util.Data;
 
 public class DomainsTest extends DnsimpleTestBase {

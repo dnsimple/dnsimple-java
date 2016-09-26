@@ -12,8 +12,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-import com.google.api.client.util.Data;
-
 public class AccountsTest extends DnsimpleTestBase {
 
   @Test

@@ -21,8 +21,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import com.google.api.client.http.HttpMethods;
-import com.google.api.client.http.HttpRequest;
-import com.google.api.client.util.Data;
 
 public class DomainEmailForwardsTest extends DnsimpleTestBase {
 

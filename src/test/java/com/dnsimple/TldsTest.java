@@ -1,13 +1,10 @@
 package com.dnsimple;
 
-import com.dnsimple.request.Filter;
-
 import com.dnsimple.response.ListTldsResponse;
 import com.dnsimple.response.GetTldResponse;
 import com.dnsimple.response.GetTldExtendedAttributesResponse;
 
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.exception.ResourceNotFoundException;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,8 +17,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import com.google.api.client.http.HttpMethods;
-import com.google.api.client.http.HttpRequest;
-import com.google.api.client.util.Data;
 
 public class TldsTest extends DnsimpleTestBase {
 

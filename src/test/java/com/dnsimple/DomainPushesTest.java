@@ -1,14 +1,11 @@
 package com.dnsimple;
 
-import com.dnsimple.request.Filter;
-
 import com.dnsimple.response.InitiatePushResponse;
 import com.dnsimple.response.ListPushesResponse;
 import com.dnsimple.response.AcceptPushResponse;
 import com.dnsimple.response.RejectPushResponse;
 
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.exception.ResourceNotFoundException;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,7 +18,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import com.google.api.client.http.HttpMethods;
-import com.google.api.client.http.HttpRequest;
 import com.google.api.client.util.Data;
 
 public class DomainPushesTest extends DnsimpleTestBase {
