@@ -11,6 +11,9 @@ import com.dnsimple.response.TransferDomainResponse;
 import com.dnsimple.response.TransferDomainOutResponse;
 import com.dnsimple.response.EnableAutoRenewalResponse;
 import com.dnsimple.response.DisableAutoRenewalResponse;
+import com.dnsimple.response.GetWhoisPrivacyResponse;
+import com.dnsimple.response.EnableWhoisPrivacyResponse;
+import com.dnsimple.response.DisableWhoisPrivacyResponse;
 
 import com.dnsimple.exception.DnsimpleException;
 
@@ -137,5 +140,20 @@ public class Registrar {
   public DisableAutoRenewalResponse disableAutoRenewal(String accountId, String domainId) throws DnsimpleException, IOException {
     HttpResponse response = client.delete(accountId + "/registrar/domains/" + domainId + "/auto_renewal");
     return (DisableAutoRenewalResponse)client.parseResponse(response, DisableAutoRenewalResponse.class);
+  }
+
+  public GetWhoisPrivacyResponse getWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException {
+    HttpResponse response = client.get(accountId + "/registrar/domains/" + domainId + "/whois_privacy");
+    return (GetWhoisPrivacyResponse)client.parseResponse(response, GetWhoisPrivacyResponse.class);
+  }
+
+  public EnableWhoisPrivacyResponse enableWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException {
+    HttpResponse response = client.put(accountId + "/registrar/domains/" + domainId + "/whois_privacy");
+    return (EnableWhoisPrivacyResponse)client.parseResponse(response, EnableWhoisPrivacyResponse.class);
+  }
+
+  public DisableWhoisPrivacyResponse disableWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException {
+    HttpResponse response = client.delete(accountId + "/registrar/domains/" + domainId + "/whois_privacy");
+    return (DisableWhoisPrivacyResponse)client.parseResponse(response, DisableWhoisPrivacyResponse.class);
   }
 }
