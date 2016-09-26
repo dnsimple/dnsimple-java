@@ -6,6 +6,7 @@ import com.dnsimple.response.CheckDomainResponse;
 import com.dnsimple.response.RegisterDomainResponse;
 import com.dnsimple.response.RenewDomainResponse;
 import com.dnsimple.response.TransferDomainResponse;
+import com.dnsimple.response.TransferDomainOutResponse;
 
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
@@ -129,6 +130,17 @@ public class RegistrarTest extends DnsimpleTestBase {
     Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/transfer", HttpMethods.POST, attributes, resource("transferDomain/error-missing-authcode.http"));
 
     client.registrar.transferDomain(accountId, name, attributes);
+  }
+
+  @Test
+  public void testTransferDomainOut() throws DnsimpleException, IOException {
+    String accountId = "1010";
+    String name = "example.com";
+
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/transfer_out", HttpMethods.POST, resource("transferDomainOut/success.http"));
+
+    TransferDomainOutResponse response = client.registrar.transferDomainOut(accountId, name);
+    assertEquals(null, response.getData());
   }
 
 }

@@ -9,6 +9,7 @@ import com.dnsimple.response.CheckDomainResponse;
 import com.dnsimple.response.RegisterDomainResponse;
 import com.dnsimple.response.RenewDomainResponse;
 import com.dnsimple.response.TransferDomainResponse;
+import com.dnsimple.response.TransferDomainOutResponse;
 
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
@@ -51,5 +52,10 @@ public class Registrar {
   public TransferDomainResponse transferDomain(String accountId, String domainName, Map<String,Object> attributes) throws DnsimpleException, IOException {
     HttpResponse response = client.post(accountId + "/registrar/domains/" + domainName + "/transfer", attributes);
     return (TransferDomainResponse)client.parseResponse(response, TransferDomainResponse.class);
+  }
+
+  public TransferDomainOutResponse transferDomainOut(String accountId, String domainName) throws DnsimpleException, IOException {
+    HttpResponse response = client.post(accountId + "/registrar/domains/" + domainName + "/transfer_out");
+    return (TransferDomainOutResponse)client.parseResponse(response, TransferDomainOutResponse.class);
   }
 }
