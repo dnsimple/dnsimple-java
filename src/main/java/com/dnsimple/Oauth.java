@@ -23,6 +23,19 @@ public class Oauth {
     this.client = client;
   }
 
+  /**
+   * Exchange the short-lived authorization code for an access token
+   * that is used to authenticate API calls.
+   *
+   * @see https://developer.dnsimple.com/v2/oauth
+   *
+   * @param code The authorization code
+   * @param clientId The client ID
+   * @param clientSecret The client secret
+   * @return The OauthToken instance
+   * @throws DnsimpleException Any API error
+   * @throws IOException Any IO error
+   */
   public OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret) throws DnsimpleException, IOException {
     return exchangeAuthorizationForToken(code, clientId, clientSecret, new HashMap<String, Object>());
   }
@@ -32,6 +45,14 @@ public class Oauth {
    * that is used to authenticate API calls.
    *
    * @see https://developer.dnsimple.com/v2/oauth
+   *
+   * @param code The authorization code
+   * @param clientId The client ID
+   * @param clientSecret The client secret
+   * @param options Map of options
+   * @return The OauthToken instance
+   * @throws DnsimpleException Any API error
+   * @throws IOException Any IO error
    */
   public OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret, Map<String, Object> options) throws DnsimpleException, IOException {
     Map<String, Object> attributes = new HashMap<String, Object>();
