@@ -35,6 +35,7 @@ public class Client {
   public final Accounts accounts;
   public final Domains domains;
   public final Identity identity;
+  public final Oauth oauth;
   public final Registrar registrar;
   public final Tlds tlds;
 
@@ -55,6 +56,7 @@ public class Client {
     this.accounts = new Accounts(this);
     this.domains = new Domains(this);
     this.identity = new Identity(this);
+    this.oauth = new Oauth(this);
     this.registrar = new Registrar(this);
     this.tlds = new Tlds(this);
 
@@ -115,7 +117,7 @@ public class Client {
   /**
    * Parse the response from the HTTP call into an instance of the given class.
    *
-   * @param response The HTTPResponse instance
+   * @param response The parsed response object
    * @param c The class to instantiate and use to build the response object
    * @throws IOException Any IO errors
    */
