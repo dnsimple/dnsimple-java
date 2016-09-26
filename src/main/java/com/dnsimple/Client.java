@@ -80,7 +80,7 @@ public class Client {
   }
 
   protected HttpResponse post(String path) throws DnsimpleException, IOException {
-    return post(path, new HashMap<String, Object>());
+    return post(path, null);
   }
 
   protected HttpResponse post(String path, Map<String, Object> attributes) throws DnsimpleException, IOException {
@@ -89,6 +89,18 @@ public class Client {
 
   protected HttpResponse post(String path, Map<String, Object> attributes, Map<String, Object> options) throws DnsimpleException, IOException {
     return request(HttpMethods.POST, versionedPath(path), attributes, null);
+  }
+
+  protected HttpResponse put(String path) throws DnsimpleException, IOException {
+    return put(path, null);
+  }
+
+  protected HttpResponse put(String path, Map<String, Object> attributes) throws DnsimpleException, IOException {
+    return put(path, attributes, null);
+  }
+
+  protected HttpResponse put(String path, Map<String, Object> attributes, Map<String, Object> options) throws DnsimpleException, IOException {
+    return request(HttpMethods.PUT, versionedPath(path), attributes, null);
   }
 
   protected HttpResponse delete(String path) throws DnsimpleException, IOException {
