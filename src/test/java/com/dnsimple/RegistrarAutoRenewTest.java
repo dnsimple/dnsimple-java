@@ -35,6 +35,16 @@ public class RegistrarAutoRenewTest extends DnsimpleTestBase {
     assertEquals(null, response.getData());
   }
 
+  @Test(expected=ResourceNotFoundException.class)
+  public void testEnableAutoRenewalDomainDoesNotExist() throws DnsimpleException, IOException {
+    String accountId = "1010";
+    String domainId = "0";
+
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains/0/auto_renewal", HttpMethods.PUT, null, resource("notfound-domain.http"));
+
+    client.registrar.enableAutoRenewal(accountId, domainId);
+  }
+
   @Test
   public void testDisableAutoRenewal() throws DnsimpleException, IOException {
     String accountId = "1010";
@@ -44,5 +54,15 @@ public class RegistrarAutoRenewTest extends DnsimpleTestBase {
 
     DisableAutoRenewalResponse response = client.registrar.disableAutoRenewal(accountId, domainId);
     assertEquals(null, response.getData());
+  }
+
+  @Test(expected=ResourceNotFoundException.class)
+  public void testDisableAutoRenewalDomainDoesNotExist() throws DnsimpleException, IOException {
+    String accountId = "1010";
+    String domainId = "0";
+
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains/0/auto_renewal", HttpMethods.DELETE, null, resource("notfound-domain.http"));
+
+    client.registrar.disableAutoRenewal(accountId, domainId);
   }
 }
