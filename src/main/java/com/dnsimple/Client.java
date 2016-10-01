@@ -109,6 +109,15 @@ public class Client {
     return request(HttpMethods.PUT, versionedPath(path), attributes, null);
   }
 
+   protected HttpResponse patch(String path, Object attributes) throws DnsimpleException, IOException {
+    return patch(path, attributes, null);
+  }
+
+  protected HttpResponse patch(String path, Object attributes, Map<String, Object> options) throws DnsimpleException, IOException {
+    return request(HttpMethods.PATCH, versionedPath(path), attributes, null);
+  }
+ 
+
   protected HttpResponse delete(String path) throws DnsimpleException, IOException {
     return delete(path, null);
   }
