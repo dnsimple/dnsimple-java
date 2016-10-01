@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.dnsimple.response.ListZonesResponse;
 import com.dnsimple.response.GetZoneResponse;
+import com.dnsimple.response.GetZoneFileResponse;
 
 import com.dnsimple.response.ListZoneRecordsResponse;
 import com.dnsimple.response.GetZoneRecordResponse;
@@ -75,6 +76,21 @@ public class Zones {
   public GetZoneResponse getZone(String accountId, String zoneId) throws DnsimpleException, IOException {
     HttpResponse response = client.get(accountId + "/zones/" + zoneId);
     return (GetZoneResponse)client.parseResponse(response, GetZoneResponse.class);
+  }
+
+  /**
+   * Get the zone file associated to an account using the zone's name or ID.
+   *
+   * @see https://developer.dnsimple.com/v2/zones/#get-file
+   * @param accountId The account ID
+   * @param zoneId The zone name or ID
+   * @return The get zone file response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public GetZoneFileResponse getZoneFile(String accountId, String zoneId) throws DnsimpleException, IOException {
+    HttpResponse response = client.get(accountId + "/zones/" + zoneId + "/file");
+    return (GetZoneFileResponse)client.parseResponse(response, GetZoneFileResponse.class);
   }
 
   /**

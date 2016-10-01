@@ -4,6 +4,7 @@ import com.dnsimple.request.Filter;
 
 import com.dnsimple.response.ListZonesResponse;
 import com.dnsimple.response.GetZoneResponse;
+import com.dnsimple.response.GetZoneFileResponse;
 
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
@@ -109,5 +110,28 @@ public class ZonesTest extends DnsimpleTestBase {
     String zoneId = "example.com";
 
     client.zones.getZone(accountId, zoneId);
+  }
+
+  @Test
+  public void testGetZoneFile() throws DnsimpleException, IOException {
+    Client client = mockClient(resource("getZoneFile/success.http"));
+
+    String accountId = "1";
+    String zoneId = "example.com";
+
+    GetZoneFileResponse response = client.zones.getZoneFile(accountId, zoneId);
+
+    ZoneFile zoneFile = response.getData();
+    assertEquals("$ORIGIN example.com.\n$TTL 1h\nexample.com. 3600 IN SOA ns1.dnsimple.com. admin.dnsimple.com. 1453132552 86400 7200 604800 300\nexample.com. 3600 IN NS ns1.dnsimple.com.\nexample.com. 3600 IN NS ns2.dnsimple.com.\nexample.com. 3600 IN NS ns3.dnsimple.com.\nexample.com. 3600 IN NS ns4.dnsimple.com.\n", zoneFile.getZone());
+  }
+
+  @Test(expected=ResourceNotFoundException.class)
+  public void testGetZoneFileWhenZoneNotFound() throws DnsimpleException, IOException {
+    Client client = mockClient(resource("notfound-zone.http"));
+
+    String accountId = "1";
+    String zoneId = "example.com";
+
+    client.zones.getZoneFile(accountId, zoneId);
   }
 }
