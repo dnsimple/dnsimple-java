@@ -100,4 +100,14 @@ public class ZonesTest extends DnsimpleTestBase {
     assertEquals("2015-04-23T07:40:03.045Z", zone.getCreatedAt());
     assertEquals("2015-04-23T07:40:03.051Z", zone.getUpdatedAt());
   }
+
+  @Test(expected=ResourceNotFoundException.class)
+  public void testGetZoneWhenZoneNotFound() throws DnsimpleException, IOException {
+    Client client = mockClient(resource("notfound-zone.http"));
+
+    String accountId = "1";
+    String zoneId = "example.com";
+
+    client.zones.getZone(accountId, zoneId);
+  }
 }
