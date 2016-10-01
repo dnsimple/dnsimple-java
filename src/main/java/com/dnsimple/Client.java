@@ -39,6 +39,7 @@ public class Client {
   public final Registrar registrar;
   public final Tlds tlds;
   public final VanityNameServers vanityNameServers;
+  public final Zones zones;
 
   private HttpTransport transport;
 
@@ -61,6 +62,7 @@ public class Client {
     this.registrar = new Registrar(this);
     this.tlds = new Tlds(this);
     this.vanityNameServers = new VanityNameServers(this);
+    this.zones = new Zones(this);
 
     this.transport = new NetHttpTransport();
   }
