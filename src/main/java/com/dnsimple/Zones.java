@@ -123,16 +123,50 @@ public class Zones {
     return (GetZoneRecordResponse)client.parseResponse(response, GetZoneRecordResponse.class);
   }
 
+  /**
+   * Create a record in a zone.
+   *
+   * @see https://developer.dnsimple.com/v2/zones/records/#create
+   * @param accountId The account ID
+   * @param zoneId The zone name or ID
+   * @param attributes The zone attributes
+   * @return The create zone record response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
   public CreateZoneRecordResponse createZoneRecord(String accountId, String zoneId, Map<String,Object> attributes) throws DnsimpleException, IOException {
     HttpResponse response = client.post(accountId + "/zones/" + zoneId + "/records", attributes);
     return (CreateZoneRecordResponse)client.parseResponse(response, CreateZoneRecordResponse.class);
   }
 
+  /**
+   * Update a record in a zone.
+   *
+   * @see https://developer.dnsimple.com/v2/zones/records/#update
+   * @param accountId The account ID
+   * @param zoneId The zone name or ID
+   * @param recordId The zone record ID
+   * @param attributes The zone attributes
+   * @return The update zone record response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
   public UpdateZoneRecordResponse updateZoneRecord(String accountId, String zoneId, String recordId, Map<String,Object> attributes) throws DnsimpleException, IOException {
     HttpResponse response = client.patch(accountId + "/zones/" + zoneId + "/records/" + recordId, attributes);
     return (UpdateZoneRecordResponse)client.parseResponse(response, UpdateZoneRecordResponse.class);
   }
 
+  /**
+   * Delete a record from a zone.
+   *
+   * @see https://developer.dnsimple.com/v2/zones/records/#delete
+   * @param accountId The account ID
+   * @param zoneId The zone name or ID
+   * @param recordId The zone record ID
+   * @return The delete zone record response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
   public DeleteZoneRecordResponse deleteZoneRecord(String accountId, String zoneId, String recordId) throws DnsimpleException, IOException {
     HttpResponse response = client.delete(accountId + "/zones/" + zoneId + "/records/" + recordId);
     return (DeleteZoneRecordResponse)client.parseResponse(response, DeleteZoneRecordResponse.class);
