@@ -38,6 +38,7 @@ public class Client {
   public final Oauth oauth;
   public final Registrar registrar;
   public final Tlds tlds;
+  public final VanityNameServers vanityNameServers;
 
   private HttpTransport transport;
 
@@ -59,6 +60,7 @@ public class Client {
     this.oauth = new Oauth(this);
     this.registrar = new Registrar(this);
     this.tlds = new Tlds(this);
+    this.vanityNameServers = new VanityNameServers(this);
 
     this.transport = new NetHttpTransport();
   }
