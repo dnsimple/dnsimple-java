@@ -6,6 +6,7 @@ import com.dnsimple.exception.DnsimpleException;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.HashMap;
 
 import junit.framework.Assert;
 
@@ -18,13 +19,39 @@ import com.google.api.client.util.Data;
 public class ServicesTest extends DnsimpleTestBase {
 
   @Test
-  public void testListServices() throws DnsimpleException, IOException {
+  public void testListServicesSupportsPagination() throws DnsimpleException, IOException {
+    Client client = expectClient("https://api.dnsimple.com/v2/services?page=1");
+
+    HashMap<String, Object> options = new HashMap<String, Object>();
+    options.put("page", 1);
+    client.services.listServices(options);
+  }
+
+  @Test
+  public void testListServicesSupportsExtraRequestOptions() throws DnsimpleException, IOException {
+    Client client = expectClient("https://api.dnsimple.com/v2/services?foo=bar");
+    HashMap<String, Object> options = new HashMap<String, Object>();
+    options.put("foo", "bar");
+    client.services.listServices(options);
+  }
+
+  @Test
+  public void testListServicesSupportsSorting() throws DnsimpleException, IOException {
+    Client client = expectClient("https://api.dnsimple.com/v2/services?sort=name%3Aasc");
+    HashMap<String, Object> options = new HashMap<String, Object>();
+    options.put("sort", "name:asc");
+    client.services.listServices(options);
+  }
+
+  @Test
+  public void testListServicesProducesServiceList() throws DnsimpleException, IOException {
     Client client = mockClient(resource("listServices/success.http"));
 
     ListServicesResponse response = client.services.listServices();
 
     List<Service> services = response.getData();
     assertEquals(2, services.size());
+    assertEquals(1, services.get(0).getId().intValue());
   }
 
   @Test
