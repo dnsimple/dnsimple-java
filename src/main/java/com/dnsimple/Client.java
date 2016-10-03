@@ -33,6 +33,7 @@ public class Client {
   private static final String API_VERSION_PATH = "/v2/";
 
   public final Accounts accounts;
+  public final Contacts contacts;
   public final Domains domains;
   public final Identity identity;
   public final Oauth oauth;
@@ -57,6 +58,7 @@ public class Client {
    */
   public Client() {
     this.accounts = new Accounts(this);
+    this.contacts = new Contacts(this);
     this.domains = new Domains(this);
     this.identity = new Identity(this);
     this.oauth = new Oauth(this);
