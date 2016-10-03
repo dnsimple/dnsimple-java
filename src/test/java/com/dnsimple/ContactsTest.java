@@ -81,7 +81,7 @@ public class ContactsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testGetDomain() throws DnsimpleException, IOException {
+  public void testGetContact() throws DnsimpleException, IOException {
     Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/contacts/1", HttpMethods.GET, null, resource("getContact/success.http"));
 
     String accountId = "1010";

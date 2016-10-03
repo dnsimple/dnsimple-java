@@ -40,6 +40,7 @@ public class Client {
   public final Oauth oauth;
   public final Registrar registrar;
   public final Services services;
+  public final Templates templates;
   public final Tlds tlds;
   public final VanityNameServers vanityNameServers;
   public final Zones zones;
@@ -66,6 +67,7 @@ public class Client {
     this.oauth = new Oauth(this);
     this.registrar = new Registrar(this);
     this.services = new Services(this);
+    this.templates = new Templates(this);
     this.tlds = new Tlds(this);
     this.vanityNameServers = new VanityNameServers(this);
     this.zones = new Zones(this);
