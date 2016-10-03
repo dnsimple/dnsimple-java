@@ -75,16 +75,50 @@ public class Contacts {
     return (GetContactResponse)client.parseResponse(response, GetContactResponse.class);
   }
 
+  /**
+   * Create a contact in the account.
+   *
+   * @see https://developer.dnsimple.com/v2/contacts/#create
+   *
+   * @param accountId The account ID
+   * @param attributes A map of attributes to contruct the contact
+   * @return The create contact response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
   public CreateContactResponse createContact(String accountId, Map<String,Object> attributes) throws DnsimpleException, IOException {
     HttpResponse response = client.post(accountId + "/contacts", attributes);
     return (CreateContactResponse)client.parseResponse(response, CreateContactResponse.class);
   }
 
+  /**
+   * Update a contact in the account.
+   *
+   * @see https://developer.dnsimple.com/v2/contacts/#update
+   *
+   * @param accountId The account ID
+   * @param contactId The contact ID
+   * @param attributes A map of attributes to update the contact
+   * @return The update contact response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
   public UpdateContactResponse updateContact(String accountId, String contactId, Map<String,Object> attributes) throws DnsimpleException, IOException {
     HttpResponse response = client.patch(accountId + "/contacts/" + contactId, attributes);
     return (UpdateContactResponse)client.parseResponse(response, UpdateContactResponse.class);
   }
 
+  /**
+   * Delete a contact from the account.
+   *
+   * @see https://developer.dnsimple.com/v2/contacts/#delete
+   *
+   * @param accountId The account ID
+   * @param contactId The contact ID
+   * @return The delete contact response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
   public DeleteContactResponse deleteContact(String accountId, String contactId) throws DnsimpleException, IOException {
     HttpResponse response = client.delete(accountId + "/contacts/" + contactId);
     return (DeleteContactResponse)client.parseResponse(response, DeleteContactResponse.class);
