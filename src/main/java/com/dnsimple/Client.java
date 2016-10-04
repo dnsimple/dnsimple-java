@@ -43,6 +43,7 @@ public class Client {
   public final Templates templates;
   public final Tlds tlds;
   public final VanityNameServers vanityNameServers;
+  public final Webhooks webhooks;
   public final Zones zones;
 
   private HttpTransport transport;
@@ -70,6 +71,7 @@ public class Client {
     this.templates = new Templates(this);
     this.tlds = new Tlds(this);
     this.vanityNameServers = new VanityNameServers(this);
+    this.webhooks = new Webhooks(this);
     this.zones = new Zones(this);
 
     this.transport = new NetHttpTransport();
