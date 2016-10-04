@@ -130,6 +130,17 @@ public class Templates {
     return (DeleteTemplateResponse)client.parseResponse(response, DeleteTemplateResponse.class);
   }
 
+  /**
+   * Apply a template from the account to the domain
+   *
+   * @see https://developer.dnsimple.com/v2/domains/templates/#apply
+   * @param accountId The account ID
+   * @param templateId The template ID
+   * @param domainId The domain ID
+   * @return The apply template response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
   public ApplyTemplateResponse applyTemplate(String accountId, String templateId, String domainId) throws DnsimpleException, IOException {
     HttpResponse response = client.post(accountId + "/domains/" + domainId + "/templates/" + templateId);
     return (ApplyTemplateResponse)client.parseResponse(response, ApplyTemplateResponse.class);
