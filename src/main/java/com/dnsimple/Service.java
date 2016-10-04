@@ -35,8 +35,6 @@ public class Service {
   @Key("settings")
   private List<ServiceSetting> settings;
 
-  public Service() {}
-
   public Integer getId() {
     return id;
   }
