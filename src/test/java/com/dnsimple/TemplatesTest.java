@@ -153,7 +153,7 @@ public class TemplatesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testDeleteContact() throws DnsimpleException, IOException {
+  public void testDeleteTemplate() throws DnsimpleException, IOException {
     Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/templates/1", HttpMethods.DELETE, resource("deleteTemplate/success.http"));
 
     String accountId = "1010";
