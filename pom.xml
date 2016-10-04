@@ -53,11 +53,16 @@
         <name>DNSimple</name>
         <url>https://dnsimple.com</url>
     </organization>
-    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
-    </parent>
+    <distributionManagement>
+      <snapshotRepository>
+        <id>ossrh</id>
+        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      </snapshotRepository>
+      <repository>
+        <id>ossrh</id>
+        <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+      </repository>
+    </distributionManagement>
     <scm>
         <connection>scm:git:git@github.com:aeden/dnsimple-java.git</connection>
         <developerConnection>scm:git:git@github.com:aeden/dnsimple-java.git</developerConnection>
@@ -124,20 +129,13 @@
             </plugin>
             <plugin>
               <groupId>org.sonatype.plugins</groupId>
-              <version>1.6.4</version>
               <artifactId>nexus-staging-maven-plugin</artifactId>
-              <executions>
-                <execution>
-                  <id>default-deploy</id>
-                  <phase>deploy</phase>
-                  <goals>
-                    <goal>deploy</goal>
-                  </goals>
-                </execution>
-              </executions>
+              <version>1.6.7</version>
+              <extensions>true</extensions>
               <configuration>
-                <serverId>sonatype-nexus-staging</serverId>
+                <serverId>ossrh</serverId>
                 <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                <autoReleaseAfterClose>true</autoReleaseAfterClose>
               </configuration>
             </plugin>
         </plugins>
