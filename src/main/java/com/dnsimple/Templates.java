@@ -10,6 +10,7 @@ import com.dnsimple.response.GetTemplateResponse;
 import com.dnsimple.response.CreateTemplateResponse;
 import com.dnsimple.response.UpdateTemplateResponse;
 import com.dnsimple.response.DeleteTemplateResponse;
+import com.dnsimple.response.ApplyTemplateResponse;
 
 import com.dnsimple.response.ListTemplateRecordsResponse;
 import com.dnsimple.response.GetTemplateRecordResponse;
@@ -127,6 +128,11 @@ public class Templates {
   public DeleteTemplateResponse deleteTemplate(String accountId, String templateId) throws DnsimpleException, IOException {
     HttpResponse response = client.delete(accountId + "/templates/" + templateId);
     return (DeleteTemplateResponse)client.parseResponse(response, DeleteTemplateResponse.class);
+  }
+
+  public ApplyTemplateResponse applyTemplate(String accountId, String templateId, String domainId) throws DnsimpleException, IOException {
+    HttpResponse response = client.post(accountId + "/domains/" + domainId + "/templates/" + templateId);
+    return (ApplyTemplateResponse)client.parseResponse(response, ApplyTemplateResponse.class);
   }
 
 

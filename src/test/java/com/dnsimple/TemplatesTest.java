@@ -5,6 +5,7 @@ import com.dnsimple.response.GetTemplateResponse;
 import com.dnsimple.response.CreateTemplateResponse;
 import com.dnsimple.response.UpdateTemplateResponse;
 import com.dnsimple.response.DeleteTemplateResponse;
+import com.dnsimple.response.ApplyTemplateResponse;
 
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
@@ -160,6 +161,18 @@ public class TemplatesTest extends DnsimpleTestBase {
     String templateId = "1";
 
     DeleteTemplateResponse response = client.templates.deleteTemplate(accountId, templateId);
+    assertEquals(null, response.getData());
+  }
+
+  @Test
+  public void testApplyTemplate() throws DnsimpleException, IOException {
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains/example.com/templates/1", HttpMethods.POST, resource("applyTemplate/success.http"));
+
+    String accountId = "1010";
+    String templateId = "1";
+    String domainId = "example.com";
+
+    ApplyTemplateResponse response = client.templates.applyTemplate(accountId, templateId, domainId);
     assertEquals(null, response.getData());
   }
 }
