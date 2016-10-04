@@ -22,3 +22,11 @@ To run the test suite:
 ## Tests
 
 Submit unit tests for your changes. You can test your changes on your machine by [running the test suite](#testing).
+
+## Releasing
+
+Releasing may only be done by one of the DNSimple team members (specifically Anthony as of today).
+
+Once `~/.m2/settings.xml` is updated to include the ossrh server configuration and the ossrh profile with the GPG passphrase for using the private key for signing, deployment is then done with the command:
+
+`mvn clean deploy`
