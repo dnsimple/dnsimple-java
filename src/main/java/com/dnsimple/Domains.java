@@ -285,7 +285,7 @@ public class Domains {
    * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#accept">https://developer.dnsimple.com/v2/domains/pushes/#accept</a>
    *
    * @param accountId The account ID
-   * @param domainId The push ID
+   * @param pushId The push ID
    * @param attributes A Map of attributes required when accepting the push
    * @return The accept push response
    * @throws DnsimpleException Any API errors
@@ -302,7 +302,7 @@ public class Domains {
    * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#reject">https://developer.dnsimple.com/v2/domains/pushes/#reject</a>
    *
    * @param accountId The account ID
-   * @param domainId The push ID
+   * @param pushId The push ID
    * @return The accept push response
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors

@@ -104,7 +104,7 @@ public class Oauth {
    *
    * @see <a href="https://developer.dnsimple.com/v2/oauth/">https://developer.dnsimple.com/v2/oauth/</a>
    *
-   * @param clientId
+   * @param clientId The client ID of the OAuth app in DNSimple
    * @param options A Map of options to include as parameters in the generated URL
    * @return The authorize URL string
    */

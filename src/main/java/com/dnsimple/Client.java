@@ -81,6 +81,8 @@ public class Client {
    * Set the underlying transport mechanism.
    *
    * This method is primarily used to specify a mocked transport layer during testing.
+   *
+   * @param transport The transport instance
    */
   public void setTransport(HttpTransport transport) {
     this.transport = transport;
@@ -142,6 +144,7 @@ public class Client {
    *
    * @param response The parsed response object
    * @param c The class to instantiate and use to build the response object
+   * @return The ApiResponse object
    * @throws IOException Any IO errors
    */
   protected ApiResponse parseResponse(HttpResponse response, Class<?> c) throws IOException {

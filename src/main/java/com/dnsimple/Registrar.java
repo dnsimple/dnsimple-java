@@ -59,6 +59,7 @@ public class Registrar {
    *
    * @param accountId The account ID
    * @param domainName The domain to register
+   * @param attributes Attributes to use for the registration
    * @return The register domain response
    * @throws DnsimpleException Any API error
    * @throws IOException Any IO error
@@ -75,6 +76,7 @@ public class Registrar {
    *
    * @param accountId The account ID
    * @param domainId The domain name or ID
+   * @param attributes Attributes to use for the renewal
    * @return The renew domain response
    * @throws DnsimpleException Any API error
    * @throws IOException Any IO error
@@ -91,6 +93,7 @@ public class Registrar {
    *
    * @param accountId The account ID
    * @param domainId The domain name or ID
+   * @param attributes Attributes to use for the transfer
    * @return The transfer domain response
    * @throws DnsimpleException Any API error
    * @throws IOException Any IO error

@@ -34,8 +34,8 @@ public class VanityNameServers {
    * @throws DnsimpleException Any API error
    * @throws IOException Any IO error
    */
-  public EnableVanityNameServersResponse enableVanityNameServers(String accountId, String domainName) throws DnsimpleException, IOException {
-    HttpResponse response = client.put(accountId + "/vanity/" + domainName);
+  public EnableVanityNameServersResponse enableVanityNameServers(String accountId, String domainId) throws DnsimpleException, IOException {
+    HttpResponse response = client.put(accountId + "/vanity/" + domainId);
     return (EnableVanityNameServersResponse)client.parseResponse(response, EnableVanityNameServersResponse.class);
   }
 
@@ -49,8 +49,8 @@ public class VanityNameServers {
    * @throws DnsimpleException Any API error
    * @throws IOException Any IO error
    */
-  public DisableVanityNameServersResponse disableVanityNameServers(String accountId, String domainName) throws DnsimpleException, IOException {
-    HttpResponse response = client.delete(accountId + "/vanity/" + domainName);
+  public DisableVanityNameServersResponse disableVanityNameServers(String accountId, String domainId) throws DnsimpleException, IOException {
+    HttpResponse response = client.delete(accountId + "/vanity/" + domainId);
     return (DisableVanityNameServersResponse)client.parseResponse(response, DisableVanityNameServersResponse.class);
   }
 }

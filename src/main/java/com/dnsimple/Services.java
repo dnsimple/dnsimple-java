@@ -46,6 +46,7 @@ public class Services {
    * @see <a href="https://developer.dnsimple.com/v2/services/#list">https://developer.dnsimple.com/v2/services/#list</a>
    *
    * @return The list services response
+   * @param options Options to pass to the DNSimple API
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
@@ -111,7 +112,7 @@ public class Services {
    * @param serviceId The service ID to apply
    * @param settings A Map of settings for the service
    * @return The apply service response
-   * @throws DNsimpleException Any API errors
+   * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
   public ApplyServiceResponse applyService(String accountId, String domainId, String serviceId, Map<String, Object> settings) throws DnsimpleException, IOException {
@@ -128,7 +129,7 @@ public class Services {
    * @param domainId The domain name or ID
    * @param serviceId The service ID to unapply
    * @return The unapply service response
-   * @throws DNsimpleException Any API errors
+   * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
   public UnapplyServiceResponse unapplyService(String accountId, String domainId, String serviceId) throws DnsimpleException, IOException {
