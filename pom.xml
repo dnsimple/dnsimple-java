@@ -12,6 +12,14 @@
         <url>http://choosealicense.com/licenses/mit/</url>
       </license>
     </licenses>
+    <developers>
+      <developer>
+        <name>Anthony Eden</name>
+        <email>anthony.eden@dnsimple.com</email>
+        <organization>DNSimple</organization>
+        <organizationUrl>https://dnsimple.com</organizationUrl>
+      </developer>
+    </developers>
     <dependencies>
         <dependency>
             <groupId>com.google.code.gson</groupId>
