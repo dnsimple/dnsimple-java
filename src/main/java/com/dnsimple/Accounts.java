@@ -11,7 +11,7 @@ import com.google.api.client.http.HttpResponse;
 /**
  * Provides access to the DNSimple Accounts API.
  *
- * @see https://developer.dnsimple.com/v2/accounts
+ * @see <a href="https://developer.dnsimple.com/v2/accounts">https://developer.dnsimple.com/v2/accounts</a>
  */
 public class Accounts {
   private Client client;
@@ -23,7 +23,7 @@ public class Accounts {
   /**
    * Lists the accounts the authenticated entity has access to.
    *
-   * @see https://developer.dnsimple.com/v2/accounts#list
+   * @see <a href="https://developer.dnsimple.com/v2/accounts#list">https://developer.dnsimple.com/v2/accounts#list</a>
    *
    * @return The list accounts response
    * @throws DnsimpleException Any API errors

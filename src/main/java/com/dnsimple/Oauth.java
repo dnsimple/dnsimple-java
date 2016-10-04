@@ -18,7 +18,7 @@ import io.mikael.urlbuilder.UrlBuilder;
 /**
  * Provides access to the DNSimple OAuth API.
  *
- * @see https://developer.dnsimple.com/v2/oauth
+ * @see <a href="https://developer.dnsimple.com/v2/oauth">https://developer.dnsimple.com/v2/oauth</a>
  */
 public class Oauth {
   private Client client;
@@ -31,7 +31,7 @@ public class Oauth {
    * Exchange the short-lived authorization code for an access token
    * that is used to authenticate API calls.
    *
-   * @see https://developer.dnsimple.com/v2/oauth
+   * @see <a href="https://developer.dnsimple.com/v2/oauth">https://developer.dnsimple.com/v2/oauth</a>
    *
    * @param code The authorization code
    * @param clientId The client ID
@@ -48,7 +48,7 @@ public class Oauth {
    * Exchange the short-lived authorization code for an access token
    * that is used to authenticate API calls.
    *
-   * @see https://developer.dnsimple.com/v2/oauth
+   * @see <a href="https://developer.dnsimple.com/v2/oauth">https://developer.dnsimple.com/v2/oauth</a>
    *
    * @param code The authorization code
    * @param clientId The client ID
@@ -87,9 +87,27 @@ public class Oauth {
     }
   }
 
+  /**
+   * Gets the URL to authorize a user for an application via the OAuth2 flow.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/oauth/">https://developer.dnsimple.com/v2/oauth/</a>
+   *
+   * @param clientId The client ID of the OAuth app in DNSimple
+   * @return The authorize URL String
+   */
   public String authorizeUrl(String clientId) {
     return authorizeUrl(clientId, Collections.emptyMap());
   }
+
+  /**
+   * Gets the URL to authorize a user for an application via the OAuth2 flow.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/oauth/">https://developer.dnsimple.com/v2/oauth/</a>
+   *
+   * @param clientId
+   * @param options A Map of options to include as parameters in the generated URL
+   * @return The authorize URL string
+   */
   public String authorizeUrl(String clientId, Map<Object, Object> options) {
     UrlBuilder urlBuilder = UrlBuilder.fromString(Dnsimple.getApiBase().replaceFirst("api\\.", "") + "/oauth/authorize")
       .addParameter("client_id", clientId)

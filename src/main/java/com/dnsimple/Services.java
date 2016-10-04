@@ -18,7 +18,7 @@ import com.google.api.client.http.HttpResponse;
 /**
  * Provides access to the DNSimple one-click Services API.
  *
- * @see https://developer.dnsimple.com/v2/services
+ * @see <a href="https://developer.dnsimple.com/v2/services">https://developer.dnsimple.com/v2/services</a>
  */
 public class Services {
   private Client client;
@@ -30,7 +30,8 @@ public class Services {
   /**
    * Lists the available one-click services.
    *
-   * @see https://developer.dnsimple.com/v2/services/#list
+   * @see <a href="https://developer.dnsimple.com/v2/services/#list">https://developer.dnsimple.com/v2/services/#list</a>
+   *
    * @return The list services response
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
@@ -42,7 +43,8 @@ public class Services {
   /**
    * Lists the available one-click services.
    *
-   * @see https://developer.dnsimple.com/v2/services/#list
+   * @see <a href="https://developer.dnsimple.com/v2/services/#list">https://developer.dnsimple.com/v2/services/#list</a>
+   *
    * @return The list services response
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
@@ -55,7 +57,8 @@ public class Services {
   /**
    * Get a specific service by ID.
    *
-   * @see https://developer.dnsimple.com/v2/services/#get
+   * @see <a href="https://developer.dnsimple.com/v2/services/#get">https://developer.dnsimple.com/v2/services/#get</a>
+   *
    * @param serviceId The service ID
    * @return The get service response
    * @throws DnsimpleException Any API errors
@@ -69,7 +72,8 @@ public class Services {
   /**
    * Lists the one-click services applied to the domain.
    *
-   * @see https://developer.dnsimple.com/v2/services/domains/#applied
+   * @see <a href="https://developer.dnsimple.com/v2/services/domains/#applied">https://developer.dnsimple.com/v2/services/domains/#applied</a>
+   *
    * @param accountId The account ID
    * @param domainId The domain name or ID
    * @return The applied services response
@@ -83,7 +87,8 @@ public class Services {
   /**
    * Lists the one-click services applied to the domain.
    *
-   * @see https://developer.dnsimple.com/v2/services/domains/#applied
+   * @see <a href="https://developer.dnsimple.com/v2/services/domains/#applied">https://developer.dnsimple.com/v2/services/domains/#applied</a>
+   *
    * @param accountId The account ID
    * @param domainId The domain name or ID
    * @param options Options passed to the DNSimple API
@@ -96,11 +101,36 @@ public class Services {
     return (AppliedServicesResponse)client.parseResponse(response, AppliedServicesResponse.class);
   }
 
+  /**
+   * Apply the given one-click service to the given domain.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/services/domains/#apply">https://developer.dnsimple.com/v2/services/domains/#apply</a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain name or ID
+   * @param serviceId The service ID to apply
+   * @param settings A Map of settings for the service
+   * @return The apply service response
+   * @throws DNsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
   public ApplyServiceResponse applyService(String accountId, String domainId, String serviceId, Map<String, Object> settings) throws DnsimpleException, IOException {
     HttpResponse response = client.post(accountId + "/domains/" + domainId + "/services/" + serviceId, settings);
     return (ApplyServiceResponse)client.parseResponse(response, ApplyServiceResponse.class);
   }
 
+  /**
+   * Unapply the given one-click service  the given domain.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/services/domains/#apply">https://developer.dnsimple.com/v2/services/domains/#apply</a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain name or ID
+   * @param serviceId The service ID to unapply
+   * @return The unapply service response
+   * @throws DNsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
   public UnapplyServiceResponse unapplyService(String accountId, String domainId, String serviceId) throws DnsimpleException, IOException {
     HttpResponse response = client.delete(accountId + "/domains/" + domainId + "/services/" + serviceId);
     return (UnapplyServiceResponse)client.parseResponse(response, UnapplyServiceResponse.class);

@@ -10,7 +10,7 @@ import com.google.api.client.http.HttpResponse;
 /**
  * Provides access to the DNSimple Identity API.
  *
- * @see https://developer.dnsimple.com/v2/identity
+ * @see <a href="https://developer.dnsimple.com/v2/identity">https://developer.dnsimple.com/v2/identity</a>
  */
 public class Identity {
   private Client client;
@@ -22,7 +22,7 @@ public class Identity {
   /**
    * Gets the information about the current authenticated context.
    *
-   * @see https://developer.dnsimple.com/v2/identity/#whoami
+   * @see <a href="https://developer.dnsimple.com/v2/identity/#whoami">https://developer.dnsimple.com/v2/identity/#whoami</a>
    *
    * @return The whoami response
    * @throws DnsimpleException Any API error

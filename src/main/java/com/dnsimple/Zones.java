@@ -22,7 +22,7 @@ import com.google.api.client.http.HttpResponseException;
 /**
  * Provides access to the DNSimple Zones API.
  *
- * @see https://developer.dnsimple.com/v2/zones
+ * @see <a href="https://developer.dnsimple.com/v2/zones">https://developer.dnsimple.com/v2/zones</a>
  */
 public class Zones {
   private Client client;
@@ -36,7 +36,7 @@ public class Zones {
   /**
    * Lists the zones in the account.
    *
-   * @see https://developer.dnsimple.com/v2/zones/#list
+   * @see <a href="https://developer.dnsimple.com/v2/zones/#list">https://developer.dnsimple.com/v2/zones/#list</a>
    *
    * @param accountId The account ID
    * @return The list zones response
@@ -50,7 +50,7 @@ public class Zones {
   /**
    * Lists the zones in the account.
    *
-   * @see https://developer.dnsimple.com/v2/zones/#list
+   * @see <a href="https://developer.dnsimple.com/v2/zones/#list">https://developer.dnsimple.com/v2/zones/#list</a>
    *
    * @param accountId The account ID
    * @param options A Map of options to pass to the zones API
@@ -66,7 +66,7 @@ public class Zones {
   /**
    * Get a specific zone associated to an account using the zone's name or ID.
    *
-   * @see https://developer.dnsimple.com/v2/zones/#get
+   * @see <a href="https://developer.dnsimple.com/v2/zones/#get">https://developer.dnsimple.com/v2/zones/#get</a>
    * @param accountId The account ID
    * @param zoneId The zone name or ID
    * @return The get zone response
@@ -81,7 +81,7 @@ public class Zones {
   /**
    * Get the zone file associated to an account using the zone's name or ID.
    *
-   * @see https://developer.dnsimple.com/v2/zones/#get-file
+   * @see <a href="https://developer.dnsimple.com/v2/zones/#get-file">https://developer.dnsimple.com/v2/zones/#get-file</a>
    * @param accountId The account ID
    * @param zoneId The zone name or ID
    * @return The get zone file response
@@ -96,7 +96,7 @@ public class Zones {
   /**
    * Lists the records in the zone.
    *
-   * @see https://developer.dnsimple.com/v2/zones/records/#list
+   * @see <a href="https://developer.dnsimple.com/v2/zones/records/#list">https://developer.dnsimple.com/v2/zones/records/#list</a>
    * @param accountId The account ID
    * @param zoneId The zone name or ID
    * @return The list zone records response
@@ -110,7 +110,7 @@ public class Zones {
   /**
    * Lists the records in the zone.
    *
-   * @see https://developer.dnsimple.com/v2/zones/records/#list
+   * @see <a href="https://developer.dnsimple.com/v2/zones/records/#list">https://developer.dnsimple.com/v2/zones/records/#list</a>
    * @param accountId The account ID
    * @param zoneId The zone name or ID
    * @param options A Map of options to pass to the zones API
@@ -126,7 +126,7 @@ public class Zones {
   /**
    * Get a specific record associated to a zone using the zone's name or ID.
    *
-   * @see https://developer.dnsimple.com/v2/zones/records/#get
+   * @see <a href="https://developer.dnsimple.com/v2/zones/records/#get">https://developer.dnsimple.com/v2/zones/records/#get</a>
    * @param accountId The account ID
    * @param zoneId The zone name or ID
    * @param recordId The zone record ID
@@ -142,7 +142,7 @@ public class Zones {
   /**
    * Create a record in a zone.
    *
-   * @see https://developer.dnsimple.com/v2/zones/records/#create
+   * @see <a href="https://developer.dnsimple.com/v2/zones/records/#create">https://developer.dnsimple.com/v2/zones/records/#create</a>
    * @param accountId The account ID
    * @param zoneId The zone name or ID
    * @param attributes The zone attributes
@@ -158,7 +158,7 @@ public class Zones {
   /**
    * Update a record in a zone.
    *
-   * @see https://developer.dnsimple.com/v2/zones/records/#update
+   * @see <a href="https://developer.dnsimple.com/v2/zones/records/#update">https://developer.dnsimple.com/v2/zones/records/#update</a>
    * @param accountId The account ID
    * @param zoneId The zone name or ID
    * @param recordId The zone record ID
@@ -175,7 +175,7 @@ public class Zones {
   /**
    * Delete a record from a zone.
    *
-   * @see https://developer.dnsimple.com/v2/zones/records/#delete
+   * @see <a href="https://developer.dnsimple.com/v2/zones/records/#delete">https://developer.dnsimple.com/v2/zones/records/#delete</a>
    * @param accountId The account ID
    * @param zoneId The zone name or ID
    * @param recordId The zone record ID

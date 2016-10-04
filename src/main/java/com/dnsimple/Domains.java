@@ -30,7 +30,7 @@ import com.google.api.client.http.HttpResponseException;
 /**
  * Provides access to the DNSimple Domains API.
  *
- * @see https://developer.dnsimple.com/v2/domains
+ * @see <a href="https://developer.dnsimple.com/v2/domains">https://developer.dnsimple.com/v2/domains</a>
  */
 public class Domains {
   private Client client;
@@ -44,7 +44,7 @@ public class Domains {
   /**
    * Lists the domains in the account.
    *
-   * @see https://developer.dnsimple.com/v2/domains/#list
+   * @see <a href="https://developer.dnsimple.com/v2/domains/#list">https://developer.dnsimple.com/v2/domains/#list</a>
    *
    * @param accountId The account ID
    * @return The list domains response
@@ -58,7 +58,7 @@ public class Domains {
   /**
    * Lists the domains in the account.
    *
-   * @see https://developer.dnsimple.com/v2/domains/#list
+   * @see <a href="https://developer.dnsimple.com/v2/domains/#list">https://developer.dnsimple.com/v2/domains/#list</a>
    *
    * @param accountId The account ID
    * @param options A Map of options to pass to the domains API
@@ -74,7 +74,7 @@ public class Domains {
   /**
    * Get a specific domain associated to an account using the domain's name or ID.
    *
-   * @see https://developer.dnsimple.com/v2/domains/#get
+   * @see <a href="https://developer.dnsimple.com/v2/domains/#get">https://developer.dnsimple.com/v2/domains/#get</a>
    *
    * @param accountId The account ID
    * @param domainId The domain name or ID
@@ -90,7 +90,7 @@ public class Domains {
   /**
    * Create a domain in an account.
    *
-   * @see https://developer.dnsimple.com/v2/domains/#create
+   * @see <a href="https://developer.dnsimple.com/v2/domains/#create">https://developer.dnsimple.com/v2/domains/#create</a>
    *
    * @param accountId The account ID
    * @param attributes A Map of attributes for constructing the domain
@@ -108,7 +108,7 @@ public class Domains {
    *
    * WARNING: this cannot be undone.
    *
-   * @see https://developer.dnsimple.com/v2/domains/#delete
+   * @see <a href="https://developer.dnsimple.com/v2/domains/#delete">https://developer.dnsimple.com/v2/domains/#delete</a>
    *
    * @param accountId The account ID
    * @param domainId The domain ID or name
@@ -124,7 +124,7 @@ public class Domains {
   /**
    * Resets the domain token.
    *
-   * @see https://developer.dnsimple.com/v2/domains/#reset-token
+   * @see <a href="https://developer.dnsimple.com/v2/domains/#reset-token">https://developer.dnsimple.com/v2/domains/#reset-token</a>
    *
    * @param accountId The account ID
    * @param domainId The domain ID or name
@@ -142,7 +142,7 @@ public class Domains {
   /**
    * List email forwards under a given domain.
    *
-   * @see https://developer.dnsimple.com/v2/domains/email-forwards/#list
+   * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#list">https://developer.dnsimple.com/v2/domains/email-forwards/#list</a>
    *
    * @param accountId The account ID
    * @param domainId The domain ID or name
@@ -157,7 +157,7 @@ public class Domains {
   /**
    * List email forwards under a given domain.
    *
-   * @see https://developer.dnsimple.com/v2/domains/email-forwards/#list
+   * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#list">https://developer.dnsimple.com/v2/domains/email-forwards/#list</a>
    *
    * @param accountId The account ID
    * @param domainId The domain ID or name
@@ -174,7 +174,7 @@ public class Domains {
   /**
    * Get a specific email forward associated to a domain using the email forward's ID.
    *
-   * @see https://developer.dnsimple.com/v2/domains/email-forwards/#get
+   * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#get">https://developer.dnsimple.com/v2/domains/email-forwards/#get</a>
    *
    * @param accountId The account ID
    * @param domainId The domain name or ID
@@ -195,7 +195,7 @@ public class Domains {
   /**
    * Create an email forward for a domain.
    *
-   * @see https://developer.dnsimple.com/v2/domains/email-forwards/#create
+   * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#create">https://developer.dnsimple.com/v2/domains/email-forwards/#create</a>
    *
    * @param accountId The account ID
    * @param domainId The domain name or ID
@@ -214,7 +214,7 @@ public class Domains {
    *
    * WARNING: this cannot be undone.
    *
-   * @see https://developer.dnsimple.com/v2/domains/email-forwards/#delete
+   * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#delete">https://developer.dnsimple.com/v2/domains/email-forwards/#delete</a>
    *
    * @param accountId The account ID
    * @param domainId The domain ID or name
@@ -233,7 +233,7 @@ public class Domains {
   /**
    * Initiate a push.
    *
-   * @see https://developer.dnsimple.com/v2/domains/pushes/#initiate
+   * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#initiate">https://developer.dnsimple.com/v2/domains/pushes/#initiate</a>
    *
    * @param accountId The account ID
    * @param domainId The domain name or ID
@@ -250,7 +250,7 @@ public class Domains {
   /**
    * List pushes under a given domain.
    *
-   * @see https://developer.dnsimple.com/v2/domains/pushes/#list
+   * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#list">https://developer.dnsimple.com/v2/domains/pushes/#list</a>
    *
    * @param accountId The account ID
    * @param domainId The domain ID or name
@@ -265,7 +265,7 @@ public class Domains {
   /**
    * List pushes under a given domain.
    *
-   * @see https://developer.dnsimple.com/v2/domains/pushes/#list
+   * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#list">https://developer.dnsimple.com/v2/domains/pushes/#list</a>
    *
    * @param accountId The account ID
    * @param domainId The domain ID or name
@@ -282,7 +282,7 @@ public class Domains {
   /**
    * Accept a push.
    *
-   * @see https://developer.dnsimple.com/v2/domains/pushes/#accept
+   * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#accept">https://developer.dnsimple.com/v2/domains/pushes/#accept</a>
    *
    * @param accountId The account ID
    * @param domainId The push ID
@@ -299,7 +299,7 @@ public class Domains {
   /**
    * Reject a push.
    *
-   * @see https://developer.dnsimple.com/v2/domains/pushes/#reject
+   * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#reject">https://developer.dnsimple.com/v2/domains/pushes/#reject</a>
    *
    * @param accountId The account ID
    * @param domainId The push ID

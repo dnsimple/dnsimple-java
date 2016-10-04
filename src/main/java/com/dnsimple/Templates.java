@@ -26,7 +26,7 @@ import com.google.api.client.http.HttpResponseException;
 /**
  * Provides access to the DNSimple Templates API.
  *
- * @see https://developer.dnsimple.com/v2/templates
+ * @see <a href="https://developer.dnsimple.com/v2/templates">https://developer.dnsimple.com/v2/templates</a>
  */
 public class Templates {
   private Client client;
@@ -38,7 +38,7 @@ public class Templates {
   /**
    * Lists the templates in the account.
    *
-   * @see https://developer.dnsimple.com/v2/templates/#list
+   * @see <a href="https://developer.dnsimple.com/v2/templates/#list">https://developer.dnsimple.com/v2/templates/#list</a>
    *
    * @param accountId The account ID
    * @return The list templates response
@@ -52,7 +52,7 @@ public class Templates {
   /**
    * Lists the templates in the account.
    *
-   * @see https://developer.dnsimple.com/v2/templates/#list
+   * @see <a href="https://developer.dnsimple.com/v2/templates/#list">https://developer.dnsimple.com/v2/templates/#list</a>
    *
    * @param accountId The account ID
    * @param options A Map of options to pass to the templates API
@@ -68,7 +68,7 @@ public class Templates {
   /**
    * Get a specific template associated to an account using the templates's ID.
    *
-   * @see https://developer.dnsimple.com/v2/templates/#get
+   * @see <a href="https://developer.dnsimple.com/v2/templates/#get">https://developer.dnsimple.com/v2/templates/#list</a>
    *
    * @param accountId The account ID
    * @param templateId The template ID
@@ -84,7 +84,7 @@ public class Templates {
   /**
    * Create a template in the account.
    *
-   * @see https://developer.dnsimple.com/v2/templates/#create
+   * @see <a href="https://developer.dnsimple.com/v2/templates/#create">https://developer.dnsimple.com/v2/templates/#create</a>
    *
    * @param accountId The account ID
    * @param attributes A map of attributes to contruct the template
@@ -100,7 +100,7 @@ public class Templates {
   /**
    * Update a template in the account.
    *
-   * @see https://developer.dnsimple.com/v2/templates/#update
+   * @see <a href="https://developer.dnsimple.com/v2/templates/#update">https://developer.dnsimple.com/v2/templates/#update</a>
    *
    * @param accountId The account ID
    * @param templateId The template ID
@@ -117,7 +117,7 @@ public class Templates {
   /**
    * Delete a template from the account.
    *
-   * @see https://developer.dnsimple.com/v2/templates/#delete
+   * @see <a href="https://developer.dnsimple.com/v2/templates/#delete">https://developer.dnsimple.com/v2/templates/#delete</a>
    *
    * @param accountId The account ID
    * @param templateId The template ID
@@ -133,7 +133,7 @@ public class Templates {
   /**
    * Apply a template from the account to the domain
    *
-   * @see https://developer.dnsimple.com/v2/domains/templates/#apply
+   * @see <a href="https://developer.dnsimple.com/v2/domains/templates/#apply">https://developer.dnsimple.com/v2/domains/templates/#apply</a>
    * @param accountId The account ID
    * @param templateId The template ID
    * @param domainId The domain ID
@@ -152,7 +152,7 @@ public class Templates {
   /**
    * Lists the records in the template.
    *
-   * @see https://developer.dnsimple.com/v2/templates/records#list
+   * @see <a href="https://developer.dnsimple.com/v2/templates/records#list">https://developer.dnsimple.com/v2/templates/records#list</a>
    *
    * @param accountId The account ID
    * @param templateId The template ID
@@ -167,7 +167,7 @@ public class Templates {
   /**
    * Lists the records in the template.
    *
-   * @see https://developer.dnsimple.com/v2/templates/records#list
+   * @see <a href="https://developer.dnsimple.com/v2/templates/records#list">https://developer.dnsimple.com/v2/templates/records#list</a>
    *
    * @param accountId The account ID
    * @param templateId The template ID
@@ -184,7 +184,7 @@ public class Templates {
   /**
    * Get a specific record associated to a template using the record's ID.
    *
-   * @see https://developer.dnsimple.com/v2/templates/records/#get
+   * @see <a href="https://developer.dnsimple.com/v2/templates/records/#get">https://developer.dnsimple.com/v2/templates/records/#get</a>
    *
    * @param accountId The account ID
    * @param templateId The template ID
@@ -201,7 +201,7 @@ public class Templates {
   /**
    * Create a record in the template.
    *
-   * @see https://developer.dnsimple.com/v2/templates/records#create
+   * @see <a href="https://developer.dnsimple.com/v2/templates/records#create">https://developer.dnsimple.com/v2/templates/records#create</a>
    *
    * @param accountId The account ID
    * @param templateId The template ID
@@ -218,7 +218,7 @@ public class Templates {
   /**
    * Delete a record from the template.
    *
-   * @see https://developer.dnsimple.com/v2/templates/records#delete
+   * @see <a href="https://developer.dnsimple.com/v2/templates/records#delete">https://developer.dnsimple.com/v2/templates/records#delete</a>
    *
    * @param accountId The account ID
    * @param templateId The template ID

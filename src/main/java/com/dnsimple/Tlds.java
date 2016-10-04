@@ -16,7 +16,7 @@ import com.google.api.client.http.HttpResponseException;
 /**
  * Provides access to the DNSimple TLDs API.
  *
- * @see https://developer.dnsimple.com/v2/tlds
+ * @see <a href="https://developer.dnsimple.com/v2/tlds">https://developer.dnsimple.com/v2/tlds</a>
  */
 public class Tlds {
 
@@ -29,7 +29,7 @@ public class Tlds {
   /**
    * Lists supported TLDs for registration
    *
-   * @see https://developer.dnsimple.com/v2/tlds/#list
+   * @see <a href="https://developer.dnsimple.com/v2/tlds/#list">https://developer.dnsimple.com/v2/tlds/#list</a>
    *
    * @return The list tlds response
    * @throws DnsimpleException Any API errors
@@ -42,7 +42,7 @@ public class Tlds {
   /**
    * Lists supported TLDs for registration
    *
-   * @see https://developer.dnsimple.com/v2/tlds/#list
+   * @see <a href="https://developer.dnsimple.com/v2/tlds/#list">https://developer.dnsimple.com/v2/tlds/#list</a>
    *
    * @param options A Map of options to pass to the TLDs API
    * @return The list tlds response
@@ -57,7 +57,7 @@ public class Tlds {
   /**
    * Get details for a specific tld.
    *
-   * @see https://developer.dnsimple.com/v2/tlds/#get
+   * @see <a href="https://developer.dnsimple.com/v2/tlds/#get">https://developer.dnsimple.com/v2/tlds/#get</a>
    *
    * @param tld The TLD string (i.e. "com")
    * @return The get tld response
@@ -76,7 +76,7 @@ public class Tlds {
   /**
    * Get extended attributes for a TLD
    *
-   * @see https://developer.dnsimple.com/v2/tlds/#extended-attributes
+   * @see <a href="https://developer.dnsimple.com/v2/tlds/#extended-attributes">https://developer.dnsimple.com/v2/tlds/#extended-attributes</a>
    *
    * @param tld The TLD to retrieve extended attributes for
    * @return The list tlds response

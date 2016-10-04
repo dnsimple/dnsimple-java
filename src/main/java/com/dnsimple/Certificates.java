@@ -18,7 +18,7 @@ import com.google.api.client.http.HttpResponseException;
 /**
  * Provides access to the DNSimple Certificates API.
  *
- * @see https://developer.dnsimple.com/v2/domains/certificates
+ * @see <a href="https://developer.dnsimple.com/v2/domains/certificates">https://developer.dnsimple.com/v2/domains/certificates</a>
  */
 public class Certificates {
   private Client client;
@@ -32,7 +32,7 @@ public class Certificates {
   /**
    * Lists the domains in the account.
    *
-   * @see https://developer.dnsimple.com/v2/domains/certificates/#list
+   * @see <a href="https://developer.dnsimple.com/v2/domains/certificates/#list">https://developer.dnsimple.com/v2/domains/certificates/#list</a>
    *
    * @param accountId The account ID
    * @param domainId The domain name or ID
@@ -47,7 +47,7 @@ public class Certificates {
   /**
    * Lists the certificates in the domain.
    *
-   * @see https://developer.dnsimple.com/v2/domains/certificates/#list
+   * @see <a href="https://developer.dnsimple.com/v2/domains/certificates/#list">https://developer.dnsimple.com/v2/domains/certificates/#list</a>
    *
    * @param accountId The account ID
    * @param domainId The domain name or ID
@@ -64,7 +64,7 @@ public class Certificates {
   /**
    * Get a specific certificate associated to a domain using the certificate's ID.
    *
-   * @see https://developer.dnsimple.com/v2/domains/certificates/#get
+   * @see <a href="https://developer.dnsimple.com/v2/domains/certificates/#get">https://developer.dnsimple.com/v2/domains/certificates/#get</a>
    *
    * @param accountId The account ID
    * @param domainId The domain name or ID
@@ -78,11 +78,35 @@ public class Certificates {
     return (GetCertificateResponse)client.parseResponse(response, GetCertificateResponse.class);
   }
 
+  /**
+   * Downloads certificate associated with a domain.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/domains/certificates/#download">https://developer.dnsimple.com/v2/domains/certificates/#download</a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain name or ID
+   * @param certificateId The certificate ID
+   * @return The download certificate response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
   public DownloadCertificateResponse downloadCertificate(String accountId, String domainId, String certificateId) throws DnsimpleException, IOException {
     HttpResponse response = client.get(accountId + "/domains/" + domainId + "/certificates/" + certificateId + "/download");
     return (DownloadCertificateResponse)client.parseResponse(response, DownloadCertificateResponse.class);
   }
 
+  /**
+   * Get the certificate private key associated with a domain.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/domains/certificates/#private-key">https://developer.dnsimple.com/v2/domains/certificates/#private-key</a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain name or ID
+   * @param certificateId The certificate ID
+   * @return The get certificate private key response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
   public GetCertificatePrivateKeyResponse getCertificatePrivateKey(String accountId, String domainId, String certificateId) throws DnsimpleException, IOException {
     HttpResponse response = client.get(accountId + "/domains/" + domainId + "/certificates/" + certificateId + "/private_key");
     return (GetCertificatePrivateKeyResponse)client.parseResponse(response, GetCertificatePrivateKeyResponse.class);

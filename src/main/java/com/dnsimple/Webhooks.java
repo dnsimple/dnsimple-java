@@ -19,7 +19,7 @@ import com.google.api.client.http.HttpResponseException;
 /**
  * Provides access to the DNSimple Webhooks API.
  *
- * @see https://developer.dnsimple.com/v2/webhooks
+ * @see <a href="https://developer.dnsimple.com/v2/webhooks">https://developer.dnsimple.com/v2/webhooks</a>
  */
 public class Webhooks {
   private Client client;
@@ -31,7 +31,7 @@ public class Webhooks {
   /**
    * Lists the webhooks in the account.
    *
-   * @see https://developer.dnsimple.com/v2/webhooks/#list
+   * @see <a href="https://developer.dnsimple.com/v2/webhooks/#list">https://developer.dnsimple.com/v2/webhooks/#list</a>
    *
    * @param accountId The account ID
    * @return The list webhooks response
@@ -45,7 +45,7 @@ public class Webhooks {
   /**
    * Lists the webhooks in the account.
    *
-   * @see https://developer.dnsimple.com/v2/webhooks/#list
+   * @see <a href="https://developer.dnsimple.com/v2/webhooks/#list">https://developer.dnsimple.com/v2/webhooks/#list</a>
    *
    * @param accountId The account ID
    * @param options A Map of options to pass to the webhooks API
@@ -61,7 +61,7 @@ public class Webhooks {
   /**
    * Get a specific webhook associated to an account using the webhook's ID.
    *
-   * @see https://developer.dnsimple.com/v2/webhooks/#get
+   * @see <a href="https://developer.dnsimple.com/v2/webhooks/#get">https://developer.dnsimple.com/v2/webhooks/#get</a>
    *
    * @param accountId The account ID
    * @param webhookId The webhook ID
@@ -77,7 +77,7 @@ public class Webhooks {
   /**
    * Create a webhook in the account.
    *
-   * @see https://developer.dnsimple.com/v2/webhooks/#create
+   * @see <a href="https://developer.dnsimple.com/v2/webhooks/#create">https://developer.dnsimple.com/v2/webhooks/#create</a>
    *
    * @param accountId The account ID
    * @param attributes A Map of attributes for constructing the webhook
@@ -93,7 +93,7 @@ public class Webhooks {
   /**
    * Delete a webhook from the account.
    *
-   * @see https://developer.dnsimple.com/v2/webhooks/#delete
+   * @see <a href="https://developer.dnsimple.com/v2/webhooks/#delete">https://developer.dnsimple.com/v2/webhooks/#delete</a>
    *
    * @param accountId The account ID
    * @param webhookId The webhook ID

@@ -27,7 +27,7 @@ import com.google.api.client.http.HttpResponse;
 /**
  * Provides access to the DNSimple Registrar API.
  *
- * @see https://developer.dnsimple.com/v2/registrar
+ * @see <a href="https://developer.dnsimple.com/v2/registrar">https://developer.dnsimple.com/v2/registrar</a>
  */
 public class Registrar {
   private Client client;
@@ -39,7 +39,7 @@ public class Registrar {
   /**
    * Checks whether a domain is available for registration.
    *
-   * @see https://developer.dnsimple.com/v2/registrar/#check
+   * @see <a href="https://developer.dnsimple.com/v2/registrar/#check">https://developer.dnsimple.com/v2/registrar/#check</a>
    *
    * @param accountId The account ID
    * @param domainName The domain to check
@@ -55,7 +55,8 @@ public class Registrar {
   /**
    * Registers a domain.
    *
-   * @see https://developer.dnsimple.com/v2/registrar/#register
+   * @see <a href="https://developer.dnsimple.com/v2/registrar/#register">https://developer.dnsimple.com/v2/registrar/#register</a>
+   *
    * @param accountId The account ID
    * @param domainName The domain to register
    * @return The register domain response
@@ -70,7 +71,7 @@ public class Registrar {
   /**
    * Renews a domain.
    *
-   * @see https://developer.dnsimple.com/v2/registrar/#renew
+   * @see <a href="https://developer.dnsimple.com/v2/registrar/#renew">https://developer.dnsimple.com/v2/registrar/#renew</a>
    *
    * @param accountId The account ID
    * @param domainId The domain name or ID
@@ -86,7 +87,7 @@ public class Registrar {
   /**
    * Starts the transfer of a domain to DNSimple.
    *
-   * @see https://developer.dnsimple.com/v2/registrar/#transfer
+   * @see <a href="https://developer.dnsimple.com/v2/registrar/#transfer">https://developer.dnsimple.com/v2/registrar/#transfer</a>
    *
    * @param accountId The account ID
    * @param domainId The domain name or ID
@@ -102,7 +103,7 @@ public class Registrar {
   /**
    * Requests the transfer of a domain out of DNSimple.
    *
-   * @see https://developer.dnsimple.com/v2/registrar/#transfer-out
+   * @see <a href="https://developer.dnsimple.com/v2/registrar/#transfer-out">https://developer.dnsimple.com/v2/registrar/#transfer-out</a>
    *
    * @param accountId The account ID
    * @param domainId The domain name or ID
@@ -118,7 +119,7 @@ public class Registrar {
   /**
    * Enable auto renewal for the domain in the account.
    *
-   * @see https://developer.dnsimple.com/v2/registrar/auto-renewal/
+   * @see <a href="https://developer.dnsimple.com/v2/registrar/auto-renewal/#enable">https://developer.dnsimple.com/v2/registrar/auto-renewal/#enable</a>
    *
    * @param accountId The account ID
    * @param domainId The domain name or ID
@@ -134,7 +135,7 @@ public class Registrar {
   /**
    * Disable auto renewal for the domain in the account.
    *
-   * @see https://developer.dnsimple.com/v2/registrar/auto-renewal/
+   * @see <a href="https://developer.dnsimple.com/v2/registrar/auto-renewal/#disable">https://developer.dnsimple.com/v2/registrar/auto-renewal/#disable</a>
    *
    * @param accountId The account ID
    * @param domainId The domain name or ID
@@ -150,7 +151,7 @@ public class Registrar {
   /**
    * Gets the whois privacy for the domain.
    *
-   * @see https://developer.dnsimple.com/v2/registrar/whois-privacy/#get
+   * @see <a href="https://developer.dnsimple.com/v2/registrar/whois-privacy/#get">https://developer.dnsimple.com/v2/registrar/whois-privacy/#get</a>
    *
    * @param accountId The account ID
    * @param domainId The domain name or ID
@@ -166,7 +167,7 @@ public class Registrar {
    /**
    * Enable whois privacy for the domain.
    *
-   * @see https://developer.dnsimple.com/v2/registrar/whois-privacy/#enable
+   * @see <a href="https://developer.dnsimple.com/v2/registrar/whois-privacy/#enable">https://developer.dnsimple.com/v2/registrar/whois-privacy/#enable</a>
    *
    * @param accountId The account ID
    * @param domainId The domain name or ID
@@ -182,7 +183,7 @@ public class Registrar {
   /**
    * Disable whois privacy for the domain.
    *
-   * @see https://developer.dnsimple.com/v2/registrar/whois-privacy/#disable
+   * @see <a href="https://developer.dnsimple.com/v2/registrar/whois-privacy/#disable">https://developer.dnsimple.com/v2/registrar/whois-privacy/#disable</a>
    *
    * @param accountId The account ID
    * @param domainId The domain name or ID
@@ -198,7 +199,7 @@ public class Registrar {
   /**
    * Lists name servers the domain is delegating to.
    *
-   * @see https://developer.dnsimple.com/v2/registrar/delegation/#list
+   * @see <a href="https://developer.dnsimple.com/v2/registrar/delegation/#list">https://developer.dnsimple.com/v2/registrar/delegation/#list</a>
    *
    * @param accountId The account ID
    * @param domainId The domain name or ID
@@ -214,7 +215,7 @@ public class Registrar {
   /**
    * Change name servers the domain is delegating to.
    *
-   * @see https://developer.dnsimple.com/v2/registrar/delegation/#update
+   * @see <a href="https://developer.dnsimple.com/v2/registrar/delegation/#update">https://developer.dnsimple.com/v2/registrar/delegation/#update</a>
    *
    * @param accountId The account ID
    * @param domainId The domain ID
@@ -231,7 +232,7 @@ public class Registrar {
   /**
    * Change the domain delegation to the specified vanity name servers.
    *
-   * @see https://developer.dnsimple.com/v2/registrar/delegation/#delegateToVanity
+   * @see <a href="https://developer.dnsimple.com/v2/registrar/delegation/#delegateToVanity">https://developer.dnsimple.com/v2/registrar/delegation/#delegateToVanity</a>
    *
    * @param accountId The account ID
    * @param domainId The domain ID
@@ -248,7 +249,7 @@ public class Registrar {
   /**
    * Change the domain delegation back to the standard DNSimple name servers.
    *
-   * @see https://developer.dnsimple.com/v2/registrar/delegation/#delegateFromVanity
+   * @see <a href="https://developer.dnsimple.com/v2/registrar/delegation/#delegateFromVanity">https://developer.dnsimple.com/v2/registrar/delegation/#delegateFromVanity</a>
    *
    * @param accountId The account ID
    * @param domainId The domain ID

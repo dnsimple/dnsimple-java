@@ -15,7 +15,7 @@ import com.google.api.client.http.HttpResponse;
 /**
  * Provides access to the  DNSimple Vanity Name Server API
  *
- * @see https://developer.dnsimple.com/v2/domains/vanity
+ * @see <a href="https://developer.dnsimple.com/v2/domains/vanity">https://developer.dnsimple.com/v2/domains/vanity</a>
  */
 public class VanityNameServers {
   private Client client;
@@ -27,7 +27,7 @@ public class VanityNameServers {
   /**
    * Enable vanity name servers for the domain
    *
-   * @see https://developer.dnsimple.com/v2/domains/vanity/#enable
+   * @see <a href="https://developer.dnsimple.com/v2/domains/vanity/#enable">https://developer.dnsimple.com/v2/domains/vanity/#enable</a>
    * @param accountId The account ID
    * @param domainId The domain name or ID
    * @return The enable vanity name server response
@@ -42,7 +42,7 @@ public class VanityNameServers {
   /**
    * Disable vanity name servers for the domain
    *
-   * @see https://developer.dnsimple.com/v2/domains/vanity/#disable
+   * @see <a href="https://developer.dnsimple.com/v2/domains/vanity/#disable">https://developer.dnsimple.com/v2/domains/vanity/#disable</a>
    * @param accountId The account ID
    * @param domainId The domain name or ID
    * @return The disable vanity name server response
