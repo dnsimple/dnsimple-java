@@ -3,7 +3,7 @@
     <groupId>com.dnsiomple</groupId>
     <artifactId>dnsimple-java</artifactId>
     <packaging>jar</packaging>
-    <version>0.0.1</version>
+    <version>0.1.0</version>
     <name>dnsimple-java</name>
     <url>https://github.com/dnsimple/dnsimple-java</url>
     <licenses>
