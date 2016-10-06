@@ -13,7 +13,7 @@ This library is currently in alpha version, the methods and the implementation s
 
 ## Requirements
 
-This library is tested with Java 8 and later. It may work on previous versions.
+This library is tested with Java 6 and later.
 
 You must also have an activated DNSimple account to access the DNSimple API.
 
