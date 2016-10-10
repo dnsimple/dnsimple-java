@@ -1,6 +1,6 @@
 package com.dnsimple.response;
 
-import com.dnsimple.Whoami;
+import com.dnsimple.data.Whoami;
 
 import com.google.api.client.util.Key;
 

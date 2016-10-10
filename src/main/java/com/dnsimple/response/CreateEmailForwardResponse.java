@@ -1,6 +1,6 @@
 package com.dnsimple.response;
 
-import com.dnsimple.EmailForward;
+import com.dnsimple.data.EmailForward;
 
 import com.google.api.client.util.Key;
 

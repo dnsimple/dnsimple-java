@@ -1,19 +1,22 @@
-package com.dnsimple;
+package com.dnsimple.data;
 
 import com.google.api.client.util.Key;
 
-public class EmailForward {
+public class Push {
   @Key("id")
   private Integer id;
 
   @Key("domain_id")
   private Integer domainId;
 
-  @Key("from")
-  private String from;
+  @Key("contact_id")
+  private Integer contactId;
 
-  @Key("to")
-  private String to;
+  @Key("account_id")
+  private Integer accountId;
+
+  @Key("accepted_at")
+  private String acceptedAt;
 
   @Key("created_at")
   private String createdAt;
@@ -29,12 +32,16 @@ public class EmailForward {
     return domainId;
   }
 
-  public String getFrom() {
-    return from;
+  public Integer getContactId() {
+    return contactId;
   }
 
-  public String getTo() {
-    return to;
+  public Integer getAccountId() {
+    return accountId;
+  }
+
+  public String getAcceptedAt() {
+    return acceptedAt;
   }
 
   public String getCreatedAt() {

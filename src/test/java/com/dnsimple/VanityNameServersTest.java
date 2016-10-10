@@ -1,13 +1,10 @@
 package com.dnsimple;
 
+import com.dnsimple.data.NameServer;
 import com.dnsimple.request.Filter;
-
 import com.dnsimple.response.EnableVanityNameServersResponse;
 import com.dnsimple.response.DisableVanityNameServersResponse;
-
 import com.dnsimple.exception.DnsimpleException;
-import java.io.IOException;
-import java.util.List;
 
 import junit.framework.Assert;
 
@@ -17,6 +14,9 @@ import static org.junit.Assert.*;
 
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.util.Data;
+
+import java.io.IOException;
+import java.util.List;
 
 public class VanityNameServersTest extends DnsimpleTestBase {
   @Test

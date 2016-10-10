@@ -1,17 +1,13 @@
 package com.dnsimple;
 
+import com.dnsimple.data.Service;
+import com.dnsimple.data.Pagination;
 import com.dnsimple.request.Filter;
-
 import com.dnsimple.response.AppliedServicesResponse;
 import com.dnsimple.response.ApplyServiceResponse;
 import com.dnsimple.response.UnapplyServiceResponse;
-
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.HashMap;
 
 import junit.framework.Assert;
 
@@ -21,6 +17,10 @@ import static org.junit.Assert.*;
 
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.util.Data;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.HashMap;
 
 public class DomainServicesTest extends DnsimpleTestBase {
 

@@ -1,6 +1,6 @@
 package com.dnsimple.response;
 
-import com.dnsimple.Zone;
+import com.dnsimple.data.Zone;
 
 import com.google.api.client.util.Key;
 

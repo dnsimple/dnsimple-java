@@ -1,19 +1,13 @@
 package com.dnsimple;
 
+import com.dnsimple.data.NameServer;
 import com.dnsimple.request.Filter;
-
 import com.dnsimple.response.GetDomainDelegationResponse;
 import com.dnsimple.response.ChangeDomainDelegationResponse;
 import com.dnsimple.response.ChangeDomainDelegationToVanityResponse;
 import com.dnsimple.response.ChangeDomainDelegationFromVanityResponse;
-
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.HashMap;
 
 import junit.framework.Assert;
 
@@ -23,6 +17,11 @@ import static org.junit.Assert.*;
 
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.util.Data;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.HashMap;
 
 public class RegistrarDelegationTest extends DnsimpleTestBase {
   @Test

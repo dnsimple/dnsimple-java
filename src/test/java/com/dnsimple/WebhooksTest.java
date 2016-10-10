@@ -1,16 +1,12 @@
 package com.dnsimple;
 
+import com.dnsimple.data.Webhook;
 import com.dnsimple.response.ListWebhooksResponse;
 import com.dnsimple.response.GetWebhookResponse;
 import com.dnsimple.response.CreateWebhookResponse;
 import com.dnsimple.response.DeleteWebhookResponse;
-
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.HashMap;
 
 import junit.framework.Assert;
 
@@ -20,6 +16,10 @@ import static org.junit.Assert.*;
 
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.util.Data;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.HashMap;
 
 public class WebhooksTest extends DnsimpleTestBase {
 

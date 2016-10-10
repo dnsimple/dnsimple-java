@@ -1,7 +1,7 @@
 package com.dnsimple.response;
 
-import com.dnsimple.ZoneRecord;
-import com.dnsimple.Pagination;
+import com.dnsimple.data.ZoneRecord;
+import com.dnsimple.data.Pagination;
 
 import java.util.List;
 

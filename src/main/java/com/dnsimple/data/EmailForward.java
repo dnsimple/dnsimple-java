@@ -1,19 +1,19 @@
-package com.dnsimple;
+package com.dnsimple.data;
 
 import com.google.api.client.util.Key;
 
-public class WhoisPrivacy {
+public class EmailForward {
   @Key("id")
   private Integer id;
 
   @Key("domain_id")
   private Integer domainId;
 
-  @Key("expires_on")
-  private String expiresOn;
+  @Key("from")
+  private String from;
 
-  @Key("enabled")
-  private Boolean enabled;
+  @Key("to")
+  private String to;
 
   @Key("created_at")
   private String createdAt;
@@ -29,12 +29,12 @@ public class WhoisPrivacy {
     return domainId;
   }
 
-  public String getExpiresOn() {
-    return expiresOn;
+  public String getFrom() {
+    return from;
   }
 
-  public Boolean getEnabled() {
-    return enabled;
+  public String getTo() {
+    return to;
   }
 
   public String getCreatedAt() {

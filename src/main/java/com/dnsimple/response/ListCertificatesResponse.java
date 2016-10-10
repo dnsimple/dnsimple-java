@@ -1,7 +1,7 @@
 package com.dnsimple.response;
 
-import com.dnsimple.Certificate;
-import com.dnsimple.Pagination;
+import com.dnsimple.data.Certificate;
+import com.dnsimple.data.Pagination;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.dnsimple;
+package com.dnsimple.data;
 
 import java.util.List;
 

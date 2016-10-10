@@ -1,12 +1,9 @@
 package com.dnsimple;
 
+import com.dnsimple.data.Service;
 import com.dnsimple.response.ListServicesResponse;
 import com.dnsimple.response.GetServiceResponse;
 import com.dnsimple.exception.DnsimpleException;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.HashMap;
 
 import junit.framework.Assert;
 
@@ -15,6 +12,10 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import com.google.api.client.util.Data;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.HashMap;
 
 public class ServicesTest extends DnsimpleTestBase {
 

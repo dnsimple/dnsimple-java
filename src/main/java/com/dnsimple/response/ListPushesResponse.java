@@ -1,7 +1,7 @@
 package com.dnsimple.response;
 
-import com.dnsimple.Push;
-import com.dnsimple.Pagination;
+import com.dnsimple.data.Push;
+import com.dnsimple.data.Pagination;
 
 import java.util.List;
 

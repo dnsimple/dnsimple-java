@@ -1,19 +1,19 @@
-package com.dnsimple;
+package com.dnsimple.data;
 
 import com.google.api.client.util.Key;
 
-public class Zone {
+public class WhoisPrivacy {
   @Key("id")
   private Integer id;
-  
-  @Key("account_id")
-  private Integer accountId;
 
-  @Key("name")
-  private String name;
+  @Key("domain_id")
+  private Integer domainId;
 
-  @Key("reverse")
-  private Boolean reverse;
+  @Key("expires_on")
+  private String expiresOn;
+
+  @Key("enabled")
+  private Boolean enabled;
 
   @Key("created_at")
   private String createdAt;
@@ -25,16 +25,16 @@ public class Zone {
     return id;
   }
 
-  public Integer getAccountId() {
-    return accountId;
+  public Integer getDomainId() {
+    return domainId;
   }
 
-  public String getName() {
-    return name;
+  public String getExpiresOn() {
+    return expiresOn;
   }
 
-  public Boolean getReverse() {
-    return reverse;
+  public Boolean getEnabled() {
+    return enabled;
   }
 
   public String getCreatedAt() {
@@ -44,5 +44,4 @@ public class Zone {
   public String getUpdatedAt() {
     return updatedAt;
   }
-
 }

@@ -1,12 +1,6 @@
 package com.dnsimple;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Map.Entry.*;
-
+import com.dnsimple.data.OauthToken;
 import com.dnsimple.exception.DnsimpleException;
 
 import com.google.api.client.http.HttpResponse;
@@ -14,6 +8,13 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.json.JsonParser;
 
 import io.mikael.urlbuilder.UrlBuilder;
+
+import java.io.InputStream;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Map.Entry.*;
 
 /**
  * Provides access to the DNSimple OAuth API.

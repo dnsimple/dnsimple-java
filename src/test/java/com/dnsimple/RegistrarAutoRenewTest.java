@@ -2,11 +2,8 @@ package com.dnsimple;
 
 import com.dnsimple.response.EnableAutoRenewalResponse;
 import com.dnsimple.response.DisableAutoRenewalResponse;
-
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
-
-import java.io.IOException;
 
 import junit.framework.Assert;
 
@@ -15,6 +12,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import com.google.api.client.http.HttpMethods;
+
+import java.io.IOException;
 
 public class RegistrarAutoRenewTest extends DnsimpleTestBase {
 

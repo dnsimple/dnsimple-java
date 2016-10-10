@@ -1,6 +1,6 @@
 package com.dnsimple.response;
 
-import com.dnsimple.NameServer;
+import com.dnsimple.data.NameServer;
 
 import java.util.List;
 

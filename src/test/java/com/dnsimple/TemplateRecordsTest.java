@@ -1,16 +1,13 @@
 package com.dnsimple;
 
+import com.dnsimple.data.TemplateRecord;
+import com.dnsimple.data.Pagination;
 import com.dnsimple.response.ListTemplateRecordsResponse;
 import com.dnsimple.response.GetTemplateRecordResponse;
 import com.dnsimple.response.CreateTemplateRecordResponse;
 import com.dnsimple.response.DeleteTemplateRecordResponse;
-
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.HashMap;
 
 import junit.framework.Assert;
 
@@ -20,6 +17,10 @@ import static org.junit.Assert.*;
 
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.util.Data;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.HashMap;
 
 public class TemplateRecordsTest extends DnsimpleTestBase {
 

@@ -1,22 +1,19 @@
-package com.dnsimple;
+package com.dnsimple.data;
 
 import com.google.api.client.util.Key;
 
-public class Push {
+public class Zone {
   @Key("id")
   private Integer id;
-
-  @Key("domain_id")
-  private Integer domainId;
-
-  @Key("contact_id")
-  private Integer contactId;
-
+  
   @Key("account_id")
   private Integer accountId;
 
-  @Key("accepted_at")
-  private String acceptedAt;
+  @Key("name")
+  private String name;
+
+  @Key("reverse")
+  private Boolean reverse;
 
   @Key("created_at")
   private String createdAt;
@@ -28,20 +25,16 @@ public class Push {
     return id;
   }
 
-  public Integer getDomainId() {
-    return domainId;
-  }
-
-  public Integer getContactId() {
-    return contactId;
-  }
-
   public Integer getAccountId() {
     return accountId;
   }
 
-  public String getAcceptedAt() {
-    return acceptedAt;
+  public String getName() {
+    return name;
+  }
+
+  public Boolean getReverse() {
+    return reverse;
   }
 
   public String getCreatedAt() {
@@ -51,4 +44,5 @@ public class Push {
   public String getUpdatedAt() {
     return updatedAt;
   }
+
 }

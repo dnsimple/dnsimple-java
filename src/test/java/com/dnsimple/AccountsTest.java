@@ -1,5 +1,6 @@
 package com.dnsimple;
 
+import com.dnsimple.data.Account;
 import com.dnsimple.response.ListAccountsResponse;
 import com.dnsimple.exception.DnsimpleException;
 

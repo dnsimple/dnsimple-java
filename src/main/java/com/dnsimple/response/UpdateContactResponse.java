@@ -1,6 +1,6 @@
 package com.dnsimple.response;
 
-import com.dnsimple.Contact;
+import com.dnsimple.data.Contact;
 
 import com.google.api.client.util.Key;
 

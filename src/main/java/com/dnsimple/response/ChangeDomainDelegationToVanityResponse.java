@@ -2,7 +2,7 @@ package com.dnsimple.response;
 
 import java.util.List;
 
-import com.dnsimple.NameServer;
+import com.dnsimple.data.NameServer;
 
 import com.google.api.client.util.Key;
 

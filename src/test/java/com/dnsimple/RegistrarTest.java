@@ -1,15 +1,13 @@
 package com.dnsimple;
 
+import com.dnsimple.data.Domain;
+import com.dnsimple.data.DomainAvailability;
 import com.dnsimple.response.CheckDomainResponse;
 import com.dnsimple.response.RegisterDomainResponse;
 import com.dnsimple.response.RenewDomainResponse;
 import com.dnsimple.response.TransferDomainResponse;
 import com.dnsimple.response.TransferDomainOutResponse;
-
 import com.dnsimple.exception.DnsimpleException;
-
-import java.io.IOException;
-import java.util.HashMap;
 
 import junit.framework.Assert;
 
@@ -18,6 +16,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import com.google.api.client.http.HttpMethods;
+
+import java.io.IOException;
+import java.util.HashMap;
 
 public class RegistrarTest extends DnsimpleTestBase {
 

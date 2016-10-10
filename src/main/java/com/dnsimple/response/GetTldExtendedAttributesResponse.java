@@ -1,6 +1,6 @@
 package com.dnsimple.response;
 
-import com.dnsimple.TldExtendedAttribute;
+import com.dnsimple.data.TldExtendedAttribute;
 import java.util.List;
 
 import com.google.api.client.util.Key;

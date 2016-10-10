@@ -1,11 +1,8 @@
 package com.dnsimple;
 
+import com.dnsimple.data.OauthToken;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.HashMap;
 
 import junit.framework.Assert;
 
@@ -15,6 +12,10 @@ import static org.junit.Assert.*;
 
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.util.Data;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.HashMap;
 
 public class OauthTest extends DnsimpleTestBase {
   @Test

@@ -1,19 +1,15 @@
 package com.dnsimple;
 
+import com.dnsimple.data.ZoneRecord;
+import com.dnsimple.data.Pagination;
 import com.dnsimple.request.Filter;
-
 import com.dnsimple.response.ListZoneRecordsResponse;
 import com.dnsimple.response.GetZoneRecordResponse;
 import com.dnsimple.response.CreateZoneRecordResponse;
 import com.dnsimple.response.UpdateZoneRecordResponse;
 import com.dnsimple.response.DeleteZoneRecordResponse;
-
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.HashMap;
 
 import junit.framework.Assert;
 
@@ -23,6 +19,10 @@ import static org.junit.Assert.*;
 
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.util.Data;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.HashMap;
 
 public class ZoneRecordsTest extends DnsimpleTestBase {
 

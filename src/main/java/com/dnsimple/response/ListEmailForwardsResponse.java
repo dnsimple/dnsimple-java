@@ -1,7 +1,7 @@
 package com.dnsimple.response;
 
-import com.dnsimple.EmailForward;
-import com.dnsimple.Pagination;
+import com.dnsimple.data.EmailForward;
+import com.dnsimple.data.Pagination;
 
 import java.util.List;
 

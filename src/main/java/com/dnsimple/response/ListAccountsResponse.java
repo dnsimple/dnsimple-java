@@ -1,6 +1,6 @@
 package com.dnsimple.response;
 
-import com.dnsimple.Account;
+import com.dnsimple.data.Account;
 
 import java.util.List;
 

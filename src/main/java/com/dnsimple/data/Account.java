@@ -1,15 +1,15 @@
-package com.dnsimple;
+package com.dnsimple.data;
 
 import com.google.api.client.util.Key;
 
-public class User {
+public class Account {
   @Key("id")
   private Integer id;
 
   @Key("email")
   private String email;
 
-  public User() {} 
+  public Account() {}
 
   public Integer getId() {
     return id;
@@ -19,4 +19,3 @@ public class User {
     return email;
   }
 }
-

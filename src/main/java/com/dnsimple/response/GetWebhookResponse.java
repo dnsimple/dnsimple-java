@@ -1,6 +1,6 @@
 package com.dnsimple.response;
 
-import com.dnsimple.Webhook;
+import com.dnsimple.data.Webhook;
 
 import com.google.api.client.util.Key;
 

@@ -1,7 +1,7 @@
 package com.dnsimple.response;
 
-import com.dnsimple.TemplateRecord;
-import com.dnsimple.Pagination;
+import com.dnsimple.data.TemplateRecord;
+import com.dnsimple.data.Pagination;
 
 import java.util.List;
 

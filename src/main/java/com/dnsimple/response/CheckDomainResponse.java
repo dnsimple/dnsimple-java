@@ -1,6 +1,6 @@
 package com.dnsimple.response;
 
-import com.dnsimple.DomainAvailability;
+import com.dnsimple.data.DomainAvailability;
 
 import com.google.api.client.util.Key;
 

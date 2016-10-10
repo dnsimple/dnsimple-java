@@ -1,5 +1,7 @@
 package com.dnsimple;
 
+import com.dnsimple.data.Account;
+import com.dnsimple.data.User;
 import com.dnsimple.response.WhoamiResponse;
 import com.dnsimple.exception.DnsimpleException;
 

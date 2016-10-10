@@ -1,6 +1,6 @@
 package com.dnsimple.response;
 
-import com.dnsimple.Certificate;
+import com.dnsimple.data.Certificate;
 
 import com.google.api.client.util.Key;
 

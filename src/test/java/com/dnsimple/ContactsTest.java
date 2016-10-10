@@ -1,7 +1,8 @@
 package com.dnsimple;
 
+import com.dnsimple.data.Contact;
+import com.dnsimple.data.Pagination;
 import com.dnsimple.request.Filter;
-
 import com.dnsimple.response.ListContactsResponse;
 import com.dnsimple.response.GetContactResponse;
 import com.dnsimple.response.CreateContactResponse;
@@ -11,10 +12,6 @@ import com.dnsimple.response.DeleteContactResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.HashMap;
-
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -23,6 +20,10 @@ import static org.junit.Assert.*;
 
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.util.Data;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.HashMap;
 
 public class ContactsTest extends DnsimpleTestBase {
 
