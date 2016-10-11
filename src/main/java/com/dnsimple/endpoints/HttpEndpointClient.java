@@ -1,19 +1,6 @@
-package com.dnsimple;
+package com.dnsimple.endpoints;
 
-import com.dnsimple.endpoints.HttpEndpointClient;
-import com.dnsimple.endpoints.AccountsEndpoint;
-import com.dnsimple.endpoints.CertificatesEndpoint;
-import com.dnsimple.endpoints.ContactsEndpoint;
-import com.dnsimple.endpoints.DomainsEndpoint;
-import com.dnsimple.endpoints.IdentityEndpoint;
-import com.dnsimple.endpoints.OauthEndpoint;
-import com.dnsimple.endpoints.RegistrarEndpoint;
-import com.dnsimple.endpoints.ServicesEndpoint;
-import com.dnsimple.endpoints.TemplatesEndpoint;
-import com.dnsimple.endpoints.TldsEndpoint;
-import com.dnsimple.endpoints.VanityNameServersEndpoint;
-import com.dnsimple.endpoints.WebhooksEndpoint;
-import com.dnsimple.endpoints.ZonesEndpoint;
+import com.dnsimple.Dnsimple;
 import com.dnsimple.request.Filter;
 import com.dnsimple.response.ApiResponse;
 import com.dnsimple.exception.DnsimpleException;
@@ -35,62 +22,15 @@ import io.mikael.urlbuilder.UrlBuilder;
 import java.io.InputStream;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
-/**
- * Instances of the Client handle low-level HTTP calls to the API.
- */
-public class Client {
+public class HttpEndpointClient {
 
   private static final String API_VERSION_PATH = "/v2/";
 
-  public final Accounts accounts;
-  public final Certificates certificates;
-  public final Contacts contacts;
-  public final Domains domains;
-  public final Identity identity;
-  public final Oauth oauth;
-  public final Registrar registrar;
-  public final Services services;
-  public final Templates templates;
-  public final Tlds tlds;
-  public final VanityNameServers vanityNameServers;
-  public final Webhooks webhooks;
-  public final Zones zones;
-
-  private HttpEndpointClient endpointClient;
   private HttpTransport transport;
 
-  /**
-   * Construct a new API client.
-   *
-   * Once you have a client instance, use the public properties such as `accounts` or `domains`
-   * to communicate with the remote API.
-   *
-   * For example:
-   *
-   * Client client = new Client();
-   * WhoamiResponse response = client.accounts.whoami();
-   */
-  public Client() {
-    this.endpointClient = new HttpEndpointClient();
-
-    this.accounts = new AccountsEndpoint(endpointClient);
-    this.certificates = new CertificatesEndpoint(endpointClient);
-    this.contacts = new ContactsEndpoint(endpointClient);
-    this.domains = new DomainsEndpoint(endpointClient);
-    this.identity = new IdentityEndpoint(endpointClient);
-    this.oauth = new OauthEndpoint(endpointClient);
-    this.registrar = new RegistrarEndpoint(endpointClient);
-    this.services = new ServicesEndpoint(endpointClient);
-    this.templates = new TemplatesEndpoint(endpointClient);
-    this.tlds = new TldsEndpoint(endpointClient);
-    this.vanityNameServers = new VanityNameServersEndpoint(endpointClient);
-    this.webhooks = new WebhooksEndpoint(endpointClient);
-    this.zones = new ZonesEndpoint(endpointClient);
-
+  public HttpEndpointClient() {
     this.transport = new NetHttpTransport();
   }
 
@@ -103,9 +43,7 @@ public class Client {
    */
   public void setTransport(HttpTransport transport) {
     this.transport = transport;
-    this.endpointClient.setTransport(transport);
   }
-
 
   protected HttpResponse get(String path) throws DnsimpleException, IOException {
     return get(path, null);
@@ -157,6 +95,21 @@ public class Client {
   }
 
 
+  protected HttpResponse request(String method, String url, Object data, Map<String, Object> options) throws DnsimpleException, IOException {
+    HttpContent content = null;
+    if (data != null) {
+       content = new JsonHttpContent(new GsonFactory(), data);
+    }
+
+    HttpRequest request = transport.createRequestFactory().buildRequest(method, buildUrl(url, options), content);
+
+    try {
+      return request.execute();
+    } catch(HttpResponseException e) {
+      throw DnsimpleException.transformException(e);
+    }
+  }
+
   /**
    * Parse the response from the HTTP call into an instance of the given class.
    *
@@ -189,22 +142,6 @@ public class Client {
 
     return res;
   }
-
-  protected HttpResponse request(String method, String url, Object data, Map<String, Object> options) throws DnsimpleException, IOException {
-    HttpContent content = null;
-    if (data != null) {
-       content = new JsonHttpContent(new GsonFactory(), data);
-    }
-
-    HttpRequest request = transport.createRequestFactory().buildRequest(method, buildUrl(url, options), content);
-
-    try {
-      return request.execute();
-    } catch(HttpResponseException e) {
-      throw DnsimpleException.transformException(e);
-    }
-  }
-
 
   private String versionedPath(String path) {
      return Dnsimple.getApiBase() + API_VERSION_PATH + path;

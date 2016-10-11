@@ -1,35 +1,28 @@
 package com.dnsimple;
 
-import java.io.IOException;
-import java.util.Map;
-
 import com.dnsimple.response.ListZonesResponse;
 import com.dnsimple.response.GetZoneResponse;
 import com.dnsimple.response.GetZoneFileResponse;
-
 import com.dnsimple.response.ListZoneRecordsResponse;
 import com.dnsimple.response.GetZoneRecordResponse;
 import com.dnsimple.response.CreateZoneRecordResponse;
 import com.dnsimple.response.UpdateZoneRecordResponse;
 import com.dnsimple.response.DeleteZoneRecordResponse;
-
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpResponseException;
 
+import java.io.IOException;
+import java.util.Map;
+
 /**
  * Provides access to the DNSimple Zones API.
  *
  * @see <a href="https://developer.dnsimple.com/v2/zones">https://developer.dnsimple.com/v2/zones</a>
  */
-public class Zones {
-  private Client client;
-
-  protected Zones(Client client) {
-    this.client = client;
-  }
+public interface Zones {
 
   // Domains
 
@@ -43,9 +36,7 @@ public class Zones {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public ListZonesResponse listZones(String accountId) throws DnsimpleException, IOException {
-    return listZones(accountId, null);
-  }
+  public ListZonesResponse listZones(String accountId) throws DnsimpleException, IOException;
 
   /**
    * Lists the zones in the account.
@@ -58,10 +49,7 @@ public class Zones {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public ListZonesResponse listZones(String accountId, Map<String,Object> options) throws DnsimpleException, IOException {
-    HttpResponse response = client.get(accountId + "/zones", options);
-    return (ListZonesResponse)client.parseResponse(response, ListZonesResponse.class);
-  }
+  public ListZonesResponse listZones(String accountId, Map<String,Object> options) throws DnsimpleException, IOException;
 
   /**
    * Get a specific zone associated to an account using the zone's name or ID.
@@ -73,10 +61,7 @@ public class Zones {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public GetZoneResponse getZone(String accountId, String zoneId) throws DnsimpleException, IOException {
-    HttpResponse response = client.get(accountId + "/zones/" + zoneId);
-    return (GetZoneResponse)client.parseResponse(response, GetZoneResponse.class);
-  }
+  public GetZoneResponse getZone(String accountId, String zoneId) throws DnsimpleException, IOException;
 
   /**
    * Get the zone file associated to an account using the zone's name or ID.
@@ -88,10 +73,7 @@ public class Zones {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public GetZoneFileResponse getZoneFile(String accountId, String zoneId) throws DnsimpleException, IOException {
-    HttpResponse response = client.get(accountId + "/zones/" + zoneId + "/file");
-    return (GetZoneFileResponse)client.parseResponse(response, GetZoneFileResponse.class);
-  }
+  public GetZoneFileResponse getZoneFile(String accountId, String zoneId) throws DnsimpleException, IOException;
 
   /**
    * Lists the records in the zone.
@@ -103,9 +85,7 @@ public class Zones {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public ListZoneRecordsResponse listZoneRecords(String accountId, String zoneId) throws DnsimpleException, IOException {
-    return listZoneRecords(accountId, zoneId, null);
-  }
+  public ListZoneRecordsResponse listZoneRecords(String accountId, String zoneId) throws DnsimpleException, IOException;
 
   /**
    * Lists the records in the zone.
@@ -118,10 +98,7 @@ public class Zones {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public ListZoneRecordsResponse listZoneRecords(String accountId, String zoneId, Map<String,Object> options) throws DnsimpleException, IOException {
-    HttpResponse response = client.get(accountId + "/zones/" + zoneId + "/records", options);
-    return (ListZoneRecordsResponse)client.parseResponse(response, ListZoneRecordsResponse.class);
-  }
+  public ListZoneRecordsResponse listZoneRecords(String accountId, String zoneId, Map<String,Object> options) throws DnsimpleException, IOException;
 
   /**
    * Get a specific record associated to a zone using the zone's name or ID.
@@ -134,10 +111,7 @@ public class Zones {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public GetZoneRecordResponse getZoneRecord(String accountId, String zoneId, String recordId) throws DnsimpleException, IOException {
-    HttpResponse response = client.get(accountId + "/zones/" + zoneId + "/records/" + recordId);
-    return (GetZoneRecordResponse)client.parseResponse(response, GetZoneRecordResponse.class);
-  }
+  public GetZoneRecordResponse getZoneRecord(String accountId, String zoneId, String recordId) throws DnsimpleException, IOException;
 
   /**
    * Create a record in a zone.
@@ -150,10 +124,7 @@ public class Zones {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public CreateZoneRecordResponse createZoneRecord(String accountId, String zoneId, Map<String,Object> attributes) throws DnsimpleException, IOException {
-    HttpResponse response = client.post(accountId + "/zones/" + zoneId + "/records", attributes);
-    return (CreateZoneRecordResponse)client.parseResponse(response, CreateZoneRecordResponse.class);
-  }
+  public CreateZoneRecordResponse createZoneRecord(String accountId, String zoneId, Map<String,Object> attributes) throws DnsimpleException, IOException;
 
   /**
    * Update a record in a zone.
@@ -167,10 +138,7 @@ public class Zones {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public UpdateZoneRecordResponse updateZoneRecord(String accountId, String zoneId, String recordId, Map<String,Object> attributes) throws DnsimpleException, IOException {
-    HttpResponse response = client.patch(accountId + "/zones/" + zoneId + "/records/" + recordId, attributes);
-    return (UpdateZoneRecordResponse)client.parseResponse(response, UpdateZoneRecordResponse.class);
-  }
+  public UpdateZoneRecordResponse updateZoneRecord(String accountId, String zoneId, String recordId, Map<String,Object> attributes) throws DnsimpleException, IOException;
 
   /**
    * Delete a record from a zone.
@@ -183,8 +151,6 @@ public class Zones {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public DeleteZoneRecordResponse deleteZoneRecord(String accountId, String zoneId, String recordId) throws DnsimpleException, IOException {
-    HttpResponse response = client.delete(accountId + "/zones/" + zoneId + "/records/" + recordId);
-    return (DeleteZoneRecordResponse)client.parseResponse(response, DeleteZoneRecordResponse.class);
-  }
+  public DeleteZoneRecordResponse deleteZoneRecord(String accountId, String zoneId, String recordId) throws DnsimpleException, IOException;
+
 }

@@ -1,32 +1,22 @@
 package com.dnsimple;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-
+import com.dnsimple.Webhooks;
 import com.dnsimple.response.ListWebhooksResponse;
 import com.dnsimple.response.GetWebhookResponse;
 import com.dnsimple.response.CreateWebhookResponse;
 import com.dnsimple.response.DeleteWebhookResponse;
-
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpResponseException;
 
-/**
- * Provides access to the DNSimple Webhooks API.
- *
- * @see <a href="https://developer.dnsimple.com/v2/webhooks">https://developer.dnsimple.com/v2/webhooks</a>
- */
-public class Webhooks {
-  private Client client;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
-  protected Webhooks(Client client) {
-    this.client = client;
-  }
+public interface Webhooks {
 
   /**
    * Lists the webhooks in the account.
@@ -38,9 +28,7 @@ public class Webhooks {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public ListWebhooksResponse listWebhooks(String accountId) throws DnsimpleException, IOException {
-    return listWebhooks(accountId, null);
-  }
+  public ListWebhooksResponse listWebhooks(String accountId) throws DnsimpleException, IOException;
 
   /**
    * Lists the webhooks in the account.
@@ -53,10 +41,7 @@ public class Webhooks {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public ListWebhooksResponse listWebhooks(String accountId, Map<String,Object> options) throws DnsimpleException, IOException {
-    HttpResponse response = client.get(accountId + "/webhooks", options);
-    return (ListWebhooksResponse)client.parseResponse(response, ListWebhooksResponse.class);
-  }
+  public ListWebhooksResponse listWebhooks(String accountId, Map<String,Object> options) throws DnsimpleException, IOException;
 
   /**
    * Get a specific webhook associated to an account using the webhook's ID.
@@ -69,10 +54,7 @@ public class Webhooks {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public GetWebhookResponse getWebhook(String accountId, String webhookId) throws DnsimpleException, IOException {
-    HttpResponse response = client.get(accountId + "/webhooks/" + webhookId);
-    return (GetWebhookResponse)client.parseResponse(response, GetWebhookResponse.class);
-  }
+  public GetWebhookResponse getWebhook(String accountId, String webhookId) throws DnsimpleException, IOException;
 
   /**
    * Create a webhook in the account.
@@ -85,10 +67,7 @@ public class Webhooks {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public CreateWebhookResponse createWebhook(String accountId, Map<String,Object> attributes) throws DnsimpleException, IOException {
-    HttpResponse response = client.post(accountId + "/webhooks", attributes);
-    return (CreateWebhookResponse)client.parseResponse(response, CreateWebhookResponse.class);
-  }
+  public CreateWebhookResponse createWebhook(String accountId, Map<String,Object> attributes) throws DnsimpleException, IOException;
 
   /**
    * Delete a webhook from the account.
@@ -101,8 +80,6 @@ public class Webhooks {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public DeleteWebhookResponse deleteWebhook(String accountId, String webhookId) throws DnsimpleException, IOException {
-    HttpResponse response = client.delete(accountId + "/webhooks/" + webhookId);
-    return (DeleteWebhookResponse)client.parseResponse(response, DeleteWebhookResponse.class);
-  }
+  public DeleteWebhookResponse deleteWebhook(String accountId, String webhookId) throws DnsimpleException, IOException;
+
 }

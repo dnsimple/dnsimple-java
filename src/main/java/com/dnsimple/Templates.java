@@ -28,12 +28,7 @@ import com.google.api.client.http.HttpResponseException;
  *
  * @see <a href="https://developer.dnsimple.com/v2/templates">https://developer.dnsimple.com/v2/templates</a>
  */
-public class Templates {
-  private Client client;
-
-  protected Templates(Client client) {
-    this.client = client;
-  }
+public interface Templates {
 
   /**
    * Lists the templates in the account.
@@ -45,9 +40,7 @@ public class Templates {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public ListTemplatesResponse listTemplates(String accountId) throws DnsimpleException, IOException {
-    return listTemplates(accountId, null);
-  }
+  public ListTemplatesResponse listTemplates(String accountId) throws DnsimpleException, IOException;
 
   /**
    * Lists the templates in the account.
@@ -60,10 +53,7 @@ public class Templates {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public ListTemplatesResponse listTemplates(String accountId, Map<String,Object> options) throws DnsimpleException, IOException {
-    HttpResponse response = client.get(accountId + "/templates", options);
-    return (ListTemplatesResponse)client.parseResponse(response, ListTemplatesResponse.class);
-  }
+  public ListTemplatesResponse listTemplates(String accountId, Map<String,Object> options) throws DnsimpleException, IOException;
 
   /**
    * Get a specific template associated to an account using the templates's ID.
@@ -76,10 +66,7 @@ public class Templates {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public GetTemplateResponse getTemplate(String accountId, String templateId) throws DnsimpleException, IOException {
-    HttpResponse response = client.get(accountId + "/templates/" + templateId);
-    return (GetTemplateResponse)client.parseResponse(response, GetTemplateResponse.class);
-  }
+  public GetTemplateResponse getTemplate(String accountId, String templateId) throws DnsimpleException, IOException;
 
   /**
    * Create a template in the account.
@@ -92,10 +79,7 @@ public class Templates {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public CreateTemplateResponse createTemplate(String accountId, Map<String,Object> attributes) throws DnsimpleException, IOException {
-    HttpResponse response = client.post(accountId + "/templates", attributes);
-    return (CreateTemplateResponse)client.parseResponse(response, CreateTemplateResponse.class);
-  }
+  public CreateTemplateResponse createTemplate(String accountId, Map<String,Object> attributes) throws DnsimpleException, IOException;
 
   /**
    * Update a template in the account.
@@ -109,10 +93,7 @@ public class Templates {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public UpdateTemplateResponse updateTemplate(String accountId, String templateId, Map<String,Object> attributes) throws DnsimpleException, IOException {
-    HttpResponse response = client.patch(accountId + "/templates/" + templateId, attributes);
-    return (UpdateTemplateResponse)client.parseResponse(response, UpdateTemplateResponse.class);
-  }
+  public UpdateTemplateResponse updateTemplate(String accountId, String templateId, Map<String,Object> attributes) throws DnsimpleException, IOException;
 
   /**
    * Delete a template from the account.
@@ -125,10 +106,7 @@ public class Templates {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public DeleteTemplateResponse deleteTemplate(String accountId, String templateId) throws DnsimpleException, IOException {
-    HttpResponse response = client.delete(accountId + "/templates/" + templateId);
-    return (DeleteTemplateResponse)client.parseResponse(response, DeleteTemplateResponse.class);
-  }
+  public DeleteTemplateResponse deleteTemplate(String accountId, String templateId) throws DnsimpleException, IOException;
 
   /**
    * Apply a template from the account to the domain
@@ -141,11 +119,7 @@ public class Templates {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public ApplyTemplateResponse applyTemplate(String accountId, String templateId, String domainId) throws DnsimpleException, IOException {
-    HttpResponse response = client.post(accountId + "/domains/" + domainId + "/templates/" + templateId);
-    return (ApplyTemplateResponse)client.parseResponse(response, ApplyTemplateResponse.class);
-  }
-
+  public ApplyTemplateResponse applyTemplate(String accountId, String templateId, String domainId) throws DnsimpleException, IOException;
 
   // Template records
 
@@ -160,9 +134,7 @@ public class Templates {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public ListTemplateRecordsResponse listTemplateRecords(String accountId, String templateId) throws DnsimpleException, IOException {
-    return listTemplateRecords(accountId, templateId, null);
-  }
+  public ListTemplateRecordsResponse listTemplateRecords(String accountId, String templateId) throws DnsimpleException, IOException;
 
   /**
    * Lists the records in the template.
@@ -176,10 +148,7 @@ public class Templates {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public ListTemplateRecordsResponse listTemplateRecords(String accountId, String templateId, Map<String,Object> options) throws DnsimpleException, IOException {
-    HttpResponse response = client.get(accountId + "/templates/" + templateId + "/records", options);
-    return (ListTemplateRecordsResponse)client.parseResponse(response, ListTemplateRecordsResponse.class);
-  }
+  public ListTemplateRecordsResponse listTemplateRecords(String accountId, String templateId, Map<String,Object> options) throws DnsimpleException, IOException;
 
   /**
    * Get a specific record associated to a template using the record's ID.
@@ -193,10 +162,7 @@ public class Templates {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public GetTemplateRecordResponse getTemplateRecord(String accountId, String templateId, String recordId) throws DnsimpleException, IOException {
-    HttpResponse response = client.get(accountId + "/templates/" + templateId + "/records/" + recordId);
-    return (GetTemplateRecordResponse)client.parseResponse(response, GetTemplateRecordResponse.class);
-  }
+  public GetTemplateRecordResponse getTemplateRecord(String accountId, String templateId, String recordId) throws DnsimpleException, IOException;
 
   /**
    * Create a record in the template.
@@ -210,10 +176,7 @@ public class Templates {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public CreateTemplateRecordResponse createTemplateRecord(String accountId, String templateId, Map<String,Object> attributes) throws DnsimpleException, IOException {
-    HttpResponse response = client.post(accountId + "/templates/" + templateId + "/records", attributes);
-    return (CreateTemplateRecordResponse)client.parseResponse(response, CreateTemplateRecordResponse.class);
-  }
+  public CreateTemplateRecordResponse createTemplateRecord(String accountId, String templateId, Map<String,Object> attributes) throws DnsimpleException, IOException;
 
   /**
    * Delete a record from the template.
@@ -227,8 +190,6 @@ public class Templates {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public DeleteTemplateRecordResponse deleteTemplateRecord(String accountId, String templateId, String recordId) throws DnsimpleException, IOException {
-    HttpResponse response = client.delete(accountId + "/templates/" + templateId + "/records/" + recordId);
-    return (DeleteTemplateRecordResponse)client.parseResponse(response, DeleteTemplateRecordResponse.class);
-  }
+  public DeleteTemplateRecordResponse deleteTemplateRecord(String accountId, String templateId, String recordId) throws DnsimpleException, IOException;
+
 }

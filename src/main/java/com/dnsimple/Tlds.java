@@ -1,30 +1,23 @@
 package com.dnsimple;
 
-import java.io.IOException;
-import java.util.Map;
-
 import com.dnsimple.response.ListTldsResponse;
 import com.dnsimple.response.GetTldResponse;
 import com.dnsimple.response.GetTldExtendedAttributesResponse;
-
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpResponseException;
 
+import java.io.IOException;
+import java.util.Map;
+
 /**
  * Provides access to the DNSimple TLDs API.
  *
  * @see <a href="https://developer.dnsimple.com/v2/tlds">https://developer.dnsimple.com/v2/tlds</a>
  */
-public class Tlds {
-
-  private Client client;
-
-  protected Tlds(Client client) {
-    this.client = client;
-  }
+public interface Tlds {
 
   /**
    * Lists supported TLDs for registration
@@ -35,9 +28,7 @@ public class Tlds {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public ListTldsResponse listTlds() throws DnsimpleException, IOException {
-    return listTlds(null);
-  }
+  public ListTldsResponse listTlds() throws DnsimpleException, IOException;
 
   /**
    * Lists supported TLDs for registration
@@ -49,10 +40,7 @@ public class Tlds {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public ListTldsResponse listTlds(Map<String,Object> options) throws DnsimpleException, IOException {
-    HttpResponse response = client.get("tlds", options);
-    return (ListTldsResponse)client.parseResponse(response, ListTldsResponse.class);
-  }
+  public ListTldsResponse listTlds(Map<String,Object> options) throws DnsimpleException, IOException;
 
   /**
    * Get details for a specific tld.
@@ -64,14 +52,7 @@ public class Tlds {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public GetTldResponse getTld(String tld) throws DnsimpleException, IOException {
-    try {
-      HttpResponse response = client.get("tlds/" + tld);
-      return (GetTldResponse)client.parseResponse(response, GetTldResponse.class);
-    } catch(HttpResponseException e) {
-      throw DnsimpleException.transformException(e);
-    }
-  }
+  public GetTldResponse getTld(String tld) throws DnsimpleException, IOException;
 
   /**
    * Get extended attributes for a TLD
@@ -83,10 +64,7 @@ public class Tlds {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public GetTldExtendedAttributesResponse getTldExtendedAttributes(String tld) throws DnsimpleException, IOException {
-    HttpResponse response = client.get("tlds/" + tld + "/extended_attributes");
-    return (GetTldExtendedAttributesResponse)client.parseResponse(response, GetTldExtendedAttributesResponse.class);
-  }
+  public GetTldExtendedAttributesResponse getTldExtendedAttributes(String tld) throws DnsimpleException, IOException;
 
 }
 
