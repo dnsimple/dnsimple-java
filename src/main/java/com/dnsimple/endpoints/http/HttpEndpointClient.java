@@ -1,4 +1,4 @@
-package com.dnsimple.endpoints;
+package com.dnsimple.endpoints.http;
 
 import com.dnsimple.Dnsimple;
 import com.dnsimple.request.Filter;

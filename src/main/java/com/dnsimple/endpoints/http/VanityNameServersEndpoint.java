@@ -1,4 +1,4 @@
-package com.dnsimple.endpoints;
+package com.dnsimple.endpoints.http;
 
 import com.dnsimple.VanityNameServers;
 import com.dnsimple.response.EnableVanityNameServersResponse;

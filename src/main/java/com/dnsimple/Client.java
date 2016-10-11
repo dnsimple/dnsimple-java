@@ -1,19 +1,19 @@
 package com.dnsimple;
 
-import com.dnsimple.endpoints.HttpEndpointClient;
-import com.dnsimple.endpoints.AccountsEndpoint;
-import com.dnsimple.endpoints.CertificatesEndpoint;
-import com.dnsimple.endpoints.ContactsEndpoint;
-import com.dnsimple.endpoints.DomainsEndpoint;
-import com.dnsimple.endpoints.IdentityEndpoint;
-import com.dnsimple.endpoints.OauthEndpoint;
-import com.dnsimple.endpoints.RegistrarEndpoint;
-import com.dnsimple.endpoints.ServicesEndpoint;
-import com.dnsimple.endpoints.TemplatesEndpoint;
-import com.dnsimple.endpoints.TldsEndpoint;
-import com.dnsimple.endpoints.VanityNameServersEndpoint;
-import com.dnsimple.endpoints.WebhooksEndpoint;
-import com.dnsimple.endpoints.ZonesEndpoint;
+import com.dnsimple.endpoints.http.HttpEndpointClient;
+import com.dnsimple.endpoints.http.AccountsEndpoint;
+import com.dnsimple.endpoints.http.CertificatesEndpoint;
+import com.dnsimple.endpoints.http.ContactsEndpoint;
+import com.dnsimple.endpoints.http.DomainsEndpoint;
+import com.dnsimple.endpoints.http.IdentityEndpoint;
+import com.dnsimple.endpoints.http.OauthEndpoint;
+import com.dnsimple.endpoints.http.RegistrarEndpoint;
+import com.dnsimple.endpoints.http.ServicesEndpoint;
+import com.dnsimple.endpoints.http.TemplatesEndpoint;
+import com.dnsimple.endpoints.http.TldsEndpoint;
+import com.dnsimple.endpoints.http.VanityNameServersEndpoint;
+import com.dnsimple.endpoints.http.WebhooksEndpoint;
+import com.dnsimple.endpoints.http.ZonesEndpoint;
 
 import com.google.api.client.http.HttpTransport;
 
