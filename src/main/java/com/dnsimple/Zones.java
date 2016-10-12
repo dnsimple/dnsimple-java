@@ -9,10 +9,6 @@ import com.dnsimple.response.CreateZoneRecordResponse;
 import com.dnsimple.response.UpdateZoneRecordResponse;
 import com.dnsimple.response.DeleteZoneRecordResponse;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.exception.ResourceNotFoundException;
-
-import com.google.api.client.http.HttpResponse;
-import com.google.api.client.http.HttpResponseException;
 
 import java.io.IOException;
 import java.util.Map;
@@ -23,8 +19,6 @@ import java.util.Map;
  * @see <a href="https://developer.dnsimple.com/v2/zones">https://developer.dnsimple.com/v2/zones</a>
  */
 public interface Zones {
-
-  // Domains
 
   /**
    * Lists the zones in the account.

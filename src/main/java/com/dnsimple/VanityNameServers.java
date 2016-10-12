@@ -4,12 +4,7 @@ import com.dnsimple.response.EnableVanityNameServersResponse;
 import com.dnsimple.response.DisableVanityNameServersResponse;
 import com.dnsimple.exception.DnsimpleException;
 
-import com.google.api.client.http.HttpResponse;
-
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
 
 /**
  * Provides access to the  DNSimple Vanity Name Server API

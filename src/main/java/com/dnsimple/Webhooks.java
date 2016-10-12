@@ -1,6 +1,5 @@
 package com.dnsimple;
 
-import com.dnsimple.Webhooks;
 import com.dnsimple.response.ListWebhooksResponse;
 import com.dnsimple.response.GetWebhookResponse;
 import com.dnsimple.response.CreateWebhookResponse;
@@ -8,13 +7,8 @@ import com.dnsimple.response.DeleteWebhookResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
-import com.google.api.client.http.HttpResponse;
-import com.google.api.client.http.HttpResponseException;
-
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 public interface Webhooks {
 

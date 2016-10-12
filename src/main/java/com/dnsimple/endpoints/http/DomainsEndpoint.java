@@ -167,7 +167,7 @@ public class DomainsEndpoint implements Domains {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public ListEmailForwardsResponse listEmailForwards(String accountId, String domainId, HashMap<String,Object> options) throws DnsimpleException, IOException {
+  public ListEmailForwardsResponse listEmailForwards(String accountId, String domainId, Map<String,Object> options) throws DnsimpleException, IOException {
     HttpResponse response = client.get(accountId + "/domains/" + domainId + "/email_forwards", options);
     return (ListEmailForwardsResponse)client.parseResponse(response, ListEmailForwardsResponse.class);
   }
@@ -271,7 +271,7 @@ public class DomainsEndpoint implements Domains {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public ListPushesResponse listPushes(String accountId, String domainId, HashMap<String,Object> options) throws DnsimpleException, IOException {
+  public ListPushesResponse listPushes(String accountId, String domainId, Map<String,Object> options) throws DnsimpleException, IOException {
     HttpResponse response = client.get(accountId + "/domains/" + domainId + "/pushes", options);
     return (ListPushesResponse)client.parseResponse(response, ListPushesResponse.class);
   }

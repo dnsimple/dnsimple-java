@@ -80,4 +80,5 @@ public interface Certificates {
    * @throws IOException Any IO errors
    */
   public GetCertificatePrivateKeyResponse getCertificatePrivateKey(String accountId, String domainId, String certificateId) throws DnsimpleException, IOException;
+
 }

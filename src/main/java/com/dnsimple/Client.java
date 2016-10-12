@@ -1,5 +1,7 @@
 package com.dnsimple;
 
+import com.dnsimple.endpoints.EndpointAdapter;
+import com.dnsimple.endpoints.http.HttpEndpointAdapter;
 import com.dnsimple.endpoints.http.HttpEndpointClient;
 import com.dnsimple.endpoints.http.AccountsEndpoint;
 import com.dnsimple.endpoints.http.CertificatesEndpoint;
@@ -39,7 +41,7 @@ public class Client {
   private HttpEndpointClient endpointClient;
 
   /**
-   * Construct a new API client.
+   * Construct a new API client with the default HTTP endpoint adapter.
    *
    * Once you have a client instance, use the public properties such as `accounts` or `domains`
    * to communicate with the remote API.
@@ -51,20 +53,49 @@ public class Client {
    */
   public Client() {
     this.endpointClient = new HttpEndpointClient();
+    EndpointAdapter adapter = new HttpEndpointAdapter(endpointClient);
 
-    this.accounts = new AccountsEndpoint(endpointClient);
-    this.certificates = new CertificatesEndpoint(endpointClient);
-    this.contacts = new ContactsEndpoint(endpointClient);
-    this.domains = new DomainsEndpoint(endpointClient);
-    this.identity = new IdentityEndpoint(endpointClient);
-    this.oauth = new OauthEndpoint(endpointClient);
-    this.registrar = new RegistrarEndpoint(endpointClient);
-    this.services = new ServicesEndpoint(endpointClient);
-    this.templates = new TemplatesEndpoint(endpointClient);
-    this.tlds = new TldsEndpoint(endpointClient);
-    this.vanityNameServers = new VanityNameServersEndpoint(endpointClient);
-    this.webhooks = new WebhooksEndpoint(endpointClient);
-    this.zones = new ZonesEndpoint(endpointClient);
+    this.accounts = adapter.accounts();
+    this.certificates = adapter.certificates();
+    this.contacts = adapter.contacts();
+    this.domains = adapter.domains();
+    this.identity = adapter.identity();
+    this.oauth = adapter.oauth();
+    this.registrar = adapter.registrar();
+    this.services = adapter.services();
+    this.templates = adapter.templates();
+    this.tlds = adapter.tlds();
+    this.vanityNameServers = adapter.vanityNameServers();
+    this.webhooks = adapter.webhooks();
+    this.zones = adapter.zones();
+  }
+
+  /**
+   * Construct a new API client with the given endpoint adapter.
+   *
+   * Once you have a client instance, use the public properties such as `accounts` or `domains`
+   * to communicate with the remote API.
+   *
+   * For example:
+   *
+   * EndpointAdapter adapter = new TestEndpointAdapter();
+   * Client client = new Client(adapter);
+   * WhoamiResponse response = client.accounts.whoami();
+   */
+  public Client(EndpointAdapter adapter) {
+    this.accounts = adapter.accounts();
+    this.certificates = adapter.certificates();
+    this.contacts = adapter.contacts();
+    this.domains = adapter.domains();
+    this.identity = adapter.identity();
+    this.oauth = adapter.oauth();
+    this.registrar = adapter.registrar();
+    this.services = adapter.services();
+    this.templates = adapter.templates();
+    this.tlds = adapter.tlds();
+    this.vanityNameServers = adapter.vanityNameServers();
+    this.webhooks = adapter.webhooks();
+    this.zones = adapter.zones();
   }
 
   /**

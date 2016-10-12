@@ -4,10 +4,6 @@ import com.dnsimple.response.ListTldsResponse;
 import com.dnsimple.response.GetTldResponse;
 import com.dnsimple.response.GetTldExtendedAttributesResponse;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.exception.ResourceNotFoundException;
-
-import com.google.api.client.http.HttpResponse;
-import com.google.api.client.http.HttpResponseException;
 
 import java.io.IOException;
 import java.util.Map;

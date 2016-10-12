@@ -3,8 +3,6 @@ package com.dnsimple;
 import com.dnsimple.response.WhoamiResponse;
 import com.dnsimple.exception.DnsimpleException;
 
-import com.google.api.client.http.HttpResponse;
-
 import java.io.IOException;
 
 /**

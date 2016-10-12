@@ -1,31 +1,22 @@
 package com.dnsimple;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-
 import com.dnsimple.response.ListDomainsResponse;
 import com.dnsimple.response.GetDomainResponse;
 import com.dnsimple.response.CreateDomainResponse;
 import com.dnsimple.response.DeleteDomainResponse;
 import com.dnsimple.response.ResetDomainTokenResponse;
-
 import com.dnsimple.response.ListEmailForwardsResponse;
 import com.dnsimple.response.GetEmailForwardResponse;
 import com.dnsimple.response.CreateEmailForwardResponse;
 import com.dnsimple.response.DeleteEmailForwardResponse;
-
 import com.dnsimple.response.InitiatePushResponse;
 import com.dnsimple.response.ListPushesResponse;
 import com.dnsimple.response.AcceptPushResponse;
 import com.dnsimple.response.RejectPushResponse;
-
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.exception.ResourceNotFoundException;
 
-import com.google.api.client.http.HttpResponse;
-import com.google.api.client.http.HttpResponseException;
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * Provides access to the DNSimple Domains API.
@@ -142,7 +133,7 @@ public interface Domains {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public ListEmailForwardsResponse listEmailForwards(String accountId, String domainId, HashMap<String,Object> options) throws DnsimpleException, IOException;
+  public ListEmailForwardsResponse listEmailForwards(String accountId, String domainId, Map<String,Object> options) throws DnsimpleException, IOException;
 
   /**
    * Get a specific email forward associated to a domain using the email forward's ID.
@@ -229,7 +220,7 @@ public interface Domains {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public ListPushesResponse listPushes(String accountId, String domainId, HashMap<String,Object> options) throws DnsimpleException, IOException;
+  public ListPushesResponse listPushes(String accountId, String domainId, Map<String,Object> options) throws DnsimpleException, IOException;
 
   /**
    * Accept a push.

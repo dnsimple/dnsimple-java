@@ -1,27 +1,19 @@
 package com.dnsimple;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-
 import com.dnsimple.response.ListTemplatesResponse;
 import com.dnsimple.response.GetTemplateResponse;
 import com.dnsimple.response.CreateTemplateResponse;
 import com.dnsimple.response.UpdateTemplateResponse;
 import com.dnsimple.response.DeleteTemplateResponse;
 import com.dnsimple.response.ApplyTemplateResponse;
-
 import com.dnsimple.response.ListTemplateRecordsResponse;
 import com.dnsimple.response.GetTemplateRecordResponse;
 import com.dnsimple.response.CreateTemplateRecordResponse;
 import com.dnsimple.response.DeleteTemplateRecordResponse;
-
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.exception.ResourceNotFoundException;
 
-import com.google.api.client.http.HttpResponse;
-import com.google.api.client.http.HttpResponseException;
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * Provides access to the DNSimple Templates API.

@@ -7,12 +7,8 @@ import com.dnsimple.response.ApplyServiceResponse;
 import com.dnsimple.response.UnapplyServiceResponse;
 import com.dnsimple.exception.DnsimpleException;
 
-import com.google.api.client.http.HttpResponse;
-
 import java.io.IOException;
 import java.util.Map;
-import java.util.List;
-import java.util.HashMap;
 
 /**
  * Provides access to the DNSimple one-click Services API.
