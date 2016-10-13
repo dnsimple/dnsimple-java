@@ -9,8 +9,6 @@ public class Account {
   @Key("email")
   private String email;
 
-  public Account() {}
-
   public Integer getId() {
     return id;
   }
