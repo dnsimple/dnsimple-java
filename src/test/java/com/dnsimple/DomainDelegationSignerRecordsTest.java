@@ -5,6 +5,7 @@ import com.dnsimple.data.Pagination;
 import com.dnsimple.request.Filter;
 import com.dnsimple.response.ListDelegationSignerRecordsResponse;
 import com.dnsimple.response.GetDelegationSignerRecordResponse;
+import com.dnsimple.response.CreateDelegationSignerRecordResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
@@ -110,6 +111,23 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
     String dsRecordId = "0";
 
     client.domains.getDelegationSignerRecord(accountId, domainId, dsRecordId);
+  }
+
+  @Test
+  public void testCreateDelegationSignerRecordProducesDelegationSignerRecord() throws DnsimpleException, IOException {
+    Client client = mockClient(resource("createDelegationSignerRecord/created.http"));
+
+    String accountId = "1";
+    String domainId = "example.com";
+    HashMap<String, Object> attributes = new HashMap<String, Object>();
+    attributes.put("algorithm", "13");
+    attributes.put("digest", "684a1f049d7d082b7f98691657da5a65764913df7f065f6f8c36edf62d66ca03");
+    attributes.put("digest_type", "2");
+    attributes.put("keytag", "2371");
+
+    CreateDelegationSignerRecordResponse response = client.domains.createDelegationSignerRecord(accountId, domainId, attributes);
+    DelegationSignerRecord dsRecord = response.getData();
+    assertEquals(2, dsRecord.getId().intValue());
   }
 
 }

@@ -13,6 +13,7 @@ import com.dnsimple.response.GetDnssecResponse;
 
 import com.dnsimple.response.ListDelegationSignerRecordsResponse;
 import com.dnsimple.response.GetDelegationSignerRecordResponse;
+import com.dnsimple.response.CreateDelegationSignerRecordResponse;
 
 import com.dnsimple.response.ListEmailForwardsResponse;
 import com.dnsimple.response.GetEmailForwardResponse;
@@ -242,6 +243,23 @@ public class DomainsEndpoint implements Domains {
   public GetDelegationSignerRecordResponse getDelegationSignerRecord(String accountId, String domainId, String dsRecordId) throws DnsimpleException, IOException {
     HttpResponse response = client.get(accountId + "/domains/" + domainId + "/ds_records/" + dsRecordId);
     return (GetDelegationSignerRecordResponse)client.parseResponse(response, GetDelegationSignerRecordResponse.class);
+  }
+
+  /**
+   * Create a delegation signer record for a domain.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-create">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-create</a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain name or ID
+   * @param attributes A Map of attributes for constructing the delegation signer record
+   * @return The create delegation signer record response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public CreateDelegationSignerRecordResponse createDelegationSignerRecord(String accountId, String domainId, Map<String,Object> attributes) throws DnsimpleException, IOException {
+    HttpResponse response = client.post(accountId + "/domains/" + domainId + "/ds_records", attributes);
+    return (CreateDelegationSignerRecordResponse)client.parseResponse(response, CreateDelegationSignerRecordResponse.class);
   }
 
   // Email Forwards
