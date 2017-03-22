@@ -3,6 +3,7 @@ package com.dnsimple;
 import com.dnsimple.data.Dnssec;
 import com.dnsimple.response.EnableDnssecResponse;
 import com.dnsimple.response.DisableDnssecResponse;
+import com.dnsimple.response.GetDnssecResponse;
 import com.dnsimple.exception.DnsimpleException;
 
 import junit.framework.Assert;
@@ -56,5 +57,18 @@ public class DomainDnssecTest extends DnsimpleTestBase {
     } catch (DnsimpleException e) {
       assertEquals(428, e.getStatusCode().intValue());
     }
+  }
+
+  @Test
+  public void testGetDnssec() throws DnsimpleException, IOException {
+    Client client = mockClient(resource("getDnssec/success.http"));
+
+    String accountId = "1";
+    String domainId = "example.com";
+
+    GetDnssecResponse response = client.domains.getDnssec(accountId, domainId);
+
+    Dnssec dnssec = response.getData();
+    assertEquals(true, dnssec.getEnabled().booleanValue());
   }
 }
