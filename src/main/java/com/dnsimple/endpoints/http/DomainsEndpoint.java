@@ -14,6 +14,7 @@ import com.dnsimple.response.GetDnssecResponse;
 import com.dnsimple.response.ListDelegationSignerRecordsResponse;
 import com.dnsimple.response.GetDelegationSignerRecordResponse;
 import com.dnsimple.response.CreateDelegationSignerRecordResponse;
+import com.dnsimple.response.DeleteDelegationSignerRecordResponse;
 
 import com.dnsimple.response.ListEmailForwardsResponse;
 import com.dnsimple.response.GetEmailForwardResponse;
@@ -260,6 +261,25 @@ public class DomainsEndpoint implements Domains {
   public CreateDelegationSignerRecordResponse createDelegationSignerRecord(String accountId, String domainId, Map<String,Object> attributes) throws DnsimpleException, IOException {
     HttpResponse response = client.post(accountId + "/domains/" + domainId + "/ds_records", attributes);
     return (CreateDelegationSignerRecordResponse)client.parseResponse(response, CreateDelegationSignerRecordResponse.class);
+  }
+
+  /**
+   * Delete a delegation signer record from a domain.
+   *
+   * WARNING: this cannot be undone.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-delete">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-delete</a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain ID or name
+   * @param dsRecordId The delegation signer record ID
+   * @return The delete delegation signer record response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public DeleteDelegationSignerRecordResponse deleteDelegationSignerRecord(String accountId, String domainId, String dsRecordId) throws DnsimpleException, IOException {
+    HttpResponse response = client.delete(accountId + "/domains/" + domainId + "/ds_records/" + dsRecordId);
+    return (DeleteDelegationSignerRecordResponse)client.parseResponse(response, DeleteDelegationSignerRecordResponse.class);
   }
 
   // Email Forwards

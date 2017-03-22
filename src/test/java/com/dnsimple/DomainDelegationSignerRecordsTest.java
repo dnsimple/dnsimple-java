@@ -6,6 +6,7 @@ import com.dnsimple.request.Filter;
 import com.dnsimple.response.ListDelegationSignerRecordsResponse;
 import com.dnsimple.response.GetDelegationSignerRecordResponse;
 import com.dnsimple.response.CreateDelegationSignerRecordResponse;
+import com.dnsimple.response.DeleteDelegationSignerRecordResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
@@ -128,6 +129,18 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
     CreateDelegationSignerRecordResponse response = client.domains.createDelegationSignerRecord(accountId, domainId, attributes);
     DelegationSignerRecord dsRecord = response.getData();
     assertEquals(2, dsRecord.getId().intValue());
+  }
+
+    @Test
+  public void testDeleteDelegationSignerRecord() throws DnsimpleException, IOException {
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1/domains/example.com/ds_records/24", HttpMethods.DELETE, resource("deleteDelegationSignerRecord/success.http"));
+
+    String accountId = "1";
+    String domainId = "example.com";
+    String dsRecordId = "24";
+
+    DeleteDelegationSignerRecordResponse response = client.domains.deleteDelegationSignerRecord(accountId, domainId, dsRecordId);
+    assertEquals(null, response.getData());
   }
 
 }
