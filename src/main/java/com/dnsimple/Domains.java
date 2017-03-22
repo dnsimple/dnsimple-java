@@ -5,6 +5,7 @@ import com.dnsimple.response.GetDomainResponse;
 import com.dnsimple.response.CreateDomainResponse;
 import com.dnsimple.response.DeleteDomainResponse;
 import com.dnsimple.response.ResetDomainTokenResponse;
+import com.dnsimple.response.EnableDnssecResponse;
 import com.dnsimple.response.ListEmailForwardsResponse;
 import com.dnsimple.response.GetEmailForwardResponse;
 import com.dnsimple.response.CreateEmailForwardResponse;
@@ -105,6 +106,21 @@ public interface Domains {
    * @throws IOException Any IO errors
    */
   public ResetDomainTokenResponse resetDomainToken(String accountId, String domainId) throws DnsimpleException, IOException;
+
+  // DNSSEC
+
+  /**
+   * Enables DNSSEC on the domain.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#enable">https://developer.dnsimple.com/v2/domains/dnssec/#enable</a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain ID or name
+   * @return The DNSSEC enable response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public EnableDnssecResponse enableDnssec(String accountId, String domainId) throws DnsimpleException, IOException;
 
   // Email Forwards
 
