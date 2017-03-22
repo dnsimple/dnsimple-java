@@ -8,6 +8,7 @@ import com.dnsimple.response.DeleteDomainResponse;
 import com.dnsimple.response.ResetDomainTokenResponse;
 
 import com.dnsimple.response.EnableDnssecResponse;
+import com.dnsimple.response.DisableDnssecResponse;
 
 import com.dnsimple.response.ListEmailForwardsResponse;
 import com.dnsimple.response.GetEmailForwardResponse;
@@ -154,6 +155,22 @@ public class DomainsEndpoint implements Domains {
   public EnableDnssecResponse enableDnssec(String accountId, String domainId) throws DnsimpleException, IOException {
     HttpResponse response = client.post(accountId + "/domains/" + domainId + "/dnssec");
     return (EnableDnssecResponse)client.parseResponse(response, EnableDnssecResponse.class);
+  }
+
+  /**
+   * Disable DNSSEC on the domain.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#disable">https://developer.dnsimple.com/v2/domains/dnssec/#disable</a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain ID or name
+   * @return The DNSSEC disable response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public DisableDnssecResponse disableDnssec(String accountId, String domainId) throws DnsimpleException, IOException {
+    HttpResponse response = client.delete(accountId + "/domains/" + domainId + "/dnssec");
+    return (DisableDnssecResponse)client.parseResponse(response, DisableDnssecResponse.class);
   }
 
   // Email Forwards
