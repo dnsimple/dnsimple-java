@@ -19,6 +19,14 @@ public class DnsimpleException extends Exception {
     this.statusCode = statusCode;
   }
 
+  public String getRequestId() {
+    return requestId;
+  }
+
+  public Integer getStatusCode() {
+    return statusCode;
+  }
+
   /**
    * Transform an HttpResponseException into a DnsimpleException.
    *

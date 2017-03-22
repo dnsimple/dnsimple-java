@@ -7,6 +7,15 @@ import com.dnsimple.response.CreateDomainResponse;
 import com.dnsimple.response.DeleteDomainResponse;
 import com.dnsimple.response.ResetDomainTokenResponse;
 
+import com.dnsimple.response.EnableDnssecResponse;
+import com.dnsimple.response.DisableDnssecResponse;
+import com.dnsimple.response.GetDnssecResponse;
+
+import com.dnsimple.response.ListDelegationSignerRecordsResponse;
+import com.dnsimple.response.GetDelegationSignerRecordResponse;
+import com.dnsimple.response.CreateDelegationSignerRecordResponse;
+import com.dnsimple.response.DeleteDelegationSignerRecordResponse;
+
 import com.dnsimple.response.ListEmailForwardsResponse;
 import com.dnsimple.response.GetEmailForwardResponse;
 import com.dnsimple.response.CreateEmailForwardResponse;
@@ -136,6 +145,141 @@ public class DomainsEndpoint implements Domains {
   public ResetDomainTokenResponse resetDomainToken(String accountId, String domainId) throws DnsimpleException, IOException {
     HttpResponse response = client.post(accountId + "/domains/" + domainId);
     return (ResetDomainTokenResponse)client.parseResponse(response, ResetDomainTokenResponse.class);
+  }
+
+  /**
+   * Enables DNSSEC on the domain.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#enable">https://developer.dnsimple.com/v2/domains/dnssec/#enable</a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain ID or name
+   * @return The DNSSEC enable response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public EnableDnssecResponse enableDnssec(String accountId, String domainId) throws DnsimpleException, IOException {
+    HttpResponse response = client.post(accountId + "/domains/" + domainId + "/dnssec");
+    return (EnableDnssecResponse)client.parseResponse(response, EnableDnssecResponse.class);
+  }
+
+  /**
+   * Disable DNSSEC on the domain.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#disable">https://developer.dnsimple.com/v2/domains/dnssec/#disable</a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain ID or name
+   * @return The DNSSEC disable response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public DisableDnssecResponse disableDnssec(String accountId, String domainId) throws DnsimpleException, IOException {
+    HttpResponse response = client.delete(accountId + "/domains/" + domainId + "/dnssec");
+    return (DisableDnssecResponse)client.parseResponse(response, DisableDnssecResponse.class);
+  }
+
+    /**
+   * Get DNSSEC status of the domain.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#get">https://developer.dnsimple.com/v2/domains/dnssec/#get</a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain ID or name
+   * @return The get DNSSEC response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public GetDnssecResponse getDnssec(String accountId, String domainId) throws DnsimpleException, IOException {
+    HttpResponse response = client.get(accountId + "/domains/" + domainId + "/dnssec");
+    return (GetDnssecResponse)client.parseResponse(response, GetDnssecResponse.class);
+  }
+
+  // Delegation Signer Records
+  
+  /**
+   * Lists the delegation signer records in the domain.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list</a>
+   *
+   * @param accountId The account ID
+   * @param doaminId The domain ID or name
+   * @return The list delegation signer records response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public ListDelegationSignerRecordsResponse listDelegationSignerRecords(String accountId, String domainId) throws DnsimpleException, IOException {
+    return listDelegationSignerRecords(accountId, domainId, null);
+  }
+
+  /**
+   * Lists the delegation signer records in the domain.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list</a>
+   *
+   * @param accountId The account ID
+   * @param doaminId The domain ID or name
+   * @param options A Map of options to send to the API
+   * @return The list delegation signer records response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public ListDelegationSignerRecordsResponse listDelegationSignerRecords(String accountId, String domainId, Map<String,Object> options) throws DnsimpleException, IOException {
+    HttpResponse response = client.get(accountId + "/domains/" + domainId + "/ds_records", options);
+    return (ListDelegationSignerRecordsResponse)client.parseResponse(response, ListDelegationSignerRecordsResponse.class);
+  }
+
+  /**
+   * Get a delegation signer record for a domain using the delegation signer records's ID.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-get">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-get</a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain name or ID
+   * @param dsRecordId The delegation signer record ID
+   * @return The get delegation signer record response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public GetDelegationSignerRecordResponse getDelegationSignerRecord(String accountId, String domainId, String dsRecordId) throws DnsimpleException, IOException {
+    HttpResponse response = client.get(accountId + "/domains/" + domainId + "/ds_records/" + dsRecordId);
+    return (GetDelegationSignerRecordResponse)client.parseResponse(response, GetDelegationSignerRecordResponse.class);
+  }
+
+  /**
+   * Create a delegation signer record for a domain.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-create">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-create</a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain name or ID
+   * @param attributes A Map of attributes for constructing the delegation signer record
+   * @return The create delegation signer record response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public CreateDelegationSignerRecordResponse createDelegationSignerRecord(String accountId, String domainId, Map<String,Object> attributes) throws DnsimpleException, IOException {
+    HttpResponse response = client.post(accountId + "/domains/" + domainId + "/ds_records", attributes);
+    return (CreateDelegationSignerRecordResponse)client.parseResponse(response, CreateDelegationSignerRecordResponse.class);
+  }
+
+  /**
+   * Delete a delegation signer record from a domain.
+   *
+   * WARNING: this cannot be undone.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-delete">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-delete</a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain ID or name
+   * @param dsRecordId The delegation signer record ID
+   * @return The delete delegation signer record response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public DeleteDelegationSignerRecordResponse deleteDelegationSignerRecord(String accountId, String domainId, String dsRecordId) throws DnsimpleException, IOException {
+    HttpResponse response = client.delete(accountId + "/domains/" + domainId + "/ds_records/" + dsRecordId);
+    return (DeleteDelegationSignerRecordResponse)client.parseResponse(response, DeleteDelegationSignerRecordResponse.class);
   }
 
   // Email Forwards
