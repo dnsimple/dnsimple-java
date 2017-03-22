@@ -8,6 +8,7 @@ import com.dnsimple.response.ResetDomainTokenResponse;
 import com.dnsimple.response.EnableDnssecResponse;
 import com.dnsimple.response.DisableDnssecResponse;
 import com.dnsimple.response.GetDnssecResponse;
+import com.dnsimple.response.ListDelegationSignerRecordsResponse;
 import com.dnsimple.response.ListEmailForwardsResponse;
 import com.dnsimple.response.GetEmailForwardResponse;
 import com.dnsimple.response.CreateEmailForwardResponse;
@@ -149,6 +150,35 @@ public interface Domains {
    * @throws IOException Any IO errors
    */
   public GetDnssecResponse getDnssec(String accountId, String domainId) throws DnsimpleException, IOException;
+
+  // Delegation Signer Records
+
+  /**
+   * Lists the delegation signer records in the domain.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list</a>
+   *
+   * @param accountId The account ID
+   * @param doaminId The domain ID or name
+   * @return The list delegation signer records response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public ListDelegationSignerRecordsResponse listDelegationSignerRecords(String accountId, String domainId) throws DnsimpleException, IOException;
+
+    /**
+   * Lists the delegation signer records in the domain.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list</a>
+   *
+   * @param accountId The account ID
+   * @param doaminId The domain ID or name
+   * @param options A Map of options to send to the API
+   * @return The list delegation signer records response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public ListDelegationSignerRecordsResponse listDelegationSignerRecords(String accountId, String domainId, Map<String,Object> options) throws DnsimpleException, IOException;
 
   // Email Forwards
 
