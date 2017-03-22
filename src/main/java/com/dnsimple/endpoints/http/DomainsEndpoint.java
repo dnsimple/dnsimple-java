@@ -12,6 +12,7 @@ import com.dnsimple.response.DisableDnssecResponse;
 import com.dnsimple.response.GetDnssecResponse;
 
 import com.dnsimple.response.ListDelegationSignerRecordsResponse;
+import com.dnsimple.response.GetDelegationSignerRecordResponse;
 
 import com.dnsimple.response.ListEmailForwardsResponse;
 import com.dnsimple.response.GetEmailForwardResponse;
@@ -226,6 +227,22 @@ public class DomainsEndpoint implements Domains {
     return (ListDelegationSignerRecordsResponse)client.parseResponse(response, ListDelegationSignerRecordsResponse.class);
   }
 
+  /**
+   * Get a delegation signer record for a domain using the delegation signer records's ID.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-get">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-get</a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain name or ID
+   * @param dsRecordId The delegation signer record ID
+   * @return The get delegation signer record response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public GetDelegationSignerRecordResponse getDelegationSignerRecord(String accountId, String domainId, String dsRecordId) throws DnsimpleException, IOException {
+    HttpResponse response = client.get(accountId + "/domains/" + domainId + "/ds_records/" + dsRecordId);
+    return (GetDelegationSignerRecordResponse)client.parseResponse(response, GetDelegationSignerRecordResponse.class);
+  }
 
   // Email Forwards
 

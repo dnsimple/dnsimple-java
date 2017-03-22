@@ -4,6 +4,7 @@ import com.dnsimple.data.DelegationSignerRecord;
 import com.dnsimple.data.Pagination;
 import com.dnsimple.request.Filter;
 import com.dnsimple.response.ListDelegationSignerRecordsResponse;
+import com.dnsimple.response.GetDelegationSignerRecordResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
@@ -77,6 +78,38 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
 
     Pagination pagination = response.getPagination();
     assertEquals(1, pagination.getCurrentPage().intValue());
+  }
+
+  @Test
+  public void testGetDelegationSignerRecord() throws DnsimpleException, IOException {
+    Client client = mockClient(resource("getDelegationSignerRecord/success.http"));
+
+    String accountId = "1";
+    String domainId = "example.com";
+    String dsRecordId = "24";
+
+    GetDelegationSignerRecordResponse response = client.domains.getDelegationSignerRecord(accountId, domainId, dsRecordId);
+
+    DelegationSignerRecord dsRecord = response.getData();
+    assertEquals(24, dsRecord.getId().intValue());
+    assertEquals(1010, dsRecord.getDomainId().intValue());
+    assertEquals("8", dsRecord.getAlgorithm());
+    assertEquals("C1F6E04A5A61FBF65BF9DC8294C363CF11C89E802D926BDAB79C55D27BEFA94F", dsRecord.getDigest());
+    assertEquals("2", dsRecord.getDigestType());
+    assertEquals("44620", dsRecord.getKeytag());
+    assertEquals("2017-03-03T13:49:58Z", dsRecord.getCreatedAt());
+    assertEquals("2017-03-03T13:49:58Z", dsRecord.getUpdatedAt());
+  }
+
+  @Test(expected=ResourceNotFoundException.class)
+  public void testGetDelegationSignerRecordWhenNotFound() throws DnsimpleException, IOException {
+    Client client = mockClient(resource("notfound-delegationSignerRecord.http"));
+
+    String accountId = "1";
+    String domainId = "example.com";
+    String dsRecordId = "0";
+
+    client.domains.getDelegationSignerRecord(accountId, domainId, dsRecordId);
   }
 
 }

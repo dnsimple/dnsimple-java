@@ -9,6 +9,7 @@ import com.dnsimple.response.EnableDnssecResponse;
 import com.dnsimple.response.DisableDnssecResponse;
 import com.dnsimple.response.GetDnssecResponse;
 import com.dnsimple.response.ListDelegationSignerRecordsResponse;
+import com.dnsimple.response.GetDelegationSignerRecordResponse;
 import com.dnsimple.response.ListEmailForwardsResponse;
 import com.dnsimple.response.GetEmailForwardResponse;
 import com.dnsimple.response.CreateEmailForwardResponse;
@@ -166,7 +167,7 @@ public interface Domains {
    */
   public ListDelegationSignerRecordsResponse listDelegationSignerRecords(String accountId, String domainId) throws DnsimpleException, IOException;
 
-    /**
+  /**
    * Lists the delegation signer records in the domain.
    *
    * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list</a>
@@ -179,6 +180,20 @@ public interface Domains {
    * @throws IOException Any IO errors
    */
   public ListDelegationSignerRecordsResponse listDelegationSignerRecords(String accountId, String domainId, Map<String,Object> options) throws DnsimpleException, IOException;
+
+  /**
+   * Get a delegation signer record for a domain using the delegation signer records's ID.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-get">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-get</a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain name or ID
+   * @param dsRecordId The delegation signer record ID
+   * @return The get delegation signer record response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public GetDelegationSignerRecordResponse getDelegationSignerRecord(String accountId, String domainId, String dsRecordId) throws DnsimpleException, IOException;
 
   // Email Forwards
 
