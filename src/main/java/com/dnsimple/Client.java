@@ -81,6 +81,8 @@ public class Client {
    * EndpointAdapter adapter = new TestEndpointAdapter();
    * Client client = new Client(adapter);
    * WhoamiResponse response = client.accounts.whoami();
+   *
+   * @param adapter The endpoint adapter to use in the client.
    */
   public Client(EndpointAdapter adapter) {
     this.accounts = adapter.accounts();

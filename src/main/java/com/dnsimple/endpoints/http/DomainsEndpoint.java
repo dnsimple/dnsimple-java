@@ -203,7 +203,7 @@ public class DomainsEndpoint implements Domains {
    * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list</a>
    *
    * @param accountId The account ID
-   * @param doaminId The domain ID or name
+   * @param domainId The domain ID or name
    * @return The list delegation signer records response
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
@@ -218,7 +218,7 @@ public class DomainsEndpoint implements Domains {
    * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list</a>
    *
    * @param accountId The account ID
-   * @param doaminId The domain ID or name
+   * @param domainId The domain ID or name
    * @param options A Map of options to send to the API
    * @return The list delegation signer records response
    * @throws DnsimpleException Any API errors
