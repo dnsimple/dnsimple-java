@@ -9,6 +9,13 @@ public class Account {
   @Key("email")
   private String email;
 
+  public Account() {
+  }
+
+  public Account(Integer id) {
+    this.id = id;
+  }
+
   public Integer getId() {
     return id;
   }

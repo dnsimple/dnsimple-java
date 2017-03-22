@@ -8,7 +8,15 @@ public class Whoami {
   @Key("user")
   private User user;
 
-  public Whoami() { }
+  public Whoami() {}
+
+  public Whoami(Account account) {
+    this.account = account;
+  }
+
+  public Whoami(User user) {
+    this.user = user;
+  }
 
   public Account getAccount() {
     return account;
