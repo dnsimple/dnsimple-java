@@ -1,28 +1,17 @@
 package com.dnsimple;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-
 import com.dnsimple.response.EnableVanityNameServersResponse;
 import com.dnsimple.response.DisableVanityNameServersResponse;
-
 import com.dnsimple.exception.DnsimpleException;
 
-import com.google.api.client.http.HttpResponse;
+import java.io.IOException;
 
 /**
  * Provides access to the  DNSimple Vanity Name Server API
  *
  * @see <a href="https://developer.dnsimple.com/v2/domains/vanity">https://developer.dnsimple.com/v2/domains/vanity</a>
  */
-public class VanityNameServers {
-  private Client client;
-
-  protected VanityNameServers(Client client) {
-    this.client = client;
-  }
+public interface VanityNameServers {
 
   /**
    * Enable vanity name servers for the domain
@@ -34,10 +23,7 @@ public class VanityNameServers {
    * @throws DnsimpleException Any API error
    * @throws IOException Any IO error
    */
-  public EnableVanityNameServersResponse enableVanityNameServers(String accountId, String domainId) throws DnsimpleException, IOException {
-    HttpResponse response = client.put(accountId + "/vanity/" + domainId);
-    return (EnableVanityNameServersResponse)client.parseResponse(response, EnableVanityNameServersResponse.class);
-  }
+  public EnableVanityNameServersResponse enableVanityNameServers(String accountId, String domainId) throws DnsimpleException, IOException;
 
   /**
    * Disable vanity name servers for the domain
@@ -49,8 +35,6 @@ public class VanityNameServers {
    * @throws DnsimpleException Any API error
    * @throws IOException Any IO error
    */
-  public DisableVanityNameServersResponse disableVanityNameServers(String accountId, String domainId) throws DnsimpleException, IOException {
-    HttpResponse response = client.delete(accountId + "/vanity/" + domainId);
-    return (DisableVanityNameServersResponse)client.parseResponse(response, DisableVanityNameServersResponse.class);
-  }
+  public DisableVanityNameServersResponse disableVanityNameServers(String accountId, String domainId) throws DnsimpleException, IOException;
+
 }

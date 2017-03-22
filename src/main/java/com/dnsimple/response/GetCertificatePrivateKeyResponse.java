@@ -8,6 +8,14 @@ public class GetCertificatePrivateKeyResponse extends ApiResponse {
   @Key("data")
   private CertificateBundle data;
 
+  public GetCertificatePrivateKeyResponse() {
+    this(new CertificateBundle());
+  }
+
+  public GetCertificatePrivateKeyResponse(CertificateBundle data) {
+    this.data = data;
+  }
+
   public CertificateBundle getData() {
     return data;
   }

@@ -74,3 +74,30 @@ public class Myapp {
 ```
 
 You will need to ensure you are using an access token created in the sandbox environment. Production tokens will *not* work in the sandbox environment.
+
+## Stub for Testing
+
+When developing unit tests for your application, you should stub responses from this client to avoid making any network calls.
+
+You can use any mocking library you choose, however the examples below use Mockito.
+
+Here is an example of a test demonstrating how to do mock the endpoint adapter:
+
+```java
+  @Test
+  public void testSomething() throws DnsimpleException, IOException {
+    Account account = new Account(1);
+
+    EndpointAdapter adapter = mock(EndpointAdapter.class);
+    when(adapter.identity()).thenReturn(mock(Identity.class));
+    when(adapter.identity().whoami()).thenReturn(new WhoamiResponse(new Whoami(account)));
+
+    List<Domain> domains = new ArrayList<Domain>();
+    domains.add(new Domain());
+    when(adapter.domains()).thenReturn(mock(Domains.class));
+    when(adapter.domains().listDomains(account.getId().toString())).thenReturn(new ListDomainsResponse(domains));
+
+    Client client = new Client(adapter);
+    // ... your test
+  }
+```

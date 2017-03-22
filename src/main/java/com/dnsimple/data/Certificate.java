@@ -11,7 +11,7 @@ public class Certificate {
 
   @Key("name")
   private String name;
-  
+
   @Key("common_name")
   private String commonName;
 
