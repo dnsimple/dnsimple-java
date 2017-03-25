@@ -1,8 +1,9 @@
 package com.dnsimple.endpoints;
 
 import com.dnsimple.Accounts;
-import com.dnsimple.Contacts;
 import com.dnsimple.Certificates;
+import com.dnsimple.Collaborators;
+import com.dnsimple.Contacts;
 import com.dnsimple.Domains;
 import com.dnsimple.Identity;
 import com.dnsimple.Oauth;
@@ -19,6 +20,8 @@ public interface EndpointAdapter {
   public Accounts accounts();
 
   public Certificates certificates();
+
+  public Collaborators collaborators();
 
   public Contacts contacts();
 

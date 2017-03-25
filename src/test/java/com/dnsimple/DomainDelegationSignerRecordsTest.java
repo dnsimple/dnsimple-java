@@ -2,7 +2,6 @@ package com.dnsimple;
 
 import com.dnsimple.data.DelegationSignerRecord;
 import com.dnsimple.data.Pagination;
-import com.dnsimple.request.Filter;
 import com.dnsimple.response.ListDelegationSignerRecordsResponse;
 import com.dnsimple.response.GetDelegationSignerRecordResponse;
 import com.dnsimple.response.CreateDelegationSignerRecordResponse;
