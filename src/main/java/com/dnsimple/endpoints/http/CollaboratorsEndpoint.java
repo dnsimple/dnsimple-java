@@ -2,6 +2,8 @@ package com.dnsimple.endpoints.http;
 
 import com.dnsimple.Collaborators;
 import com.dnsimple.response.ListCollaboratorsResponse;
+import com.dnsimple.response.AddCollaboratorResponse;
+import com.dnsimple.response.RemoveCollaboratorResponse;
 
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
@@ -57,6 +59,40 @@ public class CollaboratorsEndpoint implements Collaborators {
   public ListCollaboratorsResponse listCollaborators(String accountId, String domainId, Map<String,Object> options) throws DnsimpleException, IOException {
     HttpResponse response = client.get(accountId + "/domains/" + domainId + "/collaborators", options);
     return (ListCollaboratorsResponse)client.parseResponse(response, ListCollaboratorsResponse.class);
+  }
+
+  /**
+   * Add a collaborator to a domain.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/domains/collaborators/#add">https://developer.dnsimple.com/v2/domains/collaborators/#add</a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain ID
+   * @param attributes A Map of attributes for adding the collaborator
+   * @return The add collaborator response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public AddCollaboratorResponse addCollaborator(String accountId, String domainId, Map<String,Object> attributes) throws DnsimpleException, IOException {
+    HttpResponse response = client.post(accountId + "/domains/" + domainId + "/collaborators", attributes);
+    return (AddCollaboratorResponse)client.parseResponse(response, AddCollaboratorResponse.class);
+  }
+
+  /**
+   * Remove a collaborator from a domain.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/domains/collaborators/#remove">https://developer.dnsimple.com/v2/domains/collaborators/#remove</a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain ID
+   * @param collaboratorId The collaborator ID
+   * @return The remove collaborator response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public RemoveCollaboratorResponse removeCollaborator(String accountId, String domainId, String collaboratorId) throws DnsimpleException, IOException {
+    HttpResponse response = client.delete(accountId + "/domains/" + domainId + "/collaborators/" + collaboratorId);
+    return (RemoveCollaboratorResponse)client.parseResponse(response, RemoveCollaboratorResponse.class);
   }
 
 }

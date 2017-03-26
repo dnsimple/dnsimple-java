@@ -1,6 +1,8 @@
 package com.dnsimple;
 
 import com.dnsimple.response.ListCollaboratorsResponse;
+import com.dnsimple.response.AddCollaboratorResponse;
+import com.dnsimple.response.RemoveCollaboratorResponse;
 import com.dnsimple.exception.DnsimpleException;
 
 import java.io.IOException;
@@ -16,9 +18,9 @@ public interface Collaborators {
   // Domains
 
   /**
-   * Lists the collaboratorsa in the domain.
+   * Lists the collaborators in the domain.
    *
-   * @see <a href="https://developer.dnsimple.com/v2/collaborators/#list">https://developer.dnsimple.com/v2/domains/#list</a>
+   * @see <a href="https://developer.dnsimple.com/v2/domains/collaborators/#list">https://developer.dnsimple.com/v2/domains/collaborators/#list</a>
    *
    * @param accountId The account ID
    * @param domainId The domain ID
@@ -31,7 +33,7 @@ public interface Collaborators {
   /**
    * Lists the collaborators in the account.
    *
-   * @see <a href="https://developer.dnsimple.com/v2/collaborators/#list">https://developer.dnsimple.com/v2/collaborators/#list</a>
+   * @see <a href="https://developer.dnsimple.com/v2/domains/collaborators/#list">https://developer.dnsimple.com/v2/domains/collaborators/#list</a>
    *
    * @param accountId The account ID
    * @param domainId The domain ID
@@ -41,4 +43,33 @@ public interface Collaborators {
    * @throws IOException Any IO errors
    */
   public ListCollaboratorsResponse listCollaborators(String accountId, String domainId, Map<String,Object> options) throws DnsimpleException, IOException;
+
+  /**
+   * Add a collaborator to a domain.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/domains/collaborators/#add">https://developer.dnsimple.com/v2/domains/collaborators/#create</a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain ID
+   * @param attributes A Map of attributes for constructing the domain
+   * @return The add collaborator response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public AddCollaboratorResponse addCollaborator(String accountId, String domainId, Map<String,Object> attributes) throws DnsimpleException, IOException;
+
+  /**
+   * Remove a collaborator from a domain.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/domains/collaborators/#remove">https://developer.dnsimple.com/v2/domains/collaborators/#remove</a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain ID
+   * @param collaboratorId The collaborator ID
+   * @return The remove collaborator response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public RemoveCollaboratorResponse removeCollaborator(String accountId, String domainId, String collaboratorId) throws DnsimpleException, IOException;
+
 }

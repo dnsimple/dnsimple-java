@@ -9,6 +9,18 @@ public class Collaborator {
   @Key("domain_id")
   private Integer domainId;
 
+  @Key("domain_name")
+  private String domainName;
+
+  @Key("user_id")
+  private Integer userId;
+
+  @Key("user_email")
+  private String userEmail;
+
+  @Key("invitation")
+  private Boolean invitation;
+
   @Key("created_at")
   private String createdAt;
 
@@ -21,6 +33,22 @@ public class Collaborator {
 
   public Integer getDomainId() {
     return domainId;
+  }
+
+  public String getDomainName() {
+    return domainName;
+  }
+
+  public Integer getUserId() {
+    return userId;
+  }
+
+  public String getUserEmail() {
+    return userEmail;
+  }
+
+  public Boolean getInvitation() {
+    return invitation;
   }
 
   public String getCreatedAt() {

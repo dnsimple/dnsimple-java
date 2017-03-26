@@ -3,6 +3,8 @@ package com.dnsimple;
 import com.dnsimple.data.Collaborator;
 import com.dnsimple.data.Pagination;
 import com.dnsimple.response.ListCollaboratorsResponse;
+import com.dnsimple.response.AddCollaboratorResponse;
+import com.dnsimple.response.RemoveCollaboratorResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
@@ -76,6 +78,54 @@ public class CollaboratorsTest extends DnsimpleTestBase {
 
     Pagination pagination = response.getPagination();
     assertEquals(1, pagination.getCurrentPage().intValue());
+  }
+
+  @Test
+  public void testAddColaboratorProducersInvitedUserCollaborator() throws DnsimpleException, IOException {
+    Client client = mockClient(resource("addCollaborator/invite-success.http"));
+
+    String accountId = "1";
+    String domainId = "example.com";
+    HashMap<String, Object> attributes = new HashMap<String, Object>();
+    attributes.put("email", "invited-user@example.com");
+    AddCollaboratorResponse response = client.collaborators.addCollaborator(accountId, domainId, attributes);
+    Collaborator collaborator = response.getData();
+    assertEquals(101, collaborator.getId().intValue());
+    assertEquals(1, collaborator.getDomainId().intValue());
+    assertEquals("example.com", collaborator.getDomainName());
+    assertEquals(0, collaborator.getUserId().intValue());
+    assertEquals("invited-user@example.com", collaborator.getUserEmail());
+    assertEquals(true, collaborator.getInvitation().booleanValue());
+  }
+
+  @Test
+  public void testAddColaboratorProducersExistingUserCollaborator() throws DnsimpleException, IOException {
+    Client client = mockClient(resource("addCollaborator/success.http"));
+
+    String accountId = "1";
+    String domainId = "example.com";
+    HashMap<String, Object> attributes = new HashMap<String, Object>();
+    attributes.put("email", "invited-user@example.com");
+    AddCollaboratorResponse response = client.collaborators.addCollaborator(accountId, domainId, attributes);
+    Collaborator collaborator = response.getData();
+    assertEquals(100, collaborator.getId().intValue());
+    assertEquals(1, collaborator.getDomainId().intValue());
+    assertEquals("example.com", collaborator.getDomainName());
+    assertEquals(999, collaborator.getUserId().intValue());
+    assertEquals("existing-user@example.com", collaborator.getUserEmail());
+    assertEquals(false, collaborator.getInvitation().booleanValue());
+  }
+
+  @Test
+  public void testRemoveCollaborator() throws DnsimpleException, IOException {
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1/domains/example.com/collaborators/100", HttpMethods.DELETE, resource("removeCollaborator/success.http"));
+
+    String accountId = "1";
+    String domainId = "example.com";
+    String collaboratorId = "100";
+
+    RemoveCollaboratorResponse response = client.collaborators.removeCollaborator(accountId, domainId, collaboratorId);
+    assertEquals(null, response.getData());
   }
 
 }
