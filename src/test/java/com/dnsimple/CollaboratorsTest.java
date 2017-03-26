@@ -128,4 +128,15 @@ public class CollaboratorsTest extends DnsimpleTestBase {
     assertEquals(null, response.getData());
   }
 
+  @Test(expected=ResourceNotFoundException.class)
+  public void testRemovecollaboratorWhenNotFound() throws DnsimpleException, IOException {
+    Client client = mockClient(resource("notfound-collaborator.http"));
+
+    String accountId = "1";
+    String domainId = "example.com";
+    String collaboratorId = "0";
+
+    client.collaborators.removeCollaborator(accountId, domainId, collaboratorId);
+  }
+
 }
