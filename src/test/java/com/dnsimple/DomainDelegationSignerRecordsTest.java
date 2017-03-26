@@ -130,7 +130,7 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
     assertEquals(2, dsRecord.getId().intValue());
   }
 
-    @Test
+  @Test
   public void testDeleteDelegationSignerRecord() throws DnsimpleException, IOException {
     Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1/domains/example.com/ds_records/24", HttpMethods.DELETE, resource("deleteDelegationSignerRecord/success.http"));
 
