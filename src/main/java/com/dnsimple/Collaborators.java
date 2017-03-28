@@ -9,9 +9,9 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * Provides access to the DNSimple Domains API.
+ * Provides access to the DNSimple Domain Collaborators API.
  *
- * @see <a href="https://developer.dnsimple.com/v2/domains">https://developer.dnsimple.com/v2/domains</a>
+ * @see <a href="https://developer.dnsimple.com/v2/domains/collaborators">https://developer.dnsimple.com/v2/domains/collaborators</a>
  */
 public interface Collaborators {
 
