@@ -7,6 +7,10 @@ import com.dnsimple.response.CreateDomainResponse;
 import com.dnsimple.response.DeleteDomainResponse;
 import com.dnsimple.response.ResetDomainTokenResponse;
 
+import com.dnsimple.response.ListCollaboratorsResponse;
+import com.dnsimple.response.AddCollaboratorResponse;
+import com.dnsimple.response.RemoveCollaboratorResponse;
+
 import com.dnsimple.response.EnableDnssecResponse;
 import com.dnsimple.response.DisableDnssecResponse;
 import com.dnsimple.response.GetDnssecResponse;
@@ -145,6 +149,72 @@ public class DomainsEndpoint implements Domains {
   public ResetDomainTokenResponse resetDomainToken(String accountId, String domainId) throws DnsimpleException, IOException {
     HttpResponse response = client.post(accountId + "/domains/" + domainId);
     return (ResetDomainTokenResponse)client.parseResponse(response, ResetDomainTokenResponse.class);
+  }
+
+  /**
+   * Lists the collaborators in the account.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/collaborators/#list">https://developer.dnsimple.com/v2/collaborators/#list</a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain ID
+   * @return The list collaborators response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public ListCollaboratorsResponse listCollaborators(String accountId, String domainId) throws DnsimpleException, IOException {
+    return listCollaborators(accountId, domainId, null);
+  }
+
+  /**
+   * Lists the collaborators in the account.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/collaborators/#list">https://developer.dnsimple.com/v2/collaborators/#list</a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain ID
+   * @param options A Map of options to pass to the collaborators API
+   * @return The list collaborators response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public ListCollaboratorsResponse listCollaborators(String accountId, String domainId, Map<String,Object> options) throws DnsimpleException, IOException {
+    HttpResponse response = client.get(accountId + "/domains/" + domainId + "/collaborators", options);
+    return (ListCollaboratorsResponse)client.parseResponse(response, ListCollaboratorsResponse.class);
+  }
+
+  /**
+   * Add a collaborator to a domain.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/domains/collaborators/#add">https://developer.dnsimple.com/v2/domains/collaborators/#add</a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain ID
+   * @param attributes A Map of attributes for adding the collaborator
+   * @return The add collaborator response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public AddCollaboratorResponse addCollaborator(String accountId, String domainId, Map<String,Object> attributes) throws DnsimpleException, IOException {
+    HttpResponse response = client.post(accountId + "/domains/" + domainId + "/collaborators", attributes);
+    return (AddCollaboratorResponse)client.parseResponse(response, AddCollaboratorResponse.class);
+  }
+
+  /**
+   * Remove a collaborator from a domain.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/domains/collaborators/#remove">https://developer.dnsimple.com/v2/domains/collaborators/#remove</a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain ID
+   * @param collaboratorId The collaborator ID
+   * @return The remove collaborator response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public RemoveCollaboratorResponse removeCollaborator(String accountId, String domainId, String collaboratorId) throws DnsimpleException, IOException {
+    HttpResponse response = client.delete(accountId + "/domains/" + domainId + "/collaborators/" + collaboratorId);
+    return (RemoveCollaboratorResponse)client.parseResponse(response, RemoveCollaboratorResponse.class);
   }
 
   /**

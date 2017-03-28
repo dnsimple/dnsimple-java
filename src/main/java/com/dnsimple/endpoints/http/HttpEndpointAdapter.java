@@ -1,8 +1,8 @@
 package com.dnsimple.endpoints.http;
 
 import com.dnsimple.Accounts;
-import com.dnsimple.Contacts;
 import com.dnsimple.Certificates;
+import com.dnsimple.Contacts;
 import com.dnsimple.Domains;
 import com.dnsimple.Identity;
 import com.dnsimple.Oauth;
