@@ -2,7 +2,6 @@ package com.dnsimple.endpoints.http;
 
 import com.dnsimple.Accounts;
 import com.dnsimple.Certificates;
-import com.dnsimple.Collaborators;
 import com.dnsimple.Contacts;
 import com.dnsimple.Domains;
 import com.dnsimple.Identity;
@@ -30,10 +29,6 @@ public class HttpEndpointAdapter implements EndpointAdapter {
 
   public Certificates certificates() {
     return new CertificatesEndpoint(endpointClient);
-  }
-
-  public Collaborators collaborators() {
-    return new CollaboratorsEndpoint(endpointClient);
   }
 
   public Contacts contacts() {

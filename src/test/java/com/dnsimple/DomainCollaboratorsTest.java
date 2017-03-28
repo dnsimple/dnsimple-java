@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.HashMap;
 
-public class CollaboratorsTest extends DnsimpleTestBase {
+public class DomainCollaboratorsTest extends DnsimpleTestBase {
 
   @Test
   public void testListCollaboratorsSupportsPagination() throws DnsimpleException, IOException {
@@ -30,7 +30,7 @@ public class CollaboratorsTest extends DnsimpleTestBase {
     String domainId = "example.com";
     HashMap<String, Object> options = new HashMap<String, Object>();
     options.put("page", 1);
-    client.collaborators.listCollaborators(accountId, domainId, options);
+    client.domains.listCollaborators(accountId, domainId, options);
   }
 
   @Test
@@ -40,7 +40,7 @@ public class CollaboratorsTest extends DnsimpleTestBase {
     String domainId = "example.com";
     HashMap<String, Object> options = new HashMap<String, Object>();
     options.put("foo", "bar");
-    client.collaborators.listCollaborators(accountId, domainId, options);
+    client.domains.listCollaborators(accountId, domainId, options);
   }
 
   @Test
@@ -50,7 +50,7 @@ public class CollaboratorsTest extends DnsimpleTestBase {
     String domainId = "example.com";
     HashMap<String, Object> options = new HashMap<String, Object>();
     options.put("sort", "created_at:asc");
-    client.collaborators.listCollaborators(accountId, domainId, options);
+    client.domains.listCollaborators(accountId, domainId, options);
   }
 
   @Test
@@ -60,7 +60,7 @@ public class CollaboratorsTest extends DnsimpleTestBase {
     String accountId = "1";
     String domainId = "example.com";
 
-    ListCollaboratorsResponse response = client.collaborators.listCollaborators(accountId, domainId);
+    ListCollaboratorsResponse response = client.domains.listCollaborators(accountId, domainId);
 
     List<Collaborator> collaborators = response.getData();
     assertEquals(2, collaborators.size());
@@ -74,7 +74,7 @@ public class CollaboratorsTest extends DnsimpleTestBase {
     String accountId = "1";
     String domainId = "example.com";
 
-    ListCollaboratorsResponse response = client.collaborators.listCollaborators(accountId, domainId);
+    ListCollaboratorsResponse response = client.domains.listCollaborators(accountId, domainId);
 
     Pagination pagination = response.getPagination();
     assertEquals(1, pagination.getCurrentPage().intValue());
@@ -88,7 +88,7 @@ public class CollaboratorsTest extends DnsimpleTestBase {
     String domainId = "example.com";
     HashMap<String, Object> attributes = new HashMap<String, Object>();
     attributes.put("email", "invited-user@example.com");
-    AddCollaboratorResponse response = client.collaborators.addCollaborator(accountId, domainId, attributes);
+    AddCollaboratorResponse response = client.domains.addCollaborator(accountId, domainId, attributes);
     Collaborator collaborator = response.getData();
     assertEquals(101, collaborator.getId().intValue());
     assertEquals(1, collaborator.getDomainId().intValue());
@@ -106,7 +106,7 @@ public class CollaboratorsTest extends DnsimpleTestBase {
     String domainId = "example.com";
     HashMap<String, Object> attributes = new HashMap<String, Object>();
     attributes.put("email", "invited-user@example.com");
-    AddCollaboratorResponse response = client.collaborators.addCollaborator(accountId, domainId, attributes);
+    AddCollaboratorResponse response = client.domains.addCollaborator(accountId, domainId, attributes);
     Collaborator collaborator = response.getData();
     assertEquals(100, collaborator.getId().intValue());
     assertEquals(1, collaborator.getDomainId().intValue());
@@ -124,7 +124,7 @@ public class CollaboratorsTest extends DnsimpleTestBase {
     String domainId = "example.com";
     String collaboratorId = "100";
 
-    RemoveCollaboratorResponse response = client.collaborators.removeCollaborator(accountId, domainId, collaboratorId);
+    RemoveCollaboratorResponse response = client.domains.removeCollaborator(accountId, domainId, collaboratorId);
     assertEquals(null, response.getData());
   }
 
@@ -136,7 +136,7 @@ public class CollaboratorsTest extends DnsimpleTestBase {
     String domainId = "example.com";
     String collaboratorId = "0";
 
-    client.collaborators.removeCollaborator(accountId, domainId, collaboratorId);
+    client.domains.removeCollaborator(accountId, domainId, collaboratorId);
   }
 
 }

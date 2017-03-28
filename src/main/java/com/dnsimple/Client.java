@@ -5,7 +5,6 @@ import com.dnsimple.endpoints.http.HttpEndpointAdapter;
 import com.dnsimple.endpoints.http.HttpEndpointClient;
 import com.dnsimple.endpoints.http.AccountsEndpoint;
 import com.dnsimple.endpoints.http.CertificatesEndpoint;
-import com.dnsimple.endpoints.http.CollaboratorsEndpoint;
 import com.dnsimple.endpoints.http.ContactsEndpoint;
 import com.dnsimple.endpoints.http.DomainsEndpoint;
 import com.dnsimple.endpoints.http.IdentityEndpoint;
@@ -27,7 +26,6 @@ public class Client {
 
   public final Accounts accounts;
   public final Certificates certificates;
-  public final Collaborators collaborators;
   public final Contacts contacts;
   public final Domains domains;
   public final Identity identity;
@@ -59,7 +57,6 @@ public class Client {
 
     this.accounts = adapter.accounts();
     this.certificates = adapter.certificates();
-    this.collaborators = adapter.collaborators();
     this.contacts = adapter.contacts();
     this.domains = adapter.domains();
     this.identity = adapter.identity();
@@ -90,7 +87,6 @@ public class Client {
   public Client(EndpointAdapter adapter) {
     this.accounts = adapter.accounts();
     this.certificates = adapter.certificates();
-    this.collaborators = adapter.collaborators();
     this.contacts = adapter.contacts();
     this.domains = adapter.domains();
     this.identity = adapter.identity();
