@@ -47,6 +47,7 @@ import com.dnsimple.response.WhoamiResponse;
 public class Myapp {
   public static void main(String[] args) {
     Client client = new Client();
+    client.setAccessToken("YOUR-ACCESS-TOKEN");
     WhoamiResponse response = client.identity.whoami();
     Account account = response.getData().getAccount();
     System.out.println("Account: " + account);
@@ -68,6 +69,7 @@ public class Myapp {
   public static void main(String[] args) {
     Dnsimple.setBaseUrl("https://api.sandbox.dnsimple.com");
     Client client = new Client();
+    client.setAccessToken("YOUR-ACCESS-TOKEN");
     // ...
   }
 }

@@ -20,8 +20,8 @@ public class AccountsTest extends DnsimpleTestBase {
 
   @Test
   public void testListAccounts() throws DnsimpleException, IOException {
-    HttpHeaders headers = new HttpHeaders();
-    headers.setAccept("application/json");
+    HttpHeaders headers = getDefaultHeaders();
+    headers.setAuthorization("Bearer " + TEST_ACCESS_TOKEN);
 
     Client client = mockAndExpectClient("https://api.dnsimple.com/v2/accounts", HttpMethods.GET, headers, null, resource("listAccounts/success.http"));
 

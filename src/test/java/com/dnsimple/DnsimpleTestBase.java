@@ -31,6 +31,8 @@ import java.util.Collections;
  */
 public abstract class DnsimpleTestBase {
 
+  public static final String TEST_ACCESS_TOKEN = "test-access-token";
+
   /**
    * Return a Client that is mocked to return the given HTTP response.
    *
@@ -148,6 +150,7 @@ public abstract class DnsimpleTestBase {
    */
   public Client mockAndExpectClient(final String expectedUrl, final String expectedMethod, final Map<String, Object> expectedHeaders, final Object expectedAttributes, final String httpResponse) {
     Client client = new Client();
+    client.setAccessToken(TEST_ACCESS_TOKEN);
 
     HttpTransport transport = new MockHttpTransport() {
       @Override
@@ -206,7 +209,20 @@ public abstract class DnsimpleTestBase {
     }
 
     return out.toString("utf8");
+  }
 
+  /**
+   * Get the default HttpHeaders that should be expected on every request.
+   *
+   * You may set additional headers in the collection as necessary.
+   *
+   * @return The default HttpHeaders
+   */
+  public HttpHeaders getDefaultHeaders() {
+    HttpHeaders headers = new HttpHeaders();
+    headers.setAccept("application/json");
+    headers.setUserAgent("dnsimple-java/0.2.0 Google-HTTP-Java-Client/1.20.0 (gzip)");
+    return headers;
   }
 
   private MockLowLevelHttpResponse mockResponse(MockLowLevelHttpResponse response, String httpResponse) throws IOException {

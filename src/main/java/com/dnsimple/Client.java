@@ -111,4 +111,13 @@ public class Client {
     this.endpointClient.setTransport(transport);
   }
 
+  /**
+   * Set the access token to use for the client instance.
+   *
+   * @param accessToken The access token string
+   */
+  public void setAccessToken(String accessToken) {
+    this.endpointClient.setAccessToken(accessToken);
+  }
+
 }

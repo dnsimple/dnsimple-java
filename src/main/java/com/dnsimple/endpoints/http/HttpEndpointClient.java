@@ -30,6 +30,7 @@ public class HttpEndpointClient {
   private static final String API_VERSION_PATH = "/v2/";
 
   private HttpTransport transport;
+  private String accessToken;
 
   public HttpEndpointClient() {
     this.transport = new NetHttpTransport();
@@ -44,6 +45,15 @@ public class HttpEndpointClient {
    */
   public void setTransport(HttpTransport transport) {
     this.transport = transport;
+  }
+
+  /**
+   * Set the access token to use for the client instance.
+   *
+   * @param accessToken The access token string
+   */
+  public void setAccessToken(String accessToken) {
+    this.accessToken = accessToken;
   }
 
   protected HttpResponse get(String path) throws DnsimpleException, IOException {
@@ -78,14 +88,13 @@ public class HttpEndpointClient {
     return request(HttpMethods.PUT, versionedPath(path), attributes, null);
   }
 
-   protected HttpResponse patch(String path, Object attributes) throws DnsimpleException, IOException {
+  protected HttpResponse patch(String path, Object attributes) throws DnsimpleException, IOException {
     return patch(path, attributes, null);
   }
 
   protected HttpResponse patch(String path, Object attributes, Map<String, Object> options) throws DnsimpleException, IOException {
     return request(HttpMethods.PATCH, versionedPath(path), attributes, null);
   }
- 
 
   protected HttpResponse delete(String path) throws DnsimpleException, IOException {
     return delete(path, null);
@@ -106,6 +115,9 @@ public class HttpEndpointClient {
 
     HttpHeaders headers = request.getHeaders();
     headers.setAccept("application/json");
+    headers.setUserAgent("dnsimple-java/0.2.0");
+
+    headers.setAuthorization("Bearer " + accessToken);
 
     if (data != null) {
       headers.setContentType("application/json");
