@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.util.Data;
 
@@ -27,7 +28,7 @@ public class RegistrarWhoisPrivacyTest extends DnsimpleTestBase {
     String accountId = "1010";
     String domainId = "example.com";
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/whois_privacy", HttpMethods.GET, null, resource("getWhoisPrivacy/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/whois_privacy", HttpMethods.GET, new HttpHeaders(), null, resource("getWhoisPrivacy/success.http"));
 
     GetWhoisPrivacyResponse response = client.registrar.getWhoisPrivacy(accountId, domainId);
     WhoisPrivacy whoisPrivacy = response.getData();
@@ -44,7 +45,7 @@ public class RegistrarWhoisPrivacyTest extends DnsimpleTestBase {
     String accountId = "1010";
     String domainId = "example.com";
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/whois_privacy", HttpMethods.PUT, null, resource("enableWhoisPrivacy/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/whois_privacy", HttpMethods.PUT, new HttpHeaders(), null, resource("enableWhoisPrivacy/success.http"));
 
     EnableWhoisPrivacyResponse response = client.registrar.enableWhoisPrivacy(accountId, domainId);
   }
@@ -54,7 +55,7 @@ public class RegistrarWhoisPrivacyTest extends DnsimpleTestBase {
     String accountId = "1010";
     String domainId = "example.com";
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/whois_privacy", HttpMethods.PUT, null, resource("enableWhoisPrivacy/created.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/whois_privacy", HttpMethods.PUT, new HttpHeaders(), null, resource("enableWhoisPrivacy/created.http"));
 
     EnableWhoisPrivacyResponse response = client.registrar.enableWhoisPrivacy(accountId, domainId);
     WhoisPrivacy whoisPrivacy = response.getData();
@@ -66,7 +67,7 @@ public class RegistrarWhoisPrivacyTest extends DnsimpleTestBase {
     String accountId = "1010";
     String domainId = "example.com";
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/whois_privacy", HttpMethods.DELETE, null, resource("disableWhoisPrivacy/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/whois_privacy", HttpMethods.DELETE, new HttpHeaders(), null, resource("disableWhoisPrivacy/success.http"));
 
     DisableWhoisPrivacyResponse response = client.registrar.disableWhoisPrivacy(accountId, domainId);
     WhoisPrivacy whoisPrivacy = response.getData();

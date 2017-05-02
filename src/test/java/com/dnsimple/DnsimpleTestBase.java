@@ -132,7 +132,7 @@ public abstract class DnsimpleTestBase {
    * @return The Client instance
    */
   public Client mockAndExpectClient(final String expectedUrl, final String expectedMethod, final String httpResponse) {
-    return mockAndExpectClient(expectedUrl, expectedMethod, new Object(), httpResponse);
+    return mockAndExpectClient(expectedUrl, expectedMethod, new HashMap<String, Object>(), new Object(), httpResponse);
   }
 
   /**
@@ -141,11 +141,12 @@ public abstract class DnsimpleTestBase {
    *
    * @param expectedUrl The URL string that is expected
    * @param expectedMethod The HTTP method String that is expected
+   * @param expectedHeaders A Map<String, Object> of expected headers
    * @param expectedAttributes A map of values as attributes
    * @param httpResponse The full HTTP response data
    * @return The Client instance
    */
-  public Client mockAndExpectClient(final String expectedUrl, final String expectedMethod, final Object expectedAttributes, final String httpResponse) {
+  public Client mockAndExpectClient(final String expectedUrl, final String expectedMethod, final Map<String, Object> expectedHeaders, final Object expectedAttributes, final String httpResponse) {
     Client client = new Client();
 
     HttpTransport transport = new MockHttpTransport() {
@@ -166,6 +167,10 @@ public abstract class DnsimpleTestBase {
                 Object attributes = jsonParser.parse(GenericJson.class);
                 assertEquals(expectedAttributes, attributes);
               }
+            }
+
+            for (Map.Entry<String, Object> expectedHeader : expectedHeaders.entrySet()) {
+              assertEquals(expectedHeader.getValue(), getHeaders().get(expectedHeader.getKey()));
             }
 
             MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();

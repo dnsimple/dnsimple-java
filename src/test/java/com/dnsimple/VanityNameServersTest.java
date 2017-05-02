@@ -24,7 +24,7 @@ public class VanityNameServersTest extends DnsimpleTestBase {
     String accountId = "1010";
     String domainId = "example.com";
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/vanity/example.com", HttpMethods.PUT, null, resource("enableVanityNameServers/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/vanity/example.com", HttpMethods.PUT, resource("enableVanityNameServers/success.http"));
 
     EnableVanityNameServersResponse response = client.vanityNameServers.enableVanityNameServers(accountId, domainId);
     List<NameServer> vanityNameServers = response.getData();
@@ -35,7 +35,7 @@ public class VanityNameServersTest extends DnsimpleTestBase {
     String accountId = "1010";
     String domainId = "example.com";
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/vanity/example.com", HttpMethods.DELETE, null, resource("disableVanityNameServers/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/vanity/example.com", HttpMethods.DELETE, resource("disableVanityNameServers/success.http"));
 
     DisableVanityNameServersResponse response = client.vanityNameServers.disableVanityNameServers(accountId, domainId);
     assertEquals(null, response.getData());

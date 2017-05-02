@@ -155,7 +155,7 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
     HashMap<String, Object> attributes = new HashMap<String, Object>();
     attributes.put("name", "www");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1/zones/example.com/records/2", HttpMethods.PATCH, attributes, resource("updateZoneRecord/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1/zones/example.com/records/2", HttpMethods.PATCH, new HttpHeaders(), attributes, resource("updateZoneRecord/success.http"));
 
     UpdateZoneRecordResponse response = client.zones.updateZoneRecord(accountId, zoneId, recordId, attributes);
     ZoneRecord record = response.getData();
@@ -164,7 +164,7 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
 
   @Test
   public void testDeleteZoneRecord() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1/zones/example.com/records/2", HttpMethods.DELETE, resource("deleteZoneRecord/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1/zones/example.com/records/2", HttpMethods.DELETE, new HttpHeaders(), null, resource("deleteZoneRecord/success.http"));
 
     String accountId = "1";
     String zoneId = "example.com";

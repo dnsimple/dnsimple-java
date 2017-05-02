@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.util.Data;
 
@@ -29,7 +30,7 @@ public class RegistrarDelegationTest extends DnsimpleTestBase {
     String accountId = "1010";
     String domainId = "example.com";
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/delegation", HttpMethods.GET, null, resource("getDomainDelegation/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/delegation", HttpMethods.GET, resource("getDomainDelegation/success.http"));
 
     GetDomainDelegationResponse response = client.registrar.getDomainDelegation(accountId, domainId);
     List<String> delegatedTo = response.getData();
@@ -48,7 +49,7 @@ public class RegistrarDelegationTest extends DnsimpleTestBase {
     List<String> nameServerNames = new ArrayList<String>();
     nameServerNames.add("ns1.example.com");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/delegation", HttpMethods.PUT, nameServerNames, resource("changeDomainDelegation/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/delegation", HttpMethods.PUT, new HttpHeaders(), nameServerNames, resource("changeDomainDelegation/success.http"));
 
     ChangeDomainDelegationResponse response = client.registrar.changeDomainDelegation(accountId, domainId, nameServerNames);
     List<String> delegatedTo = response.getData();
@@ -66,7 +67,7 @@ public class RegistrarDelegationTest extends DnsimpleTestBase {
     nameServerNames.add("ns1.example.com");
     nameServerNames.add("ns2.example.com");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/delegation/vanity", HttpMethods.PUT, nameServerNames, resource("changeDomainDelegationToVanity/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/delegation/vanity", HttpMethods.PUT, new HttpHeaders(), nameServerNames, resource("changeDomainDelegationToVanity/success.http"));
 
     ChangeDomainDelegationToVanityResponse response = client.registrar.changeDomainDelegationToVanity(accountId, domainId, nameServerNames);
     List<NameServer> delegatedTo = response.getData();
@@ -85,7 +86,7 @@ public class RegistrarDelegationTest extends DnsimpleTestBase {
     String accountId = "1010";
     String domainId = "example.com";
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/delegation/vanity", HttpMethods.DELETE, null, resource("changeDomainDelegationFromVanity/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/delegation/vanity", HttpMethods.DELETE, resource("changeDomainDelegationFromVanity/success.http"));
 
     ChangeDomainDelegationFromVanityResponse response = client.registrar.changeDomainDelegationFromVanity(accountId, domainId);
     assertEquals(null, response.getData());

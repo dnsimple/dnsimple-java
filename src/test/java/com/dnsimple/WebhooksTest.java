@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.util.Data;
 
@@ -76,7 +77,7 @@ public class WebhooksTest extends DnsimpleTestBase {
     HashMap<String, Object> attributes = new HashMap<String, Object>();
     attributes.put("url", "https://webhook.test");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/webhooks", HttpMethods.POST, attributes, resource("createWebhook/created.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/webhooks", HttpMethods.POST, new HttpHeaders(), attributes, resource("createWebhook/created.http"));
 
     CreateWebhookResponse response = client.webhooks.createWebhook(accountId, attributes);
     Webhook webhook = response.getData();

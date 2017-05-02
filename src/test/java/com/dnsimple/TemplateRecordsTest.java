@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.util.Data;
 
@@ -89,7 +90,7 @@ public class TemplateRecordsTest extends DnsimpleTestBase {
 
   @Test
   public void testGetTemplateRecord() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/templates/1/records/301", HttpMethods.GET, null, resource("getTemplateRecord/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/templates/1/records/301", HttpMethods.GET, resource("getTemplateRecord/success.http"));
 
     String accountId = "1010";
     String templateId = "1";
