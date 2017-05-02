@@ -117,7 +117,7 @@ public class TemplateRecordsTest extends DnsimpleTestBase {
     attributes.put("name", "www");
     attributes.put("content", "example.com");
 
-    Client client = expectClient("https://api.dnsimple.com/v2/1010/templates/1/records", HttpMethods.POST, attributes);
+    Client client = expectClient("https://api.dnsimple.com/v2/1010/templates/1/records", HttpMethods.POST, new HashMap<String, Object>(), attributes);
 
     client.templates.createTemplateRecord(accountId, templateId, attributes);
   }

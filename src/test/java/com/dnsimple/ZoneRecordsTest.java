@@ -125,7 +125,7 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
     HashMap<String, Object> attributes = new HashMap<String, Object>();
     attributes.put("name", "www");
 
-    Client client = expectClient("https://api.dnsimple.com/v2/1010/zones/example.com/records", HttpMethods.POST, attributes);
+    Client client = expectClient("https://api.dnsimple.com/v2/1010/zones/example.com/records", HttpMethods.POST, new HashMap<String, Object>(), attributes);
 
     client.zones.createZoneRecord(accountId, zoneId, attributes);
   }

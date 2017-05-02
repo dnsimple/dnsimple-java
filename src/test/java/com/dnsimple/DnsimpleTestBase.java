@@ -3,8 +3,9 @@ package com.dnsimple;
 import static org.junit.Assert.assertEquals;
 
 import com.google.api.client.http.GenericUrl;
-import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
+import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.LowLevelHttpRequest;
 import com.google.api.client.http.LowLevelHttpResponse;
 import com.google.api.client.json.Json;
@@ -75,18 +76,19 @@ public abstract class DnsimpleTestBase {
    * @return The Client instance
    */
   public Client expectClient(final String expectedUrl, final String expectedMethod) {
-    return expectClient(expectedUrl, expectedMethod, new Object());
+    return expectClient(expectedUrl, expectedMethod, new HashMap<String, Object>(), new Object());
   }
 
   /**
-   * Return a Client that is configured to expect a specific URL, HTTP method, and request attributes.
+   * Return a Client that is configured to expect a specific URL, HTTP method, request attributes, and HTTP headers.
    *
    * @param expectedUrl The URL string that is expected
    * @param expectedMethod The HTTP method String that is expected
+   * @param expectedHeaders a Map<String, Object> of headers
    * @param expectedAttributes A map of values as attributes
    * @return The Client instance
    */
-  public Client expectClient(final String expectedUrl, final String expectedMethod, final Object expectedAttributes) {
+  public Client expectClient(final String expectedUrl, final String expectedMethod, final Map<String, Object> expectedHeaders, final Object expectedAttributes) {
     Client client = new Client();
 
     HttpTransport transport = new MockHttpTransport() {
@@ -102,6 +104,10 @@ public abstract class DnsimpleTestBase {
               JsonParser jsonParser = GsonFactory.getDefaultInstance().createJsonParser(getContentAsString());
               Map<String,Object> attributes = jsonParser.parse(GenericJson.class);
               assertEquals(expectedAttributes, attributes);
+            }
+
+            for (Map.Entry<String, Object> expectedHeader : expectedHeaders.entrySet()) {
+              assertEquals(expectedHeader.getValue(), getHeaders().get(expectedHeader.getKey()));
             }
 
             MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
