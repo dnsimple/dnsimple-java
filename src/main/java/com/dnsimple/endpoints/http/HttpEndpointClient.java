@@ -105,6 +105,7 @@ public class HttpEndpointClient {
     HttpRequest request = transport.createRequestFactory().buildRequest(method, buildUrl(url, options), content);
 
     HttpHeaders headers = request.getHeaders();
+    headers.setAccept("application/json");
 
     if (data != null) {
       headers.setContentType("application/json");
