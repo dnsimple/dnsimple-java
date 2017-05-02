@@ -9,6 +9,7 @@ import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpContent;
+import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.HttpResponseException;
@@ -22,13 +23,19 @@ import io.mikael.urlbuilder.UrlBuilder;
 import java.io.InputStream;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class HttpEndpointClient {
 
+  public static final String DEFAULT_USER_AGENT = "dnsimple-java/0.2.0";
+
   private static final String API_VERSION_PATH = "/v2/";
+  private static final String MIME_APPLICATION_JSON = "application/json";
 
   private HttpTransport transport;
+  private String accessToken;
+  private String userAgent;
 
   public HttpEndpointClient() {
     this.transport = new NetHttpTransport();
@@ -44,6 +51,25 @@ public class HttpEndpointClient {
   public void setTransport(HttpTransport transport) {
     this.transport = transport;
   }
+
+  /**
+   * Set the access token to use for the client instance.
+   *
+   * @param accessToken The access token string
+   */
+  public void setAccessToken(String accessToken) {
+    this.accessToken = accessToken;
+  }
+
+  /**
+   * Set the user agent to use for the client instance.
+   *
+   * @param userAgent The user agent string
+   */
+  public void setUserAgent(String userAgent) {
+    this.userAgent = userAgent;
+  }
+
 
   protected HttpResponse get(String path) throws DnsimpleException, IOException {
     return get(path, null);
@@ -77,14 +103,13 @@ public class HttpEndpointClient {
     return request(HttpMethods.PUT, versionedPath(path), attributes, null);
   }
 
-   protected HttpResponse patch(String path, Object attributes) throws DnsimpleException, IOException {
+  protected HttpResponse patch(String path, Object attributes) throws DnsimpleException, IOException {
     return patch(path, attributes, null);
   }
 
   protected HttpResponse patch(String path, Object attributes, Map<String, Object> options) throws DnsimpleException, IOException {
     return request(HttpMethods.PATCH, versionedPath(path), attributes, null);
   }
- 
 
   protected HttpResponse delete(String path) throws DnsimpleException, IOException {
     return delete(path, null);
@@ -102,6 +127,24 @@ public class HttpEndpointClient {
     }
 
     HttpRequest request = transport.createRequestFactory().buildRequest(method, buildUrl(url, options), content);
+
+    HttpHeaders headers = request.getHeaders();
+    headers.setAccept(MIME_APPLICATION_JSON);
+
+    // Add the user agent string to the headers
+    ArrayList<String> fullUserAgent = new ArrayList<String>();
+    if (userAgent != null) {
+      fullUserAgent.add(userAgent);
+    }
+    fullUserAgent.add(DEFAULT_USER_AGENT);
+    headers.setUserAgent(String.join(" ", fullUserAgent));
+
+    // Add the authorization to the headers
+    headers.setAuthorization("Bearer " + accessToken);
+
+    if (data != null) {
+      headers.setContentType(MIME_APPLICATION_JSON);
+    }
 
     try {
       return request.execute();

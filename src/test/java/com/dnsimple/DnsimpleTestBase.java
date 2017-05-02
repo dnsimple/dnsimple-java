@@ -3,8 +3,9 @@ package com.dnsimple;
 import static org.junit.Assert.assertEquals;
 
 import com.google.api.client.http.GenericUrl;
-import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
+import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.LowLevelHttpRequest;
 import com.google.api.client.http.LowLevelHttpResponse;
 import com.google.api.client.json.Json;
@@ -29,6 +30,8 @@ import java.util.Collections;
  * A base class that DNSimple tests can inherit from to provide HTTP mocking and expectations.
  */
 public abstract class DnsimpleTestBase {
+
+  public static final String TEST_ACCESS_TOKEN = "test-access-token";
 
   /**
    * Return a Client that is mocked to return the given HTTP response.
@@ -75,18 +78,19 @@ public abstract class DnsimpleTestBase {
    * @return The Client instance
    */
   public Client expectClient(final String expectedUrl, final String expectedMethod) {
-    return expectClient(expectedUrl, expectedMethod, new Object());
+    return expectClient(expectedUrl, expectedMethod, new HashMap<String, Object>(), new Object());
   }
 
   /**
-   * Return a Client that is configured to expect a specific URL, HTTP method, and request attributes.
+   * Return a Client that is configured to expect a specific URL, HTTP method, request attributes, and HTTP headers.
    *
    * @param expectedUrl The URL string that is expected
    * @param expectedMethod The HTTP method String that is expected
+   * @param expectedHeaders a Map<String, Object> of headers
    * @param expectedAttributes A map of values as attributes
    * @return The Client instance
    */
-  public Client expectClient(final String expectedUrl, final String expectedMethod, final Object expectedAttributes) {
+  public Client expectClient(final String expectedUrl, final String expectedMethod, final Map<String, Object> expectedHeaders, final Object expectedAttributes) {
     Client client = new Client();
 
     HttpTransport transport = new MockHttpTransport() {
@@ -102,6 +106,10 @@ public abstract class DnsimpleTestBase {
               JsonParser jsonParser = GsonFactory.getDefaultInstance().createJsonParser(getContentAsString());
               Map<String,Object> attributes = jsonParser.parse(GenericJson.class);
               assertEquals(expectedAttributes, attributes);
+            }
+
+            for (Map.Entry<String, Object> expectedHeader : expectedHeaders.entrySet()) {
+              assertEquals(expectedHeader.getValue(), getHeaders().get(expectedHeader.getKey()));
             }
 
             MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
@@ -126,7 +134,7 @@ public abstract class DnsimpleTestBase {
    * @return The Client instance
    */
   public Client mockAndExpectClient(final String expectedUrl, final String expectedMethod, final String httpResponse) {
-    return mockAndExpectClient(expectedUrl, expectedMethod, new Object(), httpResponse);
+    return mockAndExpectClient(expectedUrl, expectedMethod, new HashMap<String, Object>(), new Object(), httpResponse);
   }
 
   /**
@@ -135,12 +143,14 @@ public abstract class DnsimpleTestBase {
    *
    * @param expectedUrl The URL string that is expected
    * @param expectedMethod The HTTP method String that is expected
+   * @param expectedHeaders A Map<String, Object> of expected headers
    * @param expectedAttributes A map of values as attributes
    * @param httpResponse The full HTTP response data
    * @return The Client instance
    */
-  public Client mockAndExpectClient(final String expectedUrl, final String expectedMethod, final Object expectedAttributes, final String httpResponse) {
+  public Client mockAndExpectClient(final String expectedUrl, final String expectedMethod, final Map<String, Object> expectedHeaders, final Object expectedAttributes, final String httpResponse) {
     Client client = new Client();
+    client.setAccessToken(TEST_ACCESS_TOKEN);
 
     HttpTransport transport = new MockHttpTransport() {
       @Override
@@ -160,6 +170,10 @@ public abstract class DnsimpleTestBase {
                 Object attributes = jsonParser.parse(GenericJson.class);
                 assertEquals(expectedAttributes, attributes);
               }
+            }
+
+            for (Map.Entry<String, Object> expectedHeader : expectedHeaders.entrySet()) {
+              assertEquals(expectedHeader.getValue(), getHeaders().get(expectedHeader.getKey()));
             }
 
             MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
@@ -195,7 +209,20 @@ public abstract class DnsimpleTestBase {
     }
 
     return out.toString("utf8");
+  }
 
+  /**
+   * Get the default HttpHeaders that should be expected on every request.
+   *
+   * You may set additional headers in the collection as necessary.
+   *
+   * @return The default HttpHeaders
+   */
+  public HttpHeaders getDefaultHeaders() {
+    HttpHeaders headers = new HttpHeaders();
+    headers.setAccept("application/json");
+    headers.setUserAgent("dnsimple-java/0.2.0 Google-HTTP-Java-Client/1.20.0 (gzip)");
+    return headers;
   }
 
   private MockLowLevelHttpResponse mockResponse(MockLowLevelHttpResponse response, String httpResponse) throws IOException {

@@ -18,6 +18,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.util.Data;
 
@@ -83,7 +84,7 @@ public class ContactsTest extends DnsimpleTestBase {
 
   @Test
   public void testGetContact() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/contacts/1", HttpMethods.GET, null, resource("getContact/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/contacts/1", HttpMethods.GET, new HttpHeaders(), null, resource("getContact/success.http"));
 
     String accountId = "1010";
     String contactId = "1";
@@ -128,7 +129,7 @@ public class ContactsTest extends DnsimpleTestBase {
     attributes.put("first_name", "John");
     attributes.put("last_name", "Smith");
 
-    Client client = expectClient("https://api.dnsimple.com/v2/1010/contacts", HttpMethods.POST, attributes);
+    Client client = expectClient("https://api.dnsimple.com/v2/1010/contacts", HttpMethods.POST, new HttpHeaders(), attributes);
 
     client.contacts.createContact(accountId, attributes);
   }
@@ -155,7 +156,7 @@ public class ContactsTest extends DnsimpleTestBase {
     attributes.put("first_name", "John");
     attributes.put("last_name", "Smith");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/contacts/1", HttpMethods.PATCH, attributes, resource("updateContact/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/contacts/1", HttpMethods.PATCH, new HttpHeaders(), attributes, resource("updateContact/success.http"));
 
     UpdateContactResponse response = client.contacts.updateContact(accountId, contactId, attributes);
     Contact contact = response.getData();

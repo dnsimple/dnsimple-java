@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
 
 import java.io.IOException;
@@ -84,7 +85,7 @@ public class TldsTest extends DnsimpleTestBase {
 
   @Test
   public void testGetTldExtendedAttributes() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/tlds/uk/extended_attributes", HttpMethods.GET, null, resource("getTldExtendedAttributes/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/tlds/uk/extended_attributes", HttpMethods.GET, new HttpHeaders(), null, resource("getTldExtendedAttributes/success.http"));
 
     String tldString = "uk";
 
@@ -105,7 +106,7 @@ public class TldsTest extends DnsimpleTestBase {
 
   @Test
   public void testGetTldExtendedAttributesWhenNone() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/tlds/com/extended_attributes", HttpMethods.GET, null, resource("getTldExtendedAttributes/success-noattributes.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/tlds/com/extended_attributes", HttpMethods.GET, new HttpHeaders(), null, resource("getTldExtendedAttributes/success-noattributes.http"));
 
     String tldString = "com";
 

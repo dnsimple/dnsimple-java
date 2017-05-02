@@ -17,6 +17,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.util.Data;
 
@@ -86,7 +87,7 @@ public class TemplatesTest extends DnsimpleTestBase {
 
   @Test
   public void testGetTemplate() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/templates/1", HttpMethods.GET, null, resource("getTemplate/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/templates/1", HttpMethods.GET, new HttpHeaders(), null, resource("getTemplate/success.http"));
 
     String accountId = "1010";
     String templateId = "1";
@@ -120,7 +121,7 @@ public class TemplatesTest extends DnsimpleTestBase {
     attributes.put("name", "A Template");
     attributes.put("short_name", "a_template");
 
-    Client client = expectClient("https://api.dnsimple.com/v2/1010/templates", HttpMethods.POST, attributes);
+    Client client = expectClient("https://api.dnsimple.com/v2/1010/templates", HttpMethods.POST, new HashMap<String, Object>(), attributes);
 
     client.templates.createTemplate(accountId, attributes);
   }
@@ -147,7 +148,7 @@ public class TemplatesTest extends DnsimpleTestBase {
     attributes.put("name", "A Template");
     attributes.put("short_name", "a_template");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/templates/1", HttpMethods.PATCH, attributes, resource("updateTemplate/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/templates/1", HttpMethods.PATCH, new HttpHeaders(), attributes, resource("updateTemplate/success.http"));
 
     UpdateTemplateResponse response = client.templates.updateTemplate(accountId, templateId, attributes);
     Template template = response.getData();

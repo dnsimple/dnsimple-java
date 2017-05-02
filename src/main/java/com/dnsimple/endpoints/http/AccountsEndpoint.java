@@ -17,7 +17,7 @@ public class AccountsEndpoint implements Accounts {
   }
 
   public ListAccountsResponse listAccounts() throws DnsimpleException, IOException {
-    HttpResponse response = client.get("/accounts");
+    HttpResponse response = client.get("accounts");
     return (ListAccountsResponse)client.parseResponse(response, ListAccountsResponse.class);
   }
 }

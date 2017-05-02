@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.util.Data;
 
@@ -30,7 +31,7 @@ public class OauthTest extends DnsimpleTestBase {
     attributes.put("client_secret", clientSecret);
     attributes.put("grant_type", "authorization_code");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/oauth/access_token", HttpMethods.POST, attributes, resource("oauthAccessToken/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/oauth/access_token", HttpMethods.POST, new HttpHeaders(), attributes, resource("oauthAccessToken/success.http"));
 
     OauthToken token = client.oauth.exchangeAuthorizationForToken(code, clientId, clientSecret);
     assertEquals("zKQ7OLqF5N1gylcJweA9WodA000BUNJD", token.getAccessToken());
@@ -59,7 +60,7 @@ public class OauthTest extends DnsimpleTestBase {
     expectedAttributes.put("state", state);
     expectedAttributes.put("redirect_uri", redirectUri);
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/oauth/access_token", HttpMethods.POST, expectedAttributes, resource("oauthAccessToken/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/oauth/access_token", HttpMethods.POST, new HttpHeaders(), expectedAttributes, resource("oauthAccessToken/success.http"));
 
     OauthToken token = client.oauth.exchangeAuthorizationForToken(code, clientId, clientSecret, options);
     assertEquals("zKQ7OLqF5N1gylcJweA9WodA000BUNJD", token.getAccessToken());

@@ -17,6 +17,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.util.Data;
 
@@ -122,10 +123,12 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
   public void testCreateZoneSendsCorrectRequest() throws DnsimpleException, IOException {
     String accountId = "1010";
     String zoneId = "example.com";
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType("application/json");
     HashMap<String, Object> attributes = new HashMap<String, Object>();
     attributes.put("name", "www");
 
-    Client client = expectClient("https://api.dnsimple.com/v2/1010/zones/example.com/records", HttpMethods.POST, attributes);
+    Client client = expectClient("https://api.dnsimple.com/v2/1010/zones/example.com/records", HttpMethods.POST, headers, attributes);
 
     client.zones.createZoneRecord(accountId, zoneId, attributes);
   }
@@ -152,7 +155,7 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
     HashMap<String, Object> attributes = new HashMap<String, Object>();
     attributes.put("name", "www");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1/zones/example.com/records/2", HttpMethods.PATCH, attributes, resource("updateZoneRecord/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1/zones/example.com/records/2", HttpMethods.PATCH, new HttpHeaders(), attributes, resource("updateZoneRecord/success.http"));
 
     UpdateZoneRecordResponse response = client.zones.updateZoneRecord(accountId, zoneId, recordId, attributes);
     ZoneRecord record = response.getData();
@@ -161,7 +164,7 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
 
   @Test
   public void testDeleteZoneRecord() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1/zones/example.com/records/2", HttpMethods.DELETE, resource("deleteZoneRecord/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1/zones/example.com/records/2", HttpMethods.DELETE, new HttpHeaders(), null, resource("deleteZoneRecord/success.http"));
 
     String accountId = "1";
     String zoneId = "example.com";

@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.util.Data;
 
@@ -86,7 +87,7 @@ public class DomainServicesTest extends DnsimpleTestBase {
   public void testApplyService() throws DnsimpleException, IOException {
     HashMap<String, Object> settings = new HashMap<String, Object>();
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains/example.com/services/2", HttpMethods.POST, settings, resource("applyService/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains/example.com/services/2", HttpMethods.POST, new HttpHeaders(), settings, resource("applyService/success.http"));
 
     String accountId = "1010";
     String domainId = "example.com";
@@ -98,7 +99,7 @@ public class DomainServicesTest extends DnsimpleTestBase {
 
   @Test
   public void testUnapplyService() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains/example.com/services/2", HttpMethods.DELETE, null, resource("unapplyService/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains/example.com/services/2", HttpMethods.DELETE, resource("unapplyService/success.http"));
 
     String accountId = "1010";
     String domainId = "example.com";

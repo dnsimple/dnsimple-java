@@ -11,13 +11,16 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
+import com.google.api.client.http.HttpHeaders;
+import com.google.api.client.http.HttpMethods;
+
 import static org.junit.Assert.assertEquals;
 
 public class AccountsTest extends DnsimpleTestBase {
 
   @Test
   public void testListAccounts() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listAccounts/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/accounts", HttpMethods.GET, resource("listAccounts/success.http"));
 
     ListAccountsResponse response = client.accounts.listAccounts();
 
