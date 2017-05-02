@@ -120,4 +120,13 @@ public class Client {
     this.endpointClient.setAccessToken(accessToken);
   }
 
+    /**
+   * Set the user agent to use for the client instance.
+   *
+   * @param userAgent The user agent string
+   */
+  public void setUserAgent(String userAgent) {
+    this.endpointClient.setUserAgent(userAgent);
+  }
+
 }

@@ -48,12 +48,15 @@ public class Myapp {
   public static void main(String[] args) {
     Client client = new Client();
     client.setAccessToken("YOUR-ACCESS-TOKEN");
+    client.setUserAgent("your-user-agent");
     WhoamiResponse response = client.identity.whoami();
     Account account = response.getData().getAccount();
     System.out.println("Account: " + account);
   }
 }
 ```
+
+The user agent value will be prepended to additional user-agent information that is set by default in this library. While it is not strictly necessary to set the user agent, it is often helpful for the team at DNSimple when debugging, so please consider setting it.
 
 ## Sandbox Usage
 

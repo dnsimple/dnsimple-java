@@ -23,14 +23,19 @@ import io.mikael.urlbuilder.UrlBuilder;
 import java.io.InputStream;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class HttpEndpointClient {
 
+  public static final String DEFAULT_USER_AGENT = "dnsimple-java/0.2.0";
+
   private static final String API_VERSION_PATH = "/v2/";
+  private static final String MIME_APPLICATION_JSON = "application/json";
 
   private HttpTransport transport;
   private String accessToken;
+  private String userAgent;
 
   public HttpEndpointClient() {
     this.transport = new NetHttpTransport();
@@ -55,6 +60,16 @@ public class HttpEndpointClient {
   public void setAccessToken(String accessToken) {
     this.accessToken = accessToken;
   }
+
+  /**
+   * Set the user agent to use for the client instance.
+   *
+   * @param userAgent The user agent string
+   */
+  public void setUserAgent(String userAgent) {
+    this.userAgent = userAgent;
+  }
+
 
   protected HttpResponse get(String path) throws DnsimpleException, IOException {
     return get(path, null);
@@ -114,13 +129,21 @@ public class HttpEndpointClient {
     HttpRequest request = transport.createRequestFactory().buildRequest(method, buildUrl(url, options), content);
 
     HttpHeaders headers = request.getHeaders();
-    headers.setAccept("application/json");
-    headers.setUserAgent("dnsimple-java/0.2.0");
+    headers.setAccept(MIME_APPLICATION_JSON);
 
+    // Add the user agent string to the headers
+    ArrayList<String> fullUserAgent = new ArrayList<String>();
+    if (userAgent != null) {
+      fullUserAgent.add(userAgent);
+    }
+    fullUserAgent.add(DEFAULT_USER_AGENT);
+    headers.setUserAgent(String.join(" ", fullUserAgent));
+
+    // Add the authorization to the headers
     headers.setAuthorization("Bearer " + accessToken);
 
     if (data != null) {
-      headers.setContentType("application/json");
+      headers.setContentType(MIME_APPLICATION_JSON);
     }
 
     try {
