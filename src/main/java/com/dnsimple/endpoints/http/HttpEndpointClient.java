@@ -9,6 +9,7 @@ import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpContent;
+import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.HttpResponseException;
@@ -102,6 +103,9 @@ public class HttpEndpointClient {
     }
 
     HttpRequest request = transport.createRequestFactory().buildRequest(method, buildUrl(url, options), content);
+
+    HttpHeaders headers = request.getHeaders();
+    headers.setContentType("application/json");
 
     try {
       return request.execute();
