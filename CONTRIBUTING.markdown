@@ -17,7 +17,7 @@ Install Maven.
 
 To run the test suite:
 
-`mvn test`
+    mvn test
 
 ## Tests
 
@@ -29,4 +29,4 @@ Releasing may only be done by one of the DNSimple team members (specifically Ant
 
 Once `~/.m2/settings.xml` is updated to include the ossrh server configuration and the ossrh profile with the GPG passphrase for using the private key for signing, deployment is then done with the command:
 
-`mvn clean deploy`
+    mvn clean deploy
