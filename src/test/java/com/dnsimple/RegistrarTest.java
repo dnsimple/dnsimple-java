@@ -44,7 +44,7 @@ public class RegistrarTest extends DnsimpleTestBase {
     HashMap<String, Object> attributes = new HashMap<String, Object>();
     attributes.put("registrant_id", "10");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/register", HttpMethods.POST, new HttpHeaders(), attributes, resource("registerDomain/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/registrations", HttpMethods.POST, new HttpHeaders(), attributes, resource("registerDomain/success.http"));
 
     RegisterDomainResponse response = client.registrar.registerDomain(accountId, name, attributes);
     Domain domain = response.getData();
@@ -69,7 +69,7 @@ public class RegistrarTest extends DnsimpleTestBase {
     HashMap<String, Object> attributes = new HashMap<String, Object>();
     attributes.put("period", "3");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/renewal", HttpMethods.POST, new HttpHeaders(), attributes, resource("renewDomain/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/renewals", HttpMethods.POST, new HttpHeaders(), attributes, resource("renewDomain/success.http"));
 
     RenewDomainResponse response = client.registrar.renewDomain(accountId, name, attributes);
     Domain domain = response.getData();
@@ -83,7 +83,7 @@ public class RegistrarTest extends DnsimpleTestBase {
     HashMap<String, Object> attributes = new HashMap<String, Object>();
     attributes.put("period", "3");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/renewal", HttpMethods.POST, new HttpHeaders(), attributes, resource("renewDomain/error-tooearly.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/renewals", HttpMethods.POST, new HttpHeaders(), attributes, resource("renewDomain/error-tooearly.http"));
 
     client.registrar.renewDomain(accountId, name, attributes);
   }
@@ -96,7 +96,7 @@ public class RegistrarTest extends DnsimpleTestBase {
     attributes.put("registrant_id", "1");
     attributes.put("auth_info", "x1y2z3");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/transfer", HttpMethods.POST, new HttpHeaders(), attributes, resource("transferDomain/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/transfers", HttpMethods.POST, new HttpHeaders(), attributes, resource("transferDomain/success.http"));
 
     TransferDomainResponse response = client.registrar.transferDomain(accountId, name, attributes);
     Domain domain = response.getData();
@@ -111,7 +111,7 @@ public class RegistrarTest extends DnsimpleTestBase {
     attributes.put("registrant_id", "1");
     attributes.put("auth_info", "x1y2z3");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/transfer", HttpMethods.POST, new HttpHeaders(), attributes, resource("transferDomain/error-isdnsimple.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/transfers", HttpMethods.POST, new HttpHeaders(), attributes, resource("transferDomain/error-isdnsimple.http"));
 
     client.registrar.transferDomain(accountId, name, attributes);
   }
@@ -123,7 +123,7 @@ public class RegistrarTest extends DnsimpleTestBase {
     HashMap<String, Object> attributes = new HashMap<String, Object>();
     attributes.put("registrant_id", "1");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/transfer", HttpMethods.POST, new HttpHeaders(), attributes, resource("transferDomain/error-missing-authcode.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/transfers", HttpMethods.POST, new HttpHeaders(), attributes, resource("transferDomain/error-missing-authcode.http"));
 
     client.registrar.transferDomain(accountId, name, attributes);
   }
@@ -133,7 +133,7 @@ public class RegistrarTest extends DnsimpleTestBase {
     String accountId = "1010";
     String name = "example.com";
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/transfer_out", HttpMethods.POST, new HttpHeaders(), null, resource("transferDomainOut/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/authorize_transfer_out", HttpMethods.POST, new HttpHeaders(), null, resource("transferDomainOut/success.http"));
 
     TransferDomainOutResponse response = client.registrar.transferDomainOut(accountId, name);
     assertEquals(null, response.getData());
