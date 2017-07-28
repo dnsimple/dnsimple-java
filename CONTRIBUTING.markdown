@@ -9,7 +9,7 @@ $ git clone git@github.com:aeden/dnsimple-java.git
 $ cd dnsimple-java
 ```
 
-Install Maven.
+Install [Maven](https://maven.apache.org/install.html).
 
 [Run the test suite](#testing) to check everything works as expected.
 
