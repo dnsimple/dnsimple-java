@@ -37,22 +37,22 @@ public class RegistrarEndpoint implements Registrar {
   }
 
   public RegisterDomainResponse registerDomain(String accountId, String domainName, Map<String,Object> attributes) throws DnsimpleException, IOException {
-    HttpResponse response = client.post(accountId + "/registrar/domains/" + domainName + "/register", attributes);
+    HttpResponse response = client.post(accountId + "/registrar/domains/" + domainName + "/registrations", attributes);
     return (RegisterDomainResponse)client.parseResponse(response, RegisterDomainResponse.class);
   }
 
   public RenewDomainResponse renewDomain(String accountId, String domainId, Map<String,Object> attributes) throws DnsimpleException, IOException {
-    HttpResponse response = client.post(accountId + "/registrar/domains/" + domainId + "/renewal", attributes);
+    HttpResponse response = client.post(accountId + "/registrar/domains/" + domainId + "/renewals", attributes);
     return (RenewDomainResponse)client.parseResponse(response, RenewDomainResponse.class);
   }
 
   public TransferDomainResponse transferDomain(String accountId, String domainId, Map<String,Object> attributes) throws DnsimpleException, IOException {
-    HttpResponse response = client.post(accountId + "/registrar/domains/" + domainId + "/transfer", attributes);
+    HttpResponse response = client.post(accountId + "/registrar/domains/" + domainId + "/transfers", attributes);
     return (TransferDomainResponse)client.parseResponse(response, TransferDomainResponse.class);
   }
 
   public TransferDomainOutResponse transferDomainOut(String accountId, String domainId) throws DnsimpleException, IOException {
-    HttpResponse response = client.post(accountId + "/registrar/domains/" + domainId + "/transfer_out");
+    HttpResponse response = client.post(accountId + "/registrar/domains/" + domainId + "/authorize_transfer_out");
     return (TransferDomainOutResponse)client.parseResponse(response, TransferDomainOutResponse.class);
   }
 
