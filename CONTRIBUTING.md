@@ -2,6 +2,8 @@
 
 ## Getting started
 
+Usinga [jenv](http://www.jenv.be/) makes it possible to test on multiple versions of Java.
+
 Clone the repository and move into it:
 
 ```
