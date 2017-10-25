@@ -4,6 +4,7 @@ import com.dnsimple.response.ListCertificatesResponse;
 import com.dnsimple.response.GetCertificateResponse;
 import com.dnsimple.response.DownloadCertificateResponse;
 import com.dnsimple.response.GetCertificatePrivateKeyResponse;
+import com.dnsimple.response.LetsencryptPurchaseResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
@@ -80,5 +81,19 @@ public interface Certificates {
    * @throws IOException Any IO errors
    */
   public GetCertificatePrivateKeyResponse getCertificatePrivateKey(String accountId, String domainId, String certificateId) throws DnsimpleException, IOException;
+
+  /**
+   * Purchase a Let's Encrypt certificate.
+   *
+   * @see <a href=""></a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain name or ID
+   * @param attributes Attributes for the certificate
+   * @return The letsencrypt purchase response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public LetsencryptPurchaseResponse letsencryptPurchase(String accountId, String domainId, Map<String,Object> attributes) throws DnsimpleException, IOException;
 
 }

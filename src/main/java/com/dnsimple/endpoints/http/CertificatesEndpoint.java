@@ -5,6 +5,7 @@ import com.dnsimple.response.ListCertificatesResponse;
 import com.dnsimple.response.GetCertificateResponse;
 import com.dnsimple.response.DownloadCertificateResponse;
 import com.dnsimple.response.GetCertificatePrivateKeyResponse;
+import com.dnsimple.response.LetsencryptPurchaseResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
@@ -44,5 +45,10 @@ public class CertificatesEndpoint implements Certificates {
   public GetCertificatePrivateKeyResponse getCertificatePrivateKey(String accountId, String domainId, String certificateId) throws DnsimpleException, IOException {
     HttpResponse response = client.get(accountId + "/domains/" + domainId + "/certificates/" + certificateId + "/private_key");
     return (GetCertificatePrivateKeyResponse)client.parseResponse(response, GetCertificatePrivateKeyResponse.class);
+  }
+
+  public LetsencryptPurchaseResponse letsencryptPurchase(String accountId, String domainId, Map<String,Object> attributes) throws DnsimpleException, IOException {
+    HttpResponse response = client.post(accountId + "/domains/" + domainId + "/certificates/letsencrypt", attributes);
+    return (LetsencryptPurchaseResponse)client.parseResponse(response, LetsencryptPurchaseResponse.class);
   }
 }
