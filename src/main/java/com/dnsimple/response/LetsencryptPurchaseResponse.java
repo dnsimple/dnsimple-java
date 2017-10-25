@@ -15,4 +15,8 @@ public class LetsencryptPurchaseResponse extends ApiResponse {
   public LetsencryptPurchaseResponse(Certificate data) {
     this.data = data;
   }
+
+  public Certificate getData() {
+    return data;
+  }
 }
