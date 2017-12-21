@@ -13,3 +13,4 @@ X-Request-Id: a87f1b44-150a-4ed0-b7da-9301fa1465b0
 X-Runtime: 0.093714
 Strict-Transport-Security: max-age=31536000
 
+{"data":[{"id":1},{"id":2}],"pagination":{"current_page":1,"per_page":2,"total_entries":5,"total_pages":3}}
