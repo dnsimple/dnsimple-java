@@ -4,19 +4,7 @@
   <artifactId>dnsimple-java</artifactId>
   <packaging>jar</packaging>
   <version>0.3.0</version>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-    <name>dnsimple-java</name>
+  <name>dnsimple-java</name>
   <url>https://github.com/dnsimple/dnsimple-java</url>
   <licenses>
     <license>
