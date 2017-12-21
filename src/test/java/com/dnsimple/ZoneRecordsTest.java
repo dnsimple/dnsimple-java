@@ -120,7 +120,7 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testCreateZoneSendsCorrectRequest() throws DnsimpleException, IOException {
+  public void testCreateZoneRecordSendsCorrectRequest() throws DnsimpleException, IOException {
     String accountId = "1010";
     String zoneId = "example.com";
     HttpHeaders headers = new HttpHeaders();
@@ -128,7 +128,7 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
     HashMap<String, Object> attributes = new HashMap<String, Object>();
     attributes.put("name", "www");
 
-    Client client = expectClient("https://api.dnsimple.com/v2/1010/zones/example.com/records", HttpMethods.POST, headers, attributes);
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/zones/example.com/records", HttpMethods.POST, headers, attributes, resource("createZoneRecord/created.http"));
 
     client.zones.createZoneRecord(accountId, zoneId, attributes);
   }

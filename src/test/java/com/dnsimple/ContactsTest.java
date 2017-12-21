@@ -129,7 +129,7 @@ public class ContactsTest extends DnsimpleTestBase {
     attributes.put("first_name", "John");
     attributes.put("last_name", "Smith");
 
-    Client client = expectClient("https://api.dnsimple.com/v2/1010/contacts", HttpMethods.POST, new HttpHeaders(), attributes);
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/contacts", HttpMethods.POST, new HttpHeaders(), attributes, resource("createContact/created.http"));
 
     client.contacts.createContact(accountId, attributes);
   }

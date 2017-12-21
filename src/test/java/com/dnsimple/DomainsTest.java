@@ -127,7 +127,7 @@ public class DomainsTest extends DnsimpleTestBase {
     HashMap<String, Object> attributes = new HashMap<String, Object>();
     attributes.put("name", "example.com");
 
-    Client client = expectClient("https://api.dnsimple.com/v2/1010/domains", HttpMethods.POST, new HashMap<String, Object>(), attributes);
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains", HttpMethods.POST, new HashMap<String, Object>(), attributes, resource("createDomain/created.http"));
 
     client.domains.createDomain(accountId, attributes);
   }

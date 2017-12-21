@@ -121,7 +121,7 @@ public class TemplatesTest extends DnsimpleTestBase {
     attributes.put("name", "A Template");
     attributes.put("short_name", "a_template");
 
-    Client client = expectClient("https://api.dnsimple.com/v2/1010/templates", HttpMethods.POST, new HashMap<String, Object>(), attributes);
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/templates", HttpMethods.POST, new HashMap<String, Object>(), attributes, resource("createTemplate/created.http"));
 
     client.templates.createTemplate(accountId, attributes);
   }
