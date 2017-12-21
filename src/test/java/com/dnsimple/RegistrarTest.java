@@ -2,6 +2,8 @@ package com.dnsimple;
 
 import com.dnsimple.data.Domain;
 import com.dnsimple.data.DomainAvailability;
+import com.dnsimple.data.DomainRegistration;
+import com.dnsimple.data.DomainTransfer;
 import com.dnsimple.response.CheckDomainResponse;
 import com.dnsimple.response.RegisterDomainResponse;
 import com.dnsimple.response.RenewDomainResponse;
@@ -47,19 +49,15 @@ public class RegistrarTest extends DnsimpleTestBase {
     Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/registrations", HttpMethods.POST, new HttpHeaders(), attributes, resource("registerDomain/success.http"));
 
     RegisterDomainResponse response = client.registrar.registerDomain(accountId, name, attributes);
-    Domain domain = response.getData();
-    assertEquals(1, domain.getId().intValue());
-    assertEquals(1010, domain.getAccountId().intValue());
-    assertEquals(2, domain.getRegistrantId().intValue());
-    assertEquals("example.com", domain.getName());
-    assertEquals("example.com", domain.getUnicodeName());
-    assertEquals("cc8h1jP8bDLw5rXycL16k8BivcGiT6K9", domain.getToken());
-    assertEquals("registered", domain.getState());
-    assertFalse(domain.getAutoRenew());
-    assertFalse(domain.getPrivateWhois());
-    assertEquals("2017-01-16", domain.getExpiresOn());
-    assertEquals("2016-01-16T16:08:50.649Z", domain.getCreatedAt());
-    assertEquals("2016-01-16T16:09:01.161Z", domain.getUpdatedAt());
+    DomainRegistration registration = response.getData();
+    assertEquals(1, registration.getId().intValue());
+    assertEquals(999, registration.getDomainId().intValue());
+    assertEquals(2, registration.getRegistrantId().intValue());
+    assertEquals("new", registration.getState());
+    assertFalse(registration.hasAutoRenew());
+    assertFalse(registration.hasWhoisPrivacy());
+    assertEquals("2016-12-09T19:35:31Z", registration.getCreatedAt());
+    assertEquals("2016-12-09T19:35:31Z", registration.getUpdatedAt());
   }
 
   @Test
@@ -99,8 +97,8 @@ public class RegistrarTest extends DnsimpleTestBase {
     Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/transfers", HttpMethods.POST, new HttpHeaders(), attributes, resource("transferDomain/success.http"));
 
     TransferDomainResponse response = client.registrar.transferDomain(accountId, name, attributes);
-    Domain domain = response.getData();
-    assertEquals(1, domain.getId().intValue());
+    DomainTransfer transfer = response.getData();
+    assertEquals(1, transfer.getId().intValue());
   }
 
   @Test(expected=DnsimpleException.class)
