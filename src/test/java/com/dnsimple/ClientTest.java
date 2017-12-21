@@ -24,7 +24,7 @@ public class ClientTest extends DnsimpleTestBase {
     HttpHeaders headers = getDefaultHeaders();
     headers.setAuthorization("Bearer " + TEST_ACCESS_TOKEN);
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/accounts", HttpMethods.GET, headers, null, resource("listAccounts/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/accounts", HttpMethods.GET, headers, null, resource("listAccounts/success-account.http"));
     client.accounts.listAccounts();
   }
 
@@ -33,7 +33,7 @@ public class ClientTest extends DnsimpleTestBase {
     HttpHeaders headers = getDefaultHeaders();
     headers.setUserAgent("my-user-agent dnsimple-java/0.3.0 Google-HTTP-Java-Client/1.20.0 (gzip)");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/accounts", HttpMethods.GET, headers, null, resource("listAccounts/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/accounts", HttpMethods.GET, headers, null, resource("listAccounts/success-account.http"));
     client.setUserAgent("my-user-agent");
     client.accounts.listAccounts();
   }

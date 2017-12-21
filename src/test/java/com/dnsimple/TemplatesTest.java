@@ -100,8 +100,8 @@ public class TemplatesTest extends DnsimpleTestBase {
     assertEquals("Alpha", template.getName());
     assertEquals("alpha", template.getShortName());
     assertEquals("An alpha template.", template.getDescription());
-    assertEquals("2016-03-22T11:08:58.262Z", template.getCreatedAt());
-    assertEquals("2016-03-22T11:08:58.262Z", template.getUpdatedAt());
+    assertEquals("2016-03-22T11:08:58Z", template.getCreatedAt());
+    assertEquals("2016-03-22T11:08:58Z", template.getUpdatedAt());
   }
 
   @Test(expected=ResourceNotFoundException.class)

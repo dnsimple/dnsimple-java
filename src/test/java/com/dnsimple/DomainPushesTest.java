@@ -36,8 +36,8 @@ public class DomainPushesTest extends DnsimpleTestBase {
     assertEquals(1, push.getId().intValue());
     assertEquals(100, push.getDomainId().intValue());
     assertTrue(Data.isNull(push.getContactId()));
-    assertEquals("2016-08-11T10:16:03.340Z", push.getCreatedAt());
-    assertEquals("2016-08-11T10:16:03.340Z", push.getUpdatedAt());
+    assertEquals("2016-08-11T10:16:03Z", push.getCreatedAt());
+    assertEquals("2016-08-11T10:16:03Z", push.getUpdatedAt());
     assertTrue(Data.isNull(push.getAcceptedAt()));
   }
 

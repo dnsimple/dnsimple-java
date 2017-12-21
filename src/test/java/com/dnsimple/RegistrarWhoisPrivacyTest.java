@@ -36,8 +36,8 @@ public class RegistrarWhoisPrivacyTest extends DnsimpleTestBase {
     assertEquals(2, whoisPrivacy.getDomainId().intValue());
     assertEquals("2017-02-13", whoisPrivacy.getExpiresOn());
     assertTrue(whoisPrivacy.getEnabled().booleanValue());
-    assertEquals("2016-02-13T14:34:50.135Z", whoisPrivacy.getCreatedAt());
-    assertEquals("2016-02-13T14:34:52.571Z", whoisPrivacy.getUpdatedAt());
+    assertEquals("2016-02-13T14:34:50Z", whoisPrivacy.getCreatedAt());
+    assertEquals("2016-02-13T14:34:52Z", whoisPrivacy.getUpdatedAt());
   }
 
   @Test

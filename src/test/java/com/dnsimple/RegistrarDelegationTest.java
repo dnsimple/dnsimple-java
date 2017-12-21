@@ -77,8 +77,8 @@ public class RegistrarDelegationTest extends DnsimpleTestBase {
     assertEquals("ns1.example.com", nameServer.getName());
     assertEquals("127.0.0.1", nameServer.getIpv4());
     assertEquals("::1", nameServer.getIpv6());
-    assertEquals("2016-07-11T09:40:19.529Z", nameServer.getCreatedAt());
-    assertEquals("2016-07-11T09:40:19.529Z", nameServer.getUpdatedAt());
+    assertEquals("2016-07-11T09:40:19Z", nameServer.getCreatedAt());
+    assertEquals("2016-07-11T09:40:19Z", nameServer.getUpdatedAt());
   }
 
   @Test

@@ -106,8 +106,8 @@ public class TemplateRecordsTest extends DnsimpleTestBase {
     assertEquals(600, record.getTtl().intValue());
     assertEquals(10, record.getPriority().intValue());
     assertEquals("MX", record.getType());
-    assertEquals("2016-05-03T08:03:26.444Z", record.getCreatedAt());
-    assertEquals("2016-05-03T08:03:26.444Z", record.getUpdatedAt());
+    assertEquals("2016-05-03T08:03:26Z", record.getCreatedAt());
+    assertEquals("2016-05-03T08:03:26Z", record.getUpdatedAt());
   }
 
   @Test

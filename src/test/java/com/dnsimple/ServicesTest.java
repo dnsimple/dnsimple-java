@@ -69,11 +69,11 @@ public class ServicesTest extends DnsimpleTestBase {
     assertEquals("service1", service.getShortName());
     assertEquals("First service example.", service.getDescription());
     assertTrue(Data.isNull(service.getSetupDescription()));
-    assertFalse(service.getRequiresSetup());
+    assertTrue(service.getRequiresSetup());
     assertTrue(Data.isNull(service.getDefaultSubdomain()));
-    assertEquals("2014-02-14T19:15:19.953Z", service.getCreatedAt());
-    assertEquals("2016-03-04T09:23:27.655Z", service.getUpdatedAt());
-    assertEquals(0, service.getSettings().size());
+    assertEquals("2014-02-14T19:15:19Z", service.getCreatedAt());
+    assertEquals("2016-03-04T09:23:27Z", service.getUpdatedAt());
+    assertEquals(1, service.getSettings().size());
   }
 
 }

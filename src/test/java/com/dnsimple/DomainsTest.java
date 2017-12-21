@@ -107,8 +107,8 @@ public class DomainsTest extends DnsimpleTestBase {
     assertFalse(domain.getAutoRenew());
     assertFalse(domain.getPrivateWhois());
     assertTrue(Data.isNull(domain.getExpiresOn()));
-    assertEquals("2014-12-06T15:56:55.573Z", domain.getCreatedAt());
-    assertEquals("2015-12-09T00:20:56.056Z", domain.getUpdatedAt());
+    assertEquals("2014-12-06T15:56:55Z", domain.getCreatedAt());
+    assertEquals("2015-12-09T00:20:56Z", domain.getUpdatedAt());
   }
 
   @Test(expected=ResourceNotFoundException.class)
