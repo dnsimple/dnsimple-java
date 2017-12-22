@@ -20,7 +20,7 @@ public class AccountsTest extends DnsimpleTestBase {
 
   @Test
   public void testListAccounts() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/accounts", HttpMethods.GET, resource("listAccounts/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/accounts", HttpMethods.GET, resource("listAccounts/success-account.http"));
 
     ListAccountsResponse response = client.accounts.listAccounts();
 

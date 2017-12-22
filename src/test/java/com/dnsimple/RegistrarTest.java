@@ -2,6 +2,8 @@ package com.dnsimple;
 
 import com.dnsimple.data.Domain;
 import com.dnsimple.data.DomainAvailability;
+import com.dnsimple.data.DomainRegistration;
+import com.dnsimple.data.DomainTransfer;
 import com.dnsimple.response.CheckDomainResponse;
 import com.dnsimple.response.RegisterDomainResponse;
 import com.dnsimple.response.RenewDomainResponse;
@@ -26,15 +28,15 @@ public class RegistrarTest extends DnsimpleTestBase {
   @Test
   public void testCheckDomain() throws DnsimpleException, IOException {
     String accountId = "1010";
-    String name = "example.com";
+    String name = "ruby.codes";
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/check", HttpMethods.GET, new HttpHeaders(), null, resource("checkDomain/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/ruby.codes/check", HttpMethods.GET, new HttpHeaders(), null, resource("checkDomain/success.http"));
 
     CheckDomainResponse response = client.registrar.checkDomain(accountId, name);
     DomainAvailability availability = response.getData();
     assertEquals(name, availability.getDomainName());
     assertTrue(availability.getAvailable().booleanValue());
-    assertFalse(availability.getPremium().booleanValue());
+    assertTrue(availability.getPremium().booleanValue());
   }
 
   @Test
@@ -47,19 +49,15 @@ public class RegistrarTest extends DnsimpleTestBase {
     Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/registrations", HttpMethods.POST, new HttpHeaders(), attributes, resource("registerDomain/success.http"));
 
     RegisterDomainResponse response = client.registrar.registerDomain(accountId, name, attributes);
-    Domain domain = response.getData();
-    assertEquals(1, domain.getId().intValue());
-    assertEquals(1010, domain.getAccountId().intValue());
-    assertEquals(2, domain.getRegistrantId().intValue());
-    assertEquals("example.com", domain.getName());
-    assertEquals("example.com", domain.getUnicodeName());
-    assertEquals("cc8h1jP8bDLw5rXycL16k8BivcGiT6K9", domain.getToken());
-    assertEquals("registered", domain.getState());
-    assertFalse(domain.getAutoRenew());
-    assertFalse(domain.getPrivateWhois());
-    assertEquals("2017-01-16", domain.getExpiresOn());
-    assertEquals("2016-01-16T16:08:50.649Z", domain.getCreatedAt());
-    assertEquals("2016-01-16T16:09:01.161Z", domain.getUpdatedAt());
+    DomainRegistration registration = response.getData();
+    assertEquals(1, registration.getId().intValue());
+    assertEquals(999, registration.getDomainId().intValue());
+    assertEquals(2, registration.getRegistrantId().intValue());
+    assertEquals("new", registration.getState());
+    assertFalse(registration.hasAutoRenew());
+    assertFalse(registration.hasWhoisPrivacy());
+    assertEquals("2016-12-09T19:35:31Z", registration.getCreatedAt());
+    assertEquals("2016-12-09T19:35:31Z", registration.getUpdatedAt());
   }
 
   @Test
@@ -99,8 +97,8 @@ public class RegistrarTest extends DnsimpleTestBase {
     Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/transfers", HttpMethods.POST, new HttpHeaders(), attributes, resource("transferDomain/success.http"));
 
     TransferDomainResponse response = client.registrar.transferDomain(accountId, name, attributes);
-    Domain domain = response.getData();
-    assertEquals(1, domain.getId().intValue());
+    DomainTransfer transfer = response.getData();
+    assertEquals(1, transfer.getId().intValue());
   }
 
   @Test(expected=DnsimpleException.class)
@@ -111,7 +109,7 @@ public class RegistrarTest extends DnsimpleTestBase {
     attributes.put("registrant_id", "1");
     attributes.put("auth_info", "x1y2z3");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/transfers", HttpMethods.POST, new HttpHeaders(), attributes, resource("transferDomain/error-isdnsimple.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/transfers", HttpMethods.POST, new HttpHeaders(), attributes, resource("transferDomain/error-indnsimple.http"));
 
     client.registrar.transferDomain(accountId, name, attributes);
   }
@@ -133,7 +131,7 @@ public class RegistrarTest extends DnsimpleTestBase {
     String accountId = "1010";
     String name = "example.com";
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/authorize_transfer_out", HttpMethods.POST, new HttpHeaders(), null, resource("transferDomainOut/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/authorize_transfer_out", HttpMethods.POST, new HttpHeaders(), null, resource("authorizeDomainTransferOut/success.http"));
 
     TransferDomainOutResponse response = client.registrar.transferDomainOut(accountId, name);
     assertEquals(null, response.getData());

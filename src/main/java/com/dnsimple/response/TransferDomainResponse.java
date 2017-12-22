@@ -1,14 +1,13 @@
 package com.dnsimple.response;
 
-import com.dnsimple.data.Domain;
-
+import com.dnsimple.data.DomainTransfer;
 import com.google.api.client.util.Key;
 
 public class TransferDomainResponse extends ApiResponse {
   @Key("data")
-  private Domain data;
+  private DomainTransfer data;
 
-  public Domain getData() {
+  public DomainTransfer getData() {
     return data;
   }
 }

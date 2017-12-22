@@ -99,8 +99,8 @@ public class ZonesTest extends DnsimpleTestBase {
     assertEquals(1, zone.getId().intValue());
     assertEquals(1010, zone.getAccountId().intValue());
     assertEquals("example-alpha.com", zone.getName());
-    assertEquals("2015-04-23T07:40:03.045Z", zone.getCreatedAt());
-    assertEquals("2015-04-23T07:40:03.051Z", zone.getUpdatedAt());
+    assertEquals("2015-04-23T07:40:03Z", zone.getCreatedAt());
+    assertEquals("2015-04-23T07:40:03Z", zone.getUpdatedAt());
   }
 
   @Test(expected=ResourceNotFoundException.class)

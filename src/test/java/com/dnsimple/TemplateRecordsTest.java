@@ -106,8 +106,8 @@ public class TemplateRecordsTest extends DnsimpleTestBase {
     assertEquals(600, record.getTtl().intValue());
     assertEquals(10, record.getPriority().intValue());
     assertEquals("MX", record.getType());
-    assertEquals("2016-05-03T08:03:26.444Z", record.getCreatedAt());
-    assertEquals("2016-05-03T08:03:26.444Z", record.getUpdatedAt());
+    assertEquals("2016-05-03T08:03:26Z", record.getCreatedAt());
+    assertEquals("2016-05-03T08:03:26Z", record.getUpdatedAt());
   }
 
   @Test
@@ -118,7 +118,7 @@ public class TemplateRecordsTest extends DnsimpleTestBase {
     attributes.put("name", "www");
     attributes.put("content", "example.com");
 
-    Client client = expectClient("https://api.dnsimple.com/v2/1010/templates/1/records", HttpMethods.POST, new HashMap<String, Object>(), attributes);
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/templates/1/records", HttpMethods.POST, new HashMap<String, Object>(), attributes, resource("createTemplateRecord/created.http"));
 
     client.templates.createTemplateRecord(accountId, templateId, attributes);
   }

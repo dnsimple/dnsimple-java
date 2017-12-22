@@ -11,7 +11,7 @@ public class Service {
   @Key("name")
   private String name;
 
-  @Key("short_name")
+  @Key("sid")
   private String shortName;
 
   @Key("description")
