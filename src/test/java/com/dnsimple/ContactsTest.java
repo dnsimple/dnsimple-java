@@ -108,8 +108,8 @@ public class ContactsTest extends DnsimpleTestBase {
     assertEquals("RM", contact.getStateOrProvince());
     assertEquals("00100", contact.getPostalCode());
     assertEquals("IT", contact.getCountry());
-    assertEquals("2016-01-19T20:50:26.066Z", contact.getCreatedAt());
-    assertEquals("2016-01-19T20:50:26.066Z", contact.getUpdatedAt());
+    assertEquals("2016-01-19T20:50:26Z", contact.getCreatedAt());
+    assertEquals("2016-01-19T20:50:26Z", contact.getUpdatedAt());
   }
 
   @Test(expected=ResourceNotFoundException.class)
@@ -129,7 +129,7 @@ public class ContactsTest extends DnsimpleTestBase {
     attributes.put("first_name", "John");
     attributes.put("last_name", "Smith");
 
-    Client client = expectClient("https://api.dnsimple.com/v2/1010/contacts", HttpMethods.POST, new HttpHeaders(), attributes);
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/contacts", HttpMethods.POST, new HttpHeaders(), attributes, resource("createContact/created.http"));
 
     client.contacts.createContact(accountId, attributes);
   }

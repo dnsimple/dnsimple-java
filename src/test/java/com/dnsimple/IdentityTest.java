@@ -18,7 +18,7 @@ import com.google.api.client.util.Data;
 public class IdentityTest extends DnsimpleTestBase {
   @Test
   public void testWhoamiWithAccount() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("whoami/success_account.http"));
+    Client client = mockClient(resource("whoami/success-account.http"));
     WhoamiResponse response = client.identity.whoami();
     Account account = response.getData().getAccount();
     assertEquals(1, account.getId().intValue());
@@ -28,7 +28,7 @@ public class IdentityTest extends DnsimpleTestBase {
 
   @Test
   public void testWhoamiWithUser() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("whoami/success_user.http"));
+    Client client = mockClient(resource("whoami/success-user.http"));
     WhoamiResponse response = client.identity.whoami();
     User user = response.getData().getUser();
     assertEquals(1, user.getId().intValue());

@@ -23,7 +23,7 @@ public class RegistrarAutoRenewTest extends DnsimpleTestBase {
     String accountId = "1010";
     String domainId = "example.com";
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/auto_renewal", HttpMethods.PUT, new HttpHeaders(), null, resource("enableAutoRenewal/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/auto_renewal", HttpMethods.PUT, new HttpHeaders(), null, resource("enableDomainAutoRenewal/success.http"));
 
     EnableAutoRenewalResponse response = client.registrar.enableAutoRenewal(accountId, domainId);
     assertEquals(null, response.getData());
@@ -44,7 +44,7 @@ public class RegistrarAutoRenewTest extends DnsimpleTestBase {
     String accountId = "1010";
     String domainId = "example.com";
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/auto_renewal", HttpMethods.DELETE, new HttpHeaders(), null, resource("disableAutoRenewal/success.http"));
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/auto_renewal", HttpMethods.DELETE, new HttpHeaders(), null, resource("disableDomainAutoRenewal/success.http"));
 
     DisableAutoRenewalResponse response = client.registrar.disableAutoRenewal(accountId, domainId);
     assertEquals(null, response.getData());

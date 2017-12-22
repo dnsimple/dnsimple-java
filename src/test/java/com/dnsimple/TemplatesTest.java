@@ -100,8 +100,8 @@ public class TemplatesTest extends DnsimpleTestBase {
     assertEquals("Alpha", template.getName());
     assertEquals("alpha", template.getShortName());
     assertEquals("An alpha template.", template.getDescription());
-    assertEquals("2016-03-22T11:08:58.262Z", template.getCreatedAt());
-    assertEquals("2016-03-22T11:08:58.262Z", template.getUpdatedAt());
+    assertEquals("2016-03-22T11:08:58Z", template.getCreatedAt());
+    assertEquals("2016-03-22T11:08:58Z", template.getUpdatedAt());
   }
 
   @Test(expected=ResourceNotFoundException.class)
@@ -121,7 +121,7 @@ public class TemplatesTest extends DnsimpleTestBase {
     attributes.put("name", "A Template");
     attributes.put("short_name", "a_template");
 
-    Client client = expectClient("https://api.dnsimple.com/v2/1010/templates", HttpMethods.POST, new HashMap<String, Object>(), attributes);
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/templates", HttpMethods.POST, new HashMap<String, Object>(), attributes, resource("createTemplate/created.http"));
 
     client.templates.createTemplate(accountId, attributes);
   }

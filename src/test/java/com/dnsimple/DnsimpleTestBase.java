@@ -113,7 +113,7 @@ public abstract class DnsimpleTestBase {
             }
 
             MockLowLevelHttpResponse response = new MockLowLevelHttpResponse();
-            return mockResponse(response, resource("empty-success.http"));
+            return mockResponse(response, resource("pages-1of3.http"));
           }
         };
       }

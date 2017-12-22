@@ -107,8 +107,8 @@ public class DomainsTest extends DnsimpleTestBase {
     assertFalse(domain.getAutoRenew());
     assertFalse(domain.getPrivateWhois());
     assertTrue(Data.isNull(domain.getExpiresOn()));
-    assertEquals("2014-12-06T15:56:55.573Z", domain.getCreatedAt());
-    assertEquals("2015-12-09T00:20:56.056Z", domain.getUpdatedAt());
+    assertEquals("2014-12-06T15:56:55Z", domain.getCreatedAt());
+    assertEquals("2015-12-09T00:20:56Z", domain.getUpdatedAt());
   }
 
   @Test(expected=ResourceNotFoundException.class)
@@ -127,7 +127,7 @@ public class DomainsTest extends DnsimpleTestBase {
     HashMap<String, Object> attributes = new HashMap<String, Object>();
     attributes.put("name", "example.com");
 
-    Client client = expectClient("https://api.dnsimple.com/v2/1010/domains", HttpMethods.POST, new HashMap<String, Object>(), attributes);
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains", HttpMethods.POST, new HashMap<String, Object>(), attributes, resource("createDomain/created.http"));
 
     client.domains.createDomain(accountId, attributes);
   }

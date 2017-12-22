@@ -68,7 +68,7 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
 
     List<ZoneRecord> zoneRecords = response.getData();
     assertEquals(5, zoneRecords.size());
-    assertEquals(64779, zoneRecords.get(0).getId().intValue());
+    assertEquals(1, zoneRecords.get(0).getId().intValue());
   }
 
   @Test
@@ -95,17 +95,17 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
     GetZoneRecordResponse response = client.zones.getZoneRecord(accountId, zoneId, recordId);
 
     ZoneRecord record = response.getData();
-    assertEquals(64784, record.getId().intValue());
+    assertEquals(5, record.getId().intValue());
     assertEquals("example.com", record.getZoneId());
     assertTrue(Data.isNull(record.getParentId()));
-    assertEquals("www", record.getName());
-    assertEquals("127.0.0.1", record.getContent());
+    assertEquals("", record.getName());
+    assertEquals("mxa.example.com", record.getContent());
     assertEquals(600, record.getTtl().intValue());
-    assertTrue(Data.isNull(record.getPriority()));
-    assertEquals("A", record.getType());
+    assertEquals(10, record.getPriority().intValue());
+    assertEquals("MX", record.getType());
     assertFalse(record.getSystemRecord());
-    assertEquals("2016-01-07T17:45:13.653Z", record.getCreatedAt());
-    assertEquals("2016-01-07T17:45:13.653Z", record.getUpdatedAt());
+    assertEquals("2016-10-05T09:51:35Z", record.getCreatedAt());
+    assertEquals("2016-10-05T09:51:35Z", record.getUpdatedAt());
   }
 
   @Test(expected=ResourceNotFoundException.class)
@@ -120,7 +120,7 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testCreateZoneSendsCorrectRequest() throws DnsimpleException, IOException {
+  public void testCreateZoneRecordSendsCorrectRequest() throws DnsimpleException, IOException {
     String accountId = "1010";
     String zoneId = "example.com";
     HttpHeaders headers = new HttpHeaders();
@@ -128,7 +128,7 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
     HashMap<String, Object> attributes = new HashMap<String, Object>();
     attributes.put("name", "www");
 
-    Client client = expectClient("https://api.dnsimple.com/v2/1010/zones/example.com/records", HttpMethods.POST, headers, attributes);
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/zones/example.com/records", HttpMethods.POST, headers, attributes, resource("createZoneRecord/created.http"));
 
     client.zones.createZoneRecord(accountId, zoneId, attributes);
   }
@@ -144,7 +144,7 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
 
     CreateZoneRecordResponse response = client.zones.createZoneRecord(accountId, zoneId, attributes);
     ZoneRecord record = response.getData();
-    assertEquals(64784, record.getId().intValue());
+    assertEquals(1, record.getId().intValue());
   }
 
   @Test
@@ -159,7 +159,7 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
 
     UpdateZoneRecordResponse response = client.zones.updateZoneRecord(accountId, zoneId, recordId, attributes);
     ZoneRecord record = response.getData();
-    assertEquals(64784, record.getId().intValue());
+    assertEquals(5, record.getId().intValue());
   }
 
   @Test
