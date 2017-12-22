@@ -2,17 +2,17 @@ package com.dnsimple;
 
 import com.dnsimple.data.Certificate;
 import com.dnsimple.data.CertificateBundle;
+import com.dnsimple.data.CertificateRenewal;
 import com.dnsimple.data.Pagination;
 import com.dnsimple.response.ListCertificatesResponse;
 import com.dnsimple.response.GetCertificateResponse;
 import com.dnsimple.response.DownloadCertificateResponse;
 import com.dnsimple.response.GetCertificatePrivateKeyResponse;
-import com.dnsimple.response.LetsencryptPurchaseResponse;
+import com.dnsimple.response.PurchaseLetsencryptResponse;
+import com.dnsimple.response.PurchaseLetsencryptRenewalResponse;
 
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
-
-import junit.framework.Assert;
 
 import org.junit.Test;
 
@@ -158,15 +158,32 @@ public class CertificatesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testLetsencryptPurchase() throws DnsimpleException, IOException {
+  public void testPurchaseLetsencryptCertificate() throws DnsimpleException, IOException {
     String accountId = "1010";
     String domainId = "weppos.net";
     Map<String,Object> attributes = new HashMap<String,Object>();
 
     Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains/weppos.net/certificates/letsencrypt", HttpMethods.POST, new HttpHeaders(), attributes, resource("purchaseLetsencryptCertificate/success.http"));
 
-    LetsencryptPurchaseResponse response = client.certificates.letsencryptPurchase(accountId, domainId, attributes);
-    //assertEquals("", response.getData().getId());
-    //assertEquals("", response.getData().getDomainId());
+    PurchaseLetsencryptResponse response = client.certificates.purchaseLetsencryptCertificate(accountId, domainId, attributes);
+    Certificate certificate = response.getData();
+    assertEquals(200, certificate.getId().intValue());
+    assertEquals(300, certificate.getDomainId().intValue());
+  }
+
+  @Test
+  public void testPurchaseLetsencryptCertificateRenewal() throws DnsimpleException, IOException {
+    String accountId = "1010";
+    String domainId = "weppos.net";
+    String certificateId = "2";
+    Map<String,Object> attributes = new HashMap<String,Object>();
+
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains/weppos.net/certificates/letsencrypt/2/renewals", HttpMethods.POST, new HttpHeaders(), attributes, resource("purchaseRenewalLetsencryptCertificate/success.http"));
+
+    PurchaseLetsencryptRenewalResponse response = client.certificates.purchaseLetsencryptCertificateRenewal(accountId, domainId, certificateId, attributes);
+    CertificateRenewal renewal = response.getData();
+    assertEquals(999, renewal.getId().intValue());
+    assertEquals(200, renewal.getOldCertificateId().intValue());
+    assertEquals(300, renewal.getNewCertificateId().intValue());
   }
 }

@@ -4,15 +4,15 @@ import com.dnsimple.data.Certificate;
 
 import com.google.api.client.util.Key;
 
-public class LetsencryptPurchaseResponse extends ApiResponse {
+public class PurchaseLetsencryptResponse extends ApiResponse {
   @Key("data")
   private Certificate data;
 
-  public LetsencryptPurchaseResponse() {
+  public PurchaseLetsencryptResponse() {
     this(new Certificate());
   }
 
-  public LetsencryptPurchaseResponse(Certificate data) {
+  public PurchaseLetsencryptResponse(Certificate data) {
     this.data = data;
   }
 

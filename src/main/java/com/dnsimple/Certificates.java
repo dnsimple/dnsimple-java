@@ -4,9 +4,9 @@ import com.dnsimple.response.ListCertificatesResponse;
 import com.dnsimple.response.GetCertificateResponse;
 import com.dnsimple.response.DownloadCertificateResponse;
 import com.dnsimple.response.GetCertificatePrivateKeyResponse;
-import com.dnsimple.response.LetsencryptPurchaseResponse;
+import com.dnsimple.response.PurchaseLetsencryptResponse;
+import com.dnsimple.response.PurchaseLetsencryptRenewalResponse;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.exception.ResourceNotFoundException;
 
 import java.io.IOException;
 import java.util.Map;
@@ -90,10 +90,24 @@ public interface Certificates {
    * @param accountId The account ID
    * @param domainId The domain name or ID
    * @param attributes Attributes for the certificate
-   * @return The letsencrypt purchase response
+   * @return The Let's Encrypt purchase response
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public LetsencryptPurchaseResponse letsencryptPurchase(String accountId, String domainId, Map<String,Object> attributes) throws DnsimpleException, IOException;
+  public PurchaseLetsencryptResponse purchaseLetsencryptCertificate(String accountId, String domainId, Map<String,Object> attributes) throws DnsimpleException, IOException;
+
+  /**
+   * Purchase a Let's Encrypt certificate renewal.
+   *
+   * @see <a href=""></a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain name or ID
+   * @param attributes Attributes for the certificate
+   * @return The Let's Encrypt purchase renewal response
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public PurchaseLetsencryptRenewalResponse purchaseLetsencryptCertificateRenewal(String accountId, String domainId, String certificateId, Map<String,Object> attributes) throws DnsimpleException, IOException;
 
 }
