@@ -9,7 +9,9 @@ import com.dnsimple.response.GetCertificateResponse;
 import com.dnsimple.response.DownloadCertificateResponse;
 import com.dnsimple.response.GetCertificatePrivateKeyResponse;
 import com.dnsimple.response.PurchaseLetsencryptResponse;
+import com.dnsimple.response.IssueLetsencryptResponse;
 import com.dnsimple.response.PurchaseLetsencryptRenewalResponse;
+import com.dnsimple.response.IssueLetsencryptRenewalResponse;
 
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
@@ -172,6 +174,20 @@ public class CertificatesTest extends DnsimpleTestBase {
   }
 
   @Test
+  public void testIssueLetsencryptCertificate() throws DnsimpleException, IOException {
+    String accountId = "1010";
+    String domainId = "weppos.net";
+    String purchaseId = "2";
+
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains/weppos.net/certificates/letsencrypt/2/issue", HttpMethods.POST, new HttpHeaders(), null, resource("issueLetsencryptCertificate/success.http"));
+
+    IssueLetsencryptResponse response = client.certificates.issueLetsencryptCertificate(accountId, domainId, purchaseId);
+    Certificate certificate = response.getData();
+    assertEquals(200, certificate.getId().intValue());
+    assertEquals(300, certificate.getDomainId().intValue());
+  }
+
+  @Test
   public void testPurchaseLetsencryptCertificateRenewal() throws DnsimpleException, IOException {
     String accountId = "1010";
     String domainId = "weppos.net";
@@ -185,5 +201,20 @@ public class CertificatesTest extends DnsimpleTestBase {
     assertEquals(999, renewal.getId().intValue());
     assertEquals(200, renewal.getOldCertificateId().intValue());
     assertEquals(300, renewal.getNewCertificateId().intValue());
+  }
+
+  @Test
+  public void testIssueLetsencryptCertificateRenewal() throws DnsimpleException, IOException {
+    String accountId = "1010";
+    String domainId = "weppos.net";
+    String certificateId = "2";
+    String renewalId = "3";
+
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains/weppos.net/certificates/letsencrypt/2/renewals/3/issue", HttpMethods.POST, new HttpHeaders(), null, resource("issueLetsencryptCertificate/success.http"));
+
+    IssueLetsencryptRenewalResponse response = client.certificates.issueLetsencryptCertificateRenewal(accountId, domainId, certificateId, renewalId);
+    Certificate certificate = response.getData();
+    assertEquals(200, certificate.getId().intValue());
+    assertEquals(300, certificate.getDomainId().intValue());
   }
 }

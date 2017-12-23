@@ -45,8 +45,18 @@ public class CertificatesEndpoint implements Certificates {
     return (PurchaseLetsencryptResponse)client.parseResponse(response, PurchaseLetsencryptResponse.class);
   }
 
+  public IssueLetsencryptResponse issueLetsencryptCertificate(String accountId, String domainId, String certificatePurchaseId) throws DnsimpleException, IOException {
+    HttpResponse response = client.post(accountId + "/domains/" + domainId + "/certificates/letsencrypt/" + certificatePurchaseId + "/issue");
+    return (IssueLetsencryptResponse)client.parseResponse(response, IssueLetsencryptResponse.class);
+  }
+
   public PurchaseLetsencryptRenewalResponse purchaseLetsencryptCertificateRenewal(String accountId, String domainId, String certificateId, Map<String,Object> attributes) throws DnsimpleException, IOException {
     HttpResponse response = client.post(accountId + "/domains/" + domainId + "/certificates/letsencrypt/" + certificateId + "/renewals", attributes);
     return (PurchaseLetsencryptRenewalResponse)client.parseResponse(response, PurchaseLetsencryptRenewalResponse.class);
+  }
+
+  public IssueLetsencryptRenewalResponse issueLetsencryptCertificateRenewal(String accountId, String domainId, String certificateId, String certificateRenewalId) throws DnsimpleException, IOException {
+    HttpResponse response = client.post(accountId + "/domains/" + domainId + "/certificates/letsencrypt/" + certificateId + "/renewals/" + certificateRenewalId + "/issue");
+    return (IssueLetsencryptRenewalResponse)client.parseResponse(response, IssueLetsencryptRenewalResponse.class);
   }
 }
