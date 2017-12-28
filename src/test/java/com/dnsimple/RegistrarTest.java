@@ -3,6 +3,7 @@ package com.dnsimple;
 import com.dnsimple.data.Domain;
 import com.dnsimple.data.DomainAvailability;
 import com.dnsimple.data.DomainRegistration;
+import com.dnsimple.data.DomainRenewal;
 import com.dnsimple.data.DomainTransfer;
 import com.dnsimple.response.CheckDomainResponse;
 import com.dnsimple.response.RegisterDomainResponse;
@@ -70,8 +71,8 @@ public class RegistrarTest extends DnsimpleTestBase {
     Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/renewals", HttpMethods.POST, new HttpHeaders(), attributes, resource("renewDomain/success.http"));
 
     RenewDomainResponse response = client.registrar.renewDomain(accountId, name, attributes);
-    Domain domain = response.getData();
-    assertEquals(1, domain.getId().intValue());
+    DomainRenewal domainRenewal = response.getData();
+    assertEquals(1, domainRenewal.getId().intValue());
   }
 
   @Test(expected=DnsimpleException.class)
