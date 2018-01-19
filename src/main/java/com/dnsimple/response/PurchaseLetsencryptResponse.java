@@ -1,22 +1,22 @@
 package com.dnsimple.response;
 
-import com.dnsimple.data.Certificate;
+import com.dnsimple.data.CertificatePurchase;
 
 import com.google.api.client.util.Key;
 
 public class PurchaseLetsencryptResponse extends ApiResponse {
   @Key("data")
-  private Certificate data;
+  private CertificatePurchase data;
 
   public PurchaseLetsencryptResponse() {
-    this(new Certificate());
+    this(new CertificatePurchase());
   }
 
-  public PurchaseLetsencryptResponse(Certificate data) {
+  public PurchaseLetsencryptResponse(CertificatePurchase data) {
     this.data = data;
   }
 
-  public Certificate getData() {
+  public CertificatePurchase getData() {
     return data;
   }
 }

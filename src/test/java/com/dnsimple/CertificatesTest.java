@@ -2,6 +2,7 @@ package com.dnsimple;
 
 import com.dnsimple.data.Certificate;
 import com.dnsimple.data.CertificateBundle;
+import com.dnsimple.data.CertificatePurchase;
 import com.dnsimple.data.CertificateRenewal;
 import com.dnsimple.data.Pagination;
 import com.dnsimple.response.ListCertificatesResponse;
@@ -168,9 +169,9 @@ public class CertificatesTest extends DnsimpleTestBase {
     Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains/weppos.net/certificates/letsencrypt", HttpMethods.POST, new HttpHeaders(), attributes, resource("purchaseLetsencryptCertificate/success.http"));
 
     PurchaseLetsencryptResponse response = client.certificates.purchaseLetsencryptCertificate(accountId, domainId, attributes);
-    Certificate certificate = response.getData();
-    assertEquals(200, certificate.getId().intValue());
-    assertEquals(300, certificate.getDomainId().intValue());
+    CertificatePurchase purchase = response.getData();
+    assertEquals(300, purchase.getId().intValue());
+    assertEquals(300, purchase.getCertificateId().intValue());
   }
 
   @Test
