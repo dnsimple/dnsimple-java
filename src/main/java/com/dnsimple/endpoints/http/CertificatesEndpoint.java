@@ -1,18 +1,12 @@
 package com.dnsimple.endpoints.http;
 
 import com.dnsimple.Certificates;
-import com.dnsimple.response.ListCertificatesResponse;
-import com.dnsimple.response.GetCertificateResponse;
-import com.dnsimple.response.DownloadCertificateResponse;
-import com.dnsimple.response.GetCertificatePrivateKeyResponse;
+import com.dnsimple.response.*;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.exception.ResourceNotFoundException;
 
 import com.google.api.client.http.HttpResponse;
-import com.google.api.client.http.HttpResponseException;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 public class CertificatesEndpoint implements Certificates {
@@ -44,5 +38,25 @@ public class CertificatesEndpoint implements Certificates {
   public GetCertificatePrivateKeyResponse getCertificatePrivateKey(String accountId, String domainId, String certificateId) throws DnsimpleException, IOException {
     HttpResponse response = client.get(accountId + "/domains/" + domainId + "/certificates/" + certificateId + "/private_key");
     return (GetCertificatePrivateKeyResponse)client.parseResponse(response, GetCertificatePrivateKeyResponse.class);
+  }
+
+  public PurchaseLetsencryptResponse purchaseLetsencryptCertificate(String accountId, String domainId, Map<String,Object> attributes) throws DnsimpleException, IOException {
+    HttpResponse response = client.post(accountId + "/domains/" + domainId + "/certificates/letsencrypt", attributes);
+    return (PurchaseLetsencryptResponse)client.parseResponse(response, PurchaseLetsencryptResponse.class);
+  }
+
+  public IssueLetsencryptResponse issueLetsencryptCertificate(String accountId, String domainId, String certificatePurchaseId) throws DnsimpleException, IOException {
+    HttpResponse response = client.post(accountId + "/domains/" + domainId + "/certificates/letsencrypt/" + certificatePurchaseId + "/issue");
+    return (IssueLetsencryptResponse)client.parseResponse(response, IssueLetsencryptResponse.class);
+  }
+
+  public PurchaseLetsencryptRenewalResponse purchaseLetsencryptCertificateRenewal(String accountId, String domainId, String certificateId, Map<String,Object> attributes) throws DnsimpleException, IOException {
+    HttpResponse response = client.post(accountId + "/domains/" + domainId + "/certificates/letsencrypt/" + certificateId + "/renewals", attributes);
+    return (PurchaseLetsencryptRenewalResponse)client.parseResponse(response, PurchaseLetsencryptRenewalResponse.class);
+  }
+
+  public IssueLetsencryptRenewalResponse issueLetsencryptCertificateRenewal(String accountId, String domainId, String certificateId, String certificateRenewalId) throws DnsimpleException, IOException {
+    HttpResponse response = client.post(accountId + "/domains/" + domainId + "/certificates/letsencrypt/" + certificateId + "/renewals/" + certificateRenewalId + "/issue");
+    return (IssueLetsencryptRenewalResponse)client.parseResponse(response, IssueLetsencryptRenewalResponse.class);
   }
 }

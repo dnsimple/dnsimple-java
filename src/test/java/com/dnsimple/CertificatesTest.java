@@ -2,26 +2,32 @@ package com.dnsimple;
 
 import com.dnsimple.data.Certificate;
 import com.dnsimple.data.CertificateBundle;
+import com.dnsimple.data.CertificatePurchase;
+import com.dnsimple.data.CertificateRenewal;
 import com.dnsimple.data.Pagination;
 import com.dnsimple.response.ListCertificatesResponse;
 import com.dnsimple.response.GetCertificateResponse;
 import com.dnsimple.response.DownloadCertificateResponse;
 import com.dnsimple.response.GetCertificatePrivateKeyResponse;
+import com.dnsimple.response.PurchaseLetsencryptResponse;
+import com.dnsimple.response.IssueLetsencryptResponse;
+import com.dnsimple.response.PurchaseLetsencryptRenewalResponse;
+import com.dnsimple.response.IssueLetsencryptRenewalResponse;
 
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
-
-import junit.framework.Assert;
 
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.util.Data;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.HashMap;
 
 public class CertificatesTest extends DnsimpleTestBase {
@@ -152,5 +158,64 @@ public class CertificatesTest extends DnsimpleTestBase {
 
     GetCertificatePrivateKeyResponse response = client.certificates.getCertificatePrivateKey(accountId, domainId, certificateId);
     assertEquals("-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAtzCcMfWoQRt5AMEY0HUb2GaraL1GsWOo6YXdPfe+YDvtnmDw\n23NcoTX7VSeCgU9M3RKs19AsCJcRNTLJ2dmDrAuyCTud9YTAaXQcTOLUhtO8T8+9\nAFVIva2OmAlKCR5saBW3JaRxW7V2aHEd/d1ss1CvNOO7jNppc9NwGSnDHcn3rqNv\n/U3MaU0gpJJRqsKkvcLU6IHJGgxyQ6AbpwJDIqBnzkjHu2IuhGEbRuMjyWLA2qts\njyVlfPotDxUdVouUQpz7dGHUFrLR7ma8QAYuOfl1ZMyrc901HGMa7zwbnFWurs3f\ned7vAosTRZIjnn72/3Wo7L9RiMB+vwr3NX7c9QIDAQABAoIBAEQx32OlzK34GTKT\nr7Yicmw7xEGofIGa1Q2h3Lut13whsxKLif5X0rrcyqRnoeibacS+qXXrJolIG4rP\nTl8/3wmUDQHs5J+6fJqFM+fXZUCP4AFiFzzhgsPBsVyd0KbWYYrZ0qU7s0ttoRe+\nTGjuHgIe3ip1QKNtx2Xr50YmytDydknmro79J5Gfrub1l2iA8SDm1eBrQ4SFaNQ2\nU709pHeSwX8pTihUX2Zy0ifpr0O1wYQjGLneMoG4rrNQJG/z6iUdhYczwwt1kDRQ\n4WkM2sovFOyxbBfoCQ3Gy/eem7OXfjNKUe47DAVLnPkKbqL/3Lo9FD7kcB8K87Ap\nr/vYrl0CgYEA413RAk7571w5dM+VftrdbFZ+Yi1OPhUshlPSehavro8kMGDEG5Ts\n74wEz2X3cfMxauMpMrBk/XnUCZ20AnWQClK73RB5fzPw5XNv473Tt/AFmt7eLOzl\nOcYrhpEHegtsD/ZaljlGtPqsjQAL9Ijhao03m1cGB1+uxI7FgacdckcCgYEAzkKP\n6xu9+WqOol73cnlYPS3sSZssyUF+eqWSzq2YJGRmfr1fbdtHqAS1ZbyC5fZVNZYV\nml1vfXi2LDcU0qS04JazurVyQr2rJZMTlCWVET1vhik7Y87wgCkLwKpbwamPDmlI\n9GY+fLNEa4yfAOOpvpTJpenUScxyKWH2cdYFOOMCgYBhrJnvffINC/d64Pp+BpP8\nyKN+lav5K6t3AWd4H2rVeJS5W7ijiLTIq8QdPNayUyE1o+S8695WrhGTF/aO3+ZD\nKQufikZHiQ7B43d7xL7BVBF0WK3lateGnEVyh7dIjMOdj92Wj4B6mv2pjQ2VvX/p\nAEWVLCtg24/+zL64VgxmXQKBgGosyXj1Zu2ldJcQ28AJxup3YVLilkNje4AXC2No\n6RCSvlAvm5gpcNGE2vvr9lX6YBKdl7FGt8WXBe/sysNEFfgmm45ZKOBCUn+dHk78\nqaeeQHKHdxMBy7utZWdgSqt+ZS299NgaacA3Z9kVIiSLDS4V2VeW7riujXXP/9TJ\nnxaRAoGBAMWXOfNVzfTyrKff6gvDWH+hqNICLyzvkEn2utNY9Q6WwqGuY9fvP/4Z\nXzc48AOBzUr8OeA4sHKJ79sJirOiWHNfD1swtvyVzsFZb6moiNwD3Ce/FzYCa3lQ\nU8blTH/uqpR2pSC6whzJ/lnSdqHUqhyp00000000000000000000\n-----END RSA PRIVATE KEY-----\n", response.getData().getPrivateKey());
+  }
+
+  @Test
+  public void testPurchaseLetsencryptCertificate() throws DnsimpleException, IOException {
+    String accountId = "1010";
+    String domainId = "weppos.net";
+    Map<String,Object> attributes = new HashMap<String,Object>();
+
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains/weppos.net/certificates/letsencrypt", HttpMethods.POST, new HttpHeaders(), attributes, resource("purchaseLetsencryptCertificate/success.http"));
+
+    PurchaseLetsencryptResponse response = client.certificates.purchaseLetsencryptCertificate(accountId, domainId, attributes);
+    CertificatePurchase purchase = response.getData();
+    assertEquals(300, purchase.getId().intValue());
+    assertEquals(300, purchase.getCertificateId().intValue());
+  }
+
+  @Test
+  public void testIssueLetsencryptCertificate() throws DnsimpleException, IOException {
+    String accountId = "1010";
+    String domainId = "weppos.net";
+    String purchaseId = "2";
+
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains/weppos.net/certificates/letsencrypt/2/issue", HttpMethods.POST, new HttpHeaders(), null, resource("issueLetsencryptCertificate/success.http"));
+
+    IssueLetsencryptResponse response = client.certificates.issueLetsencryptCertificate(accountId, domainId, purchaseId);
+    Certificate certificate = response.getData();
+    assertEquals(200, certificate.getId().intValue());
+    assertEquals(300, certificate.getDomainId().intValue());
+  }
+
+  @Test
+  public void testPurchaseLetsencryptCertificateRenewal() throws DnsimpleException, IOException {
+    String accountId = "1010";
+    String domainId = "weppos.net";
+    String certificateId = "2";
+    Map<String,Object> attributes = new HashMap<String,Object>();
+
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains/weppos.net/certificates/letsencrypt/2/renewals", HttpMethods.POST, new HttpHeaders(), attributes, resource("purchaseRenewalLetsencryptCertificate/success.http"));
+
+    PurchaseLetsencryptRenewalResponse response = client.certificates.purchaseLetsencryptCertificateRenewal(accountId, domainId, certificateId, attributes);
+    CertificateRenewal renewal = response.getData();
+    assertEquals(999, renewal.getId().intValue());
+    assertEquals(200, renewal.getOldCertificateId().intValue());
+    assertEquals(300, renewal.getNewCertificateId().intValue());
+  }
+
+  @Test
+  public void testIssueLetsencryptCertificateRenewal() throws DnsimpleException, IOException {
+    String accountId = "1010";
+    String domainId = "weppos.net";
+    String certificateId = "2";
+    String renewalId = "3";
+
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains/weppos.net/certificates/letsencrypt/2/renewals/3/issue", HttpMethods.POST, new HttpHeaders(), null, resource("issueLetsencryptCertificate/success.http"));
+
+    IssueLetsencryptRenewalResponse response = client.certificates.issueLetsencryptCertificateRenewal(accountId, domainId, certificateId, renewalId);
+    Certificate certificate = response.getData();
+    assertEquals(200, certificate.getId().intValue());
+    assertEquals(300, certificate.getDomainId().intValue());
   }
 }

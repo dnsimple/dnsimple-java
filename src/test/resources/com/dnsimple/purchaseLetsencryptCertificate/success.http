@@ -1,16 +1,16 @@
 HTTP/1.1 201 Created
 Server: nginx
-Date: Thu, 19 Oct 2017 08:18:53 GMT
+Date: Wed, 18 Oct 2017 15:40:32 GMT
 Content-Type: application/json; charset=utf-8
 Transfer-Encoding: chunked
 Connection: keep-alive
 X-RateLimit-Limit: 2400
 X-RateLimit-Remaining: 2399
-X-RateLimit-Reset: 1508404733
-ETag: W/"bda500d2cac6b1c4903e77e8113e9cdf"
+X-RateLimit-Reset: 1508344832
+ETag: W/"88b289ef19331082113a0c9cb32376da"
 Cache-Control: max-age=0, private, must-revalidate
-X-Request-Id: 64115047-ced5-40d1-b673-e2fc51ad7587
-X-Runtime: 0.072374
+X-Request-Id: 119f2d5b-2521-49ec-804d-715a10eeabc6
+X-Runtime: 0.095302
 X-Content-Type-Options: nosniff
 X-Download-Options: noopen
 X-Frame-Options: DENY
@@ -18,4 +18,4 @@ X-Permitted-Cross-Domain-Policies: none
 X-XSS-Protection: 1; mode=block
 Strict-Transport-Security: max-age=31536000
 
-{"data":{"id":999,"old_certificate_id":200,"new_certificate_id":300,"state":"new","auto_renew":false,"created_at":"2017-10-19T08:18:53Z","updated_at":"2017-10-19T08:18:53Z"}}
+{"data":{"id":300,"certificate_id":300,"state":"requesting","auto_renew":false,"created_at":"2017-10-19T08:18:53Z","updated_at":"2017-10-19T08:22:17Z","expires_on":null}}
