@@ -1,9 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>com.dnsimple</groupId>
   <artifactId>dnsimple-java</artifactId>
   <packaging>jar</packaging>
   <version>0.4.0</version>
+
   <name>dnsimple-java</name>
   <url>https://github.com/dnsimple/dnsimple-java</url>
   <licenses>
@@ -62,12 +64,6 @@
     </dependency>
   </dependencies>
 
-  <scm>
-    <connection>scm:git:git@github.com:dnsimple/dnsimple-java.git</connection>
-    <developerConnection>scm:git:git@github.com:dnsimple/dnsimple-java.git</developerConnection>
-    <url>git@github.com:dnsimple/dnsimple-java.git</url>
-  </scm>
-
   <distributionManagement>
     <snapshotRepository>
       <id>ossrh</id>
@@ -78,6 +74,12 @@
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
   </distributionManagement>
+
+  <scm>
+    <connection>scm:git:git@github.com:dnsimple/dnsimple-java.git</connection>
+    <developerConnection>scm:git:git@github.com:dnsimple/dnsimple-java.git</developerConnection>
+    <url>git@github.com:dnsimple/dnsimple-java.git</url>
+  </scm>
 
   <build>
     <plugins>
@@ -101,6 +103,14 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <build>
+        <resources>
+          <resource>
+            <directory>.</directory>
+            <includes>
+              <include>VERSION</include>
+            </includes>
+          </resource>
+        </resources>
         <plugins>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
@@ -124,14 +134,6 @@
         </property>
       </activation>
       <build>
-        <resources>
-          <resource>
-            <directory>.</directory>
-            <includes>
-              <include>VERSION</include>
-            </includes>
-          </resource>
-        </resources>
         <plugins>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
