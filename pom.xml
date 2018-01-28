@@ -4,8 +4,7 @@
   <groupId>com.dnsimple</groupId>
   <artifactId>dnsimple-java</artifactId>
   <packaging>jar</packaging>
-  <version>0.4.0</version>
-
+  <version>0.4.1</version>
   <name>dnsimple-java</name>
   <url>https://github.com/dnsimple/dnsimple-java</url>
   <licenses>
@@ -85,12 +84,11 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
         <configuration>
-          <autoVersionSubmodules>true</autoVersionSubmodules>
-          <useReleaseProfile>false</useReleaseProfile>
-          <releaseProfiles>release</releaseProfiles>
-          <goals>deploy</goals>
+          <source>1.6</source>
+          <target>1.6</target>
         </configuration>
       </plugin>
     </plugins>
@@ -111,17 +109,6 @@
             </includes>
           </resource>
         </resources>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.1</version>
-            <configuration>
-              <source>1.6</source>
-              <target>1.6</target>
-            </configuration>
-          </plugin>
-        </plugins>
       </build>
     </profile>
 
