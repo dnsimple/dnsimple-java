@@ -12,6 +12,12 @@
       <url>http://choosealicense.com/licenses/mit/</url>
     </license>
   </licenses>
+  <description>DNSimple Java Bindings</description>
+  <organization>
+    <name>DNSimple</name>
+    <url>https://dnsimple.com</url>
+  </organization>
+
   <developers>
     <developer>
       <name>Anthony Eden</name>
@@ -20,6 +26,7 @@
       <organizationUrl>https://dnsimple.com</organizationUrl>
     </developer>
   </developers>
+
   <dependencies>
     <dependency>
       <groupId>com.google.code.gson</groupId>
@@ -54,11 +61,13 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <description>DNSimple Java Bindings</description>
-  <organization>
-    <name>DNSimple</name>
-    <url>https://dnsimple.com</url>
-  </organization>
+
+  <scm>
+    <connection>scm:git:git@github.com:dnsimple/dnsimple-java.git</connection>
+    <developerConnection>scm:git:git@github.com:dnsimple/dnsimple-java.git</developerConnection>
+    <url>git@github.com:dnsimple/dnsimple-java.git</url>
+  </scm>
+
   <distributionManagement>
     <snapshotRepository>
       <id>ossrh</id>
@@ -70,28 +79,13 @@
     </repository>
   </distributionManagement>
 
-  <scm>
-    <connection>scm:git:git@github.com:dnsimple/dnsimple-java.git</connection>
-    <developerConnection>scm:git:git@github.com:dnsimple/dnsimple-java.git</developerConnection>
-    <url>git@github.com:dnsimple/dnsimple-java.git</url>
-  </scm>
-
   <profiles>
     <profile>
       <id>default</id>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
-
       <build>
-        <resources>
-          <resource>
-            <directory>.</directory>
-            <includes>
-              <include>VERSION</include>
-            </includes>
-          </resource>
-        </resources>
         <plugins>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
@@ -102,6 +96,28 @@
               <target>1.6</target>
             </configuration>
           </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>release</id>
+      <activation>
+        <property>
+          <name>performRelease</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <resources>
+          <resource>
+            <directory>.</directory>
+            <includes>
+              <include>VERSION</include>
+            </includes>
+          </resource>
+        </resources>
+        <plugins>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>
@@ -129,31 +145,6 @@
             </executions>
           </plugin>
           <plugin>
-            <groupId>org.sonatype.plugins</groupId>
-            <artifactId>nexus-staging-maven-plugin</artifactId>
-            <version>1.6.7</version>
-            <extensions>true</extensions>
-            <configuration>
-              <serverId>ossrh</serverId>
-              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-              <autoReleaseAfterClose>true</autoReleaseAfterClose>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <profile>
-      <id>release</id>
-      <activation>
-        <property>
-          <name>performRelease</name>
-          <value>true</value>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
             <version>1.5</version>
@@ -166,6 +157,17 @@
                 </goals>
               </execution>
             </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <version>1.6.7</version>
+            <extensions>true</extensions>
+            <configuration>
+              <serverId>ossrh</serverId>
+              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+              <autoReleaseAfterClose>true</autoReleaseAfterClose>
+            </configuration>
           </plugin>
         </plugins>
       </build>
