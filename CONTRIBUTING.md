@@ -1,5 +1,6 @@
 # Contributing to DNSimple/Java
 
+
 ## Getting started
 
 Using [jenv](http://www.jenv.be/) makes it possible to test on multiple versions of Java.
@@ -15,20 +16,63 @@ Install [Maven](https://maven.apache.org/install.html).
 
 [Run the test suite](#testing) to check everything works as expected.
 
+
 ## Testing
 
 To run the test suite:
 
-    mvn test
+```
+$ mvn test
+```
 
-## Tests
-
-Submit unit tests for your changes. You can test your changes on your machine by [running the test suite](#testing).
 
 ## Releasing
 
 Releasing may only be done by one of the DNSimple team members (specifically Anthony as of today).
 
-Once `~/.m2/settings.xml` is updated to include the ossrh server configuration and the ossrh profile with the GPG passphrase for using the private key for signing, deployment is then done with the command:
+You need to update the Maven configuration file to include the ossrh server configuration and the ossrh profile with the GPG passphrase for using the private key for signing.
 
-    mvn clean deploy
+You should customize your Mave user-setting, you can find at `~/.m2/settings.xml`. If no setting file is present, you can create a new one from the [default Maven global settings](https://maven.apache.org/settings.html). Locate the file, copy it to `~/.m2/settings.xml` and update it accordingly.
+
+```
+$ cp /usr/local/Cellar/maven/<VERSION>/libexec/conf/settings.xml ~/.m2/settings.xml
+$ chmod 600 ~/.m2/settings.xml
+$ vim ~/.m2/settings.xml 
+```
+
+Edit the node `/settings/servers` and add the following configuration, using your Sonatype (ossrh) username and password:
+
+```
+<server>
+  <id>ossrh</id>
+  <username>USERNAME</username>
+  <password>PASSWORD</password>
+</server>
+```
+
+Edit the node `/settings/profiles` and add the following profile:
+
+```
+<profile>
+  <id>ossrh</id>
+  <activation>
+    <activeByDefault>true</activeByDefault>
+  </activation>
+  <properties>
+    <gpg.passphrase>PASSPHRASE</gpg.passphrase>
+  </properties>
+</profile>
+```
+
+Deployment is then done with the command:
+
+```
+$ mvn clean deploy -P release
+```
+
+
+## Tests
+
+Submit unit tests for your changes. You can test your changes on your machine by [running the test suite](#testing).
+
+When you submit a PR, tests will also be run on the [continuous integration environment via Travis](https://travis-ci.org/dnsimple/dnsimple-java).
