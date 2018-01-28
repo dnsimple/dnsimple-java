@@ -28,7 +28,7 @@ import java.util.Map;
 
 public class HttpEndpointClient {
 
-  public static final String DEFAULT_USER_AGENT = "dnsimple-java/0.3.0";
+  public static final String DEFAULT_USER_AGENT = "dnsimple-java/" + Dnsimple.VERSION;
 
   private static final String API_VERSION_PATH = "/v2/";
   private static final String MIME_APPLICATION_JSON = "application/json";
