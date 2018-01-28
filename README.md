@@ -44,7 +44,7 @@ import com.dnsimple.Client;
 import com.dnsimple.Account;
 import com.dnsimple.response.WhoamiResponse;
 
-public class Myapp {
+public class MyApp {
   public static void main(String[] args) {
     Client client = new Client();
     client.setAccessToken("YOUR-ACCESS-TOKEN");
@@ -68,7 +68,7 @@ package myapp;
 import com.dnsimple.Dnsimple;
 import com.dnsimple.Client;
 
-public class Myapp {
+public class MyApp {
   public static void main(String[] args) {
     Dnsimple.setBaseUrl("https://api.sandbox.dnsimple.com");
     Client client = new Client();
@@ -89,6 +89,7 @@ You can use any mocking library you choose, however the examples below use Mocki
 Here is an example of a test demonstrating how to do mock the endpoint adapter:
 
 ```java
+public class MyTest {
   @Test
   public void testSomething() throws DnsimpleException, IOException {
     Account account = new Account(1);
@@ -105,4 +106,5 @@ Here is an example of a test demonstrating how to do mock the endpoint adapter:
     Client client = new Client(adapter);
     // ... your test
   }
+}
 ```
