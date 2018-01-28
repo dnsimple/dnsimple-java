@@ -5,7 +5,7 @@
 
 Using [jenv](http://www.jenv.be/) makes it possible to test on multiple versions of Java.
 
-#### Clone the repository
+#### 1. Clone the repository
 
 Clone the repository and move into it:
 
@@ -14,11 +14,11 @@ $ git clone git@github.com:aeden/dnsimple-java.git
 $ cd dnsimple-java
 ```
 
-#### Install Maven
+#### 2. Install Maven
 
 Install [Maven](https://maven.apache.org/install.html).
 
-#### Build and test
+#### 3. Build and test
 
 [Run the test suite](#testing) to check everything works as expected.
 
