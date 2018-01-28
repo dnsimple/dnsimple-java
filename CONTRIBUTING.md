@@ -34,7 +34,52 @@ mvn test
 
 ## Releasing
 
-Releasing may only be done by one of the DNSimple team members (specifically Anthony as of today).
+The following instructions uses `$VERSION` as a placeholder, where `$VERSION` is a `MAJOR.MINOR.BUGFIX` release such as `1.2.0`.
+
+1. Run the test suite and ensure all the tests pass.
+
+1. Set the version in `dnsimple.java`:
+
+    ```java
+    public abstract class Dnsimple {
+      public static final String VERSION = "$VERSION";
+    ```
+
+1. Set the version in `pom.xml`:
+
+    ```xml
+    <version>$VERSION</version>
+    ```
+
+1. Run the test suite and ensure all the tests pass.
+
+1. Finalize the `## master` section in `CHANGELOG.md` assigning the version.
+
+1. Commit and push the changes
+
+    ```shell
+    git commit -a -m "Release $VERSION"
+    git push origin master
+    ```
+
+1. Wait for CI to complete.
+
+1. Create a signed tag.
+
+    ```shell
+    git tag -a v$VERSION -s -m "Release $VERSION"
+    git push origin --tags
+    ```
+
+1. Release to Sonatype.
+
+    ```shell
+    mvn clean deploy -P release
+    ```
+
+### Configuration
+
+Releasing may only be done by one of the DNSimple team members (specifically @aeden or @weppos as of today).
 
 You need to update the Maven configuration file to include the ossrh server configuration and the ossrh profile with the GPG passphrase for using the private key for signing.
 
