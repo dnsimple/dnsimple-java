@@ -1,7 +1,7 @@
 # Changelog
 
 
-#### master
+#### Release 0.4.0
 
 - NEW: Added Let's Encrypt certificate methods (GH-8)
 

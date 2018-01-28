@@ -27,7 +27,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>com.dnsimple</groupId>
   <artifactId>dnsimple-java</artifactId>
-  <version>0.3.0</version>
+  <version>X.X.X</version>
 </dependency>
 ```
 
