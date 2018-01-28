@@ -9,9 +9,9 @@ Using [jenv](http://www.jenv.be/) makes it possible to test on multiple versions
 
 Clone the repository and move into it:
 
-```
-$ git clone git@github.com:aeden/dnsimple-java.git
-$ cd dnsimple-java
+```shell
+git clone git@github.com:aeden/dnsimple-java.git
+cd dnsimple-java
 ```
 
 #### 2. Install Maven
@@ -27,8 +27,8 @@ Install [Maven](https://maven.apache.org/install.html).
 
 To run the test suite:
 
-```
-$ mvn test
+```shell
+mvn test
 ```
 
 
@@ -40,15 +40,15 @@ You need to update the Maven configuration file to include the ossrh server conf
 
 You should customize your Mave user-setting, you can find at `~/.m2/settings.xml`. If no setting file is present, you can create a new one from the [default Maven global settings](https://maven.apache.org/settings.html). Locate the file, copy it to `~/.m2/settings.xml` and update it accordingly.
 
-```
-$ cp /usr/local/Cellar/maven/<VERSION>/libexec/conf/settings.xml ~/.m2/settings.xml
-$ chmod 600 ~/.m2/settings.xml
-$ vim ~/.m2/settings.xml 
+```shell
+cp /usr/local/Cellar/maven/<VERSION>/libexec/conf/settings.xml ~/.m2/settings.xml
+chmod 600 ~/.m2/settings.xml
+vim ~/.m2/settings.xml 
 ```
 
 Edit the node `/settings/servers` and add the following configuration, using your Sonatype (ossrh) username and password:
 
-```
+```xml
 <server>
   <id>ossrh</id>
   <username>USERNAME</username>
@@ -58,7 +58,7 @@ Edit the node `/settings/servers` and add the following configuration, using you
 
 Edit the node `/settings/profiles` and add the following profile:
 
-```
+```xml
 <profile>
   <id>ossrh</id>
   <activation>
@@ -72,8 +72,8 @@ Edit the node `/settings/profiles` and add the following profile:
 
 Deployment is then done with the command:
 
-```
-$ mvn clean deploy -P release
+```shell
+mvn clean deploy -P release
 ```
 
 
