@@ -2,11 +2,13 @@ package com.dnsimple;
 
 import com.dnsimple.data.Zone;
 import com.dnsimple.data.ZoneFile;
+import com.dnsimple.data.ZoneDistribution;
 import com.dnsimple.data.Pagination;
 import com.dnsimple.request.Filter;
 import com.dnsimple.response.ListZonesResponse;
 import com.dnsimple.response.GetZoneResponse;
 import com.dnsimple.response.GetZoneFileResponse;
+import com.dnsimple.response.CheckZoneDistributionResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
@@ -134,5 +136,54 @@ public class ZonesTest extends DnsimpleTestBase {
     String zoneId = "example.com";
 
     client.zones.getZoneFile(accountId, zoneId);
+  }
+
+  @Test
+  public void testCheckZoneDistribution() throws DnsimpleException, IOException {
+    Client client = mockClient(resource("checkZoneDistribution/success.http"));
+
+    String accountId = "1";
+    String zoneId = "example.com";
+
+    CheckZoneDistributionResponse response = client.zones.checkZoneDistribution(accountId, zoneId);
+
+    ZoneDistribution zoneDistribution = response.getData();
+    assertEquals(true, zoneDistribution.getDistributed());
+  }
+
+  @Test
+  public void testCheckZoneDistributionNotDistributed() throws DnsimpleException, IOException {
+    Client client = mockClient(resource("checkZoneDistribution/failure.http"));
+
+    String accountId = "1";
+    String zoneId = "example.com";
+
+    CheckZoneDistributionResponse response = client.zones.checkZoneDistribution(accountId, zoneId);
+
+    ZoneDistribution zoneDistribution = response.getData();
+    assertEquals(false, zoneDistribution.getDistributed());
+  }
+
+  @Test(expected=DnsimpleException.class)
+  public void testCheckZoneDistributionFailedCheck() throws DnsimpleException, IOException {
+    Client client = mockClient(resource("checkZoneDistribution/error.http"));
+
+    String accountId = "1";
+    String zoneId = "example.com";
+
+    CheckZoneDistributionResponse response = client.zones.checkZoneDistribution(accountId, zoneId);
+
+    ZoneDistribution zoneDistribution = response.getData();
+    assertEquals(false, zoneDistribution.getDistributed());
+  }
+
+  @Test(expected=ResourceNotFoundException.class)
+  public void testCheckZoneDistributionWhenZoneNotFound() throws DnsimpleException, IOException {
+    Client client = mockClient(resource("notfound-zone.http"));
+
+    String accountId = "1";
+    String zoneId = "example.com";
+
+    client.zones.checkZoneDistribution(accountId, zoneId);
   }
 }

@@ -3,6 +3,7 @@ package com.dnsimple;
 import com.dnsimple.response.ListZonesResponse;
 import com.dnsimple.response.GetZoneResponse;
 import com.dnsimple.response.GetZoneFileResponse;
+import com.dnsimple.response.CheckZoneDistributionResponse;
 import com.dnsimple.response.ListZoneRecordsResponse;
 import com.dnsimple.response.GetZoneRecordResponse;
 import com.dnsimple.response.CreateZoneRecordResponse;
@@ -68,6 +69,18 @@ public interface Zones {
    * @throws IOException Any IO errors
    */
   public GetZoneFileResponse getZoneFile(String accountId, String zoneId) throws DnsimpleException, IOException;
+
+  /**
+   * Checks if a zone change is fully distributed to all our nameservers across the globe.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/zones/#checkZoneDistribution">https://developer.dnsimple.com/v2/zones/#checkZoneDistribution</a>
+   * @param accountId The account ID
+   * @param zoneId The zone name or ID
+   * @return The result of the check
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public CheckZoneDistributionResponse checkZoneDistribution(String accountId, String zoneId) throws DnsimpleException, IOException;
 
   /**
    * Lists the records in the zone.
