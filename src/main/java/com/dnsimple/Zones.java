@@ -4,6 +4,7 @@ import com.dnsimple.response.ListZonesResponse;
 import com.dnsimple.response.GetZoneResponse;
 import com.dnsimple.response.GetZoneFileResponse;
 import com.dnsimple.response.CheckZoneDistributionResponse;
+import com.dnsimple.response.CheckZoneRecordDistributionResponse;
 import com.dnsimple.response.ListZoneRecordsResponse;
 import com.dnsimple.response.GetZoneRecordResponse;
 import com.dnsimple.response.CreateZoneRecordResponse;
@@ -81,6 +82,19 @@ public interface Zones {
    * @throws IOException Any IO errors
    */
   public CheckZoneDistributionResponse checkZoneDistribution(String accountId, String zoneId) throws DnsimpleException, IOException;
+
+  /**
+   * Checks if a zone record change is fully distributed to all our nameservers of our regions.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/zones/#checkZoneRecordDistribution">https://developer.dnsimple.com/v2/zones/#checkZoneRecordDistribution</a>
+   * @param accountId The account ID
+   * @param zoneId The zone name or ID
+   * @param recordId The zone record ID
+   * @return The result of the check
+   * @throws DnsimpleException Any API errors
+   * @throws IOException Any IO errors
+   */
+  public CheckZoneRecordDistributionResponse checkZoneRecordDistribution(String accountId, String zoneId, String recordId) throws DnsimpleException, IOException;
 
   /**
    * Lists the records in the zone.
