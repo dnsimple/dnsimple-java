@@ -4,7 +4,6 @@ import com.dnsimple.response.ListZonesResponse;
 import com.dnsimple.response.GetZoneResponse;
 import com.dnsimple.response.GetZoneFileResponse;
 import com.dnsimple.response.CheckZoneDistributionResponse;
-import com.dnsimple.response.CheckZoneRecordDistributionResponse;
 import com.dnsimple.response.ListZoneRecordsResponse;
 import com.dnsimple.response.GetZoneRecordResponse;
 import com.dnsimple.response.CreateZoneRecordResponse;
@@ -94,7 +93,7 @@ public interface Zones {
    * @throws DnsimpleException Any API errors
    * @throws IOException Any IO errors
    */
-  public CheckZoneRecordDistributionResponse checkZoneRecordDistribution(String accountId, String zoneId, String recordId) throws DnsimpleException, IOException;
+  public CheckZoneDistributionResponse checkZoneRecordDistribution(String accountId, String zoneId, String recordId) throws DnsimpleException, IOException;
 
   /**
    * Lists the records in the zone.

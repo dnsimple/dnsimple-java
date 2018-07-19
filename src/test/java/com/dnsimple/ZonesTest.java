@@ -3,14 +3,12 @@ package com.dnsimple;
 import com.dnsimple.data.Zone;
 import com.dnsimple.data.ZoneFile;
 import com.dnsimple.data.ZoneDistribution;
-import com.dnsimple.data.ZoneRecordDistribution;
 import com.dnsimple.data.Pagination;
 import com.dnsimple.request.Filter;
 import com.dnsimple.response.ListZonesResponse;
 import com.dnsimple.response.GetZoneResponse;
 import com.dnsimple.response.GetZoneFileResponse;
 import com.dnsimple.response.CheckZoneDistributionResponse;
-import com.dnsimple.response.CheckZoneRecordDistributionResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
@@ -197,10 +195,10 @@ public class ZonesTest extends DnsimpleTestBase {
     String zoneId = "example.com";
     String recordId = "1";
 
-    CheckZoneRecordDistributionResponse response = client.zones.checkZoneRecordDistribution(accountId, zoneId, recordId);
+    CheckZoneDistributionResponse response = client.zones.checkZoneRecordDistribution(accountId, zoneId, recordId);
 
-    ZoneRecordDistribution zoneRecordDistribution = response.getData();
-    assertEquals(true, zoneRecordDistribution.getDistributed());
+    ZoneDistribution zoneDistribution = response.getData();
+    assertEquals(true, zoneDistribution.getDistributed());
   }
 
   @Test
@@ -211,10 +209,10 @@ public class ZonesTest extends DnsimpleTestBase {
     String zoneId = "example.com";
     String recordId = "1";
 
-    CheckZoneRecordDistributionResponse response = client.zones.checkZoneRecordDistribution(accountId, zoneId, accountId);
+    CheckZoneDistributionResponse response = client.zones.checkZoneRecordDistribution(accountId, zoneId, accountId);
 
-    ZoneRecordDistribution zoneRecordDistribution = response.getData();
-    assertEquals(false, zoneRecordDistribution.getDistributed());
+    ZoneDistribution zoneDistribution = response.getData();
+    assertEquals(false, zoneDistribution.getDistributed());
   }
 
   @Test(expected=DnsimpleException.class)
@@ -225,10 +223,10 @@ public class ZonesTest extends DnsimpleTestBase {
     String zoneId = "example.com";
     String recordId = "1";
 
-    CheckZoneRecordDistributionResponse response = client.zones.checkZoneRecordDistribution(accountId, zoneId, accountId);
+    CheckZoneDistributionResponse response = client.zones.checkZoneRecordDistribution(accountId, zoneId, accountId);
 
-    ZoneRecordDistribution zoneRecordDistribution = response.getData();
-    assertEquals(false, zoneRecordDistribution.getDistributed());
+    ZoneDistribution zoneDistribution = response.getData();
+    assertEquals(false, zoneDistribution.getDistributed());
   }
 
   @Test(expected=ResourceNotFoundException.class)
