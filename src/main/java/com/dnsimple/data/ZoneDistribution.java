@@ -6,7 +6,7 @@ public class ZoneDistribution {
   @Key("distributed")
   private boolean distributed;
 
-  public boolean getDistributed() {
+  public boolean isDistributed() {
     return distributed;
   }
 

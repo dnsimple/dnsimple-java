@@ -148,7 +148,7 @@ public class ZonesTest extends DnsimpleTestBase {
     CheckZoneDistributionResponse response = client.zones.checkZoneDistribution(accountId, zoneId);
 
     ZoneDistribution zoneDistribution = response.getData();
-    assertEquals(true, zoneDistribution.getDistributed());
+    assertEquals(true, zoneDistribution.isDistributed());
   }
 
   @Test
@@ -161,7 +161,7 @@ public class ZonesTest extends DnsimpleTestBase {
     CheckZoneDistributionResponse response = client.zones.checkZoneDistribution(accountId, zoneId);
 
     ZoneDistribution zoneDistribution = response.getData();
-    assertEquals(false, zoneDistribution.getDistributed());
+    assertEquals(false, zoneDistribution.isDistributed());
   }
 
   @Test(expected=DnsimpleException.class)
@@ -174,7 +174,7 @@ public class ZonesTest extends DnsimpleTestBase {
     CheckZoneDistributionResponse response = client.zones.checkZoneDistribution(accountId, zoneId);
 
     ZoneDistribution zoneDistribution = response.getData();
-    assertEquals(false, zoneDistribution.getDistributed());
+    assertEquals(false, zoneDistribution.isDistributed());
   }
 
   @Test(expected=ResourceNotFoundException.class)
@@ -198,7 +198,7 @@ public class ZonesTest extends DnsimpleTestBase {
     CheckZoneDistributionResponse response = client.zones.checkZoneRecordDistribution(accountId, zoneId, recordId);
 
     ZoneDistribution zoneDistribution = response.getData();
-    assertEquals(true, zoneDistribution.getDistributed());
+    assertEquals(true, zoneDistribution.isDistributed());
   }
 
   @Test
@@ -212,7 +212,7 @@ public class ZonesTest extends DnsimpleTestBase {
     CheckZoneDistributionResponse response = client.zones.checkZoneRecordDistribution(accountId, zoneId, accountId);
 
     ZoneDistribution zoneDistribution = response.getData();
-    assertEquals(false, zoneDistribution.getDistributed());
+    assertEquals(false, zoneDistribution.isDistributed());
   }
 
   @Test(expected=DnsimpleException.class)
@@ -226,7 +226,7 @@ public class ZonesTest extends DnsimpleTestBase {
     CheckZoneDistributionResponse response = client.zones.checkZoneRecordDistribution(accountId, zoneId, accountId);
 
     ZoneDistribution zoneDistribution = response.getData();
-    assertEquals(false, zoneDistribution.getDistributed());
+    assertEquals(false, zoneDistribution.isDistributed());
   }
 
   @Test(expected=ResourceNotFoundException.class)
