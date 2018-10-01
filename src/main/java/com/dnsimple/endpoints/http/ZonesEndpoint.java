@@ -4,6 +4,7 @@ import com.dnsimple.Zones;
 import com.dnsimple.response.ListZonesResponse;
 import com.dnsimple.response.GetZoneResponse;
 import com.dnsimple.response.GetZoneFileResponse;
+import com.dnsimple.response.CheckZoneDistributionResponse;
 import com.dnsimple.response.ListZoneRecordsResponse;
 import com.dnsimple.response.GetZoneRecordResponse;
 import com.dnsimple.response.CreateZoneRecordResponse;
@@ -43,6 +44,16 @@ public class ZonesEndpoint implements Zones {
   public GetZoneFileResponse getZoneFile(String accountId, String zoneId) throws DnsimpleException, IOException {
     HttpResponse response = client.get(accountId + "/zones/" + zoneId + "/file");
     return (GetZoneFileResponse)client.parseResponse(response, GetZoneFileResponse.class);
+  }
+
+  public CheckZoneDistributionResponse checkZoneDistribution(String accountId, String zoneId) throws DnsimpleException, IOException {
+    HttpResponse response = client.get(accountId + "/zones/" + zoneId + "/distribution");
+    return (CheckZoneDistributionResponse)client.parseResponse(response, CheckZoneDistributionResponse.class);
+  }
+
+  public CheckZoneDistributionResponse checkZoneRecordDistribution(String accountId, String zoneId, String recordId) throws DnsimpleException, IOException {
+    HttpResponse response = client.get(accountId + "/zones/" + zoneId + "/records/" + recordId + "/distribution");
+    return (CheckZoneDistributionResponse)client.parseResponse(response, CheckZoneDistributionResponse.class);
   }
 
   public ListZoneRecordsResponse listZoneRecords(String accountId, String zoneId) throws DnsimpleException, IOException {
