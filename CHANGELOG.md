@@ -1,6 +1,6 @@
 # Changelog
 
-### master
+### Release 0.5.0
 
 - NEW: Added zone distribution and zone record distribution (GH-11)
 
