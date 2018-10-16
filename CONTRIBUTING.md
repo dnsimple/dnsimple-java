@@ -10,7 +10,7 @@ Using [jenv](http://www.jenv.be/) makes it possible to test on multiple versions
 Clone the repository and move into it:
 
 ```shell
-git clone git@github.com:aeden/dnsimple-java.git
+git clone git@github.com:dnsimple/dnsimple-java.git
 cd dnsimple-java
 ```
 
