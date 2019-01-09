@@ -11,6 +11,7 @@ import com.dnsimple.response.DisableAutoRenewalResponse;
 import com.dnsimple.response.GetWhoisPrivacyResponse;
 import com.dnsimple.response.EnableWhoisPrivacyResponse;
 import com.dnsimple.response.DisableWhoisPrivacyResponse;
+import com.dnsimple.response.RenewWhoisPrivacyResponse;
 import com.dnsimple.response.GetDomainDelegationResponse;
 import com.dnsimple.response.ChangeDomainDelegationResponse;
 import com.dnsimple.response.ChangeDomainDelegationToVanityResponse;
@@ -79,6 +80,11 @@ public class RegistrarEndpoint implements Registrar {
   public DisableWhoisPrivacyResponse disableWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException {
     HttpResponse response = client.delete(accountId + "/registrar/domains/" + domainId + "/whois_privacy");
     return (DisableWhoisPrivacyResponse)client.parseResponse(response, DisableWhoisPrivacyResponse.class);
+  }
+
+  public RenewWhoisPrivacyResponse renewWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException {
+    HttpResponse response = client.post(accountId + "/registrar/domains/" + domainId + "/whois_privacy/renewals");
+    return (RenewWhoisPrivacyResponse)client.parseResponse(response, RenewWhoisPrivacyResponse.class);
   }
 
   public GetDomainDelegationResponse getDomainDelegation(String accountId, String domainId) throws DnsimpleException, IOException {

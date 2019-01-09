@@ -10,6 +10,7 @@ import com.dnsimple.response.DisableAutoRenewalResponse;
 import com.dnsimple.response.GetWhoisPrivacyResponse;
 import com.dnsimple.response.EnableWhoisPrivacyResponse;
 import com.dnsimple.response.DisableWhoisPrivacyResponse;
+import com.dnsimple.response.RenewWhoisPrivacyResponse;
 import com.dnsimple.response.GetDomainDelegationResponse;
 import com.dnsimple.response.ChangeDomainDelegationResponse;
 import com.dnsimple.response.ChangeDomainDelegationToVanityResponse;
@@ -159,6 +160,19 @@ public interface Registrar {
    * @throws IOException Any IO error
    */
   public DisableWhoisPrivacyResponse disableWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException;
+
+  /**
+   * Renew whois privacy for the domain.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/registrar/whois-privacy/#disable">https://developer.dnsimple.com/v2/registrar/whois-privacy/#renew</a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain name or ID
+   * @return The disable whois privacy response
+   * @throws DnsimpleException Any API error
+   * @throws IOException Any IO error
+   */
+  public RenewWhoisPrivacyResponse renewWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException;
 
   /**
    * Lists name servers the domain is delegating to.
