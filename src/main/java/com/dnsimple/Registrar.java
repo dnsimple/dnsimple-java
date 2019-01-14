@@ -164,7 +164,7 @@ public interface Registrar {
   /**
    * Renew whois privacy for the domain.
    *
-   * @see <a href="https://developer.dnsimple.com/v2/registrar/whois-privacy/#disable">https://developer.dnsimple.com/v2/registrar/whois-privacy/#renew</a>
+   * @see <a href="https://developer.dnsimple.com/v2/registrar/whois-privacy/#renew">https://developer.dnsimple.com/v2/registrar/whois-privacy/#renew</a>
    *
    * @param accountId The account ID
    * @param domainId The domain name or ID
