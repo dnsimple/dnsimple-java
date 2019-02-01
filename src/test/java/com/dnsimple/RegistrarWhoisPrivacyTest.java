@@ -1,10 +1,12 @@
 package com.dnsimple;
 
 import com.dnsimple.data.WhoisPrivacy;
+import com.dnsimple.data.WhoisPrivacyRenewal;
 import com.dnsimple.request.Filter;
 import com.dnsimple.response.GetWhoisPrivacyResponse;
 import com.dnsimple.response.EnableWhoisPrivacyResponse;
 import com.dnsimple.response.DisableWhoisPrivacyResponse;
+import com.dnsimple.response.RenewWhoisPrivacyResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
@@ -72,5 +74,18 @@ public class RegistrarWhoisPrivacyTest extends DnsimpleTestBase {
     DisableWhoisPrivacyResponse response = client.registrar.disableWhoisPrivacy(accountId, domainId);
     WhoisPrivacy whoisPrivacy = response.getData();
     assertEquals(1, whoisPrivacy.getId().intValue());
+  }
+
+  @Test
+  public void testRenewWhoisPrivacy() throws DnsimpleException, IOException {
+    String accountId = "1010";
+    String domainId = "example.com";
+    HashMap<String, Object> attributes = new HashMap<String, Object>();
+
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/whois_privacy/renewals", HttpMethods.POST, new HttpHeaders(), attributes, resource("renewWhoisPrivacy/success.http"));
+
+    RenewWhoisPrivacyResponse response = client.registrar.renewWhoisPrivacy(accountId, domainId);
+    WhoisPrivacyRenewal whoisPrivacyRenewal = response.getData();
+    assertEquals(1, whoisPrivacyRenewal.getId().intValue());
   }
 }
