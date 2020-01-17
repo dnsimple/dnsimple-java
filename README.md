@@ -110,3 +110,7 @@ public class MyTest {
   }
 }
 ```
+
+## License
+
+Copyright (c) 2016-2020 DNSimple Corporation. This is Free Software distributed under the MIT license.
