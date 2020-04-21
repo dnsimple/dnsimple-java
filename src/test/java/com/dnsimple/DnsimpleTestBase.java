@@ -221,7 +221,7 @@ public abstract class DnsimpleTestBase {
   public HttpHeaders getDefaultHeaders() {
     HttpHeaders headers = new HttpHeaders();
     headers.setAccept("application/json");
-    headers.setUserAgent("dnsimple-java/" + Dnsimple.VERSION + " Google-HTTP-Java-Client/1.20.0 (gzip)");
+    headers.setUserAgent("dnsimple-java/" + Dnsimple.VERSION + " Google-HTTP-Java-Client/1.34.2 (gzip)");
     return headers;
   }
 
