@@ -138,7 +138,10 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>2.9.1</version>
+            <version>3.2.0</version>
+            <configuration>
+              <source>1.8</source>
+            </configuration>
             <executions>
               <execution>
                 <id>attach-javadocs</id>
@@ -172,6 +175,11 @@
               <nexusUrl>https://oss.sonatype.org/</nexusUrl>
               <autoReleaseAfterClose>true</autoReleaseAfterClose>
             </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-site-plugin</artifactId>
+            <version>3.9.0</version>
           </plugin>
         </plugins>
       </build>
