@@ -31,7 +31,7 @@ public class ClientTest extends DnsimpleTestBase {
   @Test
   public void testUserAgentHeader() throws DnsimpleException, IOException {
     HttpHeaders headers = getDefaultHeaders();
-    headers.setUserAgent("my-user-agent dnsimple-java/" + Dnsimple.VERSION + " Google-HTTP-Java-Client/1.34.2 (gzip)");
+    headers.setUserAgent("my-user-agent dnsimple-java/" + Dnsimple.VERSION + " Google-HTTP-Java-Client/1.35.0 (gzip)");
 
     Client client = mockAndExpectClient("https://api.dnsimple.com/v2/accounts", HttpMethods.GET, headers, null, resource("listAccounts/success-account.http"));
     client.setUserAgent("my-user-agent");
