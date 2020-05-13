@@ -163,20 +163,28 @@ public class HttpEndpointClient {
    */
   protected ApiResponse parseResponse(HttpResponse response, Class<?> c) throws IOException {
     ApiResponse res = null;
-    InputStream in = response.getContent();
-
-    if (in == null) {
+    if (response.getStatusCode() == 204)
       try {
         res = (ApiResponse)c.newInstance();
       } catch(ReflectiveOperationException e) {
         throw new RuntimeException("Cannot instantiate " + c, e);
       }
-    } else {
-      try {
-        JsonParser jsonParser = GsonFactory.getDefaultInstance().createJsonParser(in);
-        res = (ApiResponse)jsonParser.parse(c);
-      } finally {
-        in.close();
+    else {
+      InputStream in = response.getContent();
+
+      if (in == null) {
+        try {
+          res = (ApiResponse)c.newInstance();
+        } catch(ReflectiveOperationException e) {
+          throw new RuntimeException("Cannot instantiate " + c, e);
+        }
+      } else {
+        try {
+          JsonParser jsonParser = GsonFactory.getDefaultInstance().createJsonParser(in);
+          res = (ApiResponse)jsonParser.parse(c);
+        } finally {
+          in.close();
+        }
       }
     }
 
