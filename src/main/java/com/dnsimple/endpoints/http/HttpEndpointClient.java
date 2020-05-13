@@ -162,8 +162,7 @@ public class HttpEndpointClient {
    * @throws IOException Any IO errors
    */
   protected ApiResponse parseResponse(HttpResponse response, Class<?> c) throws IOException {
-    ApiResponse res = null;
-    res = buildApiResponse(response, c);
+    ApiResponse res = buildApiResponse(response, c);
 
     res.setHttpRequest(response.getRequest());
     res.setHttpResponse(response);
