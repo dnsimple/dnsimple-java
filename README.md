@@ -43,7 +43,7 @@ The examples below demonstrate basic usage.
 package myapp;
 
 import com.dnsimple.Client;
-import com.dnsimple.Account;
+import com.dnsimple.data.Account;
 import com.dnsimple.response.WhoamiResponse;
 
 public class MyApp {
