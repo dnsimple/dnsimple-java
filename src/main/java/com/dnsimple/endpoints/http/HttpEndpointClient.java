@@ -172,24 +172,16 @@ public class HttpEndpointClient {
   }
 
   private ApiResponse buildApiResponse(HttpResponse response, Class<?> c) throws IOException {
-    ApiResponse res;
-    if (response.getStatusCode() == 204) {
-      res = buildTypeSafeApiResponse(c);
-    } else {
-      InputStream in = response.getContent();
+    if (response.getStatusCode() == 204 || response.getContent() == null)
+      return buildTypeSafeApiResponse(c);
 
-      if (in == null) {
-        res = buildTypeSafeApiResponse(c);
-      } else {
-        try {
-          JsonParser jsonParser = GsonFactory.getDefaultInstance().createJsonParser(in);
-          res = (ApiResponse)jsonParser.parse(c);
-        } finally {
-          in.close();
-        }
-      }
+    InputStream in = response.getContent();
+    try {
+      JsonParser jsonParser = GsonFactory.getDefaultInstance().createJsonParser(in);
+      return (ApiResponse)jsonParser.parse(c);
+    } finally {
+      in.close();
     }
-    return res;
   }
 
   private ApiResponse buildTypeSafeApiResponse(Class<?> c) {
