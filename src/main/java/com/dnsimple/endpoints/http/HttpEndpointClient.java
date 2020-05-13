@@ -163,6 +163,16 @@ public class HttpEndpointClient {
    */
   protected ApiResponse parseResponse(HttpResponse response, Class<?> c) throws IOException {
     ApiResponse res = null;
+    res = buildApiResponse(response, c);
+
+    res.setHttpRequest(response.getRequest());
+    res.setHttpResponse(response);
+
+    return res;
+  }
+
+  private ApiResponse buildApiResponse(HttpResponse response, Class<?> c) throws IOException {
+    ApiResponse res;
     if (response.getStatusCode() == 204) {
       res = buildTypeSafeApiResponse(c);
     } else {
@@ -179,10 +189,6 @@ public class HttpEndpointClient {
         }
       }
     }
-
-    res.setHttpRequest(response.getRequest());
-    res.setHttpResponse(response);
-
     return res;
   }
 
