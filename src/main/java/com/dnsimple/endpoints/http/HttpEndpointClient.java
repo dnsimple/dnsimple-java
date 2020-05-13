@@ -175,12 +175,9 @@ public class HttpEndpointClient {
     if (response.getStatusCode() == 204 || response.getContent() == null)
       return buildTypeSafeApiResponse(c);
 
-    InputStream in = response.getContent();
-    try {
+    try (InputStream in = response.getContent()) {
       JsonParser jsonParser = GsonFactory.getDefaultInstance().createJsonParser(in);
-      return (ApiResponse)jsonParser.parse(c);
-    } finally {
-      in.close();
+      return (ApiResponse) jsonParser.parse(c);
     }
   }
 
