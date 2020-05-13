@@ -182,13 +182,11 @@ public class HttpEndpointClient {
   }
 
   private ApiResponse buildTypeSafeApiResponse(Class<?> c) {
-    ApiResponse res;
     try {
-      res = (ApiResponse) c.newInstance();
+      return (ApiResponse) c.newInstance();
     } catch (ReflectiveOperationException e) {
       throw new RuntimeException("Cannot instantiate " + c, e);
     }
-    return res;
   }
 
   private String versionedPath(String path) {
