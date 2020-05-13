@@ -8,23 +8,23 @@ import com.google.api.client.http.HttpMethods;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.LowLevelHttpRequest;
 import com.google.api.client.http.LowLevelHttpResponse;
-import com.google.api.client.json.Json;
-import com.google.api.client.json.JsonParser;
 import com.google.api.client.json.GenericJson;
+import com.google.api.client.json.JsonParser;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.testing.http.MockHttpTransport;
 import com.google.api.client.testing.http.MockLowLevelHttpRequest;
 import com.google.api.client.testing.http.MockLowLevelHttpResponse;
-
-import java.io.IOException;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.io.ByteArrayOutputStream;
-import java.util.List;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.HashMap;
-import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A base class that DNSimple tests can inherit from to provide HTTP mocking and expectations.
@@ -73,7 +73,7 @@ public abstract class DnsimpleTestBase {
   /**
    * Return a Client that is configured to expect a specific URL and HTTP method.
    *
-   * @param expectedUrl The URL string that is expected
+   * @param expectedUrl    The URL string that is expected
    * @param expectedMethod The HTTP method String that is expected
    * @return The Client instance
    */
@@ -84,9 +84,9 @@ public abstract class DnsimpleTestBase {
   /**
    * Return a Client that is configured to expect a specific URL, HTTP method, request attributes, and HTTP headers.
    *
-   * @param expectedUrl The URL string that is expected
-   * @param expectedMethod The HTTP method String that is expected
-   * @param expectedHeaders a Map<String, Object> of headers
+   * @param expectedUrl        The URL string that is expected
+   * @param expectedMethod     The HTTP method String that is expected
+   * @param expectedHeaders    a Map<String, Object> of headers
    * @param expectedAttributes A map of values as attributes
    * @return The Client instance
    */
@@ -104,7 +104,7 @@ public abstract class DnsimpleTestBase {
           public LowLevelHttpResponse execute() throws IOException {
             if (!getContentAsString().equals("")) {
               JsonParser jsonParser = GsonFactory.getDefaultInstance().createJsonParser(getContentAsString());
-              Map<String,Object> attributes = jsonParser.parse(GenericJson.class);
+              Map<String, Object> attributes = jsonParser.parse(GenericJson.class);
               assertEquals(expectedAttributes, attributes);
             }
 
@@ -128,9 +128,9 @@ public abstract class DnsimpleTestBase {
    * Returns a Client that is configured to expect certain request values and return
    * the given HTTP response.
    *
-   * @param expectedUrl The URL string that is expected
+   * @param expectedUrl    The URL string that is expected
    * @param expectedMethod The HTTP method String that is expected
-   * @param httpResponse The full HTTP response data
+   * @param httpResponse   The full HTTP response data
    * @return The Client instance
    */
   public Client mockAndExpectClient(final String expectedUrl, final String expectedMethod, final String httpResponse) {
@@ -141,11 +141,11 @@ public abstract class DnsimpleTestBase {
    * Returns a Client that is configured to expect certain request values and return
    * the given HTTP response.
    *
-   * @param expectedUrl The URL string that is expected
-   * @param expectedMethod The HTTP method String that is expected
-   * @param expectedHeaders A Map<String, Object> of expected headers
+   * @param expectedUrl        The URL string that is expected
+   * @param expectedMethod     The HTTP method String that is expected
+   * @param expectedHeaders    A Map<String, Object> of expected headers
    * @param expectedAttributes A map of values as attributes
-   * @param httpResponse The full HTTP response data
+   * @param httpResponse       The full HTTP response data
    * @return The Client instance
    */
   public Client mockAndExpectClient(final String expectedUrl, final String expectedMethod, final Map<String, Object> expectedHeaders, final Object expectedAttributes, final String httpResponse) {
@@ -202,18 +202,33 @@ public abstract class DnsimpleTestBase {
     }
 
     ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
-    byte[] buf = new byte [1024];
+    byte[] buf = new byte[1024];
 
-    for( int i = resource.read(buf); i > 0; i = resource.read(buf)) {
-      out.write(buf,0,i);
+    for (int i = resource.read(buf); i > 0; i = resource.read(buf)) {
+      out.write(buf, 0, i);
     }
 
     return out.toString("utf8");
   }
 
   /**
-   * Get the default HttpHeaders that should be expected on every request.
+   * Returns the java.nio.Path for the given resource file location
+   * relative to the `src/test/resources` directory.
    *
+   * @param resourceFile The path where the resource should be
+   * @return The Path to the provided file
+   */
+  public Path resourcePath(String resourceFile) {
+    try {
+      return Paths.get(DnsimpleTestBase.class.getResource(resourceFile.startsWith("/") ? resourceFile.substring(1) : resourceFile).toURI());
+    } catch (URISyntaxException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  /**
+   * Get the default HttpHeaders that should be expected on every request.
+   * <p>
    * You may set additional headers in the collection as necessary.
    *
    * @return The default HttpHeaders
@@ -226,7 +241,7 @@ public abstract class DnsimpleTestBase {
   }
 
   private MockLowLevelHttpResponse mockResponse(MockLowLevelHttpResponse response, String httpResponse) throws IOException {
-    final Map<String,String> headers = new HashMap<String,String>();
+    final Map<String, String> headers = new HashMap<String, String>();
     final ArrayList<String> data = new ArrayList<String>();
     String[] lines = httpResponse.split("\\r?\\n");
 
