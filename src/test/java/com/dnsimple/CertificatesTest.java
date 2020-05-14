@@ -17,24 +17,24 @@ import com.dnsimple.response.IssueLetsencryptRenewalResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
+import com.dnsimple.tools.HttpMethod;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.util.Data;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.HashMap;
 
 public class CertificatesTest extends DnsimpleTestBase {
 
   @Test
   public void testListCertificatesSupportsPagination() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/domains/example.com/certificates?page=1");
+    server.expectGet("/v2/1/domains/example.com/certificates?page=1");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";
@@ -46,7 +46,8 @@ public class CertificatesTest extends DnsimpleTestBase {
 
   @Test
   public void testListCertificatesSupportsExtraRequestOptions() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/domains/example.com/certificates?foo=bar");
+    server.expectGet("/v2/1/domains/example.com/certificates?foo=bar");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";
@@ -58,7 +59,8 @@ public class CertificatesTest extends DnsimpleTestBase {
 
   @Test
   public void testListCertificatesSupportsSorting() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/domains/example.com/certificates?sort=expires_on%3Aasc");
+    server.expectGet("/v2/1/domains/example.com/certificates?sort=expires_on%3Aasc");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";
@@ -70,7 +72,8 @@ public class CertificatesTest extends DnsimpleTestBase {
 
   @Test
   public void testListCertificatesProducesCertificateList() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listCertificates/success.http"));
+    server.stubFixtureAt("listCertificates/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";
@@ -84,7 +87,8 @@ public class CertificatesTest extends DnsimpleTestBase {
 
   @Test
   public void testListCertificatesExposesPaginationInfo() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listCertificates/success.http"));
+    server.stubFixtureAt("listCertificates/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";
@@ -97,7 +101,9 @@ public class CertificatesTest extends DnsimpleTestBase {
 
   @Test
   public void testGetCertificate() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains/weppos.net/certificates/1", HttpMethods.GET, resource("getCertificate/success.http"));
+    server.expectGet("/v2/1010/domains/weppos.net/certificates/1");
+    server.stubFixtureAt("getCertificate/success.http");
+    Client client = new Client();
 
     String accountId = "1010";
     String domainId = "weppos.net";
@@ -121,7 +127,8 @@ public class CertificatesTest extends DnsimpleTestBase {
 
   @Test(expected=ResourceNotFoundException.class)
   public void testGetCertificateWhenNotFound() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("notfound-certificate.http"));
+    server.stubFixtureAt("notfound-certificate.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "weppos.net";
@@ -132,7 +139,9 @@ public class CertificatesTest extends DnsimpleTestBase {
 
   @Test
   public void testDownloadCertificate() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains/weppos.net/certificates/1/download", HttpMethods.GET, resource("downloadCertificate/success.http"));
+    server.expectGet("/v2/1010/domains/weppos.net/certificates/1/download");
+    server.stubFixtureAt("downloadCertificate/success.http");
+    Client client = new Client();
 
     String accountId = "1010";
     String domainId = "weppos.net";
@@ -150,7 +159,9 @@ public class CertificatesTest extends DnsimpleTestBase {
 
   @Test
   public void testCertificatePrivateKey() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains/weppos.net/certificates/1/private_key", HttpMethods.GET, resource("getCertificatePrivateKey/success.http"));
+    server.expectGet("/v2/1010/domains/weppos.net/certificates/1/private_key");
+    server.stubFixtureAt("getCertificatePrivateKey/success.http");
+    Client client = new Client();
 
     String accountId = "1010";
     String domainId = "weppos.net";
@@ -164,11 +175,12 @@ public class CertificatesTest extends DnsimpleTestBase {
   public void testPurchaseLetsencryptCertificate() throws DnsimpleException, IOException {
     String accountId = "1010";
     String domainId = "weppos.net";
-    Map<String,Object> attributes = new HashMap<String,Object>();
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains/weppos.net/certificates/letsencrypt", HttpMethods.POST, new HttpHeaders(), attributes, resource("purchaseLetsencryptCertificate/success.http"));
+    server.expectPost("/v2/1010/domains/weppos.net/certificates/letsencrypt");
+    server.stubFixtureAt("purchaseLetsencryptCertificate/success.http");
+    Client client = new Client();
 
-    PurchaseLetsencryptResponse response = client.certificates.purchaseLetsencryptCertificate(accountId, domainId, attributes);
+    PurchaseLetsencryptResponse response = client.certificates.purchaseLetsencryptCertificate(accountId, domainId, new HashMap<String,Object>());
     CertificatePurchase purchase = response.getData();
     assertEquals(300, purchase.getId().intValue());
     assertEquals(300, purchase.getCertificateId().intValue());
@@ -180,7 +192,9 @@ public class CertificatesTest extends DnsimpleTestBase {
     String domainId = "weppos.net";
     String purchaseId = "2";
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains/weppos.net/certificates/letsencrypt/2/issue", HttpMethods.POST, new HttpHeaders(), null, resource("issueLetsencryptCertificate/success.http"));
+    server.expectPost("/v2/1010/domains/weppos.net/certificates/letsencrypt/2/issue");
+    server.stubFixtureAt("issueLetsencryptCertificate/success.http");
+    Client client = new Client();
 
     IssueLetsencryptResponse response = client.certificates.issueLetsencryptCertificate(accountId, domainId, purchaseId);
     Certificate certificate = response.getData();
@@ -193,11 +207,12 @@ public class CertificatesTest extends DnsimpleTestBase {
     String accountId = "1010";
     String domainId = "weppos.net";
     String certificateId = "2";
-    Map<String,Object> attributes = new HashMap<String,Object>();
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains/weppos.net/certificates/letsencrypt/2/renewals", HttpMethods.POST, new HttpHeaders(), attributes, resource("purchaseRenewalLetsencryptCertificate/success.http"));
+    server.expectPost("/v2/1010/domains/weppos.net/certificates/letsencrypt/2/renewals");
+    server.stubFixtureAt("purchaseRenewalLetsencryptCertificate/success.http");
+    Client client = new Client();
 
-    PurchaseLetsencryptRenewalResponse response = client.certificates.purchaseLetsencryptCertificateRenewal(accountId, domainId, certificateId, attributes);
+    PurchaseLetsencryptRenewalResponse response = client.certificates.purchaseLetsencryptCertificateRenewal(accountId, domainId, certificateId, new HashMap<String,Object>());
     CertificateRenewal renewal = response.getData();
     assertEquals(999, renewal.getId().intValue());
     assertEquals(200, renewal.getOldCertificateId().intValue());
@@ -211,7 +226,9 @@ public class CertificatesTest extends DnsimpleTestBase {
     String certificateId = "2";
     String renewalId = "3";
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains/weppos.net/certificates/letsencrypt/2/renewals/3/issue", HttpMethods.POST, new HttpHeaders(), null, resource("issueLetsencryptCertificate/success.http"));
+    server.expectPost("/v2/1010/domains/weppos.net/certificates/letsencrypt/2/renewals/3/issue");
+    server.stubFixtureAt("issueLetsencryptCertificate/success.http");
+    Client client = new Client();
 
     IssueLetsencryptRenewalResponse response = client.certificates.issueLetsencryptCertificateRenewal(accountId, domainId, certificateId, renewalId);
     Certificate certificate = response.getData();

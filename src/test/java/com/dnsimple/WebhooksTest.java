@@ -8,15 +8,12 @@ import com.dnsimple.response.DeleteWebhookResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
-import junit.framework.Assert;
-
+import com.dnsimple.tools.HttpMethod;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
-import com.google.api.client.util.Data;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,7 +23,8 @@ public class WebhooksTest extends DnsimpleTestBase {
 
   @Test
   public void testListWebhooksSupportsExtraRequestOptions() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1010/webhooks?foo=bar");
+    server.expectGet("/v2/1010/webhooks?foo=bar");
+    Client client = new Client();
 
     String accountId = "1010";
     HashMap<String, Object> options = new HashMap<String, Object>();
@@ -36,7 +34,8 @@ public class WebhooksTest extends DnsimpleTestBase {
 
   @Test
   public void testListWebhooksProducesWebhookList() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listWebhooks/success.http"));
+    server.stubFixtureAt("listWebhooks/success.http");
+    Client client = new Client();
 
     String accountId = "1010";
 
@@ -49,7 +48,9 @@ public class WebhooksTest extends DnsimpleTestBase {
 
   @Test
   public void testGetWebhook() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/webhooks/1", HttpMethods.GET, resource("getWebhook/success.http"));
+    server.expectGet("/v2/1010/webhooks/1");
+    server.stubFixtureAt("getWebhook/success.http");
+    Client client = new Client();
 
     String accountId = "1010";
     String webhookId = "1";
@@ -63,7 +64,8 @@ public class WebhooksTest extends DnsimpleTestBase {
 
   @Test(expected=ResourceNotFoundException.class)
   public void testGetWebhookWhenNotFound() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("notfound-webhook.http"));
+    server.stubFixtureAt("notfound-webhook.http");
+    Client client = new Client();
 
     String accountId = "1010";
     String webhookId = "1";
@@ -77,7 +79,10 @@ public class WebhooksTest extends DnsimpleTestBase {
     HashMap<String, Object> attributes = new HashMap<String, Object>();
     attributes.put("url", "https://webhook.test");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/webhooks", HttpMethods.POST, new HttpHeaders(), attributes, resource("createWebhook/created.http"));
+    server.expectPost("/v2/1010/webhooks");
+    server.expectJsonPayload(attributes);
+    server.stubFixtureAt("createWebhook/created.http");
+    Client client = new Client();
 
     CreateWebhookResponse response = client.webhooks.createWebhook(accountId, attributes);
     Webhook webhook = response.getData();
@@ -90,7 +95,9 @@ public class WebhooksTest extends DnsimpleTestBase {
     String accountId = "1010";
     String webhookId = "1";
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/webhooks/1", HttpMethods.DELETE, resource("deleteWebhook/success.http"));
+    server.expectDelete("/v2/1010/webhooks/1");
+    server.stubFixtureAt("deleteWebhook/success.http");
+    Client client = new Client();
 
     DeleteWebhookResponse response = client.webhooks.deleteWebhook(accountId, webhookId);
     assertEquals(null, response.getData());

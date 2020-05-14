@@ -2,7 +2,6 @@ package com.dnsimple;
 
 import com.dnsimple.data.Contact;
 import com.dnsimple.data.Pagination;
-import com.dnsimple.request.Filter;
 import com.dnsimple.response.ListContactsResponse;
 import com.dnsimple.response.GetContactResponse;
 import com.dnsimple.response.CreateContactResponse;
@@ -12,15 +11,12 @@ import com.dnsimple.response.DeleteContactResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
-import junit.framework.Assert;
-
+import com.dnsimple.tools.HttpMethod;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
-import com.google.api.client.util.Data;
 
 import java.io.IOException;
 import java.util.List;
@@ -30,7 +26,8 @@ public class ContactsTest extends DnsimpleTestBase {
 
   @Test
   public void testListContactsSupportsPagination() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/contacts?page=1");
+    server.expectGet("/v2/1/contacts?page=1");
+    Client client = new Client();
 
     String accountId = "1";
     HashMap<String, Object> options = new HashMap<String, Object>();
@@ -41,7 +38,8 @@ public class ContactsTest extends DnsimpleTestBase {
 
   @Test
   public void testListContactsSupportsExtraRequestOptions() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/contacts?foo=bar");
+    server.expectGet("/v2/1/contacts?foo=bar");
+    Client client = new Client();
     String accountId = "1";
     HashMap<String, Object> options = new HashMap<String, Object>();
     options.put("foo", "bar");
@@ -50,7 +48,8 @@ public class ContactsTest extends DnsimpleTestBase {
 
   @Test
   public void testListContactsSupportsSorting() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/contacts?sort=last_name%3Aasc");
+    server.expectGet("/v2/1/contacts?sort=last_name%3Aasc");
+    Client client = new Client();
     String accountId = "1";
     HashMap<String, Object> options = new HashMap<String, Object>();
     options.put("sort", "last_name:asc");
@@ -59,7 +58,8 @@ public class ContactsTest extends DnsimpleTestBase {
 
   @Test
   public void testListContactsProducesContactList() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listContacts/success.http"));
+    server.stubFixtureAt("listContacts/success.http");
+    Client client = new Client();
 
     String accountId = "1";
 
@@ -72,7 +72,8 @@ public class ContactsTest extends DnsimpleTestBase {
 
   @Test
   public void testListContactsExposesPaginationInfo() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listContacts/success.http"));
+    server.stubFixtureAt("listContacts/success.http");
+    Client client = new Client();
 
     String accountId = "1";
 
@@ -84,7 +85,9 @@ public class ContactsTest extends DnsimpleTestBase {
 
   @Test
   public void testGetContact() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/contacts/1", HttpMethods.GET, new HttpHeaders(), null, resource("getContact/success.http"));
+    server.expectGet("/v2/1010/contacts/1");
+    server.stubFixtureAt("getContact/success.http");
+    Client client = new Client();
 
     String accountId = "1010";
     String contactId = "1";
@@ -114,7 +117,8 @@ public class ContactsTest extends DnsimpleTestBase {
 
   @Test(expected=ResourceNotFoundException.class)
   public void testGetContactWhenNotFound() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("notfound-contact.http"));
+    server.stubFixtureAt("notfound-contact.http");
+    Client client = new Client();
 
     String accountId = "1010";
     String contactId = "2";
@@ -129,14 +133,18 @@ public class ContactsTest extends DnsimpleTestBase {
     attributes.put("first_name", "John");
     attributes.put("last_name", "Smith");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/contacts", HttpMethods.POST, new HttpHeaders(), attributes, resource("createContact/created.http"));
+    server.expectPost("/v2/1010/contacts");
+    server.expectJsonPayload(attributes);
+    server.stubFixtureAt("createContact/created.http");
+    Client client = new Client();
 
     client.contacts.createContact(accountId, attributes);
   }
 
   @Test
   public void testCreateContactProducesContact() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("createContact/created.http"));
+    server.stubFixtureAt("createContact/created.http");
+    Client client = new Client();
 
     String accountId = "1";
     HashMap<String, Object> attributes = new HashMap<String, Object>();
@@ -156,7 +164,10 @@ public class ContactsTest extends DnsimpleTestBase {
     attributes.put("first_name", "John");
     attributes.put("last_name", "Smith");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/contacts/1", HttpMethods.PATCH, new HttpHeaders(), attributes, resource("updateContact/success.http"));
+    server.expectPatch("/v2/1010/contacts/1");
+    server.expectJsonPayload(attributes);
+    server.stubFixtureAt("updateContact/success.http");
+    Client client = new Client();
 
     UpdateContactResponse response = client.contacts.updateContact(accountId, contactId, attributes);
     Contact contact = response.getData();
@@ -165,7 +176,9 @@ public class ContactsTest extends DnsimpleTestBase {
 
   @Test
   public void testDeleteContact() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/contacts/1", HttpMethods.DELETE, resource("deleteContact/success.http"));
+    server.expectDelete("/v2/1010/contacts/1");
+    server.stubFixtureAt("deleteContact/success.http");
+    Client client = new Client();
 
     String accountId = "1010";
     String contactId = "1";

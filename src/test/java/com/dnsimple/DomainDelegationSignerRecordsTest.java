@@ -9,14 +9,12 @@ import com.dnsimple.response.DeleteDelegationSignerRecordResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
-import junit.framework.Assert;
-
+import com.dnsimple.tools.HttpMethod;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 import com.google.api.client.http.HttpMethods;
-import com.google.api.client.util.Data;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,7 +24,8 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
 
   @Test
   public void testListDelegationSignerRecordsSupportsPagination() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/domains/1010/ds_records?page=1");
+    server.expectGet("/v2/1/domains/1010/ds_records?page=1");
+    Client client = new Client();
     String accountId = "1";
     String domainId = "1010";
     HashMap<String, Object> options = new HashMap<String, Object>();
@@ -36,7 +35,8 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
 
   @Test
   public void testListDelegationSignerRecordsSupportsExtraRequestOptions() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/domains/1010/ds_records?foo=bar");
+    server.expectGet("/v2/1/domains/1010/ds_records?foo=bar");
+    Client client = new Client();
     String accountId = "1";
     String domainId = "1010";
     HashMap<String, Object> options = new HashMap<String, Object>();
@@ -46,7 +46,8 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
 
   @Test
   public void testListDelegationSignerRecordsSupportsSorting() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/domains/1010/ds_records?sort=created_at%3Aasc");
+    server.expectGet("/v2/1/domains/1010/ds_records?sort=created_at%3Aasc");
+    Client client = new Client();
     String accountId = "1";
     String domainId = "1010";
     HashMap<String, Object> options = new HashMap<String, Object>();
@@ -56,7 +57,8 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
 
   @Test
   public void testListDelegationSignerRecordsProducesDelegationSignerRecordList() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listDelegationSignerRecords/success.http"));
+    server.stubFixtureAt("listDelegationSignerRecords/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "1010";
@@ -70,7 +72,8 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
 
   @Test
   public void testListDelegationSignerRecordsExposesPaginationInfo() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listDelegationSignerRecords/success.http"));
+    server.stubFixtureAt("listDelegationSignerRecords/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "1010";
@@ -83,7 +86,8 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
 
   @Test
   public void testGetDelegationSignerRecord() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("getDelegationSignerRecord/success.http"));
+    server.stubFixtureAt("getDelegationSignerRecord/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";
@@ -104,7 +108,8 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
 
   @Test(expected=ResourceNotFoundException.class)
   public void testGetDelegationSignerRecordWhenNotFound() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("notfound-delegationSignerRecord.http"));
+    server.stubFixtureAt("notfound-delegationSignerRecord.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";
@@ -115,7 +120,8 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
 
   @Test
   public void testCreateDelegationSignerRecordProducesDelegationSignerRecord() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("createDelegationSignerRecord/created.http"));
+    server.stubFixtureAt("createDelegationSignerRecord/created.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";
@@ -132,7 +138,9 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
 
   @Test
   public void testDeleteDelegationSignerRecord() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1/domains/example.com/ds_records/24", HttpMethods.DELETE, resource("deleteDelegationSignerRecord/success.http"));
+    server.expectDelete("/v2/1/domains/example.com/ds_records/24");
+    server.stubFixtureAt("deleteDelegationSignerRecord/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";

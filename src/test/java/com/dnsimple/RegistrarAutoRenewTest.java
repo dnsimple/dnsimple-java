@@ -5,13 +5,11 @@ import com.dnsimple.response.DisableAutoRenewalResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
-import junit.framework.Assert;
-
+import com.dnsimple.tools.HttpMethod;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
 
 import java.io.IOException;
@@ -23,7 +21,9 @@ public class RegistrarAutoRenewTest extends DnsimpleTestBase {
     String accountId = "1010";
     String domainId = "example.com";
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/auto_renewal", HttpMethods.PUT, new HttpHeaders(), null, resource("enableDomainAutoRenewal/success.http"));
+    server.expectPut("/v2/1010/registrar/domains/example.com/auto_renewal");
+    server.stubFixtureAt("enableDomainAutoRenewal/success.http");
+    Client client = new Client();
 
     EnableAutoRenewalResponse response = client.registrar.enableAutoRenewal(accountId, domainId);
     assertEquals(null, response.getData());
@@ -34,7 +34,9 @@ public class RegistrarAutoRenewTest extends DnsimpleTestBase {
     String accountId = "1010";
     String domainId = "0";
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/0/auto_renewal", HttpMethods.PUT, new HttpHeaders(), null, resource("notfound-domain.http"));
+    server.expectPut("/v2/1010/registrar/domains/0/auto_renewal");
+    server.stubFixtureAt("notfound-domain.http");
+    Client client = new Client();
 
     client.registrar.enableAutoRenewal(accountId, domainId);
   }
@@ -44,7 +46,9 @@ public class RegistrarAutoRenewTest extends DnsimpleTestBase {
     String accountId = "1010";
     String domainId = "example.com";
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/auto_renewal", HttpMethods.DELETE, new HttpHeaders(), null, resource("disableDomainAutoRenewal/success.http"));
+    server.expectDelete("/v2/1010/registrar/domains/example.com/auto_renewal");
+    server.stubFixtureAt("disableDomainAutoRenewal/success.http");
+    Client client = new Client();
 
     DisableAutoRenewalResponse response = client.registrar.disableAutoRenewal(accountId, domainId);
     assertEquals(null, response.getData());
@@ -55,7 +59,9 @@ public class RegistrarAutoRenewTest extends DnsimpleTestBase {
     String accountId = "1010";
     String domainId = "0";
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/0/auto_renewal", HttpMethods.DELETE, new HttpHeaders(), null, resource("notfound-domain.http"));
+    server.expectDelete("/v2/1010/registrar/domains/0/auto_renewal");
+    server.stubFixtureAt("notfound-domain.http");
+    Client client = new Client();
 
     client.registrar.disableAutoRenewal(accountId, domainId);
   }

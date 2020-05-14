@@ -2,7 +2,6 @@ package com.dnsimple;
 
 import com.dnsimple.data.EmailForward;
 import com.dnsimple.data.Pagination;
-import com.dnsimple.request.Filter;
 import com.dnsimple.response.ListEmailForwardsResponse;
 import com.dnsimple.response.GetEmailForwardResponse;
 import com.dnsimple.response.CreateEmailForwardResponse;
@@ -11,8 +10,7 @@ import com.dnsimple.response.DeleteEmailForwardResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
-import junit.framework.Assert;
-
+import com.dnsimple.tools.HttpMethod;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -27,7 +25,8 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
 
   @Test
   public void testListEmailForwardsSupportsPagination() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/domains/example.com/email_forwards?page=1");
+    server.expectGet("/v2/1/domains/example.com/email_forwards?page=1");
+    Client client = new Client();
     String accountId = "1";
     String domainId = "example.com";
     HashMap<String, Object> options = new HashMap<String, Object>();
@@ -37,7 +36,8 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
 
    @Test
   public void testListEmailForwardsSupportsExtraRequestOptions() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/domains/example.com/email_forwards?foo=bar");
+     server.expectGet("/v2/1/domains/example.com/email_forwards?foo=bar");
+     Client client = new Client();
     String accountId = "1";
     String domainId = "example.com";
     HashMap<String, Object> options = new HashMap<String, Object>();
@@ -47,7 +47,8 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
 
   @Test
   public void testListEmailForwardsSupportsSorting() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/domains/example.com/email_forwards?sort=from%3Aasc");
+    server.expectGet("/v2/1/domains/example.com/email_forwards?sort=from%3Aasc");
+    Client client = new Client();
     String accountId = "1";
     String domainId = "example.com";
     HashMap<String, Object> options = new HashMap<String, Object>();
@@ -57,7 +58,8 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
 
   @Test
   public void testListEmailForwardsProducesDomainList() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listEmailForwards/success.http"));
+    server.stubFixtureAt("listEmailForwards/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";
@@ -71,7 +73,8 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
 
   @Test
   public void testListEmailForwardsExposesPaginationInfo() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listEmailForwards/success.http"));
+    server.stubFixtureAt("listEmailForwards/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";
@@ -84,7 +87,8 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
 
   @Test
   public void testGetEmailForward() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("getEmailForward/success.http"));
+    server.stubFixtureAt("getEmailForward/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";
@@ -99,7 +103,8 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
 
   @Test(expected=ResourceNotFoundException.class)
   public void testGetEmailForwardWhenDomainNotFound() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("notfound-domain.http"));
+    server.stubFixtureAt("notfound-domain.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "0";
@@ -110,7 +115,8 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
 
   @Test(expected=ResourceNotFoundException.class)
   public void testGetEmailForwardWhenEmailForwardNotFound() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("notfound-emailforward.http"));
+    server.stubFixtureAt("notfound-emailforward.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";
@@ -121,7 +127,8 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
 
   @Test
   public void testCreateEmailForwardProducesEmailForward() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("createEmailForward/created.http"));
+    server.stubFixtureAt("createEmailForward/created.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";
@@ -136,7 +143,9 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
 
   @Test
   public void testDeleteEmailForward() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1/domains/example.com/email_forwards/2", HttpMethods.DELETE, resource("deleteEmailForward/success.http"));
+    server.expectDelete("/v2/1/domains/example.com/email_forwards/2");
+    server.stubFixtureAt("deleteEmailForward/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";

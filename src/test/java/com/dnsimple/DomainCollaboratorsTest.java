@@ -8,14 +8,12 @@ import com.dnsimple.response.RemoveCollaboratorResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
-import junit.framework.Assert;
-
+import com.dnsimple.tools.HttpMethod;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 import com.google.api.client.http.HttpMethods;
-import com.google.api.client.util.Data;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,7 +23,8 @@ public class DomainCollaboratorsTest extends DnsimpleTestBase {
 
   @Test
   public void testListCollaboratorsSupportsPagination() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/domains/example.com/collaborators?page=1");
+    server.expectGet("/v2/1/domains/example.com/collaborators?page=1");
+    Client client = new Client();
     String accountId = "1";
     String domainId = "example.com";
     HashMap<String, Object> options = new HashMap<String, Object>();
@@ -35,7 +34,8 @@ public class DomainCollaboratorsTest extends DnsimpleTestBase {
 
   @Test
   public void testListCollaboratorsSupportsExtraRequestOptions() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/domains/example.com/collaborators?foo=bar");
+    server.expectGet("/v2/1/domains/example.com/collaborators?foo=bar");
+    Client client = new Client();
     String accountId = "1";
     String domainId = "example.com";
     HashMap<String, Object> options = new HashMap<String, Object>();
@@ -45,7 +45,8 @@ public class DomainCollaboratorsTest extends DnsimpleTestBase {
 
   @Test
   public void testCollaboratorsSupportsSorting() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/domains/example.com/collaborators?sort=created_at%3Aasc");
+    server.expectGet("/v2/1/domains/example.com/collaborators?sort=created_at%3Aasc");
+    Client client = new Client();
     String accountId = "1";
     String domainId = "example.com";
     HashMap<String, Object> options = new HashMap<String, Object>();
@@ -55,7 +56,8 @@ public class DomainCollaboratorsTest extends DnsimpleTestBase {
 
   @Test
   public void testCollaboratorsProducesDelegationSignerRecordList() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listCollaborators/success.http"));
+    server.stubFixtureAt("listCollaborators/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";
@@ -69,7 +71,8 @@ public class DomainCollaboratorsTest extends DnsimpleTestBase {
 
   @Test
   public void testListCollaboratorsExposesPaginationInfo() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listCollaborators/success.http"));
+    server.stubFixtureAt("listCollaborators/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";
@@ -82,7 +85,8 @@ public class DomainCollaboratorsTest extends DnsimpleTestBase {
 
   @Test
   public void testAddColaboratorProducersInvitedUserCollaborator() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("addCollaborator/invite-success.http"));
+    server.stubFixtureAt("addCollaborator/invite-success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";
@@ -100,7 +104,8 @@ public class DomainCollaboratorsTest extends DnsimpleTestBase {
 
   @Test
   public void testAddColaboratorProducersExistingUserCollaborator() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("addCollaborator/success.http"));
+    server.stubFixtureAt("addCollaborator/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";
@@ -118,7 +123,9 @@ public class DomainCollaboratorsTest extends DnsimpleTestBase {
 
   @Test
   public void testRemoveCollaborator() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1/domains/example.com/collaborators/100", HttpMethods.DELETE, resource("removeCollaborator/success.http"));
+    server.expectDelete("/v2/1/domains/example.com/collaborators/100");
+    server.stubFixtureAt("removeCollaborator/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";
@@ -130,7 +137,8 @@ public class DomainCollaboratorsTest extends DnsimpleTestBase {
 
   @Test(expected=ResourceNotFoundException.class)
   public void testRemovecollaboratorWhenNotFound() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("notfound-collaborator.http"));
+    server.stubFixtureAt("notfound-collaborator.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";

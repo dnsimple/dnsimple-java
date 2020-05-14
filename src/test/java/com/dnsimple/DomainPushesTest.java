@@ -1,20 +1,16 @@
 package com.dnsimple;
 
 import com.dnsimple.data.Push;
-import com.dnsimple.data.Pagination;
 import com.dnsimple.response.InitiatePushResponse;
 import com.dnsimple.response.ListPushesResponse;
 import com.dnsimple.response.AcceptPushResponse;
 import com.dnsimple.response.RejectPushResponse;
 import com.dnsimple.exception.DnsimpleException;
 
-import junit.framework.Assert;
-
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import com.google.api.client.http.HttpMethods;
 import com.google.api.client.util.Data;
 
 import java.io.IOException;
@@ -24,7 +20,8 @@ import java.util.HashMap;
 public class DomainPushesTest extends DnsimpleTestBase {
   @Test
   public void testInitiatePushProducesPush() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("initiatePush/success.http"));
+    server.stubFixtureAt("initiatePush/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";
@@ -43,7 +40,8 @@ public class DomainPushesTest extends DnsimpleTestBase {
 
   @Test
   public void testListPushesProducesPushList() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listPushes/success.http"));
+    server.stubFixtureAt("listPushes/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";
@@ -57,7 +55,8 @@ public class DomainPushesTest extends DnsimpleTestBase {
 
   @Test
   public void testAcceptPush() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("acceptPush/success.http"));
+    server.stubFixtureAt("acceptPush/success.http");
+    Client client = new Client();
 
     String accountId = "1010";
     String pushId = "200";
@@ -70,7 +69,8 @@ public class DomainPushesTest extends DnsimpleTestBase {
 
   @Test
   public void testRejectPush() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("rejectPush/success.http"));
+    server.stubFixtureAt("rejectPush/success.http");
+    Client client = new Client();
 
     String accountId = "1010";
     String pushId = "200";

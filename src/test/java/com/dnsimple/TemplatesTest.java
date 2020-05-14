@@ -11,15 +11,12 @@ import com.dnsimple.response.ApplyTemplateResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
-import junit.framework.Assert;
-
+import com.dnsimple.tools.HttpMethod;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
-import com.google.api.client.util.Data;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,7 +26,8 @@ public class TemplatesTest extends DnsimpleTestBase {
 
   @Test
   public void testListTemplatesSupportsPagination() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/templates?page=1");
+    server.expectGet("/v2/1/templates?page=1");
+    Client client = new Client();
 
     String accountId = "1";
     HashMap<String, Object> options = new HashMap<String, Object>();
@@ -40,7 +38,8 @@ public class TemplatesTest extends DnsimpleTestBase {
 
   @Test
   public void testListTemplatesSupportsExtraRequestOptions() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/templates?foo=bar");
+    server.expectGet("/v2/1/templates?foo=bar");
+    Client client = new Client();
 
     String accountId = "1";
     HashMap<String, Object> options = new HashMap<String, Object>();
@@ -51,7 +50,8 @@ public class TemplatesTest extends DnsimpleTestBase {
 
   @Test
   public void testListTemplatesSupportsSorting() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/templates?sort=name%3Aasc");
+    server.expectGet("/v2/1/templates?sort=name%3Aasc");
+    Client client = new Client();
 
     String accountId = "1";
     HashMap<String, Object> options = new HashMap<String, Object>();
@@ -62,7 +62,8 @@ public class TemplatesTest extends DnsimpleTestBase {
 
   @Test
   public void testListTemplatesProducesTemplateList() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listTemplates/success.http"));
+    server.stubFixtureAt("listTemplates/success.http");
+    Client client = new Client();
 
     String accountId = "1";
 
@@ -75,7 +76,8 @@ public class TemplatesTest extends DnsimpleTestBase {
 
   @Test
   public void testListTemplatesExposesPaginationInfo() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listTemplates/success.http"));
+    server.stubFixtureAt("listTemplates/success.http");
+    Client client = new Client();
 
     String accountId = "1";
 
@@ -87,7 +89,9 @@ public class TemplatesTest extends DnsimpleTestBase {
 
   @Test
   public void testGetTemplate() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/templates/1", HttpMethods.GET, new HttpHeaders(), null, resource("getTemplate/success.http"));
+    server.expectGet("/v2/1010/templates/1");
+    server.stubFixtureAt("getTemplate/success.http");
+    Client client = new Client();
 
     String accountId = "1010";
     String templateId = "1";
@@ -106,7 +110,8 @@ public class TemplatesTest extends DnsimpleTestBase {
 
   @Test(expected=ResourceNotFoundException.class)
   public void testGetTemplateWhenNotFound() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("notfound-template.http"));
+    server.stubFixtureAt("notfound-template.http");
+    Client client = new Client();
 
     String accountId = "1010";
     String templateId = "2";
@@ -121,14 +126,18 @@ public class TemplatesTest extends DnsimpleTestBase {
     attributes.put("name", "A Template");
     attributes.put("short_name", "a_template");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/templates", HttpMethods.POST, new HashMap<String, Object>(), attributes, resource("createTemplate/created.http"));
+    server.expectPost("/v2/1010/templates");
+    server.expectJsonPayload(attributes);
+    server.stubFixtureAt("createTemplate/created.http");
+    Client client = new Client();
 
     client.templates.createTemplate(accountId, attributes);
   }
 
   @Test
   public void testCreateTemplateProducesTemplate() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("createTemplate/created.http"));
+    server.stubFixtureAt("createTemplate/created.http");
+    Client client = new Client();
 
     String accountId = "1";
     HashMap<String, Object> attributes = new HashMap<String, Object>();
@@ -148,7 +157,10 @@ public class TemplatesTest extends DnsimpleTestBase {
     attributes.put("name", "A Template");
     attributes.put("short_name", "a_template");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/templates/1", HttpMethods.PATCH, new HttpHeaders(), attributes, resource("updateTemplate/success.http"));
+    server.expectPatch("/v2/1010/templates/1");
+    server.expectJsonPayload(attributes);
+    server.stubFixtureAt("updateTemplate/success.http");
+    Client client = new Client();
 
     UpdateTemplateResponse response = client.templates.updateTemplate(accountId, templateId, attributes);
     Template template = response.getData();
@@ -157,7 +169,9 @@ public class TemplatesTest extends DnsimpleTestBase {
 
   @Test
   public void testDeleteTemplate() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/templates/1", HttpMethods.DELETE, resource("deleteTemplate/success.http"));
+    server.expectDelete("/v2/1010/templates/1");
+    server.stubFixtureAt("deleteTemplate/success.http");
+    Client client = new Client();
 
     String accountId = "1010";
     String templateId = "1";
@@ -168,7 +182,9 @@ public class TemplatesTest extends DnsimpleTestBase {
 
   @Test
   public void testApplyTemplate() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains/example.com/templates/1", HttpMethods.POST, resource("applyTemplate/success.http"));
+    server.expectPost("/v2/1010/domains/example.com/templates/1");
+    server.stubFixtureAt("applyTemplate/success.http");
+    Client client = new Client();
 
     String accountId = "1010";
     String templateId = "1";

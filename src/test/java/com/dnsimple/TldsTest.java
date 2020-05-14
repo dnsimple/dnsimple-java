@@ -9,13 +9,11 @@ import com.dnsimple.response.GetTldResponse;
 import com.dnsimple.response.GetTldExtendedAttributesResponse;
 import com.dnsimple.exception.DnsimpleException;
 
-import junit.framework.Assert;
-
+import com.dnsimple.tools.HttpMethod;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
 
 import java.io.IOException;
@@ -26,7 +24,8 @@ public class TldsTest extends DnsimpleTestBase {
 
   @Test
   public void testListTldsSupportsPagination() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/tlds?page=1");
+    server.expectGet("/v2/tlds?page=1");
+    Client client = new Client();
     HashMap<String, Object> options = new HashMap<String, Object>();
     options.put("page", 1);
     client.tlds.listTlds(options);
@@ -34,7 +33,8 @@ public class TldsTest extends DnsimpleTestBase {
 
   @Test
   public void testListTldsSupportsExtraRequestOptions() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/tlds?foo=bar");
+    server.expectGet("/v2/tlds?foo=bar");
+    Client client = new Client();
     HashMap<String, Object> options = new HashMap<String, Object>();
     options.put("foo", "bar");
     client.tlds.listTlds(options);
@@ -42,7 +42,8 @@ public class TldsTest extends DnsimpleTestBase {
 
   @Test
   public void testListTldsSupportsSorting() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/tlds?sort=name%3Aasc");
+    server.expectGet("/v2/tlds?sort=name%3Aasc");
+    Client client = new Client();
     HashMap<String, Object> options = new HashMap<String, Object>();
     options.put("sort", "name:asc");
     client.tlds.listTlds(options);
@@ -50,7 +51,8 @@ public class TldsTest extends DnsimpleTestBase {
 
   @Test
   public void testListTldsProducesTldList() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listTlds/success.http"));
+    server.stubFixtureAt("listTlds/success.http");
+    Client client = new Client();
 
     ListTldsResponse response = client.tlds.listTlds();
 
@@ -61,7 +63,8 @@ public class TldsTest extends DnsimpleTestBase {
 
   @Test
   public void testListTldsExposesPaginationInfo() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listTlds/success.http"));
+    server.stubFixtureAt("listTlds/success.http");
+    Client client = new Client();
 
     String accountId = "1";
 
@@ -73,7 +76,8 @@ public class TldsTest extends DnsimpleTestBase {
 
   @Test
   public void testGetTld() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("getTld/success.http"));
+    server.stubFixtureAt("getTld/success.http");
+    Client client = new Client();
 
     String tldString = "com";
 
@@ -85,7 +89,9 @@ public class TldsTest extends DnsimpleTestBase {
 
   @Test
   public void testGetTldExtendedAttributes() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/tlds/uk/extended_attributes", HttpMethods.GET, new HttpHeaders(), null, resource("getTldExtendedAttributes/success.http"));
+    server.expectGet("/v2/tlds/uk/extended_attributes");
+    server.stubFixtureAt("getTldExtendedAttributes/success.http");
+    Client client = new Client();
 
     String tldString = "uk";
 
@@ -106,7 +112,9 @@ public class TldsTest extends DnsimpleTestBase {
 
   @Test
   public void testGetTldExtendedAttributesWhenNone() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/tlds/com/extended_attributes", HttpMethods.GET, new HttpHeaders(), null, resource("getTldExtendedAttributes/success-noattributes.http"));
+    server.expectGet("/v2/tlds/com/extended_attributes");
+    server.stubFixtureAt("getTldExtendedAttributes/success-noattributes.http");
+    Client client = new Client();
 
     String tldString = "com";
 

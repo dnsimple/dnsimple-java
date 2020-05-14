@@ -6,14 +6,9 @@ import com.dnsimple.response.DisableDnssecResponse;
 import com.dnsimple.response.GetDnssecResponse;
 import com.dnsimple.exception.DnsimpleException;
 
-import junit.framework.Assert;
-
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-
-import com.google.api.client.http.HttpMethods;
-import com.google.api.client.util.Data;
 
 import java.io.IOException;
 
@@ -21,7 +16,8 @@ public class DomainDnssecTest extends DnsimpleTestBase {
 
   @Test
   public void testEnableDnssec() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("enableDnssec/success.http"));
+    server.stubFixtureAt("enableDnssec/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";
@@ -34,7 +30,8 @@ public class DomainDnssecTest extends DnsimpleTestBase {
 
   @Test
   public void testDisableDnssec() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("disableDnssec/success.http"));
+    server.stubFixtureAt("disableDnssec/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";
@@ -46,7 +43,8 @@ public class DomainDnssecTest extends DnsimpleTestBase {
 
   @Test
   public void testDisableDnssecWhenNotEnabled() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("disableDnssec/not-enabled.http"));
+    server.stubFixtureAt("disableDnssec/not-enabled.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";
@@ -61,7 +59,8 @@ public class DomainDnssecTest extends DnsimpleTestBase {
 
   @Test
   public void testGetDnssec() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("getDnssec/success.http"));
+    server.stubFixtureAt("getDnssec/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";

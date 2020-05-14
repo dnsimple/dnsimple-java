@@ -7,17 +7,13 @@ import com.dnsimple.response.GetTemplateRecordResponse;
 import com.dnsimple.response.CreateTemplateRecordResponse;
 import com.dnsimple.response.DeleteTemplateRecordResponse;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.exception.ResourceNotFoundException;
 
-import junit.framework.Assert;
-
+import com.dnsimple.tools.HttpMethod;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
-import com.google.api.client.util.Data;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,7 +23,8 @@ public class TemplateRecordsTest extends DnsimpleTestBase {
 
   @Test
   public void testListTemplatesSupportsPagination() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/templates/2/records?page=1");
+    server.expectGet("/v2/1/templates/2/records?page=1");
+    Client client = new Client();
 
     String accountId = "1";
     String templateId = "2";
@@ -39,7 +36,8 @@ public class TemplateRecordsTest extends DnsimpleTestBase {
 
   @Test
   public void testListTemplatesSupportsExtraRequestOptions() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/templates/2/records?foo=bar");
+    server.expectGet("/v2/1/templates/2/records?foo=bar");
+    Client client = new Client();
 
     String accountId = "1";
     String templateId = "2";
@@ -51,7 +49,8 @@ public class TemplateRecordsTest extends DnsimpleTestBase {
 
   @Test
   public void testListTemplatesSupportsSorting() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/templates/2/records?sort=name%3Aasc");
+    server.expectGet("/v2/1/templates/2/records?sort=name%3Aasc");
+    Client client = new Client();
 
     String accountId = "1";
     String templateId = "2";
@@ -63,7 +62,8 @@ public class TemplateRecordsTest extends DnsimpleTestBase {
 
   @Test
   public void testListTemplateRecordsProducesTemplateRecordList() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listTemplateRecords/success.http"));
+    server.stubFixtureAt("listTemplateRecords/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String templateId = "2";
@@ -77,7 +77,8 @@ public class TemplateRecordsTest extends DnsimpleTestBase {
 
   @Test
   public void testListTemplateRecordsExposesPaginationInfo() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listTemplateRecords/success.http"));
+    server.stubFixtureAt("listTemplateRecords/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String templateId = "2";
@@ -90,7 +91,9 @@ public class TemplateRecordsTest extends DnsimpleTestBase {
 
   @Test
   public void testGetTemplateRecord() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/templates/1/records/301", HttpMethods.GET, resource("getTemplateRecord/success.http"));
+    server.expectGet("/v2/1010/templates/1/records/301");
+    server.stubFixtureAt("getTemplateRecord/success.http");
+    Client client = new Client();
 
     String accountId = "1010";
     String templateId = "1";
@@ -118,14 +121,18 @@ public class TemplateRecordsTest extends DnsimpleTestBase {
     attributes.put("name", "www");
     attributes.put("content", "example.com");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/templates/1/records", HttpMethods.POST, new HashMap<String, Object>(), attributes, resource("createTemplateRecord/created.http"));
+    server.expectPost("/v2/1010/templates/1/records");
+    server.expectJsonPayload(attributes);
+    server.stubFixtureAt("createTemplateRecord/created.http");
+    Client client = new Client();
 
     client.templates.createTemplateRecord(accountId, templateId, attributes);
   }
 
   @Test
   public void testCreateTemplateRecordProducesTemplateRecord() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("createTemplateRecord/created.http"));
+    server.stubFixtureAt("createTemplateRecord/created.http");
+    Client client = new Client();
 
     String accountId = "1";
     String templateId = "300";
@@ -140,7 +147,9 @@ public class TemplateRecordsTest extends DnsimpleTestBase {
 
   @Test
   public void testDeleteTemplateRecord() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/templates/1/records/300", HttpMethods.DELETE, resource("deleteTemplateRecord/success.http"));
+    server.expectDelete("/v2/1010/templates/1/records/300");
+    server.stubFixtureAt("deleteTemplateRecord/success.http");
+    Client client = new Client();
 
     String accountId = "1010";
     String templateId = "1";

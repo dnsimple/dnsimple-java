@@ -1,35 +1,16 @@
 package com.dnsimple.regression;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.dnsimple.Client;
-import com.dnsimple.Dnsimple;
 import com.dnsimple.DnsimpleTestBase;
-import com.dnsimple.TestHttpServer;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.response.DeleteZoneRecordResponse;
 import java.io.IOException;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 public class DeleteZoneRecordTest extends DnsimpleTestBase {
-  private TestHttpServer server;
-  private String backupApiBase;
-
-  @Before
-  public void setUp() {
-    server = new TestHttpServer(12345);
-    server.start();
-    backupApiBase = Dnsimple.getApiBase();
-    Dnsimple.setApiBase(server.getBaseURL());
-  }
-
-  @After
-  public void tearDown() {
-    server.stop();
-    Dnsimple.setApiBase(backupApiBase);
-  }
 
   /**
    * This test ensures that our Java client can deal with HTTP 204 No Content
@@ -38,7 +19,8 @@ public class DeleteZoneRecordTest extends DnsimpleTestBase {
    */
   @Test
   public void issue_13_deleteZoneRecord_throws_IllegalArgumentException() throws IOException, DnsimpleException {
-    server.stubFixture(resourcePath("deleteZoneRecord/success.http"));
+    server.stubFixtureAt("deleteZoneRecord/success.http");
+    server.expectDelete("/v2/1/zones/example.com/records/2");
     Client client = new Client();
 
     String accountId = "1";
@@ -46,6 +28,6 @@ public class DeleteZoneRecordTest extends DnsimpleTestBase {
     String recordId = "2";
 
     DeleteZoneRecordResponse response = client.zones.deleteZoneRecord(accountId, zoneId, recordId);
-    assertEquals(null, response.getData());
+    assertThat(response.getData(), nullValue());
   }
 }

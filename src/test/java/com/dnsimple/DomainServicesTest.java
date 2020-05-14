@@ -2,22 +2,17 @@ package com.dnsimple;
 
 import com.dnsimple.data.Service;
 import com.dnsimple.data.Pagination;
-import com.dnsimple.request.Filter;
 import com.dnsimple.response.AppliedServicesResponse;
 import com.dnsimple.response.ApplyServiceResponse;
 import com.dnsimple.response.UnapplyServiceResponse;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.exception.ResourceNotFoundException;
 
-import junit.framework.Assert;
-
+import com.dnsimple.tools.HttpMethod;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
-import com.google.api.client.util.Data;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,7 +22,8 @@ public class DomainServicesTest extends DnsimpleTestBase {
 
   @Test
   public void testAppliedServicesSupportsPagination() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/domains/example.com/services?page=1");
+    server.expectGet("/v2/1/domains/example.com/services?page=1");
+    Client client = new Client();
     String accountId = "1";
     String domainId = "example.com";
 
@@ -38,7 +34,8 @@ public class DomainServicesTest extends DnsimpleTestBase {
 
   @Test
   public void testAppliedServicesSupportsExtraRequestOptions() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/domains/example.com/services?foo=bar");
+    server.expectGet("/v2/1/domains/example.com/services?foo=bar");
+    Client client = new Client();
     String accountId = "1";
     String domainId = "example.com";
     HashMap<String, Object> options = new HashMap<String, Object>();
@@ -48,7 +45,8 @@ public class DomainServicesTest extends DnsimpleTestBase {
 
   @Test
   public void testAppliedServicesSupportsSorting() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/domains/example.com/services?sort=name%3Aasc");
+    server.expectGet("/v2/1/domains/example.com/services?sort=name%3Aasc");
+    Client client = new Client();
     String accountId = "1";
     String domainId = "example.com";
     HashMap<String, Object> options = new HashMap<String, Object>();
@@ -58,7 +56,8 @@ public class DomainServicesTest extends DnsimpleTestBase {
 
   @Test
   public void testAppliedServicesProducesServiceList() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("appliedServices/success.http"));
+    server.stubFixtureAt("appliedServices/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";
@@ -72,7 +71,8 @@ public class DomainServicesTest extends DnsimpleTestBase {
 
   @Test
   public void testAppliedServicesExposesPaginationInfo() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("appliedServices/success.http"));
+    server.stubFixtureAt("appliedServices/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";
@@ -85,21 +85,24 @@ public class DomainServicesTest extends DnsimpleTestBase {
 
   @Test
   public void testApplyService() throws DnsimpleException, IOException {
-    HashMap<String, Object> settings = new HashMap<String, Object>();
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains/example.com/services/2", HttpMethods.POST, new HttpHeaders(), settings, resource("applyService/success.http"));
+    server.expectPost("/v2/1010/domains/example.com/services/2");
+    server.stubFixtureAt("applyService/success.http");
+    Client client = new Client();
 
     String accountId = "1010";
     String domainId = "example.com";
     String serviceId = "2";
 
-    ApplyServiceResponse response = client.services.applyService(accountId, domainId, serviceId, settings);
+    ApplyServiceResponse response = client.services.applyService(accountId, domainId, serviceId, new HashMap<String, Object>());
     assertEquals(null, response.getData());
   }
 
   @Test
   public void testUnapplyService() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/domains/example.com/services/2", HttpMethods.DELETE, resource("unapplyService/success.http"));
+    server.expectDelete("/v2/1010/domains/example.com/services/2");
+    server.stubFixtureAt("unapplyService/success.http");
+    Client client = new Client();
 
     String accountId = "1010";
     String domainId = "example.com";

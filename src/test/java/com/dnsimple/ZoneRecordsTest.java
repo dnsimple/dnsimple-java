@@ -2,7 +2,6 @@ package com.dnsimple;
 
 import com.dnsimple.data.ZoneRecord;
 import com.dnsimple.data.Pagination;
-import com.dnsimple.request.Filter;
 import com.dnsimple.response.ListZoneRecordsResponse;
 import com.dnsimple.response.GetZoneRecordResponse;
 import com.dnsimple.response.CreateZoneRecordResponse;
@@ -11,8 +10,7 @@ import com.dnsimple.response.DeleteZoneRecordResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
-import junit.framework.Assert;
-
+import com.dnsimple.tools.HttpMethod;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -29,7 +27,8 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
 
   @Test
   public void testListZoneRecordsSupportsPagination() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/zones/example.com/records?page=1");
+    server.expectGet("/v2/1/zones/example.com/records?page=1");
+    Client client = new Client();
     String accountId = "1";
     String zoneId = "example.com";
     HashMap<String, Object> options = new HashMap<String, Object>();
@@ -39,7 +38,8 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
 
   @Test
   public void testListZoneRecordsSupportsExtraRequestOptions() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/zones/example.com/records?foo=bar");
+    server.expectGet("/v2/1/zones/example.com/records?foo=bar");
+    Client client = new Client();
     String accountId = "1";
     String zoneId = "example.com";
     HashMap<String, Object> options = new HashMap<String, Object>();
@@ -49,7 +49,8 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
 
   @Test
   public void testListZoneRecordsSupportsSorting() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/zones/example.com/records?sort=name%3Aasc");
+    server.expectGet("/v2/1/zones/example.com/records?sort=name%3Aasc");
+    Client client = new Client();
     String accountId = "1";
     String zoneId = "example.com";
     HashMap<String, Object> options = new HashMap<String, Object>();
@@ -59,7 +60,8 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
 
   @Test
   public void testListZoneRecordsProducesDomainList() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listZoneRecords/success.http"));
+    server.stubFixtureAt("listZoneRecords/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String zoneId = "example.com";
@@ -73,7 +75,8 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
 
   @Test
   public void testListZoneRecordsExposesPaginationInfo() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listZoneRecords/success.http"));
+    server.stubFixtureAt("listZoneRecords/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String zoneId = "example.com";
@@ -86,7 +89,8 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
 
   @Test
   public void testGetZoneRecord() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("getZoneRecord/success.http"));
+    server.stubFixtureAt("getZoneRecord/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String zoneId = "example.com";
@@ -110,7 +114,8 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
 
   @Test(expected=ResourceNotFoundException.class)
   public void testGetZoneRecordWhenRecordNotFound() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("notfound-record.http"));
+    server.stubFixtureAt("notfound-record.http");
+    Client client = new Client();
 
     String accountId = "1";
     String domainId = "example.com";
@@ -125,17 +130,22 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
     String zoneId = "example.com";
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType("application/json");
-    HashMap<String, Object> attributes = new HashMap<String, Object>();
+    HashMap<String, Object> attributes = new HashMap<>();
     attributes.put("name", "www");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/zones/example.com/records", HttpMethods.POST, headers, attributes, resource("createZoneRecord/created.http"));
+    server.expectPost("/v2/1010/zones/example.com/records");
+    server.expectHeaders(headers);
+    server.expectJsonPayload(attributes);
+    server.stubFixtureAt("createZoneRecord/created.http");
+    Client client = new Client();
 
     client.zones.createZoneRecord(accountId, zoneId, attributes);
   }
 
   @Test
   public void testCreateZoneRecordProducesZoneRecord() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("createZoneRecord/created.http"));
+    server.stubFixtureAt("createZoneRecord/created.http");
+    Client client = new Client();
 
     String accountId = "1";
     String zoneId = "example.com";
@@ -155,7 +165,10 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
     HashMap<String, Object> attributes = new HashMap<String, Object>();
     attributes.put("name", "www");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1/zones/example.com/records/2", HttpMethods.PATCH, new HttpHeaders(), attributes, resource("updateZoneRecord/success.http"));
+    server.expectPatch("/v2/1/zones/example.com/records/2");
+    server.expectJsonPayload(attributes);
+    server.stubFixtureAt("updateZoneRecord/success.http");
+    Client client = new Client();
 
     UpdateZoneRecordResponse response = client.zones.updateZoneRecord(accountId, zoneId, recordId, attributes);
     ZoneRecord record = response.getData();
@@ -164,7 +177,9 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
 
   @Test
   public void testDeleteZoneRecord() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1/zones/example.com/records/2", HttpMethods.DELETE, new HttpHeaders(), null, resource("deleteZoneRecord/success.http"));
+    server.expectDelete("/v2/1/zones/example.com/records/2");
+    server.stubFixtureAt("deleteZoneRecord/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String zoneId = "example.com";

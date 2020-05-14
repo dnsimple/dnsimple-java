@@ -5,8 +5,6 @@ import com.dnsimple.response.ListServicesResponse;
 import com.dnsimple.response.GetServiceResponse;
 import com.dnsimple.exception.DnsimpleException;
 
-import junit.framework.Assert;
-
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -21,7 +19,8 @@ public class ServicesTest extends DnsimpleTestBase {
 
   @Test
   public void testListServicesSupportsPagination() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/services?page=1");
+    server.expectGet("/v2/services?page=1");
+    Client client = new Client();
 
     HashMap<String, Object> options = new HashMap<String, Object>();
     options.put("page", 1);
@@ -30,7 +29,8 @@ public class ServicesTest extends DnsimpleTestBase {
 
   @Test
   public void testListServicesSupportsExtraRequestOptions() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/services?foo=bar");
+    server.expectGet("/v2/services?foo=bar");
+    Client client = new Client();
     HashMap<String, Object> options = new HashMap<String, Object>();
     options.put("foo", "bar");
     client.services.listServices(options);
@@ -38,7 +38,8 @@ public class ServicesTest extends DnsimpleTestBase {
 
   @Test
   public void testListServicesSupportsSorting() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/services?sort=name%3Aasc");
+    server.expectGet("/v2/services?sort=name%3Aasc");
+    Client client = new Client();
     HashMap<String, Object> options = new HashMap<String, Object>();
     options.put("sort", "name:asc");
     client.services.listServices(options);
@@ -46,7 +47,8 @@ public class ServicesTest extends DnsimpleTestBase {
 
   @Test
   public void testListServicesProducesServiceList() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listServices/success.http"));
+    server.stubFixtureAt("listServices/success.http");
+    Client client = new Client();
 
     ListServicesResponse response = client.services.listServices();
 
@@ -57,7 +59,8 @@ public class ServicesTest extends DnsimpleTestBase {
 
   @Test
   public void testGetService() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("getService/success.http"));
+    server.stubFixtureAt("getService/success.http");
+    Client client = new Client();
 
     String serviceId = "1";
 

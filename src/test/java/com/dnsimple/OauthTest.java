@@ -1,22 +1,20 @@
 package com.dnsimple;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import com.dnsimple.data.OauthToken;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.exception.ResourceNotFoundException;
-
-import junit.framework.Assert;
-
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
-import com.google.api.client.http.HttpHeaders;
+import com.dnsimple.tools.HttpMethod;
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.util.Data;
-
 import java.io.IOException;
-import java.util.List;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
+import org.junit.Test;
 
 public class OauthTest extends DnsimpleTestBase {
   @Test
@@ -31,7 +29,10 @@ public class OauthTest extends DnsimpleTestBase {
     attributes.put("client_secret", clientSecret);
     attributes.put("grant_type", "authorization_code");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/oauth/access_token", HttpMethods.POST, new HttpHeaders(), attributes, resource("oauthAccessToken/success.http"));
+    server.expectPost("/v2/oauth/access_token");
+    server.expectJsonPayload(attributes);
+    server.stubFixtureAt("oauthAccessToken/success.http");
+    Client client = new Client();
 
     OauthToken token = client.oauth.exchangeAuthorizationForToken(code, clientId, clientSecret);
     assertEquals("zKQ7OLqF5N1gylcJweA9WodA000BUNJD", token.getAccessToken());
@@ -60,7 +61,10 @@ public class OauthTest extends DnsimpleTestBase {
     expectedAttributes.put("state", state);
     expectedAttributes.put("redirect_uri", redirectUri);
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/oauth/access_token", HttpMethods.POST, new HttpHeaders(), expectedAttributes, resource("oauthAccessToken/success.http"));
+    server.expectPost("/v2/oauth/access_token");
+    server.expectJsonPayload(expectedAttributes);
+    server.stubFixtureAt("oauthAccessToken/success.http");
+    Client client = new Client();
 
     OauthToken token = client.oauth.exchangeAuthorizationForToken(code, clientId, clientSecret, options);
     assertEquals("zKQ7OLqF5N1gylcJweA9WodA000BUNJD", token.getAccessToken());
@@ -70,21 +74,23 @@ public class OauthTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testAuthorizeUrlIsCorrect() {
+  public void testAuthorizeUrlIsCorrect() throws MalformedURLException {
     Client client = new Client();
-    String authorizeUrl = client.oauth.authorizeUrl("great-app");
-    assertEquals("https://dnsimple.com/oauth/authorize?client_id=great-app&response_type=code", authorizeUrl);
+    URL authorizeUrl = new URL(client.oauth.authorizeUrl("great-app"));
+    String fullPath = authorizeUrl.getPath() + "?" + authorizeUrl.getQuery();
+    assertThat(fullPath, is("/oauth/authorize?client_id=great-app&response_type=code"));
   }
 
   @Test
-  public void testAuthorizeUrlIncludesOptions() {
+  public void testAuthorizeUrlIncludesOptions() throws MalformedURLException {
     Client client = new Client();
 
     HashMap<Object, Object> options = new HashMap<Object, Object>();
     options.put("secret", "1");
     options.put("redirect_uri", "http://example.com");
 
-    String authorizeUrl = client.oauth.authorizeUrl("great-app", options);
-    assertEquals("https://dnsimple.com/oauth/authorize?client_id=great-app&response_type=code&secret=1&redirect_uri=http%3A%2F%2Fexample.com", authorizeUrl);
+    URL authorizeUrl = new URL(client.oauth.authorizeUrl("great-app", options));
+    String fullPath = authorizeUrl.getPath() + "?" + authorizeUrl.getQuery();
+    assertThat(fullPath, is("/oauth/authorize?client_id=great-app&response_type=code&secret=1&redirect_uri=http%3A%2F%2Fexample.com"));
   }
 }

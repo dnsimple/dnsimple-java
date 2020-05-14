@@ -12,14 +12,9 @@ import com.dnsimple.response.CheckZoneDistributionResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 
-import junit.framework.Assert;
-
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-
-import com.google.api.client.http.HttpMethods;
-import com.google.api.client.util.Data;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,7 +24,8 @@ public class ZonesTest extends DnsimpleTestBase {
 
   @Test
   public void testListZonesSupportsPagination() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/zones?page=1");
+    server.expectGet("/v2/1/zones?page=1");
+    Client client = new Client();
     String accountId = "1";
     HashMap<String, Object> options = new HashMap<String, Object>();
     options.put("page", 1);
@@ -38,7 +34,8 @@ public class ZonesTest extends DnsimpleTestBase {
 
   @Test
   public void testListZonesSupportsExtraRequestOptions() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/zones?foo=bar");
+    server.expectGet("/v2/1/zones?foo=bar");
+    Client client = new Client();
     String accountId = "1";
     HashMap<String, Object> options = new HashMap<String, Object>();
     options.put("foo", "bar");
@@ -47,7 +44,8 @@ public class ZonesTest extends DnsimpleTestBase {
 
   @Test
   public void testListDomainsSupportsSorting() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/zones?sort=expires_on%3Aasc");
+    server.expectGet("/v2/1/zones?sort=expires_on%3Aasc");
+    Client client = new Client();
     String accountId = "1";
     HashMap<String, Object> options = new HashMap<String, Object>();
     options.put("sort", "expires_on:asc");
@@ -56,7 +54,8 @@ public class ZonesTest extends DnsimpleTestBase {
 
   @Test
   public void testListZonesSupportsFiltering() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/zones?name_like=example");
+    server.expectGet("/v2/1/zones?name_like=example");
+    Client client = new Client();
     String accountId = "1";
     HashMap<String, Object> options = new HashMap<String, Object>();
     options.put("filter", new Filter("name_like", "example"));
@@ -65,7 +64,8 @@ public class ZonesTest extends DnsimpleTestBase {
 
   @Test
   public void testListZonesProducesZoneList() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listZones/success.http"));
+    server.stubFixtureAt("listZones/success.http");
+    Client client = new Client();
 
     String accountId = "1";
 
@@ -78,7 +78,8 @@ public class ZonesTest extends DnsimpleTestBase {
 
   @Test
   public void testListZonesExposesPaginationInfo() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listZones/success.http"));
+    server.stubFixtureAt("listZones/success.http");
+    Client client = new Client();
 
     String accountId = "1";
 
@@ -90,7 +91,8 @@ public class ZonesTest extends DnsimpleTestBase {
 
   @Test
   public void testGetZone() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("getZone/success.http"));
+    server.stubFixtureAt("getZone/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String zoneId = "example.com";
@@ -107,7 +109,8 @@ public class ZonesTest extends DnsimpleTestBase {
 
   @Test(expected=ResourceNotFoundException.class)
   public void testGetZoneWhenZoneNotFound() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("notfound-zone.http"));
+    server.stubFixtureAt("notfound-zone.http");
+    Client client = new Client();
 
     String accountId = "1";
     String zoneId = "example.com";
@@ -117,7 +120,8 @@ public class ZonesTest extends DnsimpleTestBase {
 
   @Test
   public void testGetZoneFile() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("getZoneFile/success.http"));
+    server.stubFixtureAt("getZoneFile/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String zoneId = "example.com";
@@ -130,7 +134,8 @@ public class ZonesTest extends DnsimpleTestBase {
 
   @Test(expected=ResourceNotFoundException.class)
   public void testGetZoneFileWhenZoneNotFound() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("notfound-zone.http"));
+    server.stubFixtureAt("notfound-zone.http");
+    Client client = new Client();
 
     String accountId = "1";
     String zoneId = "example.com";
@@ -140,7 +145,8 @@ public class ZonesTest extends DnsimpleTestBase {
 
   @Test
   public void testCheckZoneDistribution() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("checkZoneDistribution/success.http"));
+    server.stubFixtureAt("checkZoneDistribution/success.http");
+    Client client = new Client();
 
     String accountId = "1";
     String zoneId = "example.com";
@@ -153,7 +159,8 @@ public class ZonesTest extends DnsimpleTestBase {
 
   @Test
   public void testCheckZoneDistributionNotDistributed() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("checkZoneDistribution/failure.http"));
+    server.stubFixtureAt("checkZoneDistribution/failure.http");
+    Client client = new Client();
 
     String accountId = "1";
     String zoneId = "example.com";
@@ -166,7 +173,8 @@ public class ZonesTest extends DnsimpleTestBase {
 
   @Test(expected=DnsimpleException.class)
   public void testCheckZoneDistributionFailedCheck() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("checkZoneDistribution/error.http"));
+    server.stubFixtureAt("checkZoneDistribution/error.http");
+    Client client = new Client();
 
     String accountId = "1";
     String zoneId = "example.com";
@@ -179,7 +187,8 @@ public class ZonesTest extends DnsimpleTestBase {
 
   @Test(expected=ResourceNotFoundException.class)
   public void testCheckZoneDistributionWhenZoneNotFound() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("notfound-zone.http"));
+    server.stubFixtureAt("notfound-zone.http");
+    Client client = new Client();
 
     String accountId = "1";
     String zoneId = "example.com";
@@ -189,7 +198,8 @@ public class ZonesTest extends DnsimpleTestBase {
 
   @Test
   public void testCheckZoneRecordDistribution() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("checkZoneRecordDistribution/success.http"));
+    server.stubFixtureAt("checkZoneRecordDistribution/success.http");
+    Client client = new Client();
 
     String accountId = "1010";
     String zoneId = "example.com";
@@ -203,7 +213,8 @@ public class ZonesTest extends DnsimpleTestBase {
 
   @Test
   public void testCheckZoneRecordDistributionNotDistributed() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("checkZoneRecordDistribution/failure.http"));
+    server.stubFixtureAt("checkZoneRecordDistribution/failure.http");
+    Client client = new Client();
 
     String accountId = "1010";
     String zoneId = "example.com";
@@ -217,7 +228,8 @@ public class ZonesTest extends DnsimpleTestBase {
 
   @Test(expected=DnsimpleException.class)
   public void testCheckZoneRecordDistributionFailedCheck() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("checkZoneRecordDistribution/error.http"));
+    server.stubFixtureAt("checkZoneRecordDistribution/error.http");
+    Client client = new Client();
 
     String accountId = "1010";
     String zoneId = "example.com";
@@ -231,7 +243,8 @@ public class ZonesTest extends DnsimpleTestBase {
 
   @Test(expected=ResourceNotFoundException.class)
   public void testCheckZoneRecordDistributionWhenZoneNotFound() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("notfound-zone.http"));
+    server.stubFixtureAt("notfound-zone.http");
+    Client client = new Client();
 
     String accountId = "1010";
     String zoneId = "example.com";
@@ -242,7 +255,8 @@ public class ZonesTest extends DnsimpleTestBase {
 
   @Test(expected=ResourceNotFoundException.class)
   public void testCheckZoneRecordDistributionWhenZoneRecordNotFound() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("notfound-record.http"));
+    server.stubFixtureAt("notfound-record.http");
+    Client client = new Client();
 
     String accountId = "1010";
     String zoneId = "example.com";

@@ -1,6 +1,5 @@
 package com.dnsimple;
 
-import com.dnsimple.data.Domain;
 import com.dnsimple.data.DomainAvailability;
 import com.dnsimple.data.DomainRegistration;
 import com.dnsimple.data.DomainRenewal;
@@ -12,13 +11,11 @@ import com.dnsimple.response.TransferDomainResponse;
 import com.dnsimple.response.TransferDomainOutResponse;
 import com.dnsimple.exception.DnsimpleException;
 
-import junit.framework.Assert;
-
+import com.dnsimple.tools.HttpMethod;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
 
 import java.io.IOException;
@@ -31,7 +28,9 @@ public class RegistrarTest extends DnsimpleTestBase {
     String accountId = "1010";
     String name = "ruby.codes";
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/ruby.codes/check", HttpMethods.GET, new HttpHeaders(), null, resource("checkDomain/success.http"));
+    server.expectGet("/v2/1010/registrar/domains/ruby.codes/check");
+    server.stubFixtureAt("checkDomain/success.http");
+    Client client = new Client();
 
     CheckDomainResponse response = client.registrar.checkDomain(accountId, name);
     DomainAvailability availability = response.getData();
@@ -47,7 +46,10 @@ public class RegistrarTest extends DnsimpleTestBase {
     HashMap<String, Object> attributes = new HashMap<String, Object>();
     attributes.put("registrant_id", "10");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/registrations", HttpMethods.POST, new HttpHeaders(), attributes, resource("registerDomain/success.http"));
+    server.expectPost("/v2/1010/registrar/domains/example.com/registrations");
+    server.expectJsonPayload(attributes);
+    server.stubFixtureAt("registerDomain/success.http");
+    Client client = new Client();
 
     RegisterDomainResponse response = client.registrar.registerDomain(accountId, name, attributes);
     DomainRegistration registration = response.getData();
@@ -68,7 +70,10 @@ public class RegistrarTest extends DnsimpleTestBase {
     HashMap<String, Object> attributes = new HashMap<String, Object>();
     attributes.put("period", "3");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/renewals", HttpMethods.POST, new HttpHeaders(), attributes, resource("renewDomain/success.http"));
+    server.expectPost("/v2/1010/registrar/domains/example.com/renewals");
+    server.expectJsonPayload(attributes);
+    server.stubFixtureAt("renewDomain/success.http");
+    Client client = new Client();
 
     RenewDomainResponse response = client.registrar.renewDomain(accountId, name, attributes);
     DomainRenewal domainRenewal = response.getData();
@@ -82,7 +87,10 @@ public class RegistrarTest extends DnsimpleTestBase {
     HashMap<String, Object> attributes = new HashMap<String, Object>();
     attributes.put("period", "3");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/renewals", HttpMethods.POST, new HttpHeaders(), attributes, resource("renewDomain/error-tooearly.http"));
+    server.expectPost("/v2/1010/registrar/domains/example.com/renewals");
+    server.expectJsonPayload(attributes);
+    server.stubFixtureAt("renewDomain/error-tooearly.http");
+    Client client = new Client();
 
     client.registrar.renewDomain(accountId, name, attributes);
   }
@@ -95,7 +103,10 @@ public class RegistrarTest extends DnsimpleTestBase {
     attributes.put("registrant_id", "1");
     attributes.put("auth_info", "x1y2z3");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/transfers", HttpMethods.POST, new HttpHeaders(), attributes, resource("transferDomain/success.http"));
+    server.expectPost("/v2/1010/registrar/domains/example.com/transfers");
+    server.expectJsonPayload(attributes);
+    server.stubFixtureAt("transferDomain/success.http");
+    Client client = new Client();
 
     TransferDomainResponse response = client.registrar.transferDomain(accountId, name, attributes);
     DomainTransfer transfer = response.getData();
@@ -152,7 +163,10 @@ public class RegistrarTest extends DnsimpleTestBase {
     attributes.put("registrant_id", "1");
     attributes.put("auth_info", "x1y2z3");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/transfers", HttpMethods.POST, new HttpHeaders(), attributes, resource("transferDomain/error-indnsimple.http"));
+    server.expectPost("/v2/1010/registrar/domains/example.com/transfers");
+    server.expectJsonPayload(attributes);
+    server.stubFixtureAt("transferDomain/error-indnsimple.http");
+    Client client = new Client();
 
     client.registrar.transferDomain(accountId, name, attributes);
   }
@@ -164,7 +178,10 @@ public class RegistrarTest extends DnsimpleTestBase {
     HashMap<String, Object> attributes = new HashMap<String, Object>();
     attributes.put("registrant_id", "1");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/transfers", HttpMethods.POST, new HttpHeaders(), attributes, resource("transferDomain/error-missing-authcode.http"));
+    server.expectPost("/v2/1010/registrar/domains/example.com/transfers");
+    server.expectJsonPayload(attributes);
+    server.stubFixtureAt("transferDomain/error-missing-authcode.http");
+    Client client = new Client();
 
     client.registrar.transferDomain(accountId, name, attributes);
   }
@@ -174,7 +191,9 @@ public class RegistrarTest extends DnsimpleTestBase {
     String accountId = "1010";
     String name = "example.com";
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/authorize_transfer_out", HttpMethods.POST, new HttpHeaders(), null, resource("authorizeDomainTransferOut/success.http"));
+    server.expectPost("/v2/1010/registrar/domains/example.com/authorize_transfer_out");
+    server.stubFixtureAt("authorizeDomainTransferOut/success.http");
+    Client client = new Client();
 
     TransferDomainOutResponse response = client.registrar.transferDomainOut(accountId, name);
     assertEquals(null, response.getData());

@@ -2,27 +2,20 @@ package com.dnsimple;
 
 import com.dnsimple.data.WhoisPrivacy;
 import com.dnsimple.data.WhoisPrivacyRenewal;
-import com.dnsimple.request.Filter;
 import com.dnsimple.response.GetWhoisPrivacyResponse;
 import com.dnsimple.response.EnableWhoisPrivacyResponse;
 import com.dnsimple.response.DisableWhoisPrivacyResponse;
 import com.dnsimple.response.RenewWhoisPrivacyResponse;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.exception.ResourceNotFoundException;
 
-import junit.framework.Assert;
-
+import com.dnsimple.tools.HttpMethod;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
-import com.google.api.client.util.Data;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.HashMap;
 
 public class RegistrarWhoisPrivacyTest extends DnsimpleTestBase {
   @Test
@@ -30,7 +23,9 @@ public class RegistrarWhoisPrivacyTest extends DnsimpleTestBase {
     String accountId = "1010";
     String domainId = "example.com";
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/whois_privacy", HttpMethods.GET, new HttpHeaders(), null, resource("getWhoisPrivacy/success.http"));
+    server.expectGet("/v2/1010/registrar/domains/example.com/whois_privacy");
+    server.stubFixtureAt("getWhoisPrivacy/success.http");
+    Client client = new Client();
 
     GetWhoisPrivacyResponse response = client.registrar.getWhoisPrivacy(accountId, domainId);
     WhoisPrivacy whoisPrivacy = response.getData();
@@ -47,7 +42,9 @@ public class RegistrarWhoisPrivacyTest extends DnsimpleTestBase {
     String accountId = "1010";
     String domainId = "example.com";
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/whois_privacy", HttpMethods.PUT, new HttpHeaders(), null, resource("enableWhoisPrivacy/success.http"));
+    server.expectPut("/v2/1010/registrar/domains/example.com/whois_privacy");
+    server.stubFixtureAt("enableWhoisPrivacy/success.http");
+    Client client = new Client();
 
     EnableWhoisPrivacyResponse response = client.registrar.enableWhoisPrivacy(accountId, domainId);
   }
@@ -57,7 +54,9 @@ public class RegistrarWhoisPrivacyTest extends DnsimpleTestBase {
     String accountId = "1010";
     String domainId = "example.com";
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/whois_privacy", HttpMethods.PUT, new HttpHeaders(), null, resource("enableWhoisPrivacy/created.http"));
+    server.expectPut("/v2/1010/registrar/domains/example.com/whois_privacy");
+    server.stubFixtureAt("enableWhoisPrivacy/created.http");
+    Client client = new Client();
 
     EnableWhoisPrivacyResponse response = client.registrar.enableWhoisPrivacy(accountId, domainId);
     WhoisPrivacy whoisPrivacy = response.getData();
@@ -69,7 +68,9 @@ public class RegistrarWhoisPrivacyTest extends DnsimpleTestBase {
     String accountId = "1010";
     String domainId = "example.com";
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/whois_privacy", HttpMethods.DELETE, new HttpHeaders(), null, resource("disableWhoisPrivacy/success.http"));
+    server.expectDelete("/v2/1010/registrar/domains/example.com/whois_privacy");
+    server.stubFixtureAt("disableWhoisPrivacy/success.http");
+    Client client = new Client();
 
     DisableWhoisPrivacyResponse response = client.registrar.disableWhoisPrivacy(accountId, domainId);
     WhoisPrivacy whoisPrivacy = response.getData();
@@ -80,9 +81,10 @@ public class RegistrarWhoisPrivacyTest extends DnsimpleTestBase {
   public void testRenewWhoisPrivacy() throws DnsimpleException, IOException {
     String accountId = "1010";
     String domainId = "example.com";
-    HashMap<String, Object> attributes = new HashMap<String, Object>();
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/whois_privacy/renewals", HttpMethods.POST, new HttpHeaders(), attributes, resource("renewWhoisPrivacy/success.http"));
+    server.expectPost("/v2/1010/registrar/domains/example.com/whois_privacy/renewals");
+    server.stubFixtureAt("renewWhoisPrivacy/success.http");
+    Client client = new Client();
 
     RenewWhoisPrivacyResponse response = client.registrar.renewWhoisPrivacy(accountId, domainId);
     WhoisPrivacyRenewal whoisPrivacyRenewal = response.getData();
