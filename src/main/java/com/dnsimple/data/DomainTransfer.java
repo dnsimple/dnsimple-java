@@ -21,6 +21,9 @@ public class DomainTransfer {
   @Key("whois_privacy")
   private boolean whoisPrivacy;
 
+  @Key("status_description")
+  private String statusDescription;
+
   @Key("created_at")
   private String createdAt;
 
@@ -50,6 +53,8 @@ public class DomainTransfer {
   public boolean hasWhoisPrivacy() {
     return whoisPrivacy;
   }
+
+  public String getStatusDescription() { return statusDescription; }
 
   public String getCreatedAt() {
     return createdAt;

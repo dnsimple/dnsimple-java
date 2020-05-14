@@ -84,6 +84,34 @@ public interface Registrar {
   public TransferDomainResponse transferDomain(String accountId, String domainId, Map<String,Object> attributes) throws DnsimpleException, IOException;
 
   /**
+   * Retrieves the details of an existing domain transfer.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/registrar/#getDomainTransfer">https://developer.dnsimple.com/v2/registrar/#getDomainTransfer</a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain name or ID
+   * @param domainTransferId The domain transfer ID
+   * @return The transfer domain response
+   * @throws DnsimpleException Any API error
+   * @throws IOException Any IO error
+   */
+  public TransferDomainResponse getDomainTransfer(String accountId, String domainId, String domainTransferId) throws DnsimpleException, IOException;
+
+  /**
+   * Cancels an in progress domain transfer.
+   *
+   * @see <a href="https://developer.dnsimple.com/v2/registrar/#cancelDomainTransfer">https://developer.dnsimple.com/v2/registrar/#cancelDomainTransfer</a>
+   *
+   * @param accountId The account ID
+   * @param domainId The domain name or ID
+   * @param domainTransferId The domain transfer ID
+   * @return The transfer domain response
+   * @throws DnsimpleException Any API error
+   * @throws IOException Any IO error
+   */
+  public TransferDomainResponse cancelDomainTransfer(String accountId, String domainId, String domainTransferId) throws DnsimpleException, IOException;
+
+  /**
    * Requests the transfer of a domain out of DNSimple.
    *
    * @see <a href="https://developer.dnsimple.com/v2/registrar/#transfer-out">https://developer.dnsimple.com/v2/registrar/#transfer-out</a>

@@ -102,6 +102,48 @@ public class RegistrarTest extends DnsimpleTestBase {
     assertEquals(1, transfer.getId().intValue());
   }
 
+  @Test
+  public void testGetDomainTransfer() throws DnsimpleException, IOException  {
+    String accountId = "1010";
+    String name = "example.com";
+    String transferId = "42";
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/transfers/42", HttpMethods.GET, new HttpHeaders(), null, resource("getDomainTransfer/success.http"));
+
+    TransferDomainResponse response = client.registrar.getDomainTransfer(accountId, name, transferId);
+    DomainTransfer transfer = response.getData();
+
+    assertEquals(42, transfer.getId().intValue());
+    assertEquals(2, transfer.getDomainId().intValue());
+    assertEquals(3, transfer.getRegistrantId().intValue());
+    assertEquals("cancelled", transfer.getState());
+    assertFalse(transfer.hasAutoRenew());
+    assertFalse(transfer.hasWhoisPrivacy());
+    assertEquals("Canceled by customer", transfer.getStatusDescription());
+    assertEquals("2020-04-27T18:08:44Z", transfer.getCreatedAt());
+    assertEquals("2020-04-27T18:20:01Z", transfer.getUpdatedAt());
+  }
+
+  @Test
+  public void testCancelDomainTransfer() throws DnsimpleException, IOException  {
+    String accountId = "1010";
+    String name = "example.com";
+    String transferId = "42";
+    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/transfers/42", HttpMethods.DELETE, new HttpHeaders(), null, resource("cancelDomainTransfer/success.http"));
+
+    TransferDomainResponse response = client.registrar.cancelDomainTransfer(accountId, name, transferId);
+    DomainTransfer transfer = response.getData();
+
+    assertEquals(42, transfer.getId().intValue());
+    assertEquals(6, transfer.getDomainId().intValue());
+    assertEquals(1, transfer.getRegistrantId().intValue());
+    assertEquals("transferring", transfer.getState());
+    assertTrue(transfer.hasAutoRenew());
+    assertFalse(transfer.hasWhoisPrivacy());
+    assertTrue(transfer.getStatusDescription().isEmpty());
+    assertEquals("2020-04-24T19:19:03Z", transfer.getCreatedAt());
+    assertEquals("2020-04-24T19:19:15Z", transfer.getUpdatedAt());
+  }
+
   @Test(expected=DnsimpleException.class)
   public void testTransferDomainAlreadyInDnsimple() throws DnsimpleException, IOException {
     String accountId = "1010";
