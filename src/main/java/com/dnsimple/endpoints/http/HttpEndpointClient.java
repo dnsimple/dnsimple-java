@@ -13,7 +13,7 @@ import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.HttpResponseException;
-import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.http.apache.v2.ApacheHttpTransport;
 import com.google.api.client.http.json.JsonHttpContent;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.json.JsonParser;
@@ -38,7 +38,7 @@ public class HttpEndpointClient {
   private String userAgent;
 
   public HttpEndpointClient() {
-    this.transport = new NetHttpTransport();
+    this.transport = new ApacheHttpTransport();
   }
 
   /**
