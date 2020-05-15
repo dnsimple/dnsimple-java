@@ -54,7 +54,9 @@ public class DomainTransfer {
     return whoisPrivacy;
   }
 
-  public String getStatusDescription() { return statusDescription; }
+  public String getStatusDescription() { 
+    return statusDescription; 
+  }
 
   public String getCreatedAt() {
     return createdAt;
