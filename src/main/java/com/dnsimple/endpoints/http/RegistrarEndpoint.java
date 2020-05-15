@@ -52,6 +52,16 @@ public class RegistrarEndpoint implements Registrar {
     return (TransferDomainResponse)client.parseResponse(response, TransferDomainResponse.class);
   }
 
+  public TransferDomainResponse getDomainTransfer(String accountId, String domainId, String domainTransferId) throws DnsimpleException, IOException {
+    HttpResponse response = client.get(accountId + "/registrar/domains/" + domainId + "/transfers/" + domainTransferId);
+    return (TransferDomainResponse)client.parseResponse(response, TransferDomainResponse.class);
+  }
+
+  public TransferDomainResponse cancelDomainTransfer(String accountId, String domainId, String domainTransferId) throws DnsimpleException, IOException {
+    HttpResponse response = client.delete(accountId + "/registrar/domains/" + domainId + "/transfers/" + domainTransferId);
+    return (TransferDomainResponse)client.parseResponse(response, TransferDomainResponse.class);
+  }
+
   public TransferDomainOutResponse transferDomainOut(String accountId, String domainId) throws DnsimpleException, IOException {
     HttpResponse response = client.post(accountId + "/registrar/domains/" + domainId + "/authorize_transfer_out");
     return (TransferDomainOutResponse)client.parseResponse(response, TransferDomainOutResponse.class);
