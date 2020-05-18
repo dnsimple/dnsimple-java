@@ -44,34 +44,29 @@ public class TestHttpServer implements Runnable {
       socket.readRequest();
 
       if (expectedMethod != null && expectedPath != null)
-        closingSocketAssertions(socket, () -> {
+        socketClossingAssertions(socket, () -> {
           assertThat(socket.getMethod(), is(expectedMethod));
           assertThat(socket.getPath(), is(expectedPath));
         });
 
       if (!expectedHeaders.isEmpty())
-        closingSocketAssertions(socket, () ->
+        socketClossingAssertions(socket, () ->
             assertThat(expectedHeaders.entrySet(), everyItem(isIn(socket.getHeaders().entrySet())))
         );
 
       if (!expectedJsonObject.isEmpty())
-        closingSocketAssertions(socket, () ->
-            {
-              Map<String, Object> actualPayload = socket.getJsonObjectPayload();
-              assertThat(actualPayload.entrySet(), everyItem(isIn(expectedJsonObject.entrySet())));
-              assertThat(actualPayload.size(), is(expectedJsonObject.size()));
-            }
-        );
+        socketClossingAssertions(socket, () -> {
+          Map<String, Object> actualPayload = socket.getJsonObjectPayload();
+          assertThat(actualPayload.entrySet(), everyItem(isIn(expectedJsonObject.entrySet())));
+          assertThat(actualPayload.size(), is(expectedJsonObject.size()));
+        });
 
       if (!expectedJsonArray.isEmpty())
-        closingSocketAssertions(socket, () ->
-            {
-              List<String> actualPayload = socket.getJsonArrayPayload();
-              assertThat(actualPayload, everyItem(isIn(expectedJsonArray)));
-              assertThat(actualPayload.size(), is(expectedJsonArray.size()));
-            }
-        );
-
+        socketClossingAssertions(socket, () -> {
+          List<String> actualPayload = socket.getJsonArrayPayload();
+          assertThat(actualPayload, everyItem(isIn(expectedJsonArray)));
+          assertThat(actualPayload.size(), is(expectedJsonArray.size()));
+        });
 
       if (fixturePath != null)
         socket.write(fixturePath);
@@ -80,7 +75,7 @@ public class TestHttpServer implements Runnable {
     }
   }
 
-  private void closingSocketAssertions(UncheckedSocket socket, Runnable runnable) {
+  private void socketClossingAssertions(UncheckedSocket socket, Runnable runnable) {
     try {
       runnable.run();
     } catch (Throwable t) {
