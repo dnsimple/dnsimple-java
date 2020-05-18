@@ -1,28 +1,34 @@
 package com.dnsimple;
 
 import com.dnsimple.tools.TestHttpServer;
-import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 
 /**
  * A base class that DNSimple tests can inherit from to provide set everything
  * required to test expectations agains HTTP fixture files.
  */
 public abstract class DnsimpleTestBase {
-  protected TestHttpServer server;
-  private String backupApiBase;
+  protected static TestHttpServer server;
+  private static String backupApiBase;
 
-  @Before
-  public void setUp() {
+  @BeforeClass
+  public static void init() {
     server = new TestHttpServer(12345);
     server.start();
     backupApiBase = Dnsimple.getApiBase();
     Dnsimple.setApiBase(server.getBaseURL());
   }
 
-  @After
-  public void tearDown() {
+  @AfterClass
+  public static void tearDown() {
     server.stop();
     Dnsimple.setApiBase(backupApiBase);
+  }
+
+  @Before
+  public void setUp() {
+    server.reset();
   }
 }

@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
 public class TestHttpServer implements Runnable {
   private final int port;
   private Status status = Status.IDLE;
@@ -185,4 +184,12 @@ public class TestHttpServer implements Runnable {
     }
   }
 
+  public void reset() {
+    fixturePath = null;
+    expectedPath = null;
+    expectedHeaders = emptyMap();
+    expectedJsonObject = emptyMap();
+    expectedJsonArray = emptyList();
+    expectedMethod = null;
+  }
 }
