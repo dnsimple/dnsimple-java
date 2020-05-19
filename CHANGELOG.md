@@ -1,10 +1,14 @@
 # Changelog
 
-### master
+### Release 0.7.0
 
 - NEW: Added `client.registrar.getDomainTransfer` to retrieve a domain transfer. (dnsimple/dnsimple-java#33)
 - NEW: Added `client.registrar.cancelDomainTransfer` to cancel an in progress domain transfer. (dnsimple/dnsimple-java#33)
 - NEW: Added `DomainTransfer.getStatusDescription()` to identify the failure reason of a transfer. (dnsimple/dnsimple-java#33).
+
+### Release 0.6.0
+
+- NEW: Added WHOIS privacy renewal (GH-12)
 
 ### Release 0.6.0
 

@@ -4,7 +4,7 @@
   <groupId>com.dnsimple</groupId>
   <artifactId>dnsimple-java</artifactId>
   <packaging>jar</packaging>
-  <version>0.6.0</version>
+  <version>0.7.0</version>
   <name>dnsimple-java</name>
   <url>https://github.com/dnsimple/dnsimple-java</url>
   <licenses>

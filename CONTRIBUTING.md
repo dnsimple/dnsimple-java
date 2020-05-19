@@ -101,20 +101,6 @@ Edit the node `/settings/servers` and add the following configuration, using you
 </server>
 ```
 
-Edit the node `/settings/profiles` and add the following profile:
-
-```xml
-<profile>
-  <id>ossrh</id>
-  <activation>
-    <activeByDefault>true</activeByDefault>
-  </activation>
-  <properties>
-    <gpg.passphrase>PASSPHRASE</gpg.passphrase>
-  </properties>
-</profile>
-```
-
 Deployment is then done with the command:
 
 ```shell
