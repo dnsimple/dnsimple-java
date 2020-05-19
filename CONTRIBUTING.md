@@ -94,6 +94,7 @@ vim ~/.m2/settings.xml
 Edit the node `/settings/servers` and add the following configuration, using your Sonatype (ossrh) username and password:
 
 ```xml
+<!-- dnsimple-java -->
 <server>
   <id>ossrh</id>
   <username>USERNAME</username>
@@ -101,11 +102,28 @@ Edit the node `/settings/servers` and add the following configuration, using you
 </server>
 ```
 
-Deployment is then done with the command:
+Edit the node `/settings/profiles` and add a new profile for PGP signing. This is required to sign and release a new version of the package.
+Replace YOURKEY with the public identifier of the PGP key you want to use for signing. 
 
-```shell
-mvn clean deploy -P release
+```xml
+<!-- dnsimple-java -->
+<profile>
+  <id>ossrh</id>
+  <activation>
+    <activeByDefault>true</activeByDefault>
+  </activation>
+  <properties>
+    <gpg.keyname>YOURKEY</gpg.keyname>
+  </properties>
+</profile>
 ```
+
+## Adding a contributor
+
+To add a new contributor to the project:
+
+1. Ask the user to create an account at https://oss.sonatype.org/#welcome
+1. An existing contributor needs to open a ticket to https://issues.sonatype.org/projects/MVNCENTRAL to request the user to be added to the os.dnsimple groupId. 
 
 
 ## Tests
