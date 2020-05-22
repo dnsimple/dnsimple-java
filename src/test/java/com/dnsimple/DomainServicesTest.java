@@ -1,114 +1,81 @@
 package com.dnsimple;
 
+import static com.dnsimple.tools.HttpMethod.DELETE;
+import static com.dnsimple.tools.HttpMethod.GET;
+import static com.dnsimple.tools.HttpMethod.POST;
+import static java.util.Collections.emptyMap;
+import static java.util.Collections.singletonMap;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+
 import com.dnsimple.data.Service;
-import com.dnsimple.data.Pagination;
+import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.response.AppliedServicesResponse;
 import com.dnsimple.response.ApplyServiceResponse;
 import com.dnsimple.response.UnapplyServiceResponse;
-import com.dnsimple.exception.DnsimpleException;
-
-import com.dnsimple.tools.HttpMethod;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
-import com.google.api.client.http.HttpMethods;
-
 import java.io.IOException;
 import java.util.List;
-import java.util.HashMap;
+import org.junit.Test;
 
 public class DomainServicesTest extends DnsimpleTestBase {
 
   @Test
   public void testAppliedServicesSupportsPagination() throws DnsimpleException, IOException {
-    server.expectGet("/v2/1/domains/example.com/services?page=1");
-    Client client = new Client();
-    String accountId = "1";
-    String domainId = "example.com";
-
-    HashMap<String, Object> options = new HashMap<String, Object>();
-    options.put("page", 1);
-    client.services.appliedServices(accountId, domainId, options);
+    client.services.appliedServices("1", "example.com", singletonMap("page", 1));
+    assertThat(server.getRecordedRequest().getMethod(), is(GET));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/services?page=1"));
   }
 
   @Test
   public void testAppliedServicesSupportsExtraRequestOptions() throws DnsimpleException, IOException {
-    server.expectGet("/v2/1/domains/example.com/services?foo=bar");
-    Client client = new Client();
-    String accountId = "1";
-    String domainId = "example.com";
-    HashMap<String, Object> options = new HashMap<String, Object>();
-    options.put("foo", "bar");
-    client.services.appliedServices(accountId, domainId, options);
+    client.services.appliedServices("1", "example.com", singletonMap("foo", "bar"));
+    assertThat(server.getRecordedRequest().getMethod(), is(GET));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/services?foo=bar"));
   }
 
   @Test
   public void testAppliedServicesSupportsSorting() throws DnsimpleException, IOException {
-    server.expectGet("/v2/1/domains/example.com/services?sort=name%3Aasc");
-    Client client = new Client();
-    String accountId = "1";
-    String domainId = "example.com";
-    HashMap<String, Object> options = new HashMap<String, Object>();
-    options.put("sort", "name:asc");
-    client.services.appliedServices(accountId, domainId, options);
+    client.services.appliedServices("1", "example.com", singletonMap("sort", "name:asc"));
+    assertThat(server.getRecordedRequest().getMethod(), is(GET));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/services?sort=name:asc"));
   }
 
   @Test
   public void testAppliedServicesProducesServiceList() throws DnsimpleException, IOException {
     server.stubFixtureAt("appliedServices/success.http");
-    Client client = new Client();
 
-    String accountId = "1";
-    String domainId = "example.com";
-
-    AppliedServicesResponse response = client.services.appliedServices(accountId, domainId);
-
-    List<Service> services = response.getData();
-    assertEquals(1, services.size());
-    assertEquals(1, services.get(0).getId().intValue());
+    List<Service> services = client.services.appliedServices("1", "example.com").getData();
+    assertThat(services, hasSize(1));
+    assertThat(services.get(0).getId(), is(1));
   }
 
   @Test
   public void testAppliedServicesExposesPaginationInfo() throws DnsimpleException, IOException {
     server.stubFixtureAt("appliedServices/success.http");
-    Client client = new Client();
 
-    String accountId = "1";
-    String domainId = "example.com";
-
-    AppliedServicesResponse response = client.services.appliedServices(accountId, domainId);
-
-    Pagination pagination = response.getPagination();
-    assertEquals(1, pagination.getCurrentPage().intValue());
+    AppliedServicesResponse response = client.services.appliedServices("1", "example.com");
+    assertThat(response.getPagination().getCurrentPage(), is(1));
   }
 
   @Test
   public void testApplyService() throws DnsimpleException, IOException {
-
-    server.expectPost("/v2/1010/domains/example.com/services/2");
     server.stubFixtureAt("applyService/success.http");
-    Client client = new Client();
 
-    String accountId = "1010";
-    String domainId = "example.com";
-    String serviceId = "2";
-
-    ApplyServiceResponse response = client.services.applyService(accountId, domainId, serviceId, new HashMap<String, Object>());
-    assertEquals(null, response.getData());
+    ApplyServiceResponse response = client.services.applyService("1010", "example.com", "2", emptyMap());
+    assertThat(response.getData(), is(nullValue()));
+    assertThat(server.getRecordedRequest().getMethod(), is(POST));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/example.com/services/2"));
   }
 
   @Test
   public void testUnapplyService() throws DnsimpleException, IOException {
-    server.expectDelete("/v2/1010/domains/example.com/services/2");
     server.stubFixtureAt("unapplyService/success.http");
-    Client client = new Client();
 
-    String accountId = "1010";
-    String domainId = "example.com";
-    String serviceId = "2";
-
-    UnapplyServiceResponse response = client.services.unapplyService(accountId, domainId, serviceId);
-    assertEquals(null, response.getData());
+    UnapplyServiceResponse response = client.services.unapplyService("1010", "example.com", "2");
+    assertThat(response.getData(), is(nullValue()));
+    assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/example.com/services/2"));
   }
 }

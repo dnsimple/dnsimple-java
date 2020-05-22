@@ -1,38 +1,32 @@
 package com.dnsimple;
 
-import com.dnsimple.data.Account;
-import com.dnsimple.data.User;
-import com.dnsimple.response.WhoamiResponse;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+
+import com.dnsimple.data.Whoami;
 import com.dnsimple.exception.DnsimpleException;
-
 import java.io.IOException;
-
 import org.junit.Test;
-
-import static org.junit.Assert.*;
-
-import com.google.api.client.util.Data;
 
 public class IdentityTest extends DnsimpleTestBase {
   @Test
   public void testWhoamiWithAccount() throws DnsimpleException, IOException {
     server.stubFixtureAt("whoami/success-account.http");
-    Client client = new Client();
-    WhoamiResponse response = client.identity.whoami();
-    Account account = response.getData().getAccount();
-    assertEquals(1, account.getId().intValue());
-    assertEquals("example-account@example.com", account.getEmail());
-    assertTrue(Data.isNull(response.getData().getUser()));
+    Whoami data = client.identity.whoami().getData();
+    assertThat(data.getUser().getId(), is(nullValue()));
+    assertThat(data.getUser().getEmail(), is(nullValue()));
+    assertThat(data.getAccount().getId(), is(1));
+    assertThat(data.getAccount().getEmail(), is("example-account@example.com"));
   }
 
   @Test
   public void testWhoamiWithUser() throws DnsimpleException, IOException {
     server.stubFixtureAt("whoami/success-user.http");
-    Client client = new Client();
-    WhoamiResponse response = client.identity.whoami();
-    User user = response.getData().getUser();
-    assertEquals(1, user.getId().intValue());
-    assertEquals("example-user@example.com", user.getEmail());
-    assertTrue(Data.isNull(response.getData().getAccount()));
+    Whoami data = client.identity.whoami().getData();
+    assertThat(data.getUser().getId(), is(1));
+    assertThat(data.getUser().getEmail(), is("example-user@example.com"));
+    assertThat(data.getAccount().getId(), is(nullValue()));
+    assertThat(data.getAccount().getEmail(), is(nullValue()));
   }
 }

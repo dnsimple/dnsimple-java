@@ -1,32 +1,30 @@
 package com.dnsimple;
 
-import com.dnsimple.data.Account;
-import com.dnsimple.response.ListAccountsResponse;
-import com.dnsimple.exception.DnsimpleException;
+import static com.dnsimple.tools.HttpMethod.GET;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 
-import com.dnsimple.tools.HttpMethod;
+import com.dnsimple.data.Account;
+import com.dnsimple.exception.DnsimpleException;
+import com.dnsimple.response.ListAccountsResponse;
 import java.io.IOException;
 import java.util.List;
-
 import org.junit.Test;
-
-import com.google.api.client.http.HttpMethods;
-
-import static org.junit.Assert.assertEquals;
 
 public class AccountsTest extends DnsimpleTestBase {
 
   @Test
   public void testListAccounts() throws DnsimpleException, IOException {
-    server.expectGet("/v2/accounts");
     server.stubFixtureAt("listAccounts/success-account.http");
-    Client client = new Client();
 
     ListAccountsResponse response = client.accounts.listAccounts();
+    assertThat(server.getRecordedRequest().getMethod(), is(GET));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/accounts"));
 
     List<Account> accounts = response.getData();
-    assertEquals(1, accounts.size());
-    assertEquals(1324, accounts.get(0).getId().intValue());
+    assertThat(accounts, hasSize(1));
+    assertThat(accounts.get(0).getId(), is(1324));
   }
 
 }

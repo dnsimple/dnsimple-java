@@ -1,192 +1,134 @@
 package com.dnsimple;
 
+import static com.dnsimple.tools.CustomMatchers.thrownException;
+import static com.dnsimple.tools.HttpMethod.DELETE;
+import static com.dnsimple.tools.HttpMethod.GET;
+import static com.dnsimple.tools.HttpMethod.PATCH;
+import static com.dnsimple.tools.HttpMethod.POST;
+import static java.util.Collections.singletonMap;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+
 import com.dnsimple.data.ZoneRecord;
-import com.dnsimple.data.Pagination;
-import com.dnsimple.response.ListZoneRecordsResponse;
-import com.dnsimple.response.GetZoneRecordResponse;
-import com.dnsimple.response.CreateZoneRecordResponse;
-import com.dnsimple.response.UpdateZoneRecordResponse;
-import com.dnsimple.response.DeleteZoneRecordResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
-
-import com.dnsimple.tools.HttpMethod;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
-import com.google.api.client.http.HttpHeaders;
-import com.google.api.client.http.HttpMethods;
-import com.google.api.client.util.Data;
-
+import com.dnsimple.response.CreateZoneRecordResponse;
+import com.dnsimple.response.DeleteZoneRecordResponse;
+import com.dnsimple.response.ListZoneRecordsResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.HashMap;
+import java.util.Map;
+import org.hamcrest.Matchers;
+import org.junit.Test;
 
 public class ZoneRecordsTest extends DnsimpleTestBase {
 
   @Test
   public void testListZoneRecordsSupportsPagination() throws DnsimpleException, IOException {
-    server.expectGet("/v2/1/zones/example.com/records?page=1");
-    Client client = new Client();
-    String accountId = "1";
-    String zoneId = "example.com";
-    HashMap<String, Object> options = new HashMap<String, Object>();
-    options.put("page", 1);
-    client.zones.listZoneRecords(accountId, zoneId, options);
+    client.zones.listZoneRecords("1", "example.com", singletonMap("page", 1));
+    assertThat(server.getRecordedRequest().getMethod(), is(GET));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/zones/example.com/records?page=1"));
   }
 
   @Test
   public void testListZoneRecordsSupportsExtraRequestOptions() throws DnsimpleException, IOException {
-    server.expectGet("/v2/1/zones/example.com/records?foo=bar");
-    Client client = new Client();
-    String accountId = "1";
-    String zoneId = "example.com";
-    HashMap<String, Object> options = new HashMap<String, Object>();
-    options.put("foo", "bar");
-    client.zones.listZoneRecords(accountId, zoneId, options);
+    client.zones.listZoneRecords("1", "example.com", singletonMap("foo", "bar"));
+    assertThat(server.getRecordedRequest().getMethod(), is(GET));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/zones/example.com/records?foo=bar"));
   }
 
   @Test
   public void testListZoneRecordsSupportsSorting() throws DnsimpleException, IOException {
-    server.expectGet("/v2/1/zones/example.com/records?sort=name%3Aasc");
-    Client client = new Client();
-    String accountId = "1";
-    String zoneId = "example.com";
-    HashMap<String, Object> options = new HashMap<String, Object>();
-    options.put("sort", "name:asc");
-    client.zones.listZoneRecords(accountId, zoneId, options);
+    client.zones.listZoneRecords("1", "example.com", singletonMap("sort", "name:asc"));
+    assertThat(server.getRecordedRequest().getMethod(), is(GET));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/zones/example.com/records?sort=name:asc"));
   }
 
   @Test
   public void testListZoneRecordsProducesDomainList() throws DnsimpleException, IOException {
     server.stubFixtureAt("listZoneRecords/success.http");
-    Client client = new Client();
 
-    String accountId = "1";
-    String zoneId = "example.com";
-
-    ListZoneRecordsResponse response = client.zones.listZoneRecords(accountId, zoneId);
-
-    List<ZoneRecord> zoneRecords = response.getData();
-    assertEquals(5, zoneRecords.size());
-    assertEquals(1, zoneRecords.get(0).getId().intValue());
+    List<ZoneRecord> zoneRecords = client.zones.listZoneRecords("1", "example.com").getData();
+    assertThat(zoneRecords, hasSize(5));
+    assertThat(zoneRecords.get(0).getId(), is(1));
   }
 
   @Test
   public void testListZoneRecordsExposesPaginationInfo() throws DnsimpleException, IOException {
     server.stubFixtureAt("listZoneRecords/success.http");
-    Client client = new Client();
 
-    String accountId = "1";
-    String zoneId = "example.com";
-
-    ListZoneRecordsResponse response = client.zones.listZoneRecords(accountId, zoneId);
-
-    Pagination pagination = response.getPagination();
-    assertEquals(1, pagination.getCurrentPage().intValue());
+    ListZoneRecordsResponse response = client.zones.listZoneRecords("1", "example.com");
+    assertThat(response.getPagination().getCurrentPage(), is(1));
   }
 
   @Test
   public void testGetZoneRecord() throws DnsimpleException, IOException {
     server.stubFixtureAt("getZoneRecord/success.http");
-    Client client = new Client();
 
-    String accountId = "1";
-    String zoneId = "example.com";
-    String recordId = "2";
-
-    GetZoneRecordResponse response = client.zones.getZoneRecord(accountId, zoneId, recordId);
-
-    ZoneRecord record = response.getData();
-    assertEquals(5, record.getId().intValue());
-    assertEquals("example.com", record.getZoneId());
-    assertTrue(Data.isNull(record.getParentId()));
-    assertEquals("", record.getName());
-    assertEquals("mxa.example.com", record.getContent());
-    assertEquals(600, record.getTtl().intValue());
-    assertEquals(10, record.getPriority().intValue());
-    assertEquals("MX", record.getType());
-    assertFalse(record.getSystemRecord());
-    assertEquals("2016-10-05T09:51:35Z", record.getCreatedAt());
-    assertEquals("2016-10-05T09:51:35Z", record.getUpdatedAt());
+    ZoneRecord record = client.zones.getZoneRecord("1", "example.com", "2").getData();
+    assertThat(record.getId(), is(5));
+    assertThat(record.getZoneId(), is("example.com"));
+    assertThat(record.getParentId(), is(0));
+    assertThat(record.getName(), is(""));
+    assertThat(record.getContent(), is("mxa.example.com"));
+    assertThat(record.getTtl(), is(600));
+    assertThat(record.getPriority(), is(10));
+    assertThat(record.getType(), is("MX"));
+    assertThat(record.getSystemRecord(), is(false));
+    assertThat(record.getCreatedAt(), is("2016-10-05T09:51:35Z"));
+    assertThat(record.getUpdatedAt(), is("2016-10-05T09:51:35Z"));
   }
 
-  @Test(expected=ResourceNotFoundException.class)
-  public void testGetZoneRecordWhenRecordNotFound() throws DnsimpleException, IOException {
+  @Test
+  public void testGetZoneRecordWhenRecordNotFound() {
     server.stubFixtureAt("notfound-record.http");
-    Client client = new Client();
 
-    String accountId = "1";
-    String domainId = "example.com";
-    String recordId = "2";
-
-    client.zones.getZoneRecord(accountId, domainId, recordId);
+    assertThat(() -> client.zones.getZoneRecord("1", "example.com", "2"),
+        thrownException(is(instanceOf(ResourceNotFoundException.class))));
   }
 
   @Test
   public void testCreateZoneRecordSendsCorrectRequest() throws DnsimpleException, IOException {
-    String accountId = "1010";
-    String zoneId = "example.com";
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType("application/json");
-    HashMap<String, Object> attributes = new HashMap<>();
-    attributes.put("name", "www");
-
-    server.expectPost("/v2/1010/zones/example.com/records");
-    server.expectHeaders(headers);
-    server.expectJsonPayload(attributes);
     server.stubFixtureAt("createZoneRecord/created.http");
-    Client client = new Client();
 
-    client.zones.createZoneRecord(accountId, zoneId, attributes);
+    Map<String, Object> attributes = singletonMap("name", "www");
+    client.zones.createZoneRecord("1010", "example.com", attributes);
+    assertThat(server.getRecordedRequest().getMethod(), is(POST));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/zones/example.com/records"));
+    assertThat(server.getRecordedRequest().getHeaders(), Matchers.hasEntry("Content-Type", "application/json"));
+    assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
   }
 
   @Test
   public void testCreateZoneRecordProducesZoneRecord() throws DnsimpleException, IOException {
     server.stubFixtureAt("createZoneRecord/created.http");
-    Client client = new Client();
 
-    String accountId = "1";
-    String zoneId = "example.com";
-    HashMap<String, Object> attributes = new HashMap<String, Object>();
-    attributes.put("name", "www");
-
-    CreateZoneRecordResponse response = client.zones.createZoneRecord(accountId, zoneId, attributes);
-    ZoneRecord record = response.getData();
-    assertEquals(1, record.getId().intValue());
+    CreateZoneRecordResponse response = client.zones.createZoneRecord("1", "example.com", singletonMap("name", "www"));
+    assertThat(response.getData().getId(), is(1));
   }
 
   @Test
   public void testUpdateZoneRecordProducesZoneRecord() throws DnsimpleException, IOException {
-    String accountId = "1";
-    String zoneId = "example.com";
-    String recordId = "2";
-    HashMap<String, Object> attributes = new HashMap<String, Object>();
-    attributes.put("name", "www");
-
-    server.expectPatch("/v2/1/zones/example.com/records/2");
-    server.expectJsonPayload(attributes);
     server.stubFixtureAt("updateZoneRecord/success.http");
-    Client client = new Client();
 
-    UpdateZoneRecordResponse response = client.zones.updateZoneRecord(accountId, zoneId, recordId, attributes);
-    ZoneRecord record = response.getData();
-    assertEquals(5, record.getId().intValue());
+    Map<String, Object> attributes = singletonMap("name", "www");
+    ZoneRecord record = client.zones.updateZoneRecord("1", "example.com", "2", attributes).getData();
+    assertThat(server.getRecordedRequest().getMethod(), is(PATCH));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/zones/example.com/records/2"));
+    assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
+    assertThat(record.getId(), is(5));
   }
 
   @Test
   public void testDeleteZoneRecord() throws DnsimpleException, IOException {
-    server.expectDelete("/v2/1/zones/example.com/records/2");
     server.stubFixtureAt("deleteZoneRecord/success.http");
-    Client client = new Client();
 
-    String accountId = "1";
-    String zoneId = "example.com";
-    String recordId = "2";
-
-    DeleteZoneRecordResponse response = client.zones.deleteZoneRecord(accountId, zoneId, recordId);
-    assertEquals(null, response.getData());
+    DeleteZoneRecordResponse response = client.zones.deleteZoneRecord("1", "example.com", "2");
+    assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/zones/example.com/records/2"));
+    assertThat(response.getData(), is(nullValue()));
   }
-
 }

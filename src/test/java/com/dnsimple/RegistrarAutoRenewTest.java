@@ -1,68 +1,58 @@
 package com.dnsimple;
 
-import com.dnsimple.response.EnableAutoRenewalResponse;
-import com.dnsimple.response.DisableAutoRenewalResponse;
+import static com.dnsimple.tools.CustomMatchers.thrownException;
+import static com.dnsimple.tools.HttpMethod.DELETE;
+import static com.dnsimple.tools.HttpMethod.PUT;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
-
-import com.dnsimple.tools.HttpMethod;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
-import com.google.api.client.http.HttpMethods;
-
+import com.dnsimple.response.DisableAutoRenewalResponse;
+import com.dnsimple.response.EnableAutoRenewalResponse;
 import java.io.IOException;
+import org.junit.Test;
 
 public class RegistrarAutoRenewTest extends DnsimpleTestBase {
 
   @Test
   public void testEnableAutoRenewal() throws DnsimpleException, IOException {
-    String accountId = "1010";
-    String domainId = "example.com";
-
-    server.expectPut("/v2/1010/registrar/domains/example.com/auto_renewal");
     server.stubFixtureAt("enableDomainAutoRenewal/success.http");
-    Client client = new Client();
 
-    EnableAutoRenewalResponse response = client.registrar.enableAutoRenewal(accountId, domainId);
-    assertEquals(null, response.getData());
+    EnableAutoRenewalResponse response = client.registrar.enableAutoRenewal("1010", "example.com");
+    assertThat(server.getRecordedRequest().getMethod(), is(PUT));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/auto_renewal"));
+    assertThat(response.getData(), is(nullValue()));
   }
 
-  @Test(expected=ResourceNotFoundException.class)
+  @Test(expected = ResourceNotFoundException.class)
   public void testEnableAutoRenewalDomainDoesNotExist() throws DnsimpleException, IOException {
-    String accountId = "1010";
-    String domainId = "0";
-
-    server.expectPut("/v2/1010/registrar/domains/0/auto_renewal");
     server.stubFixtureAt("notfound-domain.http");
-    Client client = new Client();
 
-    client.registrar.enableAutoRenewal(accountId, domainId);
+    client.registrar.enableAutoRenewal("1010", "0");
+    assertThat(server.getRecordedRequest().getMethod(), is(PUT));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/0/auto_renewal"));
   }
 
   @Test
   public void testDisableAutoRenewal() throws DnsimpleException, IOException {
-    String accountId = "1010";
-    String domainId = "example.com";
-
-    server.expectDelete("/v2/1010/registrar/domains/example.com/auto_renewal");
     server.stubFixtureAt("disableDomainAutoRenewal/success.http");
-    Client client = new Client();
 
-    DisableAutoRenewalResponse response = client.registrar.disableAutoRenewal(accountId, domainId);
-    assertEquals(null, response.getData());
+    DisableAutoRenewalResponse response = client.registrar.disableAutoRenewal("1010", "example.com");
+    assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/auto_renewal"));
+    assertThat(response.getData(), is(nullValue()));
   }
 
-  @Test(expected=ResourceNotFoundException.class)
-  public void testDisableAutoRenewalDomainDoesNotExist() throws DnsimpleException, IOException {
-    String accountId = "1010";
-    String domainId = "0";
-
-    server.expectDelete("/v2/1010/registrar/domains/0/auto_renewal");
+  @Test
+  public void testDisableAutoRenewalDomainDoesNotExist() {
     server.stubFixtureAt("notfound-domain.http");
-    Client client = new Client();
 
-    client.registrar.disableAutoRenewal(accountId, domainId);
+    assertThat(() -> client.registrar.disableAutoRenewal("1010", "0"),
+        thrownException(is(instanceOf(ResourceNotFoundException.class))));
+    assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/0/auto_renewal"));
   }
 }

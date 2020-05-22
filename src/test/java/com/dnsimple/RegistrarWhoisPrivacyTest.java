@@ -1,93 +1,70 @@
 package com.dnsimple;
 
+import static com.dnsimple.tools.HttpMethod.DELETE;
+import static com.dnsimple.tools.HttpMethod.GET;
+import static com.dnsimple.tools.HttpMethod.POST;
+import static com.dnsimple.tools.HttpMethod.PUT;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+
 import com.dnsimple.data.WhoisPrivacy;
 import com.dnsimple.data.WhoisPrivacyRenewal;
-import com.dnsimple.response.GetWhoisPrivacyResponse;
-import com.dnsimple.response.EnableWhoisPrivacyResponse;
-import com.dnsimple.response.DisableWhoisPrivacyResponse;
-import com.dnsimple.response.RenewWhoisPrivacyResponse;
 import com.dnsimple.exception.DnsimpleException;
-
-import com.dnsimple.tools.HttpMethod;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
-import com.google.api.client.http.HttpMethods;
-
 import java.io.IOException;
+import org.junit.Test;
 
 public class RegistrarWhoisPrivacyTest extends DnsimpleTestBase {
   @Test
   public void testGetWhoisPrivacy() throws DnsimpleException, IOException {
-    String accountId = "1010";
-    String domainId = "example.com";
-
-    server.expectGet("/v2/1010/registrar/domains/example.com/whois_privacy");
     server.stubFixtureAt("getWhoisPrivacy/success.http");
-    Client client = new Client();
 
-    GetWhoisPrivacyResponse response = client.registrar.getWhoisPrivacy(accountId, domainId);
-    WhoisPrivacy whoisPrivacy = response.getData();
-    assertEquals(1, whoisPrivacy.getId().intValue());
-    assertEquals(2, whoisPrivacy.getDomainId().intValue());
-    assertEquals("2017-02-13", whoisPrivacy.getExpiresOn());
-    assertTrue(whoisPrivacy.getEnabled().booleanValue());
-    assertEquals("2016-02-13T14:34:50Z", whoisPrivacy.getCreatedAt());
-    assertEquals("2016-02-13T14:34:52Z", whoisPrivacy.getUpdatedAt());
+    WhoisPrivacy whoisPrivacy = client.registrar.getWhoisPrivacy("1010", "example.com").getData();
+    assertThat(server.getRecordedRequest().getMethod(), is(GET));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/whois_privacy"));
+    assertThat(whoisPrivacy.getId(), is(1));
+    assertThat(whoisPrivacy.getDomainId(), is(2));
+    assertThat(whoisPrivacy.getExpiresOn(), is("2017-02-13"));
+    assertThat(whoisPrivacy.getEnabled(), is(true));
+    assertThat(whoisPrivacy.getCreatedAt(), is("2016-02-13T14:34:50Z"));
+    assertThat(whoisPrivacy.getUpdatedAt(), is("2016-02-13T14:34:52Z"));
   }
 
   @Test
   public void testEnableWhoisPrivacyAlreadyPurchased() throws DnsimpleException, IOException {
-    String accountId = "1010";
-    String domainId = "example.com";
-
-    server.expectPut("/v2/1010/registrar/domains/example.com/whois_privacy");
     server.stubFixtureAt("enableWhoisPrivacy/success.http");
-    Client client = new Client();
 
-    EnableWhoisPrivacyResponse response = client.registrar.enableWhoisPrivacy(accountId, domainId);
+    client.registrar.enableWhoisPrivacy("1010", "example.com");
+    assertThat(server.getRecordedRequest().getMethod(), is(PUT));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/whois_privacy"));
   }
 
   @Test
   public void testEnableWhoisPrivacyNewlyPurchased() throws DnsimpleException, IOException {
-    String accountId = "1010";
-    String domainId = "example.com";
-
-    server.expectPut("/v2/1010/registrar/domains/example.com/whois_privacy");
     server.stubFixtureAt("enableWhoisPrivacy/created.http");
-    Client client = new Client();
 
-    EnableWhoisPrivacyResponse response = client.registrar.enableWhoisPrivacy(accountId, domainId);
-    WhoisPrivacy whoisPrivacy = response.getData();
-    assertEquals(1, whoisPrivacy.getId().intValue());
+    WhoisPrivacy whoisPrivacy = client.registrar.enableWhoisPrivacy("1010", "example.com").getData();
+    assertThat(server.getRecordedRequest().getMethod(), is(PUT));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/whois_privacy"));
+    assertThat(whoisPrivacy.getId(), is(1));
   }
 
   @Test
   public void testDisableWhoisPrivacyNewlyPurchased() throws DnsimpleException, IOException {
-    String accountId = "1010";
-    String domainId = "example.com";
-
-    server.expectDelete("/v2/1010/registrar/domains/example.com/whois_privacy");
     server.stubFixtureAt("disableWhoisPrivacy/success.http");
-    Client client = new Client();
 
-    DisableWhoisPrivacyResponse response = client.registrar.disableWhoisPrivacy(accountId, domainId);
-    WhoisPrivacy whoisPrivacy = response.getData();
-    assertEquals(1, whoisPrivacy.getId().intValue());
+    WhoisPrivacy whoisPrivacy = client.registrar.disableWhoisPrivacy("1010", "example.com").getData();
+    assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/whois_privacy"));
+    assertThat(whoisPrivacy.getId(), is(1));
   }
 
   @Test
   public void testRenewWhoisPrivacy() throws DnsimpleException, IOException {
-    String accountId = "1010";
-    String domainId = "example.com";
-
-    server.expectPost("/v2/1010/registrar/domains/example.com/whois_privacy/renewals");
     server.stubFixtureAt("renewWhoisPrivacy/success.http");
-    Client client = new Client();
 
-    RenewWhoisPrivacyResponse response = client.registrar.renewWhoisPrivacy(accountId, domainId);
-    WhoisPrivacyRenewal whoisPrivacyRenewal = response.getData();
-    assertEquals(1, whoisPrivacyRenewal.getId().intValue());
+    WhoisPrivacyRenewal whoisPrivacyRenewal = client.registrar.renewWhoisPrivacy("1010", "example.com").getData();
+    assertThat(server.getRecordedRequest().getMethod(), is(POST));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/whois_privacy/renewals"));
+    assertThat(whoisPrivacyRenewal.getId(), is(1));
   }
 }

@@ -12,6 +12,7 @@ import org.junit.BeforeClass;
 public abstract class DnsimpleTestBase {
   protected static TestHttpServer server;
   private static String backupApiBase;
+  protected Client client;
 
   @BeforeClass
   public static void init() {
@@ -30,5 +31,6 @@ public abstract class DnsimpleTestBase {
   @Before
   public void setUp() {
     server.reset();
+    client = new Client();
   }
 }
