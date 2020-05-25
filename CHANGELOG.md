@@ -1,5 +1,11 @@
 # Changelog
 
+### master
+
+- FIXED: Bug that produced an IllegalArgumentException in all requests that are responded with a HTTP 204 No Content ([GH-30](https://github.com/dnsimple/dnsimple-java/pull/30))
+
+  As a result, now we package the Apache HTTP Client library as a transient dependency
+  
 ### Release 0.7.0
 
 - NEW: Added `client.registrar.getDomainTransfer` to retrieve a domain transfer. (dnsimple/dnsimple-java#33)
