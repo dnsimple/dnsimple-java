@@ -162,28 +162,30 @@ public class HttpEndpointClient {
    * @throws IOException Any IO errors
    */
   protected ApiResponse parseResponse(HttpResponse response, Class<?> c) throws IOException {
-    ApiResponse res = null;
-    InputStream in = response.getContent();
-
-    if (in == null) {
-      try {
-        res = (ApiResponse)c.newInstance();
-      } catch(ReflectiveOperationException e) {
-        throw new RuntimeException("Cannot instantiate " + c, e);
-      }
-    } else {
-      try {
-        JsonParser jsonParser = GsonFactory.getDefaultInstance().createJsonParser(in);
-        res = (ApiResponse)jsonParser.parse(c);
-      } finally {
-        in.close();
-      }
-    }
+    ApiResponse res = buildApiResponse(response, c);
 
     res.setHttpRequest(response.getRequest());
     res.setHttpResponse(response);
 
     return res;
+  }
+
+  private ApiResponse buildApiResponse(HttpResponse response, Class<?> c) throws IOException {
+    if (response.getStatusCode() == 204 || response.getContent() == null)
+      return buildTypeSafeApiResponse(c);
+
+    try (InputStream in = response.getContent()) {
+      JsonParser jsonParser = GsonFactory.getDefaultInstance().createJsonParser(in);
+      return (ApiResponse) jsonParser.parse(c);
+    }
+  }
+
+  private ApiResponse buildTypeSafeApiResponse(Class<?> c) {
+    try {
+      return (ApiResponse) c.newInstance();
+    } catch (ReflectiveOperationException e) {
+      throw new RuntimeException("Cannot instantiate " + c, e);
+    }
   }
 
   private String versionedPath(String path) {
