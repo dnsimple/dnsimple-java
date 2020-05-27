@@ -1,7 +1,5 @@
 package com.dnsimple.tools;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -61,7 +59,6 @@ class UncheckedSocket {
 
   public void write(Path fixturePath) {
     try {
-      System.out.println(new String(Files.readAllBytes(fixturePath), UTF_8));
       Files.copy(fixturePath, socket.getOutputStream());
       socket.shutdownOutput();
     } catch (IOException e) {
@@ -71,11 +68,8 @@ class UncheckedSocket {
 
   public void write(String... lines) {
     try (PrintWriter pout = new PrintWriter(socket.getOutputStream())) {
-      for (String line : lines) {
-        System.out.println(line);
+      for (String line : lines)
         pout.println(line);
-      }
-      System.out.println();
       pout.println();
       pout.flush();
       socket.shutdownOutput();
