@@ -1,43 +1,33 @@
 package com.dnsimple;
 
-import com.dnsimple.data.NameServer;
-import com.dnsimple.request.Filter;
-import com.dnsimple.response.EnableVanityNameServersResponse;
-import com.dnsimple.response.DisableVanityNameServersResponse;
+import static com.dnsimple.tools.HttpMethod.DELETE;
+import static com.dnsimple.tools.HttpMethod.PUT;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+
 import com.dnsimple.exception.DnsimpleException;
-
-import junit.framework.Assert;
-
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
-import com.google.api.client.http.HttpMethods;
-import com.google.api.client.util.Data;
-
+import com.dnsimple.response.DisableVanityNameServersResponse;
 import java.io.IOException;
-import java.util.List;
+import org.junit.Test;
 
 public class VanityNameServersTest extends DnsimpleTestBase {
   @Test
   public void testEnableVanityNameServers() throws DnsimpleException, IOException {
-    String accountId = "1010";
-    String domainId = "example.com";
+    server.stubFixtureAt("enableVanityNameServers/success.http");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/vanity/example.com", HttpMethods.PUT, resource("enableVanityNameServers/success.http"));
-
-    EnableVanityNameServersResponse response = client.vanityNameServers.enableVanityNameServers(accountId, domainId);
-    List<NameServer> vanityNameServers = response.getData();
+    client.vanityNameServers.enableVanityNameServers("1010", "example.com");
+    assertThat(server.getRecordedRequest().getMethod(), is(PUT));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/vanity/example.com"));
   }
 
   @Test
   public void testDisableVanityNameServers() throws DnsimpleException, IOException {
-    String accountId = "1010";
-    String domainId = "example.com";
+    server.stubFixtureAt("disableVanityNameServers/success.http");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/vanity/example.com", HttpMethods.DELETE, resource("disableVanityNameServers/success.http"));
-
-    DisableVanityNameServersResponse response = client.vanityNameServers.disableVanityNameServers(accountId, domainId);
-    assertEquals(null, response.getData());
+    DisableVanityNameServersResponse response = client.vanityNameServers.disableVanityNameServers("1010", "example.com");
+    assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/vanity/example.com"));
+    assertThat(response.getData(), is(nullValue()));
   }
 }

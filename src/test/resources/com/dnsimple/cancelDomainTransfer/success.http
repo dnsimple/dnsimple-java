@@ -2,7 +2,7 @@ HTTP/1.1 202 Accepted
 Server: nginx
 Date: Wed, 29 Apr 2020 19:49:41 GMT
 Content-Type: application/json; charset=utf-8
-Transfer-Encoding: chunked
+Transfer-Encoding: identity
 Connection: keep-alive
 Status: 202 Accepted
 X-RateLimit-Limit: 2400

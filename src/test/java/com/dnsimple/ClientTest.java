@@ -1,40 +1,37 @@
 package com.dnsimple;
 
+import static com.dnsimple.tools.HttpMethod.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasEntry;
+import static org.hamcrest.Matchers.is;
+
 import com.dnsimple.exception.DnsimpleException;
-
-import junit.framework.Assert;
-
+import com.dnsimple.tools.HttpMethod;
+import java.io.IOException;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-
-import com.google.api.client.http.HttpHeaders;
-import com.google.api.client.http.HttpMethods;
-
-import java.io.IOException;
-
 public class ClientTest extends DnsimpleTestBase {
-  @Test
-  public void testNewClient() {
-    Client client = new Client();
-  }
+  private static final String TEST_ACCESS_TOKEN = "test-access-token";
 
   @Test
   public void testAuthorizationHeader() throws DnsimpleException, IOException {
-    HttpHeaders headers = getDefaultHeaders();
-    headers.setAuthorization("Bearer " + TEST_ACCESS_TOKEN);
+    server.stubFixtureAt("listAccounts/success-account.http");
+    client.setAccessToken(TEST_ACCESS_TOKEN);
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/accounts", HttpMethods.GET, headers, null, resource("listAccounts/success-account.http"));
     client.accounts.listAccounts();
+    assertThat(server.getRecordedRequest().getMethod(), is(GET));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/accounts"));
+    assertThat(server.getRecordedRequest().getHeaders(), hasEntry("Authorization", "Bearer " + TEST_ACCESS_TOKEN));
   }
 
   @Test
   public void testUserAgentHeader() throws DnsimpleException, IOException {
-    HttpHeaders headers = getDefaultHeaders();
-    headers.setUserAgent("my-user-agent dnsimple-java/" + Dnsimple.VERSION + " Google-HTTP-Java-Client/1.35.0 (gzip)");
-
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/accounts", HttpMethods.GET, headers, null, resource("listAccounts/success-account.http"));
+    server.stubFixtureAt("listAccounts/success-account.http");
     client.setUserAgent("my-user-agent");
+
     client.accounts.listAccounts();
+    assertThat(server.getRecordedRequest().getMethod(), is(GET));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/accounts"));
+    assertThat(server.getRecordedRequest().getHeaders(), hasEntry("User-Agent", "my-user-agent dnsimple-java/" + Dnsimple.VERSION + " Google-HTTP-Java-Client/1.35.0 (gzip)"));
   }
 }

@@ -1,145 +1,111 @@
 package com.dnsimple;
 
+import static com.dnsimple.tools.CustomMatchers.thrownException;
+import static com.dnsimple.tools.HttpMethod.*;
+import static java.util.Collections.singletonMap;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+
 import com.dnsimple.data.DelegationSignerRecord;
-import com.dnsimple.data.Pagination;
-import com.dnsimple.response.ListDelegationSignerRecordsResponse;
-import com.dnsimple.response.GetDelegationSignerRecordResponse;
-import com.dnsimple.response.CreateDelegationSignerRecordResponse;
-import com.dnsimple.response.DeleteDelegationSignerRecordResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
-
-import junit.framework.Assert;
-
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
-import com.google.api.client.http.HttpMethods;
-import com.google.api.client.util.Data;
-
+import com.dnsimple.response.CreateDelegationSignerRecordResponse;
+import com.dnsimple.response.DeleteDelegationSignerRecordResponse;
+import com.dnsimple.response.ListDelegationSignerRecordsResponse;
+import com.dnsimple.tools.HttpMethod;
 import java.io.IOException;
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.junit.Test;
 
 public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
 
   @Test
   public void testListDelegationSignerRecordsSupportsPagination() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/domains/1010/ds_records?page=1");
-    String accountId = "1";
-    String domainId = "1010";
-    HashMap<String, Object> options = new HashMap<String, Object>();
-    options.put("page", 1);
-    client.domains.listDelegationSignerRecords(accountId, domainId, options);
+    client.domains.listDelegationSignerRecords("1", "1010", singletonMap("page", 1));
+    assertThat(server.getRecordedRequest().getMethod(), is(GET));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/1010/ds_records?page=1"));
   }
 
   @Test
   public void testListDelegationSignerRecordsSupportsExtraRequestOptions() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/domains/1010/ds_records?foo=bar");
-    String accountId = "1";
-    String domainId = "1010";
-    HashMap<String, Object> options = new HashMap<String, Object>();
-    options.put("foo", "bar");
-    client.domains.listDelegationSignerRecords(accountId, domainId, options);
+    client.domains.listDelegationSignerRecords("1", "1010", singletonMap("foo", "bar"));
+    assertThat(server.getRecordedRequest().getMethod(), is(GET));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/1010/ds_records?foo=bar"));
   }
 
   @Test
   public void testListDelegationSignerRecordsSupportsSorting() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/domains/1010/ds_records?sort=created_at%3Aasc");
-    String accountId = "1";
-    String domainId = "1010";
-    HashMap<String, Object> options = new HashMap<String, Object>();
-    options.put("sort", "created_at:asc");
-    client.domains.listDelegationSignerRecords(accountId, domainId, options);
+    client.domains.listDelegationSignerRecords("1", "1010", singletonMap("sort", "created_at:asc"));
+    assertThat(server.getRecordedRequest().getMethod(), is(GET));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/1010/ds_records?sort=created_at:asc"));
   }
 
   @Test
   public void testListDelegationSignerRecordsProducesDelegationSignerRecordList() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listDelegationSignerRecords/success.http"));
+    server.stubFixtureAt("listDelegationSignerRecords/success.http");
 
-    String accountId = "1";
-    String domainId = "1010";
-
-    ListDelegationSignerRecordsResponse response = client.domains.listDelegationSignerRecords(accountId, domainId);
-
-    List<DelegationSignerRecord> dsRecords = response.getData();
-    assertEquals(1, dsRecords.size());
-    assertEquals(24, dsRecords.get(0).getId().intValue());
+    List<DelegationSignerRecord> dsRecords = client.domains.listDelegationSignerRecords("1", "1010").getData();
+    assertThat(dsRecords, hasSize(1));
+    assertThat(dsRecords.get(0).getId(), is(24));
   }
 
   @Test
   public void testListDelegationSignerRecordsExposesPaginationInfo() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listDelegationSignerRecords/success.http"));
+    server.stubFixtureAt("listDelegationSignerRecords/success.http");
 
-    String accountId = "1";
-    String domainId = "1010";
-
-    ListDelegationSignerRecordsResponse response = client.domains.listDelegationSignerRecords(accountId, domainId);
-
-    Pagination pagination = response.getPagination();
-    assertEquals(1, pagination.getCurrentPage().intValue());
+    ListDelegationSignerRecordsResponse response = client.domains.listDelegationSignerRecords("1", "1010");
+    assertThat(response.getPagination().getCurrentPage(), is(1));
   }
 
   @Test
   public void testGetDelegationSignerRecord() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("getDelegationSignerRecord/success.http"));
+    server.stubFixtureAt("getDelegationSignerRecord/success.http");
 
-    String accountId = "1";
-    String domainId = "example.com";
-    String dsRecordId = "24";
-
-    GetDelegationSignerRecordResponse response = client.domains.getDelegationSignerRecord(accountId, domainId, dsRecordId);
-
-    DelegationSignerRecord dsRecord = response.getData();
-    assertEquals(24, dsRecord.getId().intValue());
-    assertEquals(1010, dsRecord.getDomainId().intValue());
-    assertEquals("8", dsRecord.getAlgorithm());
-    assertEquals("C1F6E04A5A61FBF65BF9DC8294C363CF11C89E802D926BDAB79C55D27BEFA94F", dsRecord.getDigest());
-    assertEquals("2", dsRecord.getDigestType());
-    assertEquals("44620", dsRecord.getKeytag());
-    assertEquals("2017-03-03T13:49:58Z", dsRecord.getCreatedAt());
-    assertEquals("2017-03-03T13:49:58Z", dsRecord.getUpdatedAt());
+    DelegationSignerRecord dsRecord = client.domains.getDelegationSignerRecord("1", "example.com", "24").getData();
+    assertThat(dsRecord.getId(), is(24));
+    assertThat(dsRecord.getDomainId(), is(1010));
+    assertThat(dsRecord.getAlgorithm(), is("8"));
+    assertThat(dsRecord.getDigest(), is("C1F6E04A5A61FBF65BF9DC8294C363CF11C89E802D926BDAB79C55D27BEFA94F"));
+    assertThat(dsRecord.getDigestType(), is("2"));
+    assertThat(dsRecord.getKeytag(), is("44620"));
+    assertThat(dsRecord.getCreatedAt(), is("2017-03-03T13:49:58Z"));
+    assertThat(dsRecord.getUpdatedAt(), is("2017-03-03T13:49:58Z"));
   }
 
-  @Test(expected=ResourceNotFoundException.class)
-  public void testGetDelegationSignerRecordWhenNotFound() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("notfound-delegationSignerRecord.http"));
+  @Test
+  public void testGetDelegationSignerRecordWhenNotFound() {
+    server.stubFixtureAt("notfound-delegationSignerRecord.http");
 
-    String accountId = "1";
-    String domainId = "example.com";
-    String dsRecordId = "0";
-
-    client.domains.getDelegationSignerRecord(accountId, domainId, dsRecordId);
+    assertThat(() -> client.domains.getDelegationSignerRecord("1", "example.com", "0"),
+        thrownException(is(instanceOf(ResourceNotFoundException.class))));
   }
 
   @Test
   public void testCreateDelegationSignerRecordProducesDelegationSignerRecord() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("createDelegationSignerRecord/created.http"));
+    server.stubFixtureAt("createDelegationSignerRecord/created.http");
 
-    String accountId = "1";
-    String domainId = "example.com";
-    HashMap<String, Object> attributes = new HashMap<String, Object>();
+    Map<String, Object> attributes = new HashMap<>();
     attributes.put("algorithm", "13");
     attributes.put("digest", "684a1f049d7d082b7f98691657da5a65764913df7f065f6f8c36edf62d66ca03");
     attributes.put("digest_type", "2");
     attributes.put("keytag", "2371");
 
-    CreateDelegationSignerRecordResponse response = client.domains.createDelegationSignerRecord(accountId, domainId, attributes);
-    DelegationSignerRecord dsRecord = response.getData();
-    assertEquals(2, dsRecord.getId().intValue());
+    CreateDelegationSignerRecordResponse response = client.domains.createDelegationSignerRecord("1", "example.com", attributes);
+    assertThat(response.getData().getId(), is(2));
   }
 
   @Test
   public void testDeleteDelegationSignerRecord() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1/domains/example.com/ds_records/24", HttpMethods.DELETE, resource("deleteDelegationSignerRecord/success.http"));
+    server.stubFixtureAt("deleteDelegationSignerRecord/success.http");
 
-    String accountId = "1";
-    String domainId = "example.com";
-    String dsRecordId = "24";
-
-    DeleteDelegationSignerRecordResponse response = client.domains.deleteDelegationSignerRecord(accountId, domainId, dsRecordId);
-    assertEquals(null, response.getData());
+    DeleteDelegationSignerRecordResponse response = client.domains.deleteDelegationSignerRecord("1", "example.com", "24");
+    assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/ds_records/24"));
+    assertThat(response.getData(), is(nullValue()));
   }
-
 }

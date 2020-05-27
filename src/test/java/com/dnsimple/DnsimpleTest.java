@@ -1,16 +1,15 @@
 package com.dnsimple;
 
-import com.dnsimple.exception.DnsimpleException;
-
-import junit.framework.Assert;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-
 public class DnsimpleTest {
   @Test
-  public void testApiBase() throws DnsimpleException {
-    assertEquals("https://api.dnsimple.com", Dnsimple.getApiBase());
+  public void testApiBase() {
+    String backupApiBase = Dnsimple.getApiBase();
+    Dnsimple.setApiBase("something");
+    assertEquals("something", Dnsimple.getApiBase());
+    Dnsimple.setApiBase(backupApiBase);
   }
 }

@@ -1,118 +1,101 @@
 package com.dnsimple;
 
+import static com.dnsimple.tools.HttpMethod.*;
+import static java.util.Collections.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+
 import com.dnsimple.data.Tld;
 import com.dnsimple.data.TldExtendedAttribute;
 import com.dnsimple.data.TldExtendedAttributeOption;
-import com.dnsimple.data.Pagination;
-import com.dnsimple.response.ListTldsResponse;
-import com.dnsimple.response.GetTldResponse;
-import com.dnsimple.response.GetTldExtendedAttributesResponse;
 import com.dnsimple.exception.DnsimpleException;
-
-import junit.framework.Assert;
-
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
-import com.google.api.client.http.HttpHeaders;
-import com.google.api.client.http.HttpMethods;
-
+import com.dnsimple.response.GetTldExtendedAttributesResponse;
+import com.dnsimple.response.GetTldResponse;
+import com.dnsimple.response.ListTldsResponse;
+import com.dnsimple.tools.HttpMethod;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
-import java.util.HashMap;
+import org.junit.Test;
 
 public class TldsTest extends DnsimpleTestBase {
 
   @Test
   public void testListTldsSupportsPagination() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/tlds?page=1");
-    HashMap<String, Object> options = new HashMap<String, Object>();
-    options.put("page", 1);
-    client.tlds.listTlds(options);
+    client.tlds.listTlds(singletonMap("page", 1));
+    assertThat(server.getRecordedRequest().getMethod(), is(GET));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/tlds?page=1"));
   }
 
   @Test
   public void testListTldsSupportsExtraRequestOptions() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/tlds?foo=bar");
-    HashMap<String, Object> options = new HashMap<String, Object>();
-    options.put("foo", "bar");
-    client.tlds.listTlds(options);
+    client.tlds.listTlds(singletonMap("foo", "bar"));
+    assertThat(server.getRecordedRequest().getMethod(), is(GET));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/tlds?foo=bar"));
   }
 
   @Test
   public void testListTldsSupportsSorting() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/tlds?sort=name%3Aasc");
-    HashMap<String, Object> options = new HashMap<String, Object>();
-    options.put("sort", "name:asc");
-    client.tlds.listTlds(options);
+    client.tlds.listTlds(singletonMap("sort", "name:asc"));
+    assertThat(server.getRecordedRequest().getMethod(), is(GET));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/tlds?sort=name:asc"));
   }
 
   @Test
   public void testListTldsProducesTldList() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listTlds/success.http"));
+    server.stubFixtureAt("listTlds/success.http");
 
-    ListTldsResponse response = client.tlds.listTlds();
-
-    List<Tld> tlds = response.getData();
-    assertEquals(2, tlds.size());
-    assertEquals("ac", tlds.get(0).getTld());
+    List<Tld> tlds = client.tlds.listTlds().getData();
+    assertThat(tlds, hasSize(2));
+    assertThat(tlds.get(0).getTld(), is("ac"));
   }
 
   @Test
   public void testListTldsExposesPaginationInfo() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listTlds/success.http"));
-
-    String accountId = "1";
+    server.stubFixtureAt("listTlds/success.http");
 
     ListTldsResponse response = client.tlds.listTlds();
-
-    Pagination pagination = response.getPagination();
-    assertEquals(1, pagination.getCurrentPage().intValue());
+    assertThat(response.getPagination().getCurrentPage(), is(1));
   }
 
   @Test
   public void testGetTld() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("getTld/success.http"));
+    server.stubFixtureAt("getTld/success.http");
 
-    String tldString = "com";
-
-    GetTldResponse response = client.tlds.getTld(tldString);
-
-    Tld tld = response.getData();
-    assertEquals("com", tld.getTld());
+    GetTldResponse response = client.tlds.getTld("com");
+    assertThat(response.getData().getTld(), is("com"));
   }
 
   @Test
   public void testGetTldExtendedAttributes() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/tlds/uk/extended_attributes", HttpMethods.GET, new HttpHeaders(), null, resource("getTldExtendedAttributes/success.http"));
+    server.stubFixtureAt("getTldExtendedAttributes/success.http");
 
-    String tldString = "uk";
-
-    GetTldExtendedAttributesResponse response = client.tlds.getTldExtendedAttributes(tldString);
+    GetTldExtendedAttributesResponse response = client.tlds.getTldExtendedAttributes("uk");
+    assertThat(server.getRecordedRequest().getMethod(), is(GET));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/tlds/uk/extended_attributes"));
 
     List<TldExtendedAttribute> extendedAttributes = response.getData();
-    assertEquals(4, extendedAttributes.size());
-    assertEquals("uk_legal_type", extendedAttributes.get(0).getName());
-    assertEquals("Legal type of registrant contact", extendedAttributes.get(0).getDescription());
-    assertEquals(false, extendedAttributes.get(0).getRequired().booleanValue());
+    assertThat(extendedAttributes, hasSize(4));
+    assertThat(extendedAttributes.get(0).getName(), is("uk_legal_type"));
+    assertThat(extendedAttributes.get(0).getDescription(), is("Legal type of registrant contact"));
+    assertThat(extendedAttributes.get(0).getRequired(), is(false));
 
     List<TldExtendedAttributeOption> options = extendedAttributes.get(0).getOptions();
-    assertEquals(17, options.size());
-    assertEquals("UK Individual", options.get(0).getTitle());
-    assertEquals("IND", options.get(0).getValue());
-    assertEquals("UK Individual (our default value)", options.get(0).getDescription());
+    assertThat(options, hasSize(17));
+    assertThat(options.get(0).getTitle(), is("UK Individual"));
+    assertThat(options.get(0).getValue(), is("IND"));
+    assertThat(options.get(0).getDescription(), is("UK Individual (our default value)"));
   }
 
   @Test
   public void testGetTldExtendedAttributesWhenNone() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/tlds/com/extended_attributes", HttpMethods.GET, new HttpHeaders(), null, resource("getTldExtendedAttributes/success-noattributes.http"));
+    server.stubFixtureAt("getTldExtendedAttributes/success-noattributes.http");
 
-    String tldString = "com";
-
-    GetTldExtendedAttributesResponse response = client.tlds.getTldExtendedAttributes(tldString);
-
-    List<TldExtendedAttribute> extendedAttributes = response.getData();
-    assertEquals(0, extendedAttributes.size());
+    GetTldExtendedAttributesResponse response = client.tlds.getTldExtendedAttributes("com");
+    assertThat(server.getRecordedRequest().getMethod(), is(GET));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/tlds/com/extended_attributes"));
+    assertThat(response.getData(), is(empty()));
   }
 }

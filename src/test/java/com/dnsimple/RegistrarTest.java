@@ -1,183 +1,174 @@
 package com.dnsimple;
 
-import com.dnsimple.data.Domain;
+import static com.dnsimple.tools.HttpMethod.DELETE;
+import static com.dnsimple.tools.HttpMethod.GET;
+import static com.dnsimple.tools.HttpMethod.POST;
+import static java.util.Collections.singletonMap;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
 import com.dnsimple.data.DomainAvailability;
 import com.dnsimple.data.DomainRegistration;
 import com.dnsimple.data.DomainRenewal;
 import com.dnsimple.data.DomainTransfer;
-import com.dnsimple.response.CheckDomainResponse;
-import com.dnsimple.response.RegisterDomainResponse;
-import com.dnsimple.response.RenewDomainResponse;
-import com.dnsimple.response.TransferDomainResponse;
-import com.dnsimple.response.TransferDomainOutResponse;
 import com.dnsimple.exception.DnsimpleException;
-
-import junit.framework.Assert;
-
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
-import com.google.api.client.http.HttpHeaders;
+import com.dnsimple.response.RegisterDomainResponse;
+import com.dnsimple.response.TransferDomainOutResponse;
+import com.dnsimple.response.TransferDomainResponse;
 import com.google.api.client.http.HttpMethods;
-
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
+import org.junit.Test;
 
 public class RegistrarTest extends DnsimpleTestBase {
 
   @Test
   public void testCheckDomain() throws DnsimpleException, IOException {
-    String accountId = "1010";
-    String name = "ruby.codes";
+    server.stubFixtureAt("checkDomain/success.http");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/ruby.codes/check", HttpMethods.GET, new HttpHeaders(), null, resource("checkDomain/success.http"));
-
-    CheckDomainResponse response = client.registrar.checkDomain(accountId, name);
-    DomainAvailability availability = response.getData();
-    assertEquals(name, availability.getDomainName());
-    assertTrue(availability.getAvailable().booleanValue());
-    assertTrue(availability.getPremium().booleanValue());
+    DomainAvailability availability = client.registrar.checkDomain("1010", "ruby.codes").getData();
+    assertThat(server.getRecordedRequest().getMethod(), is(GET));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/ruby.codes/check"));
+    assertThat(availability.getDomainName(), is("ruby.codes"));
+    assertThat(availability.getAvailable(), is(true));
+    assertThat(availability.getPremium(), is(true));
   }
 
   @Test
   public void testRegisterDomain() throws DnsimpleException, IOException {
-    String accountId = "1010";
-    String name = "example.com";
-    HashMap<String, Object> attributes = new HashMap<String, Object>();
-    attributes.put("registrant_id", "10");
+    server.stubFixtureAt("registerDomain/success.http");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/registrations", HttpMethods.POST, new HttpHeaders(), attributes, resource("registerDomain/success.http"));
-
-    RegisterDomainResponse response = client.registrar.registerDomain(accountId, name, attributes);
+    Map<String, Object> attributes = singletonMap("registrant_id", "10");
+    RegisterDomainResponse response = client.registrar.registerDomain("1010", "example.com", attributes);
+    assertThat(server.getRecordedRequest().getMethod(), is(POST));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/registrations"));
+    assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
     DomainRegistration registration = response.getData();
-    assertEquals(1, registration.getId().intValue());
-    assertEquals(999, registration.getDomainId().intValue());
-    assertEquals(2, registration.getRegistrantId().intValue());
-    assertEquals("new", registration.getState());
-    assertFalse(registration.hasAutoRenew());
-    assertFalse(registration.hasWhoisPrivacy());
-    assertEquals("2016-12-09T19:35:31Z", registration.getCreatedAt());
-    assertEquals("2016-12-09T19:35:31Z", registration.getUpdatedAt());
+    assertThat(registration.getId(), is(1));
+    assertThat(registration.getDomainId(), is(999));
+    assertThat(registration.getRegistrantId(), is(2));
+    assertThat(registration.getState(), is("new"));
+    assertThat(registration.hasAutoRenew(), is(false));
+    assertThat(registration.hasWhoisPrivacy(), is(false));
+    assertThat(registration.getCreatedAt(), is("2016-12-09T19:35:31Z"));
+    assertThat(registration.getUpdatedAt(), is("2016-12-09T19:35:31Z"));
   }
 
   @Test
   public void testRenewDomain() throws DnsimpleException, IOException {
-    String accountId = "1010";
-    String name = "example.com";
-    HashMap<String, Object> attributes = new HashMap<String, Object>();
-    attributes.put("period", "3");
+    server.stubFixtureAt("renewDomain/success.http");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/renewals", HttpMethods.POST, new HttpHeaders(), attributes, resource("renewDomain/success.http"));
-
-    RenewDomainResponse response = client.registrar.renewDomain(accountId, name, attributes);
-    DomainRenewal domainRenewal = response.getData();
-    assertEquals(1, domainRenewal.getId().intValue());
+    Map<String, Object> attributes = singletonMap("period", "3");
+    DomainRenewal domainRenewal = client.registrar.renewDomain("1010", "example.com", attributes).getData();
+    assertThat(server.getRecordedRequest().getMethod(), is(POST));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/renewals"));
+    assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
+    assertThat(domainRenewal.getId(), is(1));
   }
 
-  @Test(expected=DnsimpleException.class)
+  @Test(expected = DnsimpleException.class)
   public void testRenewDomainTooSoon() throws DnsimpleException, IOException {
-    String accountId = "1010";
-    String name = "example.com";
-    HashMap<String, Object> attributes = new HashMap<String, Object>();
-    attributes.put("period", "3");
+    server.stubFixtureAt("renewDomain/error-tooearly.http");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/renewals", HttpMethods.POST, new HttpHeaders(), attributes, resource("renewDomain/error-tooearly.http"));
-
-    client.registrar.renewDomain(accountId, name, attributes);
+    Map<String, Object> attributes = singletonMap("period", "3");
+    client.registrar.renewDomain("1010", "example.com", attributes);
+    assertThat(server.getRecordedRequest().getMethod(), is(POST));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/renewals"));
+    assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
   }
 
   @Test
   public void testTransferDomain() throws DnsimpleException, IOException {
-    String accountId = "1010";
-    String name = "example.com";
-    HashMap<String, Object> attributes = new HashMap<String, Object>();
+    server.stubFixtureAt("transferDomain/success.http");
+
+    Map<String, Object> attributes = new HashMap<>();
     attributes.put("registrant_id", "1");
     attributes.put("auth_info", "x1y2z3");
-
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/transfers", HttpMethods.POST, new HttpHeaders(), attributes, resource("transferDomain/success.http"));
-
-    TransferDomainResponse response = client.registrar.transferDomain(accountId, name, attributes);
+    TransferDomainResponse response = client.registrar.transferDomain("1010", "example.com", attributes);
     DomainTransfer transfer = response.getData();
-    assertEquals(1, transfer.getId().intValue());
+    assertThat(server.getRecordedRequest().getMethod(), is(POST));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/transfers"));
+    assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
+    assertThat(transfer.getId(), is(1));
   }
 
   @Test
-  public void testGetDomainTransfer() throws DnsimpleException, IOException  {
-    String accountId = "1010";
-    String name = "example.com";
-    String transferId = "42";
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/transfers/42", HttpMethods.GET, new HttpHeaders(), null, resource("getDomainTransfer/success.http"));
+  public void testGetDomainTransfer() throws DnsimpleException, IOException {
+    server.stubFixtureAt("getDomainTransfer/success.http");
 
-    TransferDomainResponse response = client.registrar.getDomainTransfer(accountId, name, transferId);
+    TransferDomainResponse response = client.registrar.getDomainTransfer("1010", "example.com", "42");
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/transfers/42"));
+    assertThat(server.getRecordedRequest().getMethod(), is(GET));
+
     DomainTransfer transfer = response.getData();
-
-    assertEquals(42, transfer.getId().intValue());
-    assertEquals(2, transfer.getDomainId().intValue());
-    assertEquals(3, transfer.getRegistrantId().intValue());
-    assertEquals("cancelled", transfer.getState());
-    assertFalse(transfer.hasAutoRenew());
-    assertFalse(transfer.hasWhoisPrivacy());
-    assertEquals("Canceled by customer", transfer.getStatusDescription());
-    assertEquals("2020-04-27T18:08:44Z", transfer.getCreatedAt());
-    assertEquals("2020-04-27T18:20:01Z", transfer.getUpdatedAt());
+    assertThat(transfer.getId(), is(42));
+    assertThat(transfer.getDomainId(), is(2));
+    assertThat(transfer.getRegistrantId(), is(3));
+    assertThat(transfer.getState(), is("cancelled"));
+    assertThat(transfer.hasAutoRenew(), is(false));
+    assertThat(transfer.hasWhoisPrivacy(), is(false));
+    assertThat(transfer.getStatusDescription(), is("Canceled by customer"));
+    assertThat(transfer.getCreatedAt(), is("2020-04-27T18:08:44Z"));
+    assertThat(transfer.getUpdatedAt(), is("2020-04-27T18:20:01Z"));
   }
 
   @Test
-  public void testCancelDomainTransfer() throws DnsimpleException, IOException  {
-    String accountId = "1010";
-    String name = "example.com";
-    String transferId = "42";
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/transfers/42", HttpMethods.DELETE, new HttpHeaders(), null, resource("cancelDomainTransfer/success.http"));
+  public void testCancelDomainTransfer() throws DnsimpleException, IOException {
+    server.stubFixtureAt("cancelDomainTransfer/success.http");
 
-    TransferDomainResponse response = client.registrar.cancelDomainTransfer(accountId, name, transferId);
+    TransferDomainResponse response = client.registrar.cancelDomainTransfer("1010", "example.com", "42");
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/transfers/42"));
+    assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
+
     DomainTransfer transfer = response.getData();
-
-    assertEquals(42, transfer.getId().intValue());
-    assertEquals(6, transfer.getDomainId().intValue());
-    assertEquals(1, transfer.getRegistrantId().intValue());
-    assertEquals("transferring", transfer.getState());
-    assertTrue(transfer.hasAutoRenew());
-    assertFalse(transfer.hasWhoisPrivacy());
-    assertTrue(transfer.getStatusDescription().isEmpty());
-    assertEquals("2020-04-24T19:19:03Z", transfer.getCreatedAt());
-    assertEquals("2020-04-24T19:19:15Z", transfer.getUpdatedAt());
+    assertThat(transfer.getId(), is(42));
+    assertThat(transfer.getDomainId(), is(6));
+    assertThat(transfer.getRegistrantId(), is(1));
+    assertThat(transfer.getState(), is("transferring"));
+    assertThat(transfer.hasAutoRenew(), is(true));
+    assertThat(transfer.hasWhoisPrivacy(), is(false));
+    assertThat(transfer.getStatusDescription(), isEmptyOrNullString());
+    assertThat(transfer.getCreatedAt(), is("2020-04-24T19:19:03Z"));
+    assertThat(transfer.getUpdatedAt(), is("2020-04-24T19:19:15Z"));
   }
 
-  @Test(expected=DnsimpleException.class)
+  @Test(expected = DnsimpleException.class)
   public void testTransferDomainAlreadyInDnsimple() throws DnsimpleException, IOException {
-    String accountId = "1010";
-    String name = "example.com";
-    HashMap<String, Object> attributes = new HashMap<String, Object>();
+    server.stubFixtureAt("transferDomain/error-indnsimple.http");
+
+    Map<String, Object> attributes = new HashMap<>();
     attributes.put("registrant_id", "1");
     attributes.put("auth_info", "x1y2z3");
-
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/transfers", HttpMethods.POST, new HttpHeaders(), attributes, resource("transferDomain/error-indnsimple.http"));
-
-    client.registrar.transferDomain(accountId, name, attributes);
+    client.registrar.transferDomain("1010", "example.com", attributes);
+    assertThat(server.getRecordedRequest().getMethod(), is(POST));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/transfers"));
+    assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
   }
 
-  @Test(expected=DnsimpleException.class)
+  @Test(expected = DnsimpleException.class)
   public void testTransferDomainAuthInfoRequired() throws DnsimpleException, IOException {
-    String accountId = "1010";
-    String name = "example.com";
-    HashMap<String, Object> attributes = new HashMap<String, Object>();
-    attributes.put("registrant_id", "1");
+    server.stubFixtureAt("transferDomain/error-missing-authcode.http");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/transfers", HttpMethods.POST, new HttpHeaders(), attributes, resource("transferDomain/error-missing-authcode.http"));
-
-    client.registrar.transferDomain(accountId, name, attributes);
+    Map<String, Object> attributes = singletonMap("registrant_id", "1");
+    client.registrar.transferDomain("1010", "example.com", attributes);
+    assertThat(server.getRecordedRequest().getMethod(), is(POST));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/transfers"));
+    assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
   }
 
   @Test
   public void testTransferDomainOut() throws DnsimpleException, IOException {
-    String accountId = "1010";
-    String name = "example.com";
+    server.stubFixtureAt("authorizeDomainTransferOut/success.http");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/authorize_transfer_out", HttpMethods.POST, new HttpHeaders(), null, resource("authorizeDomainTransferOut/success.http"));
-
-    TransferDomainOutResponse response = client.registrar.transferDomainOut(accountId, name);
-    assertEquals(null, response.getData());
+    TransferDomainOutResponse response = client.registrar.transferDomainOut("1010", "example.com");
+    assertThat(server.getRecordedRequest().getMethod(), is(POST));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/authorize_transfer_out"));
+    assertThat(response.getData(), is(nullValue()));
   }
 
 }

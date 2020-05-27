@@ -1,90 +1,77 @@
 package com.dnsimple;
 
+import static com.dnsimple.tools.HttpMethod.POST;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.endsWith;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
+
 import com.dnsimple.data.OauthToken;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.exception.ResourceNotFoundException;
-
-import junit.framework.Assert;
-
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
-import com.google.api.client.http.HttpHeaders;
-import com.google.api.client.http.HttpMethods;
-import com.google.api.client.util.Data;
-
 import java.io.IOException;
-import java.util.List;
 import java.util.HashMap;
+import java.util.Map;
+import org.junit.Test;
 
 public class OauthTest extends DnsimpleTestBase {
   @Test
   public void testExchangeAuthorizationForToken() throws DnsimpleException, IOException {
-    String clientId = "super-client-id";
-    String clientSecret = "super-client-secret";
-    String code = "super-code";
+    server.stubFixtureAt("oauthAccessToken/success.http");
 
-    HashMap<String, Object> attributes = new HashMap<String, Object>();
-    attributes.put("code", code);
-    attributes.put("client_id", clientId);
-    attributes.put("client_secret", clientSecret);
+    Map<String, Object> attributes = new HashMap<>();
+    attributes.put("code", "super-code");
+    attributes.put("client_id", "super-client-id");
+    attributes.put("client_secret", "super-client-secret");
     attributes.put("grant_type", "authorization_code");
+    OauthToken token = client.oauth.exchangeAuthorizationForToken("super-code", "super-client-id", "super-client-secret");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/oauth/access_token", HttpMethods.POST, new HttpHeaders(), attributes, resource("oauthAccessToken/success.http"));
-
-    OauthToken token = client.oauth.exchangeAuthorizationForToken(code, clientId, clientSecret);
-    assertEquals("zKQ7OLqF5N1gylcJweA9WodA000BUNJD", token.getAccessToken());
-    assertEquals("Bearer", token.getTokenType());
-    assertTrue(Data.isNull(token.getScope()));
-    assertEquals(1, token.getAccountId().intValue());
+    assertThat(server.getRecordedRequest().getMethod(), is(POST));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/oauth/access_token"));
+    assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
+    assertThat(token.getAccessToken(), is("zKQ7OLqF5N1gylcJweA9WodA000BUNJD"));
+    assertThat(token.getTokenType(), is("Bearer"));
+    assertThat(token.getScope(), isEmptyOrNullString());
+    assertThat(token.getAccountId(), is(1));
   }
 
   @Test
   public void testExchangeAuthorizationForTokenWithOptions() throws DnsimpleException, IOException {
-    String clientId = "super-client-id";
-    String clientSecret = "super-client-secret";
-    String code = "super-code";
-    String state = "some-state";
-    String redirectUri = "some-redirect-uri";
+    server.stubFixtureAt("oauthAccessToken/success.http");
 
-    HashMap<String, Object> options = new HashMap<String, Object>();
-    options.put("state", state);
-    options.put("redirect_uri", redirectUri);
-
-    HashMap<String, Object> expectedAttributes = new HashMap<String, Object>();
-    expectedAttributes.put("code", code);
-    expectedAttributes.put("client_id", clientId);
-    expectedAttributes.put("client_secret", clientSecret);
+    Map<String, Object> options = new HashMap<>();
+    options.put("state", "some-state");
+    options.put("redirect_uri", "some-redirect-uri");
+    Map<String, Object> expectedAttributes = new HashMap<>();
+    expectedAttributes.put("code", "super-code");
+    expectedAttributes.put("client_id", "super-client-id");
+    expectedAttributes.put("client_secret", "super-client-secret");
     expectedAttributes.put("grant_type", "authorization_code");
-    expectedAttributes.put("state", state);
-    expectedAttributes.put("redirect_uri", redirectUri);
+    expectedAttributes.put("state", "some-state");
+    expectedAttributes.put("redirect_uri", "some-redirect-uri");
+    OauthToken token = client.oauth.exchangeAuthorizationForToken("super-code", "super-client-id", "super-client-secret", options);
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/oauth/access_token", HttpMethods.POST, new HttpHeaders(), expectedAttributes, resource("oauthAccessToken/success.http"));
-
-    OauthToken token = client.oauth.exchangeAuthorizationForToken(code, clientId, clientSecret, options);
-    assertEquals("zKQ7OLqF5N1gylcJweA9WodA000BUNJD", token.getAccessToken());
-    assertEquals("Bearer", token.getTokenType());
-    assertTrue(Data.isNull(token.getScope()));
-    assertEquals(1, token.getAccountId().intValue());
+    assertThat(server.getRecordedRequest().getMethod(), is(POST));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/oauth/access_token"));
+    assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(expectedAttributes));
+    assertThat(token.getAccessToken(), is("zKQ7OLqF5N1gylcJweA9WodA000BUNJD"));
+    assertThat(token.getTokenType(), is("Bearer"));
+    assertThat(token.getScope(), isEmptyOrNullString());
+    assertThat(token.getAccountId(), is(1));
   }
 
   @Test
   public void testAuthorizeUrlIsCorrect() {
-    Client client = new Client();
-    String authorizeUrl = client.oauth.authorizeUrl("great-app");
-    assertEquals("https://dnsimple.com/oauth/authorize?client_id=great-app&response_type=code", authorizeUrl);
+    assertThat(client.oauth.authorizeUrl("great-app"),
+        endsWith("/oauth/authorize?client_id=great-app&response_type=code"));
   }
 
   @Test
   public void testAuthorizeUrlIncludesOptions() {
-    Client client = new Client();
-
-    HashMap<Object, Object> options = new HashMap<Object, Object>();
+    Map<Object, Object> options = new HashMap<>();
     options.put("secret", "1");
     options.put("redirect_uri", "http://example.com");
 
-    String authorizeUrl = client.oauth.authorizeUrl("great-app", options);
-    assertEquals("https://dnsimple.com/oauth/authorize?client_id=great-app&response_type=code&secret=1&redirect_uri=http%3A%2F%2Fexample.com", authorizeUrl);
+    assertThat(client.oauth.authorizeUrl("great-app", options),
+        endsWith("/oauth/authorize?client_id=great-app&response_type=code&secret=1&redirect_uri=http%3A%2F%2Fexample.com"));
   }
 }

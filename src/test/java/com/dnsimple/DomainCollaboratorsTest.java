@@ -1,142 +1,106 @@
 package com.dnsimple;
 
+import static com.dnsimple.tools.CustomMatchers.thrownException;
+import static com.dnsimple.tools.HttpMethod.DELETE;
+import static com.dnsimple.tools.HttpMethod.GET;
+import static java.util.Collections.singletonMap;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+
 import com.dnsimple.data.Collaborator;
-import com.dnsimple.data.Pagination;
-import com.dnsimple.response.ListCollaboratorsResponse;
-import com.dnsimple.response.AddCollaboratorResponse;
-import com.dnsimple.response.RemoveCollaboratorResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
-
-import junit.framework.Assert;
-
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
-import com.google.api.client.http.HttpMethods;
-import com.google.api.client.util.Data;
-
+import com.dnsimple.response.ListCollaboratorsResponse;
+import com.dnsimple.response.RemoveCollaboratorResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.HashMap;
+import org.junit.Test;
 
 public class DomainCollaboratorsTest extends DnsimpleTestBase {
 
   @Test
   public void testListCollaboratorsSupportsPagination() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/domains/example.com/collaborators?page=1");
-    String accountId = "1";
-    String domainId = "example.com";
-    HashMap<String, Object> options = new HashMap<String, Object>();
-    options.put("page", 1);
-    client.domains.listCollaborators(accountId, domainId, options);
+    client.domains.listCollaborators("1", "example.com", singletonMap("page", 1));
+    assertThat(server.getRecordedRequest().getMethod(), is(GET));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/collaborators?page=1"));
   }
 
   @Test
   public void testListCollaboratorsSupportsExtraRequestOptions() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/domains/example.com/collaborators?foo=bar");
-    String accountId = "1";
-    String domainId = "example.com";
-    HashMap<String, Object> options = new HashMap<String, Object>();
-    options.put("foo", "bar");
-    client.domains.listCollaborators(accountId, domainId, options);
+    client.domains.listCollaborators("1", "example.com", singletonMap("foo", "bar"));
+    assertThat(server.getRecordedRequest().getMethod(), is(GET));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/collaborators?foo=bar"));
   }
 
   @Test
   public void testCollaboratorsSupportsSorting() throws DnsimpleException, IOException {
-    Client client = expectClient("https://api.dnsimple.com/v2/1/domains/example.com/collaborators?sort=created_at%3Aasc");
-    String accountId = "1";
-    String domainId = "example.com";
-    HashMap<String, Object> options = new HashMap<String, Object>();
-    options.put("sort", "created_at:asc");
-    client.domains.listCollaborators(accountId, domainId, options);
+    client.domains.listCollaborators("1", "example.com", singletonMap("sort", "created_at:asc"));
+    assertThat(server.getRecordedRequest().getMethod(), is(GET));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/collaborators?sort=created_at:asc"));
   }
 
   @Test
   public void testCollaboratorsProducesDelegationSignerRecordList() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listCollaborators/success.http"));
+    server.stubFixtureAt("listCollaborators/success.http");
 
-    String accountId = "1";
-    String domainId = "example.com";
-
-    ListCollaboratorsResponse response = client.domains.listCollaborators(accountId, domainId);
-
-    List<Collaborator> collaborators = response.getData();
-    assertEquals(2, collaborators.size());
-    assertEquals(100, collaborators.get(0).getId().intValue());
+    List<Collaborator> collaborators = client.domains.listCollaborators("1", "example.com").getData();
+    assertThat(collaborators, hasSize(2));
+    assertThat(collaborators.get(0).getId(), is(100));
   }
 
   @Test
   public void testListCollaboratorsExposesPaginationInfo() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listCollaborators/success.http"));
+    server.stubFixtureAt("listCollaborators/success.http");
 
-    String accountId = "1";
-    String domainId = "example.com";
-
-    ListCollaboratorsResponse response = client.domains.listCollaborators(accountId, domainId);
-
-    Pagination pagination = response.getPagination();
-    assertEquals(1, pagination.getCurrentPage().intValue());
+    ListCollaboratorsResponse response = client.domains.listCollaborators("1", "example.com");
+    assertThat(response.getPagination().getCurrentPage(), is(1));
   }
 
   @Test
   public void testAddColaboratorProducersInvitedUserCollaborator() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("addCollaborator/invite-success.http"));
+    server.stubFixtureAt("addCollaborator/invite-success.http");
 
-    String accountId = "1";
-    String domainId = "example.com";
-    HashMap<String, Object> attributes = new HashMap<String, Object>();
-    attributes.put("email", "invited-user@example.com");
-    AddCollaboratorResponse response = client.domains.addCollaborator(accountId, domainId, attributes);
-    Collaborator collaborator = response.getData();
-    assertEquals(101, collaborator.getId().intValue());
-    assertEquals(1, collaborator.getDomainId().intValue());
-    assertEquals("example.com", collaborator.getDomainName());
-    assertEquals(0, collaborator.getUserId().intValue());
-    assertEquals("invited-user@example.com", collaborator.getUserEmail());
-    assertEquals(true, collaborator.getInvitation().booleanValue());
+    Collaborator collaborator = client.domains.addCollaborator("1", "example.com", singletonMap("email", "invited-user@example.com")).getData();
+    assertThat(collaborator.getId(), is(101));
+    assertThat(collaborator.getDomainId(), is(1));
+    assertThat(collaborator.getDomainName(), is("example.com"));
+    assertThat(collaborator.getUserId(), is(0));
+    assertThat(collaborator.getUserEmail(), is("invited-user@example.com"));
+    assertThat(collaborator.getInvitation(), is(true));
   }
 
   @Test
   public void testAddColaboratorProducersExistingUserCollaborator() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("addCollaborator/success.http"));
+    server.stubFixtureAt("addCollaborator/success.http");
 
-    String accountId = "1";
-    String domainId = "example.com";
-    HashMap<String, Object> attributes = new HashMap<String, Object>();
-    attributes.put("email", "invited-user@example.com");
-    AddCollaboratorResponse response = client.domains.addCollaborator(accountId, domainId, attributes);
-    Collaborator collaborator = response.getData();
-    assertEquals(100, collaborator.getId().intValue());
-    assertEquals(1, collaborator.getDomainId().intValue());
-    assertEquals("example.com", collaborator.getDomainName());
-    assertEquals(999, collaborator.getUserId().intValue());
-    assertEquals("existing-user@example.com", collaborator.getUserEmail());
-    assertEquals(false, collaborator.getInvitation().booleanValue());
+    Collaborator collaborator = client.domains.addCollaborator("1", "example.com", singletonMap("email", "invited-user@example.com")).getData();
+    assertThat(collaborator.getId(), is(100));
+    assertThat(collaborator.getDomainId(), is(1));
+    assertThat(collaborator.getDomainName(), is("example.com"));
+    assertThat(collaborator.getUserId(), is(999));
+    assertThat(collaborator.getUserEmail(), is("existing-user@example.com"));
+    assertThat(collaborator.getInvitation(), is(false));
   }
 
   @Test
   public void testRemoveCollaborator() throws DnsimpleException, IOException {
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1/domains/example.com/collaborators/100", HttpMethods.DELETE, resource("removeCollaborator/success.http"));
+    server.stubFixtureAt("removeCollaborator/success.http");
 
-    String accountId = "1";
-    String domainId = "example.com";
-    String collaboratorId = "100";
-
-    RemoveCollaboratorResponse response = client.domains.removeCollaborator(accountId, domainId, collaboratorId);
-    assertEquals(null, response.getData());
+    RemoveCollaboratorResponse response = client.domains.removeCollaborator("1", "example.com", "100");
+    assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/collaborators/100"));
+    assertThat(response.getData(), is(nullValue()));
   }
 
-  @Test(expected=ResourceNotFoundException.class)
-  public void testRemovecollaboratorWhenNotFound() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("notfound-collaborator.http"));
+  @Test
+  public void testRemovecollaboratorWhenNotFound() {
+    server.stubFixtureAt("notfound-collaborator.http");
 
-    String accountId = "1";
-    String domainId = "example.com";
-    String collaboratorId = "0";
-
-    client.domains.removeCollaborator(accountId, domainId, collaboratorId);
+    assertThat(() -> client.domains.removeCollaborator("1", "example.com", "0"),
+        thrownException(is(instanceOf(ResourceNotFoundException.class))));
   }
 
 }

@@ -1,81 +1,56 @@
 package com.dnsimple;
 
+import static java.util.Collections.singletonMap;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.hamcrest.Matchers.nullValue;
+
 import com.dnsimple.data.Push;
-import com.dnsimple.data.Pagination;
-import com.dnsimple.response.InitiatePushResponse;
-import com.dnsimple.response.ListPushesResponse;
+import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.response.AcceptPushResponse;
 import com.dnsimple.response.RejectPushResponse;
-import com.dnsimple.exception.DnsimpleException;
-
-import junit.framework.Assert;
-
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
-import com.google.api.client.http.HttpMethods;
-import com.google.api.client.util.Data;
-
 import java.io.IOException;
 import java.util.List;
-import java.util.HashMap;
+import org.junit.Test;
 
 public class DomainPushesTest extends DnsimpleTestBase {
   @Test
   public void testInitiatePushProducesPush() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("initiatePush/success.http"));
+    server.stubFixtureAt("initiatePush/success.http");
 
-    String accountId = "1";
-    String domainId = "example.com";
-    HashMap<String, Object> attributes = new HashMap<String, Object>();
-    attributes.put("new_account_email", "jim@example.com");
-
-    InitiatePushResponse response = client.domains.initiatePush(accountId, domainId, attributes);
-    Push push = response.getData();
-    assertEquals(1, push.getId().intValue());
-    assertEquals(100, push.getDomainId().intValue());
-    assertTrue(Data.isNull(push.getContactId()));
-    assertEquals("2016-08-11T10:16:03Z", push.getCreatedAt());
-    assertEquals("2016-08-11T10:16:03Z", push.getUpdatedAt());
-    assertTrue(Data.isNull(push.getAcceptedAt()));
+    Push push = client.domains.initiatePush("1", "example.com", singletonMap("new_account_email", "jim@example.com")).getData();
+    assertThat(push.getId(), is(1));
+    assertThat(push.getDomainId(), is(100));
+    assertThat(push.getContactId(), is(0));
+    assertThat(push.getCreatedAt(), is("2016-08-11T10:16:03Z"));
+    assertThat(push.getUpdatedAt(), is("2016-08-11T10:16:03Z"));
+    assertThat(push.getAcceptedAt(), isEmptyOrNullString());
   }
 
   @Test
   public void testListPushesProducesPushList() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("listPushes/success.http"));
+    server.stubFixtureAt("listPushes/success.http");
 
-    String accountId = "1";
-    String domainId = "example.com";
-
-    ListPushesResponse response = client.domains.listPushes(accountId, domainId);
-
-    List<Push> pushes = response.getData();
-    assertEquals(2, pushes.size());
-    assertEquals(1, pushes.get(0).getId().intValue());
+    List<Push> pushes = client.domains.listPushes("1", "example.com").getData();
+    assertThat(pushes, hasSize(2));
+    assertThat(pushes.get(0).getId(), is(1));
   }
 
   @Test
   public void testAcceptPush() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("acceptPush/success.http"));
+    server.stubFixtureAt("acceptPush/success.http");
 
-    String accountId = "1010";
-    String pushId = "200";
-    HashMap<String, Object> attributes = new HashMap<String, Object>();
-    attributes.put("contact_id", 1);
-
-    AcceptPushResponse response = client.domains.acceptPush(accountId, pushId, attributes);
-    assertEquals(null, response.getData());
+    AcceptPushResponse response = client.domains.acceptPush("1010", "200", singletonMap("contact_id", 1));
+    assertThat(response.getData(), is(nullValue()));
   }
 
   @Test
   public void testRejectPush() throws DnsimpleException, IOException {
-    Client client = mockClient(resource("rejectPush/success.http"));
+    server.stubFixtureAt("rejectPush/success.http");
 
-    String accountId = "1010";
-    String pushId = "200";
-
-    RejectPushResponse response = client.domains.rejectPush(accountId, pushId);
-    assertEquals(null, response.getData());
+    RejectPushResponse response = client.domains.rejectPush("1010", "200");
+    assertThat(response.getData(), is(nullValue()));
   }
 }

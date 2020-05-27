@@ -43,7 +43,7 @@ public class HttpEndpointClient {
 
   /**
    * Set the underlying transport mechanism.
-   *
+   * <p>
    * This method is primarily used to specify a mocked transport layer during testing.
    *
    * @param transport The transport instance
@@ -123,7 +123,7 @@ public class HttpEndpointClient {
   protected HttpResponse request(String method, String url, Object data, Map<String, Object> options) throws DnsimpleException, IOException {
     HttpContent content = null;
     if (data != null) {
-       content = new JsonHttpContent(new GsonFactory(), data);
+      content = new JsonHttpContent(new GsonFactory(), data);
     }
 
     HttpRequest request = transport.createRequestFactory().buildRequest(method, buildUrl(url, options), content);
@@ -148,7 +148,7 @@ public class HttpEndpointClient {
 
     try {
       return request.execute();
-    } catch(HttpResponseException e) {
+    } catch (HttpResponseException e) {
       throw DnsimpleException.transformException(e);
     }
   }
@@ -157,7 +157,7 @@ public class HttpEndpointClient {
    * Parse the response from the HTTP call into an instance of the given class.
    *
    * @param response The parsed response object
-   * @param c The class to instantiate and use to build the response object
+   * @param c        The class to instantiate and use to build the response object
    * @return The ApiResponse object
    * @throws IOException Any IO errors
    */
@@ -189,7 +189,7 @@ public class HttpEndpointClient {
   }
 
   private String versionedPath(String path) {
-     return Dnsimple.getApiBase() + API_VERSION_PATH + path;
+    return Dnsimple.getApiBase() + API_VERSION_PATH + path;
   }
 
   private GenericUrl buildUrl(String url, Map<String, Object> options) {
@@ -199,7 +199,7 @@ public class HttpEndpointClient {
 
     UrlBuilder urlBuilder = UrlBuilder.fromString(url);
     if (options.containsKey("filter")) {
-      Filter filter = (Filter)options.remove("filter");
+      Filter filter = (Filter) options.remove("filter");
       urlBuilder = urlBuilder.addParameter(filter.name, filter.value);
     }
 

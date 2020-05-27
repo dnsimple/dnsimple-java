@@ -1,94 +1,77 @@
 package com.dnsimple;
 
+import static com.dnsimple.tools.HttpMethod.DELETE;
+import static com.dnsimple.tools.HttpMethod.GET;
+import static com.dnsimple.tools.HttpMethod.PUT;
+import static java.util.Collections.singletonList;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+
 import com.dnsimple.data.NameServer;
-import com.dnsimple.request.Filter;
-import com.dnsimple.response.GetDomainDelegationResponse;
-import com.dnsimple.response.ChangeDomainDelegationResponse;
-import com.dnsimple.response.ChangeDomainDelegationToVanityResponse;
-import com.dnsimple.response.ChangeDomainDelegationFromVanityResponse;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.exception.ResourceNotFoundException;
-
-import junit.framework.Assert;
-
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
-import com.google.api.client.http.HttpHeaders;
-import com.google.api.client.http.HttpMethods;
-import com.google.api.client.util.Data;
-
+import com.dnsimple.response.ChangeDomainDelegationFromVanityResponse;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.HashMap;
+import org.junit.Test;
 
 public class RegistrarDelegationTest extends DnsimpleTestBase {
   @Test
   public void testGetDomainDelegation() throws DnsimpleException, IOException {
-    String accountId = "1010";
-    String domainId = "example.com";
+    server.stubFixtureAt("getDomainDelegation/success.http");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/delegation", HttpMethods.GET, resource("getDomainDelegation/success.http"));
-
-    GetDomainDelegationResponse response = client.registrar.getDomainDelegation(accountId, domainId);
-    List<String> delegatedTo = response.getData();
-
-    assertEquals(4, delegatedTo.size());
-    assertEquals("ns1.dnsimple.com", delegatedTo.get(0));
-    assertEquals("ns2.dnsimple.com", delegatedTo.get(1));
-    assertEquals("ns3.dnsimple.com", delegatedTo.get(2));
-    assertEquals("ns4.dnsimple.com", delegatedTo.get(3));
+    List<String> delegatedTo = client.registrar.getDomainDelegation("1010", "example.com").getData();
+    assertThat(server.getRecordedRequest().getMethod(), is(GET));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/delegation"));
+    assertThat(delegatedTo, hasSize(4));
+    assertThat(delegatedTo.get(0), is("ns1.dnsimple.com"));
+    assertThat(delegatedTo.get(1), is("ns2.dnsimple.com"));
+    assertThat(delegatedTo.get(2), is("ns3.dnsimple.com"));
+    assertThat(delegatedTo.get(3), is("ns4.dnsimple.com"));
   }
 
   @Test
   public void testChangeDomainDelegation() throws DnsimpleException, IOException {
-    String accountId = "1010";
-    String domainId = "example.com";
-    List<String> nameServerNames = new ArrayList<String>();
-    nameServerNames.add("ns1.example.com");
+    server.stubFixtureAt("changeDomainDelegation/success.http");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/delegation", HttpMethods.PUT, new HttpHeaders(), nameServerNames, resource("changeDomainDelegation/success.http"));
-
-    ChangeDomainDelegationResponse response = client.registrar.changeDomainDelegation(accountId, domainId, nameServerNames);
-    List<String> delegatedTo = response.getData();
-    assertEquals("ns1.dnsimple.com", delegatedTo.get(0));
-    assertEquals("ns2.dnsimple.com", delegatedTo.get(1));
-    assertEquals("ns3.dnsimple.com", delegatedTo.get(2));
-    assertEquals("ns4.dnsimple.com", delegatedTo.get(3));
+    List<String> nameServerNames = singletonList("ns1.example.com");
+    List<String> delegatedTo = client.registrar.changeDomainDelegation("1010", "example.com", nameServerNames).getData();
+    assertThat(server.getRecordedRequest().getMethod(), is(PUT));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/delegation"));
+    assertThat(server.getRecordedRequest().getJsonArrayPayload(), is(nameServerNames));
+    assertThat(delegatedTo.get(0), is("ns1.dnsimple.com"));
+    assertThat(delegatedTo.get(1), is("ns2.dnsimple.com"));
+    assertThat(delegatedTo.get(2), is("ns3.dnsimple.com"));
+    assertThat(delegatedTo.get(3), is("ns4.dnsimple.com"));
   }
 
   @Test
   public void testChangeDomainDelegationToVanity() throws DnsimpleException, IOException {
-    String accountId = "1010";
-    String domainId = "example.com";
-    List<String> nameServerNames = new ArrayList<String>();
-    nameServerNames.add("ns1.example.com");
-    nameServerNames.add("ns2.example.com");
+    server.stubFixtureAt("changeDomainDelegationToVanity/success.http");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/delegation/vanity", HttpMethods.PUT, new HttpHeaders(), nameServerNames, resource("changeDomainDelegationToVanity/success.http"));
-
-    ChangeDomainDelegationToVanityResponse response = client.registrar.changeDomainDelegationToVanity(accountId, domainId, nameServerNames);
-    List<NameServer> delegatedTo = response.getData();
-    assertEquals(2, delegatedTo.size());
-
+    List<String> nameServerNames = Arrays.asList("ns1.example.com", "ns2.example.com");
+    List<NameServer> delegatedTo = client.registrar.changeDomainDelegationToVanity("1010", "example.com", nameServerNames).getData();
+    assertThat(server.getRecordedRequest().getMethod(), is(PUT));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/delegation/vanity"));
+    assertThat(server.getRecordedRequest().getJsonArrayPayload(), is(nameServerNames));
+    assertThat(delegatedTo, hasSize(2));
     NameServer nameServer = delegatedTo.get(0);
-    assertEquals("ns1.example.com", nameServer.getName());
-    assertEquals("127.0.0.1", nameServer.getIpv4());
-    assertEquals("::1", nameServer.getIpv6());
-    assertEquals("2016-07-11T09:40:19Z", nameServer.getCreatedAt());
-    assertEquals("2016-07-11T09:40:19Z", nameServer.getUpdatedAt());
+    assertThat(nameServer.getName(), is("ns1.example.com"));
+    assertThat(nameServer.getIpv4(), is("127.0.0.1"));
+    assertThat(nameServer.getIpv6(), is("::1"));
+    assertThat(nameServer.getCreatedAt(), is("2016-07-11T09:40:19Z"));
+    assertThat(nameServer.getUpdatedAt(), is("2016-07-11T09:40:19Z"));
   }
 
   @Test
   public void testChangeDomainDelegationFromVanity() throws DnsimpleException, IOException {
-    String accountId = "1010";
-    String domainId = "example.com";
+    server.stubFixtureAt("changeDomainDelegationFromVanity/success.http");
 
-    Client client = mockAndExpectClient("https://api.dnsimple.com/v2/1010/registrar/domains/example.com/delegation/vanity", HttpMethods.DELETE, resource("changeDomainDelegationFromVanity/success.http"));
-
-    ChangeDomainDelegationFromVanityResponse response = client.registrar.changeDomainDelegationFromVanity(accountId, domainId);
-    assertEquals(null, response.getData());
+    ChangeDomainDelegationFromVanityResponse response = client.registrar.changeDomainDelegationFromVanity("1010", "example.com");
+    assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/delegation/vanity"));
+    assertThat(response.getData(), is(nullValue()));
   }
 }
