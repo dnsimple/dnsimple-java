@@ -1,6 +1,8 @@
 package com.dnsimple.data;
 
 import com.google.api.client.util.Key;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Domain {
   @Key("id")
@@ -30,8 +32,8 @@ public class Domain {
   @Key("private_whois")
   private boolean privateWhois;
 
-  @Key("expires_on")
-  private String expiresOn;
+  @Key("expires_at")
+  private String expiresAt;
 
   @Key("created_at")
   private String createdAt;
@@ -75,8 +77,21 @@ public class Domain {
     return privateWhois;
   }
 
+  public String getExpiresAt() {
+    return expiresAt;
+  }
+
+  /**
+   * @deprecated use {@link Domain#getExpiresAt()} instead.
+   * @return the expiration date in {@link DateTimeFormatter#ISO_DATE} pattern.
+   */
+  @Deprecated
   public String getExpiresOn() {
-    return expiresOn;
+    if(getExpiresAt() != null) {
+        LocalDateTime parsed = LocalDateTime.parse(getExpiresAt(), DateTimeFormatter.ISO_DATE_TIME);
+        return parsed.toLocalDate().format(DateTimeFormatter.ISO_DATE);
+    }
+    return null;
   }
 
   public String getCreatedAt() {
