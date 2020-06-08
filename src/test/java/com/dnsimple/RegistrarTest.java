@@ -8,8 +8,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 import com.dnsimple.data.DomainAvailability;
 import com.dnsimple.data.DomainRegistration;
@@ -19,7 +17,6 @@ import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.response.RegisterDomainResponse;
 import com.dnsimple.response.TransferDomainOutResponse;
 import com.dnsimple.response.TransferDomainResponse;
-import com.google.api.client.http.HttpMethods;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
