@@ -85,7 +85,6 @@ public class DomainsTest extends DnsimpleTestBase {
     assertThat(domain.getRegistrantId(), is(2715));
     assertThat(domain.getName(), is("example-alpha.com"));
     assertThat(domain.getUnicodeName(), is("example-alpha.com"));
-    assertThat(domain.getToken(), isEmptyOrNullString());
     assertThat(domain.getState(), is("registered"));
     assertThat(domain.getAutoRenew(), is(false));
     assertThat(domain.getPrivateWhois(), is(false));

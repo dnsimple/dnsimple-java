@@ -1,8 +1,6 @@
 package com.dnsimple.data;
 
 import com.google.api.client.util.Key;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class Domain {
   @Key("id")
@@ -19,9 +17,6 @@ public class Domain {
 
   @Key("unicode_name")
   private String unicodeName;
-
-  @Key("token")
-  private String token;
 
   @Key("state")
   private String state;
@@ -61,10 +56,6 @@ public class Domain {
     return unicodeName;
   }
 
-  public String getToken() {
-    return token;
-  }
-
   public String getState() {
     return state;
   }
@@ -87,11 +78,7 @@ public class Domain {
    */
   @Deprecated
   public String getExpiresOn() {
-    if(getExpiresAt() != null) {
-        LocalDateTime parsed = LocalDateTime.parse(getExpiresAt(), DateTimeFormatter.ISO_DATE_TIME);
-        return parsed.toLocalDate().format(DateTimeFormatter.ISO_DATE);
-    }
-    return null;
+    return expiresAt != null ? expiresAt.substring(0, 10) : null;
   }
 
   public String getCreatedAt() {
