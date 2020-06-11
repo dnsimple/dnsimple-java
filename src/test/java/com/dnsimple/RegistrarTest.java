@@ -8,8 +8,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 import com.dnsimple.data.DomainAvailability;
 import com.dnsimple.data.DomainRegistration;
@@ -19,7 +17,6 @@ import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.response.RegisterDomainResponse;
 import com.dnsimple.response.TransferDomainOutResponse;
 import com.dnsimple.response.TransferDomainResponse;
-import com.google.api.client.http.HttpMethods;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -101,40 +98,40 @@ public class RegistrarTest extends DnsimpleTestBase {
   public void testGetDomainTransfer() throws DnsimpleException, IOException {
     server.stubFixtureAt("getDomainTransfer/success.http");
 
-    TransferDomainResponse response = client.registrar.getDomainTransfer("1010", "example.com", "42");
-    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/transfers/42"));
+    TransferDomainResponse response = client.registrar.getDomainTransfer("1010", "example.com", "361");
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/transfers/361"));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
 
     DomainTransfer transfer = response.getData();
-    assertThat(transfer.getId(), is(42));
-    assertThat(transfer.getDomainId(), is(2));
-    assertThat(transfer.getRegistrantId(), is(3));
+    assertThat(transfer.getId(), is(361));
+    assertThat(transfer.getDomainId(), is(182245));
+    assertThat(transfer.getRegistrantId(), is(2715));
     assertThat(transfer.getState(), is("cancelled"));
     assertThat(transfer.hasAutoRenew(), is(false));
     assertThat(transfer.hasWhoisPrivacy(), is(false));
     assertThat(transfer.getStatusDescription(), is("Canceled by customer"));
-    assertThat(transfer.getCreatedAt(), is("2020-04-27T18:08:44Z"));
-    assertThat(transfer.getUpdatedAt(), is("2020-04-27T18:20:01Z"));
+    assertThat(transfer.getCreatedAt(), is("2020-06-05T18:08:00Z"));
+    assertThat(transfer.getUpdatedAt(), is("2020-06-05T18:10:01Z"));
   }
 
   @Test
   public void testCancelDomainTransfer() throws DnsimpleException, IOException {
     server.stubFixtureAt("cancelDomainTransfer/success.http");
 
-    TransferDomainResponse response = client.registrar.cancelDomainTransfer("1010", "example.com", "42");
-    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/transfers/42"));
+    TransferDomainResponse response = client.registrar.cancelDomainTransfer("1010", "example.com", "361");
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/transfers/361"));
     assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
 
     DomainTransfer transfer = response.getData();
-    assertThat(transfer.getId(), is(42));
-    assertThat(transfer.getDomainId(), is(6));
-    assertThat(transfer.getRegistrantId(), is(1));
+    assertThat(transfer.getId(), is(361));
+    assertThat(transfer.getDomainId(), is(182245));
+    assertThat(transfer.getRegistrantId(), is(2715));
     assertThat(transfer.getState(), is("transferring"));
-    assertThat(transfer.hasAutoRenew(), is(true));
+    assertThat(transfer.hasAutoRenew(), is(false));
     assertThat(transfer.hasWhoisPrivacy(), is(false));
     assertThat(transfer.getStatusDescription(), isEmptyOrNullString());
-    assertThat(transfer.getCreatedAt(), is("2020-04-24T19:19:03Z"));
-    assertThat(transfer.getUpdatedAt(), is("2020-04-24T19:19:15Z"));
+    assertThat(transfer.getCreatedAt(), is("2020-06-05T18:08:00Z"));
+    assertThat(transfer.getUpdatedAt(), is("2020-06-05T18:08:04Z"));
   }
 
   @Test(expected = DnsimpleException.class)

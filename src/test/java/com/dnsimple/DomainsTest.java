@@ -44,9 +44,9 @@ public class DomainsTest extends DnsimpleTestBase {
 
   @Test
   public void testListDomainsSupportsSorting() throws DnsimpleException, IOException {
-    client.domains.listDomains("1", singletonMap("sort", "expires_on:asc"));
+    client.domains.listDomains("1", singletonMap("sort", "expiration:asc"));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
-    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains?sort=expires_on:asc"));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains?sort=expiration:asc"));
   }
 
   @Test
@@ -64,7 +64,7 @@ public class DomainsTest extends DnsimpleTestBase {
 
     List<Domain> domains = client.domains.listDomains("1").getData();
     assertThat(domains, hasSize(2));
-    assertThat(domains.get(0).getId(), is(1));
+    assertThat(domains.get(0).getId(), is(181984));
   }
 
   @Test
@@ -80,18 +80,18 @@ public class DomainsTest extends DnsimpleTestBase {
     server.stubFixtureAt("getDomain/success.http");
 
     Domain domain = client.domains.getDomain("1", "example.com").getData();
-    assertThat(domain.getId(), is(1));
-    assertThat(domain.getAccountId(), is(1010));
-    assertThat(domain.getRegistrantId(), is(0));
+    assertThat(domain.getId(), is(181984));
+    assertThat(domain.getAccountId(), is(1385));
+    assertThat(domain.getRegistrantId(), is(2715));
     assertThat(domain.getName(), is("example-alpha.com"));
     assertThat(domain.getUnicodeName(), is("example-alpha.com"));
-    assertThat(domain.getToken(), is("domain-token"));
-    assertThat(domain.getState(), is("hosted"));
+    assertThat(domain.getState(), is("registered"));
     assertThat(domain.getAutoRenew(), is(false));
     assertThat(domain.getPrivateWhois(), is(false));
-    assertThat(domain.getExpiresOn(), isEmptyOrNullString());
-    assertThat(domain.getCreatedAt(), is("2014-12-06T15:56:55Z"));
-    assertThat(domain.getUpdatedAt(), is("2015-12-09T00:20:56Z"));
+    assertThat(domain.getExpiresOn(), is("2021-06-05"));
+    assertThat(domain.getExpiresAt(), is("2021-06-05T02:15:00Z"));
+    assertThat(domain.getCreatedAt(), is("2020-06-04T19:15:14Z"));
+    assertThat(domain.getUpdatedAt(), is("2020-06-04T19:15:21Z"));
   }
 
   @Test
@@ -119,7 +119,7 @@ public class DomainsTest extends DnsimpleTestBase {
     server.stubFixtureAt("createDomain/created.http");
 
     CreateDomainResponse response = client.domains.createDomain("1", singletonMap("name", "example.com"));
-    assertThat(response.getData().getId(), is(1));
+    assertThat(response.getData().getId(), is(181985));
   }
 
   @Test

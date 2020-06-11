@@ -18,9 +18,6 @@ public class Domain {
   @Key("unicode_name")
   private String unicodeName;
 
-  @Key("token")
-  private String token;
-
   @Key("state")
   private String state;
 
@@ -30,8 +27,8 @@ public class Domain {
   @Key("private_whois")
   private boolean privateWhois;
 
-  @Key("expires_on")
-  private String expiresOn;
+  @Key("expires_at")
+  private String expiresAt;
 
   @Key("created_at")
   private String createdAt;
@@ -59,10 +56,6 @@ public class Domain {
     return unicodeName;
   }
 
-  public String getToken() {
-    return token;
-  }
-
   public String getState() {
     return state;
   }
@@ -75,8 +68,17 @@ public class Domain {
     return privateWhois;
   }
 
+  public String getExpiresAt() {
+    return expiresAt;
+  }
+
+  /**
+   * @deprecated use {@link Domain#getExpiresAt()} instead.
+   * @return the expiration date in {@link DateTimeFormatter#ISO_DATE} pattern.
+   */
+  @Deprecated
   public String getExpiresOn() {
-    return expiresOn;
+    return expiresAt != null ? expiresAt.substring(0, 10) : null;
   }
 
   public String getCreatedAt() {
