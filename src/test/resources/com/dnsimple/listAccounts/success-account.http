@@ -1,21 +1,21 @@
 HTTP/1.1 200 OK
 Server: nginx
-Date: Thu, 14 May 2020 08:31:00 GMT
+Date: Tue, 14 Jun 2016 12:02:58 GMT
 Content-Type: application/json; charset=utf-8
 Transfer-Encoding: identity
 Connection: keep-alive
 X-RateLimit-Limit: 2400
-X-RateLimit-Remaining: 2398
-X-RateLimit-Reset: 1589448564
-ETag: W/"1714b27c2c63e75c397413138fe869f0"
+X-RateLimit-Remaining: 2391
+X-RateLimit-Reset: 1465908577
+ETag: W/"9ef3b4bf1f441a9b1cd6d7041bc181aa"
 Cache-Control: max-age=0, private, must-revalidate
-X-Request-Id: 2dd4837f-e6cd-4468-89b4-adee4df95110
-X-Runtime: 0.113801
-X-Frame-Options: DENY
+X-Request-Id: f705b65b-3589-43ad-97ca-3b2821d49d81
+X-Runtime: 0.012661
 X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
 X-Download-Options: noopen
+X-Frame-Options: DENY
 X-Permitted-Cross-Domain-Policies: none
+X-XSS-Protection: 1; mode=block
 Strict-Transport-Security: max-age=31536000
 
-{"data":[{"id":1324,"email":"guillermo.almazor@dnsimple.com","plan_identifier":"business-v1-monthly","created_at":"2020-03-16T16:10:53Z","updated_at":"2020-05-07T07:20:36Z"}]}
+{"data":[{"id":123,"email":"john@example.com","plan_identifier":"dnsimple-personal","created_at":"2011-09-11T17:15:58Z","updated_at":"2016-06-03T15:02:26Z"}]}
