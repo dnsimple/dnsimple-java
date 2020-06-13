@@ -24,7 +24,7 @@ public class AccountsTest extends DnsimpleTestBase {
 
     List<Account> accounts = response.getData();
     assertThat(accounts, hasSize(1));
-    assertThat(accounts.get(0).getId(), is(1324));
+    assertThat(accounts.get(0).getId(), is(123));
   }
 
 }
