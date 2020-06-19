@@ -33,8 +33,8 @@ public class Certificate {
   @Key("updated_at")
   private String updatedAt;
 
-  @Key("expires_on")
-  private String expiresOn;
+  @Key("expires_at")
+  private String expiresAt;
 
   public Integer getId() {
     return id;
@@ -76,7 +76,17 @@ public class Certificate {
     return updatedAt;
   }
 
-  public String getExpiresOn() {
-    return expiresOn;
+  public String getExpiresAt() {
+    return expiresAt;
   }
+
+  /**
+   * @deprecated use {@link Domain#getExpiresAt()} instead.
+   * @return the expiration date in {@link java.time.format.DateTimeFormatter.DateTimeFormatter#ISO_DATE} pattern.
+   */
+  @Deprecated
+  public String getExpiresOn() {
+    return expiresAt != null ? expiresAt.substring(0, 10) : null;
+  }
+
 }
