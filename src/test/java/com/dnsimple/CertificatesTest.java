@@ -58,16 +58,16 @@ public class CertificatesTest extends DnsimpleTestBase {
   public void testListCertificatesProducesCertificateList() throws DnsimpleException, IOException {
     server.stubFixtureAt("listCertificates/success.http");
 
-    List<Certificate> certificates = client.certificates.listCertificates("1", "example.com").getData();
+    List<Certificate> certificates = client.certificates.listCertificates("1", "dnsimple.us").getData();
     assertThat(certificates, hasSize(2));
-    assertThat(certificates.get(0).getId(), is(1));
+    assertThat(certificates.get(0).getId(), is(101973));
   }
 
   @Test
   public void testListCertificatesExposesPaginationInfo() throws DnsimpleException, IOException {
     server.stubFixtureAt("listCertificates/success.http");
 
-    ListCertificatesResponse certificates = client.certificates.listCertificates("1", "example.com");
+    ListCertificatesResponse certificates = client.certificates.listCertificates("1", "bingo.pizza");
     assertThat(certificates.getPagination().getCurrentPage(), is(1));
   }
 
@@ -75,38 +75,39 @@ public class CertificatesTest extends DnsimpleTestBase {
   public void testGetCertificate() throws DnsimpleException, IOException {
     server.stubFixtureAt("getCertificate/success.http");
 
-    GetCertificateResponse response = client.certificates.getCertificate("1010", "weppos.net", "1");
+    GetCertificateResponse response = client.certificates.getCertificate("1010", "bingo.pizza", "101967");
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
-    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/weppos.net/certificates/1"));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/bingo.pizza/certificates/101967"));
 
     Certificate certificate = response.getData();
-    assertThat(certificate.getId(), is(1));
-    assertThat(certificate.getDomainId(), is(2));
+    assertThat(certificate.getId(), is(101967));
+    assertThat(certificate.getDomainId(), is(289333));
     assertThat(certificate.getName(), is("www"));
-    assertThat(certificate.getCommonName(), is("www.weppos.net"));
+    assertThat(certificate.getCommonName(), is("www.bingo.pizza"));
     assertThat(certificate.getYears(), is(1));
     assertThat(certificate.getCsr(), is("" +
         "-----BEGIN CERTIFICATE REQUEST-----\n" +
-        "MIICljCCAX4CAQAwGTEXMBUGA1UEAwwOd3d3LndlcHBvcy5uZXQwggEiMA0GCSqG\n" +
-        "SIb3DQEBAQUAA4IBDwAwggEKAoIBAQC3MJwx9ahBG3kAwRjQdRvYZqtovUaxY6jp\n" +
-        "hd09975gO+2eYPDbc1yhNftVJ4KBT0zdEqzX0CwIlxE1MsnZ2YOsC7IJO531hMBp\n" +
-        "dBxM4tSG07xPz70AVUi9rY6YCUoJHmxoFbclpHFbtXZocR393WyzUK8047uM2mlz\n" +
-        "03AZKcMdyfeuo2/9TcxpTSCkklGqwqS9wtTogckaDHJDoBunAkMioGfOSMe7Yi6E\n" +
-        "YRtG4yPJYsDaq2yPJWV8+i0PFR1Wi5RCnPt0YdQWstHuZrxABi45+XVkzKtz3TUc\n" +
-        "YxrvPBucVa6uzd953u8CixNFkiOefvb/dajsv1GIwH6/Cvc1ftz1AgMBAAGgODA2\n" +
-        "BgkqhkiG9w0BCQ4xKTAnMCUGA1UdEQQeMByCDnd3dy53ZXBwb3MubmV0ggp3ZXBw\n" +
-        "b3MubmV0MA0GCSqGSIb3DQEBCwUAA4IBAQCDnVBO9RdJX0eFeZzlv5c8yG8duhKP\n" +
-        "l0Vl+V88fJylb/cbNj9qFPkKTK0vTXmS2XUFBChKPtLucp8+Z754UswX+QCsdc7U\n" +
-        "TTSG0CkyilcSubdZUERGej1XfrVQhrokk7Fu0Jh3BdT6REP0SIDTpA8ku/aRQiAp\n" +
-        "p+h19M37S7+w/DMGDAq2LSX8jOpJ1yIokRDyLZpmwyLxutC21DXMGoJ3xZeUFrUT\n" +
-        "qRNwzkn2dJzgTrPkzhaXalUBqv+nfXHqHaWljZa/O0NVCFrHCdTdd53/6EE2Yabv\n" +
-        "q5SFTkRCpaxrvM/7a8Tr4ixD1/VKD6rw3+WC00000000000000000000\n" +
+        "MIICmTCCAYECAQAwGjEYMBYGA1UEAwwPd3d3LmJpbmdvLnBpenphMIIBIjANBgkq\n" +
+        "hkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAw4+KoZ9IDCK2o5qAQpi+Icu5kksmjQzx\n" +
+        "5o5g4B6XhRxhsfHlK/i3iU5hc8CONjyVv8j82835RNsiKrflnxGa9SH68vbQfcn4\n" +
+        "IpbMz9c+Eqv5h0Euqlc3A4DBzp0unEu5QAUhR6Xu1TZIWDPjhrBOGiszRlLQcp4F\n" +
+        "zy6fD6j5/d/ylpzTp5v54j+Ey31Bz86IaBPtSpHI+Qk87Hs8DVoWxZk/6RlAkyur\n" +
+        "XDGWnPu9n3RMfs9ag5anFhggLIhCNtVN4+0vpgPQ59pqwYo8TfdYzK7WSKeL7geu\n" +
+        "CqVE3bHAqU6dLtgHOZfTkLwGycUh4p9aawuc6fsXHHYDpIL8s3vAvwIDAQABoDow\n" +
+        "OAYJKoZIhvcNAQkOMSswKTAnBgNVHREEIDAeggtiaW5nby5waXp6YYIPd3d3LmJp\n" +
+        "bmdvLnBpenphMA0GCSqGSIb3DQEBCwUAA4IBAQBwOLKv+PO5hSJkgqS6wL/wRqLh\n" +
+        "Q1zbcHRHAjRjnpRz06cDvN3X3aPI+lpKSNFCI0A1oKJG7JNtgxX3Est66cuO8ESQ\n" +
+        "PIb6WWN7/xlVlBCe7ZkjAFgN6JurFdclwCp/NI5wBCwj1yb3Ar5QQMFIZOezIgTI\n" +
+        "AWkQSfCmgkB96d6QlDWgidYDDjcsXugQveOQRPlHr0TsElu47GakxZdJCFZU+WPM\n" +
+        "odQQf5SaqiIK2YaH1dWO//4KpTS9QoTy1+mmAa27apHcmz6X6+G5dvpHZ1qH14V0\n" +
+        "JoMWIK+39HRPq6mDo1UMVet/xFUUrG/H7/tFlYIDVbSpVlpVAFITd/eQkaW/\n" +
         "-----END CERTIFICATE REQUEST-----\n"));
     assertThat(certificate.getState(), is("issued"));
     assertThat(certificate.getAuthorityIdentifier(), is("letsencrypt"));
-    assertThat(certificate.getCreatedAt(), is("2016-06-11T18:47:08Z"));
-    assertThat(certificate.getUpdatedAt(), is("2016-06-11T18:47:37Z"));
-    assertThat(certificate.getExpiresOn(), is("2016-09-09"));
+    assertThat(certificate.getCreatedAt(), is("2020-06-18T18:54:17Z"));
+    assertThat(certificate.getUpdatedAt(), is("2020-06-18T19:10:14Z"));
+    assertThat(certificate.getExpiresOn(), is("2020-09-16"));
+    assertThat(certificate.getExpiresAt(), is("2020-09-16T18:10:13Z"));
   }
 
   @Test
@@ -232,52 +233,52 @@ public class CertificatesTest extends DnsimpleTestBase {
   public void testPurchaseLetsencryptCertificate() throws DnsimpleException, IOException {
     server.stubFixtureAt("purchaseLetsencryptCertificate/success.http");
 
-    PurchaseLetsencryptResponse response = client.certificates.purchaseLetsencryptCertificate("1010", "weppos.net", new HashMap<String, Object>());
+    PurchaseLetsencryptResponse response = client.certificates.purchaseLetsencryptCertificate("1010", "bingo.pizza", new HashMap<String, Object>());
     assertThat(server.getRecordedRequest().getMethod(), is(POST));
-    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/weppos.net/certificates/letsencrypt"));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/bingo.pizza/certificates/letsencrypt"));
 
     CertificatePurchase purchase = response.getData();
-    assertThat(purchase.getId(), is(300));
-    assertThat(purchase.getCertificateId(), is(300));
+    assertThat(purchase.getId(), is(101967));
+    assertThat(purchase.getCertificateId(), is(101967));
   }
 
   @Test
   public void testIssueLetsencryptCertificate() throws DnsimpleException, IOException {
     server.stubFixtureAt("issueLetsencryptCertificate/success.http");
 
-    IssueLetsencryptResponse response = client.certificates.issueLetsencryptCertificate("1010", "weppos.net", "2");
+    IssueLetsencryptResponse response = client.certificates.issueLetsencryptCertificate("1010", "bingo.pizza", "101967");
     assertThat(server.getRecordedRequest().getMethod(), is(POST));
-    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/weppos.net/certificates/letsencrypt/2/issue"));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/bingo.pizza/certificates/letsencrypt/101967/issue"));
 
     Certificate certificate = response.getData();
-    assertThat(certificate.getId(), is(200));
-    assertThat(certificate.getDomainId(), is(300));
+    assertThat(certificate.getId(), is(101967));
+    assertThat(certificate.getDomainId(), is(289333));
   }
 
   @Test
   public void testPurchaseLetsencryptCertificateRenewal() throws DnsimpleException, IOException {
     server.stubFixtureAt("purchaseRenewalLetsencryptCertificate/success.http");
 
-    PurchaseLetsencryptRenewalResponse response = client.certificates.purchaseLetsencryptCertificateRenewal("1010", "weppos.net", "2", new HashMap<String, Object>());
+    PurchaseLetsencryptRenewalResponse response = client.certificates.purchaseLetsencryptCertificateRenewal("1010", "bingo.pizza", "101967", new HashMap<String, Object>());
     assertThat(server.getRecordedRequest().getMethod(), is(POST));
-    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/weppos.net/certificates/letsencrypt/2/renewals"));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/bingo.pizza/certificates/letsencrypt/101967/renewals"));
 
     CertificateRenewal renewal = response.getData();
-    assertThat(renewal.getId(), is(999));
-    assertThat(renewal.getOldCertificateId(), is(200));
-    assertThat(renewal.getNewCertificateId(), is(300));
+    assertThat(renewal.getId(), is(65082));
+    assertThat(renewal.getOldCertificateId(), is(101967));
+    assertThat(renewal.getNewCertificateId(), is(101972));
   }
 
   @Test
   public void testIssueLetsencryptCertificateRenewal() throws DnsimpleException, IOException {
     server.stubFixtureAt("issueLetsencryptCertificate/success.http");
 
-    IssueLetsencryptRenewalResponse response = client.certificates.issueLetsencryptCertificateRenewal("1010", "weppos.net", "2", "3");
+    IssueLetsencryptRenewalResponse response = client.certificates.issueLetsencryptCertificateRenewal("1010", "bingo.pizza", "101967", "65082");
     assertThat(server.getRecordedRequest().getMethod(), is(POST));
-    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/weppos.net/certificates/letsencrypt/2/renewals/3/issue"));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/bingo.pizza/certificates/letsencrypt/101967/renewals/65082/issue"));
 
     Certificate certificate = response.getData();
-    assertThat(certificate.getId(), is(200));
-    assertThat(certificate.getDomainId(), is(300));
+    assertThat(certificate.getId(), is(101967));
+    assertThat(certificate.getDomainId(), is(289333));
   }
 }
