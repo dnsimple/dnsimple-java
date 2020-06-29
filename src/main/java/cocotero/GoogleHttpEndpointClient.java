@@ -70,34 +70,9 @@ public class GoogleHttpEndpointClient implements HttpEndpointClient {
 
 
   @Override
-  public HttpResponse get(String path) throws DnsimpleException, IOException {
-    return get(path, null);
-  }
-
-  @Override
-  public HttpResponse get(String path, Map<String, Object> options) throws DnsimpleException, IOException {
-    return request(HttpMethods.GET, versionedPath(path), null, options);
-  }
-
-  @Override
   public Object get(String path, Map<String, Object> options, Class<?> c) throws DnsimpleException, IOException {
     HttpResponse response = request(HttpMethods.GET, versionedPath(path), null, options);
     return parseResponse(response, c);
-  }
-
-  @Override
-  public HttpResponse post(String path) throws DnsimpleException, IOException {
-    return post(path, null);
-  }
-
-  @Override
-  public HttpResponse post(String path, Map<String, Object> attributes) throws DnsimpleException, IOException {
-    return post(path, attributes, null);
-  }
-
-  @Override
-  public HttpResponse post(String path, Map<String, Object> attributes, Map<String, Object> options) throws DnsimpleException, IOException {
-    return request(HttpMethods.POST, versionedPath(path), attributes, null);
   }
 
   @Override
@@ -106,49 +81,13 @@ public class GoogleHttpEndpointClient implements HttpEndpointClient {
   }
 
   @Override
-  public HttpResponse put(String path) throws DnsimpleException, IOException {
-    return put(path, null);
-  }
-
-  @Override
-  public HttpResponse put(String path, Object attributes) throws DnsimpleException, IOException {
-    return put(path, attributes, null);
-  }
-
-  @Override
-  public HttpResponse put(String path, Object attributes, Map<String, Object> options) throws DnsimpleException, IOException {
-    return request(HttpMethods.PUT, versionedPath(path), attributes, null);
-  }
-
-  @Override
   public Object put(String path, Object attributes, Map<String, Object> options, Class<?> c) throws DnsimpleException, IOException {
-    HttpResponse put = put(path, attributes, null);
-    return parseResponse(put, c);
-  }
-
-  @Override
-  public HttpResponse patch(String path, Object attributes) throws DnsimpleException, IOException {
-    return patch(path, attributes, null);
-  }
-
-  @Override
-  public HttpResponse patch(String path, Object attributes, Map<String, Object> options) throws DnsimpleException, IOException {
-    return request(HttpMethods.PATCH, versionedPath(path), attributes, null);
+    return parseResponse(request(HttpMethods.PUT, versionedPath(path), attributes, null), c);
   }
 
   @Override
   public Object patch(String path, Object attributes, Map<String, Object> options, Class<?> c) throws DnsimpleException, IOException {
     return parseResponse(request(HttpMethods.PATCH, versionedPath(path), attributes, null), c);
-  }
-
-  @Override
-  public HttpResponse delete(String path) throws DnsimpleException, IOException {
-    return delete(path, null);
-  }
-
-  @Override
-  public HttpResponse delete(String path, Map<String, Object> options) throws DnsimpleException, IOException {
-    return request(HttpMethods.DELETE, versionedPath(path), null, null);
   }
 
   @Override
@@ -197,11 +136,11 @@ public class GoogleHttpEndpointClient implements HttpEndpointClient {
    * @return The ApiResponse object
    * @throws IOException Any IO errors
    */
-  public ApiResponse parseResponse(HttpResponse response, Class<?> c) throws IOException {
+  private ApiResponse parseResponse(HttpResponse response, Class<?> c) throws IOException {
     return (ApiResponse) parse(response, c);
   }
 
-  public Object parse(HttpResponse response, Class<?> c) throws IOException {
+  private Object parse(HttpResponse response, Class<?> c) throws IOException {
     if (response.getStatusCode() == 204 || response.getContent() == null)
       return buildTypeSafe(c);
 
