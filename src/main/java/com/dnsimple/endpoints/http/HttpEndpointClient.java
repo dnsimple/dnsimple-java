@@ -180,6 +180,7 @@ public class HttpEndpointClient {
     }
   }
 
+  @SuppressWarnings("deprecation")
   private ApiResponse buildTypeSafeApiResponse(Class<?> c) {
     try {
       return (ApiResponse) c.newInstance();
