@@ -1,29 +1,26 @@
 package com.dnsimple.endpoints.http;
 
 import com.dnsimple.Dnsimple;
+import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.request.Filter;
 import com.dnsimple.response.ApiResponse;
-import com.dnsimple.exception.DnsimpleException;
-
 import com.google.api.client.http.GenericUrl;
-import com.google.api.client.http.HttpRequest;
-import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpContent;
 import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
-import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.HttpRequest;
+import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpResponseException;
+import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.apache.v2.ApacheHttpTransport;
 import com.google.api.client.http.json.JsonHttpContent;
-import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.json.JsonParser;
-
+import com.google.api.client.json.gson.GsonFactory;
 import io.mikael.urlbuilder.UrlBuilder;
-
-import java.io.InputStream;
 import java.io.IOException;
-import java.util.Collections;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 
 public class HttpEndpointClient {
@@ -162,12 +159,6 @@ public class HttpEndpointClient {
    * @throws IOException Any IO errors
    */
   protected ApiResponse parseResponse(HttpResponse response, Class<?> c) throws IOException {
-    ApiResponse res = buildApiResponse(response, c);
-
-    return res;
-  }
-
-  private ApiResponse buildApiResponse(HttpResponse response, Class<?> c) throws IOException {
     if (response.getStatusCode() == 204 || response.getContent() == null)
       return buildTypeSafeApiResponse(c);
 
