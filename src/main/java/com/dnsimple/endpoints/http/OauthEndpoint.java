@@ -4,7 +4,6 @@ import com.dnsimple.Dnsimple;
 import com.dnsimple.Oauth;
 import com.dnsimple.data.OauthToken;
 import com.dnsimple.exception.DnsimpleException;
-import com.google.api.client.http.HttpResponse;
 import io.mikael.urlbuilder.UrlBuilder;
 import java.io.IOException;
 import java.util.Collections;
@@ -39,8 +38,7 @@ public class OauthEndpoint implements Oauth {
       attributes.put("redirect_uri", options.remove("redirect_uri"));
     }
 
-    HttpResponse response = client.post("oauth/access_token", attributes);
-    return (OauthToken) client.parse(response, OauthToken.class);
+    return (OauthToken) client.post("oauth/access_token", attributes, null, OauthToken.class);
   }
 
   public String authorizeUrl(String clientId) {

@@ -1,6 +1,6 @@
 package com.dnsimple;
 
-import com.dnsimple.endpoints.http.GoogleHttpEndpointClient;
+import cocotero.GoogleHttpEndpointClient;
 import com.dnsimple.tools.TestHttpServer;
 import org.junit.AfterClass;
 import org.junit.Before;
