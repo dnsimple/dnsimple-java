@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'java-library'
+    id 'maven-publish'
 }
 
 repositories {
@@ -21,3 +22,50 @@ group = 'com.dnsimple'
 version = '0.7.0'
 description = 'dnsimple-java'
 sourceCompatibility = '1.8'
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = group
+            artifactId = description
+            version = version
+
+            from components.java
+
+            pom {
+                name = 'dnsimple-java'
+                description = 'DNSimple Java Bindings'
+                url = 'https://github.com/dnsimple/dnsimple-java'
+                properties = [:]
+                licenses {
+                    license {
+                        name = 'MIT'
+                        url = 'http://choosealicense.com/licenses/mit/'
+                    }
+                }
+                organization {
+                    name = 'DNSimple'
+                    url = 'https://dnsimple.com'
+                }
+                developers {
+                    developer {
+                        name = 'DNSimple'
+                        email = 'support@dnsimple.com'
+                        organization = 'DNSimple'
+                        organizationUrl = 'https://dnsimple.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git@github.com:dnsimple/dnsimple-java.git'
+                    developerConnection = 'scm:git:git@github.com:dnsimple/dnsimple-java.git'
+                    url = 'git@github.com:dnsimple/dnsimple-java.git'
+                }
+            }
+        }
+    }
+}
