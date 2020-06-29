@@ -72,8 +72,7 @@ public class GoogleHttpEndpointClient implements HttpEndpointClient {
 
   @Override
   public Object get(String path, Map<String, Object> options, Class<?> c) throws DnsimpleException, IOException {
-    HttpResponse response = request(HttpMethods.GET, versionedPath(path), null, options);
-    return parseResponse(response, c);
+    return parseResponse(request(HttpMethods.GET, versionedPath(path), null, options), c);
   }
 
   @Override
