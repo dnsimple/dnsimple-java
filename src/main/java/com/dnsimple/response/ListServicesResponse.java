@@ -4,14 +4,20 @@ import com.dnsimple.data.Service;
 
 import java.util.List;
 
-import com.google.api.client.util.Key;
+import static java.util.Collections.emptyList;
 
 public class ListServicesResponse extends ApiResponse {
-  @Key("data")
-  private List<Service> data;
+    private final List<Service> data;
 
-  public List<Service> getData() {
-    return data;
-  }
+    public ListServicesResponse() {
+        data = emptyList();
+    }
 
+    public ListServicesResponse(List<Service> data) {
+        this.data = data;
+    }
+
+    public List<Service> getData() {
+        return data;
+    }
 }

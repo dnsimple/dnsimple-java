@@ -2,13 +2,18 @@ package com.dnsimple.response;
 
 import com.dnsimple.data.DomainRenewal;
 
-import com.google.api.client.util.Key;
-
 public class RenewDomainResponse extends ApiResponse {
-  @Key("data")
-  private DomainRenewal data;
+    private final DomainRenewal data;
 
-  public DomainRenewal getData() {
-    return data;
-  }
+    public RenewDomainResponse() {
+        data = null;
+    }
+
+    public RenewDomainResponse(DomainRenewal data) {
+        this.data = data;
+    }
+
+    public DomainRenewal getData() {
+        return data;
+    }
 }

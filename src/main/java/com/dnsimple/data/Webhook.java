@@ -1,19 +1,19 @@
 package com.dnsimple.data;
 
-import com.google.api.client.util.Key;
-
 public class Webhook {
-  @Key("id")
-  private Integer id;
+    private final Integer id;
+    private final String url;
 
-  @Key("url")
-  private String url;
+    public Webhook(Integer id, String url) {
+        this.id = id;
+        this.url = url;
+    }
 
-  public Integer getId() {
-    return id;
-  }
+    public Integer getId() {
+        return id;
+    }
 
-  public String getUrl() {
-    return url;
-  }
+    public String getUrl() {
+        return url;
+    }
 }

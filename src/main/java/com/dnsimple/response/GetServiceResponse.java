@@ -2,14 +2,18 @@ package com.dnsimple.response;
 
 import com.dnsimple.data.Service;
 
-import com.google.api.client.util.Key;
-
 public class GetServiceResponse extends ApiResponse {
-  @Key("data")
-  private Service data;
+    private final Service data;
 
-  public Service getData() {
-    return data;
-  }
+    public GetServiceResponse() {
+        data = null;
+    }
 
+    public GetServiceResponse(Service data) {
+        this.data = data;
+    }
+
+    public Service getData() {
+        return data;
+    }
 }

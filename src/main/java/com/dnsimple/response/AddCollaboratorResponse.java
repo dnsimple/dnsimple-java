@@ -2,14 +2,19 @@ package com.dnsimple.response;
 
 import com.dnsimple.data.Collaborator;
 
-import com.google.api.client.util.Key;
-
 public class AddCollaboratorResponse extends ApiResponse {
-  @Key("data")
-  private Collaborator data;
+    private final Collaborator data;
 
-  public Collaborator getData() {
-    return data;
-  }
+    public AddCollaboratorResponse() {
+        data = null;
+    }
+
+    public AddCollaboratorResponse(Collaborator data) {
+        this.data = data;
+    }
+
+    public Collaborator getData() {
+        return data;
+    }
 }
 

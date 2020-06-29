@@ -1,33 +1,35 @@
 package com.dnsimple.data;
 
-import com.google.api.client.util.Key;
-
 public class Pagination {
-  @Key("current_page")
-  private Integer currentPage;
+    private final Integer currentPage;
+    private final Integer perPage;
+    private final Integer totalEntries;
+    private final Integer totalPages;
 
-  @Key("per_page")
-  private Integer perPage;
+    public Pagination(Integer currentPage, Integer perPage, Integer totalEntries, Integer totalPages) {
+        this.currentPage = currentPage;
+        this.perPage = perPage;
+        this.totalEntries = totalEntries;
+        this.totalPages = totalPages;
+    }
 
-  @Key("total_entries")
-  private Integer totalEntries;
+    public static Pagination empty() {
+        return new Pagination(0, 0, 0, 0);
+    }
 
-  @Key("total_pages")
-  private Integer totalPages;
+    public Integer getCurrentPage() {
+        return currentPage;
+    }
 
-  public Integer getCurrentPage() {
-    return currentPage;
-  }
+    public Integer getPerPage() {
+        return perPage;
+    }
 
-  public Integer getPerPage() {
-    return perPage;
-  }
+    public Integer getTotalEntries() {
+        return totalEntries;
+    }
 
-  public Integer getTotalEntries() {
-    return totalEntries;
-  }
-
-  public Integer getTotalPages() {
-    return totalPages;
-  }
+    public Integer getTotalPages() {
+        return totalPages;
+    }
 }

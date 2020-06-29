@@ -2,13 +2,18 @@ package com.dnsimple.response;
 
 import com.dnsimple.data.Webhook;
 
-import com.google.api.client.util.Key;
-
 public class CreateWebhookResponse extends ApiResponse {
-  @Key("data")
-  private Webhook data;
+    private final Webhook data;
 
-  public Webhook getData() {
-    return data;
-  }
+    public CreateWebhookResponse() {
+        data = null;
+    }
+
+    public CreateWebhookResponse(Webhook data) {
+        this.data = data;
+    }
+
+    public Webhook getData() {
+        return data;
+    }
 }

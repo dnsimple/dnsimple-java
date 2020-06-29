@@ -2,13 +2,18 @@ package com.dnsimple.response;
 
 import com.dnsimple.data.Tld;
 
-import com.google.api.client.util.Key;
-
 public class GetTldResponse extends ApiResponse {
-  @Key("data")
-  private Tld data;
+    private final Tld data;
 
-  public Tld getData() {
-    return data;
-  }
+    public GetTldResponse() {
+        data = null;
+    }
+
+    public GetTldResponse(Tld data) {
+        this.data = data;
+    }
+
+    public Tld getData() {
+        return data;
+    }
 }

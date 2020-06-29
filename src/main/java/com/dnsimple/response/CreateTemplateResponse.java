@@ -2,13 +2,18 @@ package com.dnsimple.response;
 
 import com.dnsimple.data.Template;
 
-import com.google.api.client.util.Key;
-
 public class CreateTemplateResponse extends ApiResponse {
-  @Key("data")
-  private Template data;
+    private final Template data;
 
-  public Template getData() {
-    return data;
-  }
+    public CreateTemplateResponse() {
+        data = null;
+    }
+
+    public CreateTemplateResponse(Template data) {
+        this.data = data;
+    }
+
+    public Template getData() {
+        return data;
+    }
 }

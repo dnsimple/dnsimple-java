@@ -2,13 +2,18 @@ package com.dnsimple.response;
 
 import com.dnsimple.data.Dnssec;
 
-import com.google.api.client.util.Key;
-
 public class EnableDnssecResponse extends ApiResponse {
-  @Key("data")
-  private Dnssec data;
+    private final Dnssec data;
 
-  public Dnssec getData() {
-    return data;
-  }
+    public EnableDnssecResponse() {
+        data = null;
+    }
+
+    public EnableDnssecResponse(Dnssec data) {
+        this.data = data;
+    }
+
+    public Dnssec getData() {
+        return data;
+    }
 }

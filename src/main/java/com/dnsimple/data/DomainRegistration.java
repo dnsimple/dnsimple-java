@@ -1,68 +1,61 @@
 package com.dnsimple.data;
 
-import com.google.api.client.util.Key;
-
 public class DomainRegistration {
-  @Key("id")
-  private Integer id;
+    private final Integer id;
+    private final Integer domainId;
+    private final Integer registrantId;
+    private final Integer period;
+    private final String state;
+    private final boolean autoRenew;
+    private final boolean whoisPrivacy;
+    private final String createdAt;
+    private final String updatedAt;
 
-  @Key("domain_id")
-  private Integer domainId;
+    public DomainRegistration(Integer id, Integer domainId, Integer registrantId, Integer period, String state, boolean autoRenew, boolean whoisPrivacy, String createdAt, String updatedAt) {
+        this.id = id;
+        this.domainId = domainId;
+        this.registrantId = registrantId;
+        this.period = period;
+        this.state = state;
+        this.autoRenew = autoRenew;
+        this.whoisPrivacy = whoisPrivacy;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
-  @Key("registrant_id")
-  private Integer registrantId;
+    public Integer getId() {
+        return id;
+    }
 
-  @Key("period")
-  private Integer period;
+    public Integer getDomainId() {
+        return domainId;
+    }
 
-  @Key("state")
-  private String state;
+    public Integer getRegistrantId() {
+        return registrantId;
+    }
 
-  @Key("auto_renew")
-  private boolean autoRenew;
+    public Integer getPeriod() {
+        return period;
+    }
 
-  @Key("whois_privacy")
-  private boolean whoisPrivacy;
+    public String getState() {
+        return state;
+    }
 
-  @Key("created_at")
-  private String createdAt;
+    public boolean hasAutoRenew() {
+        return autoRenew;
+    }
 
-  @Key("updated_at")
-  private String updatedAt;
+    public boolean hasWhoisPrivacy() {
+        return whoisPrivacy;
+    }
 
-  public Integer getId() {
-    return id;
-  }
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-  public Integer getDomainId() {
-    return domainId;
-  }
-
-  public Integer getRegistrantId() {
-    return registrantId;
-  }
-
-  public Integer getPeriod() {
-    return period;
-  }
-
-  public String getState() {
-    return state;
-  }
-
-  public boolean hasAutoRenew() {
-    return autoRenew;
-  }
-
-  public boolean hasWhoisPrivacy() {
-    return whoisPrivacy;
-  }
-
-  public String getCreatedAt() {
-    return createdAt;
-  }
-
-  public String getUpdatedAt() {
-    return updatedAt;
-  }
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
 }

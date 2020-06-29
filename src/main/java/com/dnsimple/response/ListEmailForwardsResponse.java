@@ -5,19 +5,27 @@ import com.dnsimple.data.Pagination;
 
 import java.util.List;
 
-import com.google.api.client.util.Key;
+import static java.util.Collections.emptyList;
 
 public class ListEmailForwardsResponse extends ApiResponse {
-  @Key("data")
-  private List<EmailForward> data;
-  @Key("pagination")
-  private Pagination pagination;
+    private final List<EmailForward> data;
+    private final Pagination pagination;
 
-  public List<EmailForward> getData() {
-    return data;
-  }
+    public ListEmailForwardsResponse() {
+        data = emptyList();
+        pagination = Pagination.empty();
+    }
 
-  public Pagination getPagination() {
-    return pagination;
-  }
+    public ListEmailForwardsResponse(List<EmailForward> data, Pagination pagination) {
+        this.data = data;
+        this.pagination = pagination;
+    }
+
+    public List<EmailForward> getData() {
+        return data;
+    }
+
+    public Pagination getPagination() {
+        return pagination;
+    }
 }

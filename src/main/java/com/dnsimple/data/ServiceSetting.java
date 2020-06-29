@@ -1,49 +1,43 @@
 package com.dnsimple.data;
 
-import com.google.api.client.util.Key;
-
 public class ServiceSetting {
+    private final String name;
+    private final String label;
+    private final String append;
+    private final String description;
+    private final String example;
+    private final Boolean password;
 
-  @Key("name")
-  private String name;
+    public ServiceSetting(String name, String label, String append, String description, String example, Boolean password) {
+        this.name = name;
+        this.label = label;
+        this.append = append;
+        this.description = description;
+        this.example = example;
+        this.password = password;
+    }
 
-  @Key("label")
-  private String label;
+    public String getName() {
+        return name;
+    }
 
-  @Key("append")
-  private String append;
+    public String getLabel() {
+        return label;
+    }
 
-  @Key("description")
-  private String description;
+    public String getAppend() {
+        return append;
+    }
 
-  @Key("example")
-  private String example;
+    public String getDescription() {
+        return description;
+    }
 
-  @Key("password")
-  private Boolean password;
+    public String getExample() {
+        return example;
+    }
 
-  public String getName() {
-    return name;
-  }
-
-  public String getLabel() {
-    return label;
-  }
-
-  public String getAppend() {
-    return append;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public String getExample() {
-    return example;
-  }
-
-  public Boolean getPassword() {
-    return password;
-  }
-
+    public Boolean getPassword() {
+        return password;
+    }
 }

@@ -1,7 +1,7 @@
 package com.dnsimple;
 
-import com.dnsimple.response.WhoamiResponse;
 import com.dnsimple.exception.DnsimpleException;
+import com.dnsimple.response.WhoamiResponse;
 
 import java.io.IOException;
 
@@ -11,16 +11,13 @@ import java.io.IOException;
  * @see <a href="https://developer.dnsimple.com/v2/identity">https://developer.dnsimple.com/v2/identity</a>
  */
 public interface Identity {
-
-  /**
-   * Gets the information about the current authenticated context.
-   *
-   * @see <a href="https://developer.dnsimple.com/v2/identity/#whoami">https://developer.dnsimple.com/v2/identity/#whoami</a>
-   *
-   * @return The whoami response
-   * @throws DnsimpleException Any API error
-   * @throws IOException Any IO error
-   */
-  public WhoamiResponse whoami() throws DnsimpleException, IOException;
-
+    /**
+     * Gets the information about the current authenticated context.
+     *
+     * @return The whoami response
+     * @throws DnsimpleException Any API error
+     * @throws IOException       Any IO error
+     * @see <a href="https://developer.dnsimple.com/v2/identity/#whoami">https://developer.dnsimple.com/v2/identity/#whoami</a>
+     */
+    public WhoamiResponse whoami() throws DnsimpleException, IOException;
 }

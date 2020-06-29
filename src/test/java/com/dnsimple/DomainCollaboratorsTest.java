@@ -67,7 +67,7 @@ public class DomainCollaboratorsTest extends DnsimpleTestBase {
     assertThat(collaborator.getId(), is(101));
     assertThat(collaborator.getDomainId(), is(1));
     assertThat(collaborator.getDomainName(), is("example.com"));
-    assertThat(collaborator.getUserId(), is(0));
+    assertThat(collaborator.getUserId(), is(nullValue()));
     assertThat(collaborator.getUserEmail(), is("invited-user@example.com"));
     assertThat(collaborator.getInvitation(), is(true));
   }

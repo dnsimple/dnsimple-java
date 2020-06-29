@@ -2,13 +2,20 @@ package com.dnsimple.response;
 
 import java.util.List;
 
-import com.google.api.client.util.Key;
+import static java.util.Collections.emptyList;
 
 public class GetDomainDelegationResponse extends ApiResponse {
-  @Key("data")
-  private List<String> data;
+    private final List<String> data;
 
-  public List<String> getData() {
-    return data;
-  }
+    public GetDomainDelegationResponse() {
+        data = emptyList();
+    }
+
+    public GetDomainDelegationResponse(List<String> data) {
+        this.data = data;
+    }
+
+    public List<String> getData() {
+        return data;
+    }
 }

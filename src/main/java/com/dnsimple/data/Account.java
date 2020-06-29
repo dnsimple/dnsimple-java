@@ -1,26 +1,19 @@
 package com.dnsimple.data;
 
-import com.google.api.client.util.Key;
-
 public class Account {
-  @Key("id")
-  private Integer id;
+    private final Integer id;
+    private final String email;
 
-  @Key("email")
-  private String email;
+    public Account(Integer id, String email) {
+        this.id = id;
+        this.email = email;
+    }
 
-  public Account() {
-  }
+    public Integer getId() {
+        return id;
+    }
 
-  public Account(Integer id) {
-    this.id = id;
-  }
-
-  public Integer getId() {
-    return id;
-  }
-
-  public String getEmail() {
-    return email;
-  }
+    public String getEmail() {
+        return email;
+    }
 }

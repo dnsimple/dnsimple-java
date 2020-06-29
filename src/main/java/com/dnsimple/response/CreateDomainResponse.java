@@ -2,13 +2,18 @@ package com.dnsimple.response;
 
 import com.dnsimple.data.Domain;
 
-import com.google.api.client.util.Key;
-
 public class CreateDomainResponse extends ApiResponse {
-  @Key("data")
-  private Domain data;
+    private final Domain data;
 
-  public Domain getData() {
-    return data;
-  }
+    public CreateDomainResponse() {
+        data = null;
+    }
+
+    public CreateDomainResponse(Domain data) {
+        this.data = data;
+    }
+
+    public Domain getData() {
+        return data;
+    }
 }

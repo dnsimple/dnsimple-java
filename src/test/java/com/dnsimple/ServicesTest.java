@@ -9,6 +9,7 @@ import static org.hamcrest.Matchers.isEmptyOrNullString;
 
 import com.dnsimple.data.Service;
 import com.dnsimple.exception.DnsimpleException;
+import com.dnsimple.response.GetServiceResponse;
 import com.dnsimple.tools.HttpMethod;
 import java.io.IOException;
 import java.util.List;
@@ -50,10 +51,11 @@ public class ServicesTest extends DnsimpleTestBase {
   public void testGetService() throws DnsimpleException, IOException {
     server.stubFixtureAt("getService/success.http");
 
-    Service service = client.services.getService("1").getData();
+    GetServiceResponse service1 = client.services.getService("1");
+    Service service = service1.getData();
     assertThat(service.getId(), is(1));
     assertThat(service.getName(), is("Service 1"));
-    assertThat(service.getShortName(), is("service1"));
+    assertThat(service.getSid(), is("service1"));
     assertThat(service.getDescription(), is("First service example."));
     assertThat(service.getSetupDescription(), isEmptyOrNullString());
     assertThat(service.getRequiresSetup(), is(true));

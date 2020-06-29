@@ -1,92 +1,82 @@
 package com.dnsimple.data;
 
-import com.google.api.client.util.Key;
-
 public class Certificate {
-  @Key("id")
-  private Integer id;
+    private final Integer id;
+    private final Integer domainId;
+    private final String name;
+    private final String commonName;
+    private final Integer years;
+    private final String csr;
+    private final String state;
+    private final String authorityIdentifier;
+    private final String createdAt;
+    private final String updatedAt;
+    private final String expiresAt;
 
-  @Key("domain_id")
-  private Integer domainId;
+    public Certificate(Integer id, Integer domainId, String name, String commonName, Integer years, String csr, String state, String authorityIdentifier, String createdAt, String updatedAt, String expiresAt) {
+        this.id = id;
+        this.domainId = domainId;
+        this.name = name;
+        this.commonName = commonName;
+        this.years = years;
+        this.csr = csr;
+        this.state = state;
+        this.authorityIdentifier = authorityIdentifier;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.expiresAt = expiresAt;
+    }
 
-  @Key("name")
-  private String name;
+    public Integer getId() {
+        return id;
+    }
 
-  @Key("common_name")
-  private String commonName;
+    public Integer getDomainId() {
+        return domainId;
+    }
 
-  @Key("years")
-  private Integer years;
+    public String getName() {
+        return name;
+    }
 
-  @Key("csr")
-  private String csr;
+    public String getCommonName() {
+        return commonName;
+    }
 
-  @Key("state")
-  private String state;
+    public Integer getYears() {
+        return years;
+    }
 
-  @Key("authority_identifier")
-  private String authorityIdentifier;
+    public String getCsr() {
+        return csr;
+    }
 
-  @Key("created_at")
-  private String createdAt;
+    public String getState() {
+        return state;
+    }
 
-  @Key("updated_at")
-  private String updatedAt;
+    public String getAuthorityIdentifier() {
+        return authorityIdentifier;
+    }
 
-  @Key("expires_at")
-  private String expiresAt;
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-  public Integer getId() {
-    return id;
-  }
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
 
-  public Integer getDomainId() {
-    return domainId;
-  }
+    public String getExpiresAt() {
+        return expiresAt;
+    }
 
-  public String getName() {
-    return name;
-  }
-
-  public String getCommonName() {
-    return commonName;
-  }
-
-  public Integer getYears() {
-    return years;
-  }
-
-  public String getCsr() {
-    return csr;
-  }
-
-  public String getState() {
-    return state;
-  }
-
-  public String getAuthorityIdentifier() {
-    return authorityIdentifier;
-  }
-
-  public String getCreatedAt() {
-    return createdAt;
-  }
-
-  public String getUpdatedAt() {
-    return updatedAt;
-  }
-
-  public String getExpiresAt() {
-    return expiresAt;
-  }
-
-  /**
-   * @deprecated use {@link Domain#getExpiresAt()} instead.
-   * @return the expiration date in ISO8601 format.
-   */
-  @Deprecated
-  public String getExpiresOn() {
-    return expiresAt != null ? expiresAt.substring(0, 10) : null;
-  }
-
+    /**
+     * @return the expiration date in ISO8601 format.
+     * @deprecated use {@link Domain#getExpiresAt()} instead.
+     */
+    @Deprecated
+    public String getExpiresOn() {
+        return expiresAt != null ? expiresAt.substring(0, 10) : null;
+    }
 }

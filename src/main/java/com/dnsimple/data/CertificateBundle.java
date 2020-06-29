@@ -2,36 +2,32 @@ package com.dnsimple.data;
 
 import java.util.List;
 
-import com.google.api.client.util.Key;
-
 public class CertificateBundle {
+    private final String privateKey;
+    private final String server;
+    private final String root;
+    private final List<String> chain;
 
-  @Key("private_key")
-  private String privateKey;
+    public CertificateBundle(String privateKey, String server, String root, List<String> chain) {
+        this.privateKey = privateKey;
+        this.server = server;
+        this.root = root;
+        this.chain = chain;
+    }
 
-  @Key("server")
-  private String serverCertificate;
+    public String getPrivateKey() {
+        return privateKey;
+    }
 
-  @Key("root")
-  private String rootCertificate;
+    public String getServer() {
+        return server;
+    }
 
-  @Key("chain")
-  private List<String> intermediateCertificates;
+    public String getRoot() {
+        return root;
+    }
 
-  public String getPrivateKey() {
-    return privateKey;
-  }
-
-  public String getServerCertificate() {
-    return serverCertificate;
-  }
-
-  public String getRootCertificate() {
-    return rootCertificate;
-  }
-
-  public List<String> getIntermediateCertificates() {
-    return intermediateCertificates;
-  }
-
+    public List<String> getChain() {
+        return chain;
+    }
 }

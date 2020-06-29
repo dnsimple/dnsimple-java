@@ -16,17 +16,24 @@ import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.apache.v2.ApacheHttpTransport;
 import com.google.api.client.http.json.JsonHttpContent;
-import com.google.api.client.json.JsonParser;
 import com.google.api.client.json.gson.GsonFactory;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import io.mikael.urlbuilder.UrlBuilder;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 
 public class GoogleHttpEndpointClient implements HttpEndpointClient {
-
+  private static final Gson gson = new GsonBuilder()
+      .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+      .setPrettyPrinting()
+      .create();
   public static final String DEFAULT_USER_AGENT = "dnsimple-java/" + Dnsimple.VERSION;
 
   private static final String API_VERSION_PATH = "/v2/";
@@ -140,9 +147,13 @@ public class GoogleHttpEndpointClient implements HttpEndpointClient {
     if (response.getStatusCode() == 204 || response.getContent() == null)
       return buildTypeSafe(c);
 
-    try (InputStream in = response.getContent()) {
-      JsonParser jsonParser = GsonFactory.getDefaultInstance().createJsonParser(in);
-      return (ApiResponse) jsonParser.parse(c);
+    try (InputStream in = response.getContent();
+         InputStreamReader isr = new InputStreamReader(in);
+         BufferedReader br = new BufferedReader(isr)) {
+      Object o = gson.fromJson(br, c);
+      return (ApiResponse) o;
+    } catch (Throwable t) {
+      throw new RuntimeException(t);
     }
   }
 

@@ -2,13 +2,18 @@ package com.dnsimple.response;
 
 import com.dnsimple.data.ZoneDistribution;
 
-import com.google.api.client.util.Key;
-
 public class CheckZoneDistributionResponse extends ApiResponse {
-  @Key("data")
-  private ZoneDistribution data;
+    private final ZoneDistribution data;
 
-  public ZoneDistribution getData() {
-    return data;
-  }
+    public CheckZoneDistributionResponse() {
+        data = null;
+    }
+
+    public CheckZoneDistributionResponse(ZoneDistribution data) {
+        this.data = data;
+    }
+
+    public ZoneDistribution getData() {
+        return data;
+    }
 }

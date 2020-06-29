@@ -1,15 +1,23 @@
 package com.dnsimple.response;
 
 import com.dnsimple.data.TldExtendedAttribute;
+
 import java.util.List;
 
-import com.google.api.client.util.Key;
+import static java.util.Collections.emptyList;
 
 public class GetTldExtendedAttributesResponse extends ApiResponse {
-  @Key("data")
-  private List<TldExtendedAttribute> data;
+    private final List<TldExtendedAttribute> data;
 
-  public List<TldExtendedAttribute> getData() {
-    return data;
-  }
+    public GetTldExtendedAttributesResponse() {
+        data = emptyList();
+    }
+
+    public GetTldExtendedAttributesResponse(List<TldExtendedAttribute> data) {
+        this.data = data;
+    }
+
+    public List<TldExtendedAttribute> getData() {
+        return data;
+    }
 }

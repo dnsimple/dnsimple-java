@@ -71,7 +71,7 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
     ZoneRecord record = client.zones.getZoneRecord("1", "example.com", "2").getData();
     assertThat(record.getId(), is(5));
     assertThat(record.getZoneId(), is("example.com"));
-    assertThat(record.getParentId(), is(0));
+    assertThat(record.getParentId(), is(nullValue()));
     assertThat(record.getName(), is(""));
     assertThat(record.getContent(), is("mxa.example.com"));
     assertThat(record.getTtl(), is(600));

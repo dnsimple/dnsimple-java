@@ -31,7 +31,7 @@ public class RegistrarTest extends DnsimpleTestBase {
     DomainAvailability availability = client.registrar.checkDomain("1010", "ruby.codes").getData();
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
     assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/ruby.codes/check"));
-    assertThat(availability.getDomainName(), is("ruby.codes"));
+    assertThat(availability.getDomain(), is("ruby.codes"));
     assertThat(availability.getAvailable(), is(true));
     assertThat(availability.getPremium(), is(true));
   }

@@ -2,13 +2,18 @@ package com.dnsimple.response;
 
 import com.dnsimple.data.ZoneFile;
 
-import com.google.api.client.util.Key;
-
 public class GetZoneFileResponse extends ApiResponse {
-  @Key("data")
-  private ZoneFile data;
+    private final ZoneFile data;
 
-  public ZoneFile getData() {
-    return data;
-  }
+    public GetZoneFileResponse() {
+        data = null;
+    }
+
+    public GetZoneFileResponse(ZoneFile data) {
+        this.data = data;
+    }
+
+    public ZoneFile getData() {
+        return data;
+    }
 }

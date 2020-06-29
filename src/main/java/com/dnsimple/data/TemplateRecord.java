@@ -1,68 +1,61 @@
 package com.dnsimple.data;
 
-import com.google.api.client.util.Key;
-
 public class TemplateRecord {
-  @Key("id")
-  private Integer id;
+    private final Integer id;
+    private final Integer templateId;
+    private final String name;
+    private final String content;
+    private final Integer ttl;
+    private final Integer priority;
+    private final String type;
+    private final String createdAt;
+    private final String updatedAt;
 
-  @Key("template_id")
-  private Integer templateId;
+    public TemplateRecord(Integer id, Integer templateId, String name, String content, Integer ttl, Integer priority, String type, String createdAt, String updatedAt) {
+        this.id = id;
+        this.templateId = templateId;
+        this.name = name;
+        this.content = content;
+        this.ttl = ttl;
+        this.priority = priority;
+        this.type = type;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
-  @Key("name")
-  private String name;
+    public Integer getId() {
+        return id;
+    }
 
-  @Key("content")
-  private String content;
+    public Integer getTemplateId() {
+        return templateId;
+    }
 
-  @Key("ttl")
-  private Integer ttl;
+    public String getName() {
+        return name;
+    }
 
-  @Key("priority")
-  private Integer priority;
+    public String getContent() {
+        return content;
+    }
 
-  @Key("type")
-  private String type;
+    public Integer getTtl() {
+        return ttl;
+    }
 
-  @Key("created_at")
-  private String createdAt;
+    public Integer getPriority() {
+        return priority;
+    }
 
-  @Key("updated_at")
-  private String updatedAt;
+    public String getType() {
+        return type;
+    }
 
-  public Integer getId() {
-    return id;
-  }
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-  public Integer getTemplateId() {
-    return templateId;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public String getContent() {
-    return content;
-  }
-
-  public Integer getTtl() {
-    return ttl;
-  }
-
-  public Integer getPriority() {
-    return priority;
-  }
-
-  public String getType() {
-    return type;
-  }
-
-  public String getCreatedAt() {
-    return createdAt;
-  }
-
-  public String getUpdatedAt() {
-    return updatedAt;
-  }
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
 }

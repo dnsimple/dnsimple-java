@@ -2,77 +2,69 @@ package com.dnsimple.data;
 
 import java.util.List;
 
-import com.google.api.client.util.Key;
-
 public class Service {
-  @Key("id")
-  private Integer id;
+    private final Integer id;
+    private final String name;
+    private final String sid;
+    private final String description;
+    private final String setupDescription;
+    private final Boolean requiresSetup;
+    private final String defaultSubdomain;
+    private final String createdAt;
+    private final String updatedAt;
+    private final List<ServiceSetting> settings;
 
-  @Key("name")
-  private String name;
+    public Service(Integer id, String name, String sid, String description, String setupDescription, Boolean requiresSetup, String defaultSubdomain, String createdAt, String updatedAt, List<ServiceSetting> settings) {
+        this.id = id;
+        this.name = name;
+        this.sid = sid;
+        this.description = description;
+        this.setupDescription = setupDescription;
+        this.requiresSetup = requiresSetup;
+        this.defaultSubdomain = defaultSubdomain;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.settings = settings;
+    }
 
-  @Key("sid")
-  private String shortName;
+    public Integer getId() {
+        return id;
+    }
 
-  @Key("description")
-  private String description;
+    public String getName() {
+        return name;
+    }
 
-  @Key("setup_description")
-  private String setupDescription;
+    public String getSid() {
+        return sid;
+    }
 
-  @Key("requires_setup")
-  private Boolean requiresSetup;
+    public String getDescription() {
+        return description;
+    }
 
-  @Key("default_subdomain")
-  private String defaultSubdomain;
+    public String getSetupDescription() {
+        return setupDescription;
+    }
 
-  @Key("created_at")
-  private String createdAt;
+    public Boolean getRequiresSetup() {
+        return requiresSetup;
+    }
 
-  @Key("updated_at")
-  private String updatedAt;
+    public String getDefaultSubdomain() {
+        return defaultSubdomain;
+    }
 
-  @Key("settings")
-  private List<ServiceSetting> settings;
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-  public Integer getId() {
-    return id;
-  }
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
 
-  public String getName() {
-    return name;
-  }
-
-  public String getShortName() {
-    return shortName;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public String getSetupDescription() {
-    return setupDescription;
-  }
-
-  public Boolean getRequiresSetup() {
-    return requiresSetup;
-  }
-
-  public String getDefaultSubdomain() {
-    return defaultSubdomain;
-  }
-
-  public String getCreatedAt() {
-    return createdAt;
-  }
-
-  public String getUpdatedAt() {
-    return updatedAt;
-  }
-
-  public List<ServiceSetting> getSettings() {
-    return settings;
-  }
+    public List<ServiceSetting> getSettings() {
+        return settings;
+    }
 }
 

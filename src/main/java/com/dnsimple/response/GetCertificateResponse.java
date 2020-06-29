@@ -2,21 +2,18 @@ package com.dnsimple.response;
 
 import com.dnsimple.data.Certificate;
 
-import com.google.api.client.util.Key;
-
 public class GetCertificateResponse extends ApiResponse {
-  @Key("data")
-  private Certificate data;
+    private final Certificate data;
 
-  public GetCertificateResponse() {
-    this(new Certificate());
-  }
+    public GetCertificateResponse() {
+        data = null;
+    }
 
-  public GetCertificateResponse(Certificate data) {
-    this.data = data;
-  }
+    public GetCertificateResponse(Certificate data) {
+        this.data = data;
+    }
 
-  public Certificate getData() {
-    return data;
-  }
+    public Certificate getData() {
+        return data;
+    }
 }

@@ -1,47 +1,43 @@
 package com.dnsimple.data;
 
-import com.google.api.client.util.Key;
-
 public class WhoisPrivacy {
-  @Key("id")
-  private Integer id;
+    private final Integer id;
+    private final Integer domainId;
+    private final String expiresOn;
+    private final Boolean enabled;
+    private final String createdAt;
+    private final String updatedAt;
 
-  @Key("domain_id")
-  private Integer domainId;
+    public WhoisPrivacy(Integer id, Integer domainId, String expiresOn, Boolean enabled, String createdAt, String updatedAt) {
+        this.id = id;
+        this.domainId = domainId;
+        this.expiresOn = expiresOn;
+        this.enabled = enabled;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
-  @Key("expires_on")
-  private String expiresOn;
+    public Integer getId() {
+        return id;
+    }
 
-  @Key("enabled")
-  private Boolean enabled;
+    public Integer getDomainId() {
+        return domainId;
+    }
 
-  @Key("created_at")
-  private String createdAt;
+    public String getExpiresOn() {
+        return expiresOn;
+    }
 
-  @Key("updated_at")
-  private String updatedAt;
+    public Boolean getEnabled() {
+        return enabled;
+    }
 
-  public Integer getId() {
-    return id;
-  }
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-  public Integer getDomainId() {
-    return domainId;
-  }
-
-  public String getExpiresOn() {
-    return expiresOn;
-  }
-
-  public Boolean getEnabled() {
-    return enabled;
-  }
-
-  public String getCreatedAt() {
-    return createdAt;
-  }
-
-  public String getUpdatedAt() {
-    return updatedAt;
-  }
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
 }

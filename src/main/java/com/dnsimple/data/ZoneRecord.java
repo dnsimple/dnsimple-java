@@ -1,84 +1,73 @@
 package com.dnsimple.data;
 
-import com.google.api.client.util.Key;
-
 public class ZoneRecord {
-  @Key("id")
-  private Integer id;
+    private final Integer id;
+    private final String zoneId;
+    private final Integer parentId;
+    private final String name;
+    private final String content;
+    private final Integer ttl;
+    private final Integer priority;
+    private final String type;
+    private final Boolean systemRecord;
+    private final String createdAt;
+    private final String updatedAt;
 
-  @Key("zone_id")
-  private String zoneId;
+    public ZoneRecord(Integer id, String zoneId, Integer parentId, String name, String content, Integer ttl, Integer priority, String type, Boolean systemRecord, String createdAt, String updatedAt) {
+        this.id = id;
+        this.zoneId = zoneId;
+        this.parentId = parentId;
+        this.name = name;
+        this.content = content;
+        this.ttl = ttl;
+        this.priority = priority;
+        this.type = type;
+        this.systemRecord = systemRecord;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
-  @Key("parent_id")
-  private Integer parentId;
+    public Integer getId() {
+        return id;
+    }
 
-  @Key("name")
-  private String name;
+    public String getZoneId() {
+        return zoneId;
+    }
 
-  @Key("content")
-  private String content;
+    public Integer getParentId() {
+        return parentId;
+    }
 
-  @Key("ttl")
-  private Integer ttl;
+    public String getName() {
+        return name;
+    }
 
-  @Key("priority")
-  private Integer priority;
+    public String getContent() {
+        return content;
+    }
 
-  @Key("type")
-  private String type;
+    public Integer getTtl() {
+        return ttl;
+    }
 
-  @Key("system_record")
-  private Boolean systemRecord;
+    public Integer getPriority() {
+        return priority;
+    }
 
-  @Key("created_at")
-  private String createdAt;
+    public String getType() {
+        return type;
+    }
 
-  @Key("updated_at")
-  private String updatedAt;
+    public Boolean getSystemRecord() {
+        return systemRecord;
+    }
 
-  public Integer getId() {
-    return id;
-  }
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-  public String getZoneId() {
-    return zoneId;
-  }
-
-  public Integer getParentId() {
-    return parentId;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public String getContent() {
-    return content;
-  }
-
-  public Integer getTtl() {
-    return ttl;
-  }
-
-  public Integer getPriority() {
-    return priority;
-  }
-
-  public String getType() {
-    return type;
-  }
-
-  public Boolean getSystemRecord() {
-    return systemRecord;
-  }
-
-  public String getCreatedAt() {
-    return createdAt;
-  }
-
-  public String getUpdatedAt() {
-    return updatedAt;
-  }
-
-
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
 }

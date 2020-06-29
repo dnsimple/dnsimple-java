@@ -2,13 +2,18 @@ package com.dnsimple.response;
 
 import com.dnsimple.data.ZoneRecord;
 
-import com.google.api.client.util.Key;
-
 public class GetZoneRecordResponse extends ApiResponse {
-  @Key("data")
-  private ZoneRecord data;
+    private final ZoneRecord data;
 
-  public ZoneRecord getData() {
-    return data;
-  }
+    public GetZoneRecordResponse() {
+        data = null;
+    }
+
+    public GetZoneRecordResponse(ZoneRecord data) {
+        this.data = data;
+    }
+
+    public ZoneRecord getData() {
+        return data;
+    }
 }
