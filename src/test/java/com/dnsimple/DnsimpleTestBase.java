@@ -1,5 +1,6 @@
 package com.dnsimple;
 
+import com.dnsimple.endpoints.http.GoogleHttpEndpointClient;
 import com.dnsimple.tools.TestHttpServer;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -10,6 +11,8 @@ import org.junit.BeforeClass;
  * required to test expectations agains HTTP fixture files.
  */
 public abstract class DnsimpleTestBase {
+  protected static final String TEST_ACCESS_TOKEN = "test-access-token";
+  protected static final String TEST_USER_AGENT = "test-user-agent";
   protected static TestHttpServer server;
   private static String backupApiBase;
   protected Client client;
@@ -31,6 +34,9 @@ public abstract class DnsimpleTestBase {
   @Before
   public void setUp() {
     server.reset();
-    client = new Client();
+    GoogleHttpEndpointClient ec = new GoogleHttpEndpointClient();
+    ec.setAccessToken(TEST_ACCESS_TOKEN);
+    ec.setUserAgent(TEST_USER_AGENT);
+    client = new Client(ec);
   }
 }
