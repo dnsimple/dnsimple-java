@@ -2,13 +2,18 @@ package com.dnsimple.response;
 
 import com.dnsimple.data.WhoisPrivacy;
 
-import com.google.api.client.util.Key;
-
 public class DisableWhoisPrivacyResponse extends ApiResponse {
-  @Key("data")
-  private WhoisPrivacy data;
+    private final WhoisPrivacy data;
 
-  public WhoisPrivacy getData() {
-    return data;
-  }
+    public DisableWhoisPrivacyResponse() {
+        data = null;
+    }
+
+    public DisableWhoisPrivacyResponse(WhoisPrivacy data) {
+        this.data = data;
+    }
+
+    public WhoisPrivacy getData() {
+        return data;
+    }
 }

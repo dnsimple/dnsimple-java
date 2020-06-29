@@ -1,24 +1,31 @@
 package com.dnsimple.response;
 
-import com.dnsimple.data.TemplateRecord;
 import com.dnsimple.data.Pagination;
+import com.dnsimple.data.TemplateRecord;
 
 import java.util.List;
 
-import com.google.api.client.util.Key;
+import static java.util.Collections.emptyList;
 
 public class ListTemplateRecordsResponse extends ApiResponse {
-  @Key("data")
-  private List<TemplateRecord> data;
+    private final List<TemplateRecord> data;
+    private final Pagination pagination;
 
-  @Key("pagination")
-  private Pagination pagination;
+    public ListTemplateRecordsResponse() {
+        data = emptyList();
+        pagination = Pagination.empty();
+    }
 
-  public List<TemplateRecord> getData() {
-    return data;
-  }
+    public ListTemplateRecordsResponse(List<TemplateRecord> data, Pagination pagination) {
+        this.data = data;
+        this.pagination = pagination;
+    }
 
-  public Pagination getPagination() {
-    return pagination;
-  }
+    public List<TemplateRecord> getData() {
+        return data;
+    }
+
+    public Pagination getPagination() {
+        return pagination;
+    }
 }

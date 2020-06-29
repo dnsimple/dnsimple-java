@@ -2,13 +2,18 @@ package com.dnsimple.response;
 
 import com.dnsimple.data.Contact;
 
-import com.google.api.client.util.Key;
-
 public class UpdateContactResponse extends ApiResponse {
-  @Key("data")
-  private Contact data;
+    private final Contact data;
 
-  public Contact getData() {
-    return data;
-  }
+    public UpdateContactResponse() {
+        data = null;
+    }
+
+    public UpdateContactResponse(Contact data) {
+        this.data = data;
+    }
+
+    public Contact getData() {
+        return data;
+    }
 }

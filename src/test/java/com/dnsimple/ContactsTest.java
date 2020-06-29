@@ -86,7 +86,7 @@ public class ContactsTest extends DnsimpleTestBase {
     assertThat(contact.getAddress1(), is("Italian Street, 10"));
     assertThat(contact.getAddress2(), is(""));
     assertThat(contact.getCity(), is("Roma"));
-    assertThat(contact.getStateOrProvince(), is("RM"));
+    assertThat(contact.getStateProvince(), is("RM"));
     assertThat(contact.getPostalCode(), is("00100"));
     assertThat(contact.getCountry(), is("IT"));
     assertThat(contact.getCreatedAt(), is("2016-01-19T20:50:26Z"));

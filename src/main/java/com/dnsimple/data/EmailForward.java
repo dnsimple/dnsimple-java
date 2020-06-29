@@ -1,47 +1,43 @@
 package com.dnsimple.data;
 
-import com.google.api.client.util.Key;
-
 public class EmailForward {
-  @Key("id")
-  private Integer id;
+    private final Integer id;
+    private final Integer domainId;
+    private final String from;
+    private final String to;
+    private final String createdAt;
+    private final String updatedAt;
 
-  @Key("domain_id")
-  private Integer domainId;
+    public EmailForward(Integer id, Integer domainId, String from, String to, String createdAt, String updatedAt) {
+        this.id = id;
+        this.domainId = domainId;
+        this.from = from;
+        this.to = to;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
-  @Key("from")
-  private String from;
+    public Integer getId() {
+        return id;
+    }
 
-  @Key("to")
-  private String to;
+    public Integer getDomainId() {
+        return domainId;
+    }
 
-  @Key("created_at")
-  private String createdAt;
+    public String getFrom() {
+        return from;
+    }
 
-  @Key("updated_at")
-  private String updatedAt;
+    public String getTo() {
+        return to;
+    }
 
-  public Integer getId() {
-    return id;
-  }
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-  public Integer getDomainId() {
-    return domainId;
-  }
-
-  public String getFrom() {
-    return from;
-  }
-
-  public String getTo() {
-    return to;
-  }
-
-  public String getCreatedAt() {
-    return createdAt;
-  }
-
-  public String getUpdatedAt() {
-    return updatedAt;
-  }
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
 }

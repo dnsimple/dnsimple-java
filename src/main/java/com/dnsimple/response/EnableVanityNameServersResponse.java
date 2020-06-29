@@ -4,13 +4,20 @@ import com.dnsimple.data.NameServer;
 
 import java.util.List;
 
-import com.google.api.client.util.Key;
+import static java.util.Collections.emptyList;
 
 public class EnableVanityNameServersResponse extends ApiResponse {
-  @Key("data")
-  private List<NameServer> data;
+    private final List<NameServer> data;
 
-  public List<NameServer> getData() {
-    return data;
-  }
+    public EnableVanityNameServersResponse() {
+        data = emptyList();
+    }
+
+    public EnableVanityNameServersResponse(List<NameServer> data) {
+        this.data = data;
+    }
+
+    public List<NameServer> getData() {
+        return data;
+    }
 }

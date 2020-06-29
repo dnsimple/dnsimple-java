@@ -1,61 +1,55 @@
 package com.dnsimple.data;
 
-import com.google.api.client.util.Key;
-
 public class DelegationSignerRecord {
-  @Key("id")
-  private Integer id;
+    private final Integer id;
+    private final Integer domainId;
+    private final String algorithm;
+    private final String digest;
+    private final String digestType;
+    private final String keytag;
+    private final String createdAt;
+    private final String updatedAt;
 
-  @Key("domain_id")
-  private Integer domainId;
+    public DelegationSignerRecord(Integer id, Integer domainId, String algorithm, String digest, String digestType, String keytag, String createdAt, String updatedAt) {
+        this.id = id;
+        this.domainId = domainId;
+        this.algorithm = algorithm;
+        this.digest = digest;
+        this.digestType = digestType;
+        this.keytag = keytag;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
-  @Key("algorithm")
-  private String algorithm;
+    public Integer getId() {
+        return id;
+    }
 
-  @Key("digest")
-  private String digest;
+    public Integer getDomainId() {
+        return domainId;
+    }
 
-  @Key("digest_type")
-  private String digestType;
+    public String getAlgorithm() {
+        return algorithm;
+    }
 
-  @Key("keytag")
-  private String keytag;
+    public String getDigest() {
+        return digest;
+    }
 
-  @Key("created_at")
-  private String createdAt;
+    public String getDigestType() {
+        return digestType;
+    }
 
-  @Key("updated_at")
-  private String updatedAt;
+    public String getKeytag() {
+        return keytag;
+    }
 
-  public Integer getId() {
-    return id;
-  }
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-  public Integer getDomainId() {
-    return domainId;
-  }
-
-  public String getAlgorithm() {
-    return algorithm;
-  }
-
-  public String getDigest() {
-    return digest;
-  }
-
-  public String getDigestType() {
-    return digestType;
-  }
-
-  public String getKeytag() {
-    return keytag;
-  }
-
-  public String getCreatedAt() {
-    return createdAt;
-  }
-
-  public String getUpdatedAt() {
-    return updatedAt;
-  }
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
 }

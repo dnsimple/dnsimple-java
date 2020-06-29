@@ -23,7 +23,7 @@ public class DomainPushesTest extends DnsimpleTestBase {
     Push push = client.domains.initiatePush("1", "example.com", singletonMap("new_account_email", "jim@example.com")).getData();
     assertThat(push.getId(), is(1));
     assertThat(push.getDomainId(), is(100));
-    assertThat(push.getContactId(), is(0));
+    assertThat(push.getContactId(), is(nullValue()));
     assertThat(push.getCreatedAt(), is("2016-08-11T10:16:03Z"));
     assertThat(push.getUpdatedAt(), is("2016-08-11T10:16:03Z"));
     assertThat(push.getAcceptedAt(), isEmptyOrNullString());

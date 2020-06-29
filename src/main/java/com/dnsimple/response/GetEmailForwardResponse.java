@@ -2,13 +2,18 @@ package com.dnsimple.response;
 
 import com.dnsimple.data.EmailForward;
 
-import com.google.api.client.util.Key;
-
 public class GetEmailForwardResponse extends ApiResponse {
-  @Key("data")
-  private EmailForward data;
+    private final EmailForward data;
 
-  public EmailForward getData() {
-    return data;
-  }
+    public GetEmailForwardResponse() {
+        data = null;
+    }
+
+    public GetEmailForwardResponse(EmailForward data) {
+        this.data = data;
+    }
+
+    public EmailForward getData() {
+        return data;
+    }
 }

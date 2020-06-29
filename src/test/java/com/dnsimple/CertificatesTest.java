@@ -5,7 +5,6 @@ import static com.dnsimple.tools.HttpMethod.GET;
 import static com.dnsimple.tools.HttpMethod.POST;
 import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
@@ -128,7 +127,7 @@ public class CertificatesTest extends DnsimpleTestBase {
 
     CertificateBundle certificateBundle = response.getData();
     assertThat(certificateBundle.getPrivateKey(), is(nullValue()));
-    assertThat(certificateBundle.getServerCertificate(), is("" +
+    assertThat(certificateBundle.getServer(), is("" +
         "-----BEGIN CERTIFICATE-----\n" +
         "MIIE7TCCA9WgAwIBAgITAPpTe4O3vjuQ9L4gLsogi/ukujANBgkqhkiG9w0BAQsF\n" +
         "ADAiMSAwHgYDVQQDDBdGYWtlIExFIEludGVybWVkaWF0ZSBYMTAeFw0xNjA2MTEx\n" +
@@ -158,9 +157,9 @@ public class CertificatesTest extends DnsimpleTestBase {
         "tQaemFWTjGPgSLXJAtQO30DgNJBHX/fJEaHv6Wy8TF3J0wOGpzGbOwaTX8YAmEzC\n" +
         "lzzjs+clg5MN5rd1g4POJtU=\n" +
         "-----END CERTIFICATE-----\n"));
-    assertThat(certificateBundle.getRootCertificate(), is(isEmptyOrNullString()));
-    assertThat(certificateBundle.getIntermediateCertificates(), hasSize(1));
-    assertThat(certificateBundle.getIntermediateCertificates().get(0), is("" +
+    assertThat(certificateBundle.getRoot(), is(isEmptyOrNullString()));
+    assertThat(certificateBundle.getChain(), hasSize(1));
+    assertThat(certificateBundle.getChain().get(0), is("" +
         "-----BEGIN CERTIFICATE-----\n" +
         "MIIEqzCCApOgAwIBAgIRAIvhKg5ZRO08VGQx8JdhT+UwDQYJKoZIhvcNAQELBQAw\n" +
         "GjEYMBYGA1UEAwwPRmFrZSBMRSBSb290IFgxMB4XDTE2MDUyMzIyMDc1OVoXDTM2\n" +

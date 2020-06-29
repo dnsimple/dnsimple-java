@@ -1,24 +1,31 @@
 package com.dnsimple.response;
 
-import com.dnsimple.data.ZoneRecord;
 import com.dnsimple.data.Pagination;
+import com.dnsimple.data.ZoneRecord;
 
 import java.util.List;
 
-import com.google.api.client.util.Key;
+import static java.util.Collections.emptyList;
 
 public class ListZoneRecordsResponse extends ApiResponse {
-  @Key("data")
-  private List<ZoneRecord> data;
+    private final List<ZoneRecord> data;
+    private final Pagination pagination;
 
-  @Key("pagination")
-  private Pagination pagination;
+    public ListZoneRecordsResponse() {
+        data = emptyList();
+        pagination = Pagination.empty();
+    }
 
-  public List<ZoneRecord> getData() {
-    return data;
-  }
+    public ListZoneRecordsResponse(List<ZoneRecord> data, Pagination pagination) {
+        this.data = data;
+        this.pagination = pagination;
+    }
 
-  public Pagination getPagination() {
-    return pagination;
-  }
+    public List<ZoneRecord> getData() {
+        return data;
+    }
+
+    public Pagination getPagination() {
+        return pagination;
+    }
 }

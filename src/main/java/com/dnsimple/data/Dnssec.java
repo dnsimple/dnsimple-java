@@ -1,27 +1,25 @@
 package com.dnsimple.data;
 
-import com.google.api.client.util.Key;
-
 public class Dnssec {
-  @Key("enabled")
-  private Boolean enabled;
+    private final Boolean enabled;
+    private final String createdAt;
+    private final String updatedAt;
 
-  @Key("created_at")
-  private String createdAt;
+    public Dnssec(Boolean enabled, String createdAt, String updatedAt) {
+        this.enabled = enabled;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
-  @Key("updated_at")
-  private String updatedAt;
+    public Boolean getEnabled() {
+        return enabled;
+    }
 
-  public Boolean getEnabled() {
-    return enabled;
-  }
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-  public String getCreatedAt() {
-    return createdAt;
-  }
-
-  public String getUpdatedAt() {
-    return updatedAt;
-  }
-
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
 }

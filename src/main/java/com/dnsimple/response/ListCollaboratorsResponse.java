@@ -5,20 +5,28 @@ import com.dnsimple.data.Pagination;
 
 import java.util.List;
 
-import com.google.api.client.util.Key;
+import static java.util.Collections.emptyList;
 
 public class ListCollaboratorsResponse extends ApiResponse {
-  @Key("data")
-  private List<Collaborator> data;
-  @Key("pagination")
-  private Pagination pagination;
+    private final List<Collaborator> data;
+    private final Pagination pagination;
 
-  public List<Collaborator> getData() {
-    return data;
-  }
+    public ListCollaboratorsResponse() {
+        data = emptyList();
+        pagination = Pagination.empty();
+    }
 
-  public Pagination getPagination() {
-    return pagination;
-  }
+    public ListCollaboratorsResponse(List<Collaborator> data, Pagination pagination) {
+        this.data = data;
+        this.pagination = pagination;
+    }
+
+    public List<Collaborator> getData() {
+        return data;
+    }
+
+    public Pagination getPagination() {
+        return pagination;
+    }
 }
 

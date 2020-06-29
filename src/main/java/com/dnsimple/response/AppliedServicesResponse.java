@@ -1,39 +1,31 @@
 package com.dnsimple.response;
 
-import com.dnsimple.data.Service;
 import com.dnsimple.data.Pagination;
+import com.dnsimple.data.Service;
 
 import java.util.List;
-import java.util.ArrayList;
 
-import com.google.api.client.util.Key;
+import static java.util.Collections.emptyList;
 
 public class AppliedServicesResponse extends ApiResponse {
-  @Key("data")
-  private List<Service> data;
+    private final List<Service> data;
+    private final Pagination pagination;
 
-  @Key("pagination")
-  private Pagination pagination;
+    public AppliedServicesResponse() {
+        data = emptyList();
+        pagination = Pagination.empty();
+    }
 
-  public AppliedServicesResponse() {
-    this(new ArrayList<Service>());
-  }
+    public AppliedServicesResponse(List<Service> data, Pagination pagination) {
+        this.data = data;
+        this.pagination = pagination;
+    }
 
-  public AppliedServicesResponse(List<Service> data) {
-    this(data, new Pagination());
-  }
+    public List<Service> getData() {
+        return data;
+    }
 
-  public AppliedServicesResponse(List<Service> data, Pagination pagination) {
-    this.data = data;
-    this.pagination = pagination;
-  }
-
-  public List<Service> getData() {
-    return data;
-  }
-
-  public Pagination getPagination() {
-    return pagination;
-  }
-
+    public Pagination getPagination() {
+        return pagination;
+    }
 }

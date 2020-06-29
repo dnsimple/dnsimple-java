@@ -4,35 +4,28 @@ import com.dnsimple.data.Domain;
 import com.dnsimple.data.Pagination;
 
 import java.util.List;
-import java.util.ArrayList;
 
-import com.google.api.client.util.Key;
+import static java.util.Collections.emptyList;
 
 public class ListDomainsResponse extends ApiResponse {
-  @Key("data")
-  private List<Domain> data;
+    private final List<Domain> data;
+    private final Pagination pagination;
 
-  @Key("pagination")
-  private Pagination pagination;
+    public ListDomainsResponse() {
+        data = emptyList();
+        pagination = Pagination.empty();
+    }
 
-  public ListDomainsResponse() {
-    this(new ArrayList<Domain>());
-  }
+    public ListDomainsResponse(List<Domain> data, Pagination pagination) {
+        this.data = data;
+        this.pagination = pagination;
+    }
 
-  public ListDomainsResponse(List<Domain> data) {
-    this(data, new Pagination());
-  }
+    public List<Domain> getData() {
+        return data;
+    }
 
-  public ListDomainsResponse(List<Domain> data, Pagination pagination) {
-    this.data = data;
-    this.pagination = pagination;
-  }
-
-  public List<Domain> getData() {
-    return data;
-  }
-
-  public Pagination getPagination() {
-    return pagination;
-  }
+    public Pagination getPagination() {
+        return pagination;
+    }
 }

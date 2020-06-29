@@ -1,48 +1,43 @@
 package com.dnsimple.data;
 
-import com.google.api.client.util.Key;
-
 public class Zone {
-  @Key("id")
-  private Integer id;
-  
-  @Key("account_id")
-  private Integer accountId;
+    private final Integer id;
+    private final Integer accountId;
+    private final String name;
+    private final Boolean reverse;
+    private final String createdAt;
+    private final String updatedAt;
 
-  @Key("name")
-  private String name;
+    public Zone(Integer id, Integer accountId, String name, Boolean reverse, String createdAt, String updatedAt) {
+        this.id = id;
+        this.accountId = accountId;
+        this.name = name;
+        this.reverse = reverse;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
-  @Key("reverse")
-  private Boolean reverse;
+    public Integer getId() {
+        return id;
+    }
 
-  @Key("created_at")
-  private String createdAt;
+    public Integer getAccountId() {
+        return accountId;
+    }
 
-  @Key("updated_at")
-  private String updatedAt;
+    public String getName() {
+        return name;
+    }
 
-  public Integer getId() {
-    return id;
-  }
+    public Boolean getReverse() {
+        return reverse;
+    }
 
-  public Integer getAccountId() {
-    return accountId;
-  }
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-  public String getName() {
-    return name;
-  }
-
-  public Boolean getReverse() {
-    return reverse;
-  }
-
-  public String getCreatedAt() {
-    return createdAt;
-  }
-
-  public String getUpdatedAt() {
-    return updatedAt;
-  }
-
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
 }

@@ -75,7 +75,7 @@ public class TemplatesTest extends DnsimpleTestBase {
     assertThat(template.getId(), is(1));
     assertThat(template.getAccountId(), is(1010));
     assertThat(template.getName(), is("Alpha"));
-    assertThat(template.getShortName(), is("alpha"));
+    assertThat(template.getSid(), is("alpha"));
     assertThat(template.getDescription(), is("An alpha template."));
     assertThat(template.getCreatedAt(), is("2016-03-22T11:08:58Z"));
     assertThat(template.getUpdatedAt(), is("2016-03-22T11:08:58Z"));

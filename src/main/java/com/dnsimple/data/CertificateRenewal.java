@@ -1,41 +1,37 @@
 package com.dnsimple.data;
 
-import com.google.api.client.util.Key;
-
 public class CertificateRenewal {
-  @Key("id")
-  private Integer id;
+    private final Integer id;
+    private final Integer oldCertificateId;
+    private final Integer newCertificateId;
+    private final String createdAt;
+    private final String updatedAt;
 
-  @Key("old_certificate_id")
-  private Integer oldCertificateId;
+    public CertificateRenewal(Integer id, Integer oldCertificateId, Integer newCertificateId, String createdAt, String updatedAt) {
+        this.id = id;
+        this.oldCertificateId = oldCertificateId;
+        this.newCertificateId = newCertificateId;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
-  @Key("new_certificate_id")
-  private Integer newCertificateId;
+    public Integer getId() {
+        return id;
+    }
 
-  @Key("created_at")
-  private String createdAt;
+    public Integer getOldCertificateId() {
+        return oldCertificateId;
+    }
 
-  @Key("updated_at")
-  private String updatedAt;
+    public Integer getNewCertificateId() {
+        return newCertificateId;
+    }
 
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-  public Integer getId() {
-    return id;
-  }
-
-  public Integer getOldCertificateId() {
-    return oldCertificateId;
-  }
-
-  public Integer getNewCertificateId() {
-    return newCertificateId;
-  }
-
-  public String getCreatedAt() {
-    return createdAt;
-  }
-
-  public String getUpdatedAt() {
-    return updatedAt;
-  }
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
 }

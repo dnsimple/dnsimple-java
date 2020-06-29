@@ -1,26 +1,25 @@
 package com.dnsimple.data;
 
-import com.google.api.client.util.Key;
-
 public class TldExtendedAttributeOption {
-  @Key("title")
-  private String title;
+    private final String title;
+    private final String value;
+    private final String description;
 
-  @Key("value")
-  private String value;
+    public TldExtendedAttributeOption(String title, String value, String description) {
+        this.title = title;
+        this.value = value;
+        this.description = description;
+    }
 
-  @Key("description")
-  private String description;
+    public String getTitle() {
+        return title;
+    }
 
-  public String getTitle() {
-    return title;
-  }
+    public String getValue() {
+        return value;
+    }
 
-  public String getValue() {
-    return value;
-  }
-
-  public String getDescription() {
-    return description;
-  }
+    public String getDescription() {
+        return description;
+    }
 }

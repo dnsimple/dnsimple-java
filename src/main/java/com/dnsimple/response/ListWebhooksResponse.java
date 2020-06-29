@@ -4,13 +4,20 @@ import com.dnsimple.data.Webhook;
 
 import java.util.List;
 
-import com.google.api.client.util.Key;
+import static java.util.Collections.emptyList;
 
 public class ListWebhooksResponse extends ApiResponse {
-  @Key("data")
-  private List<Webhook> data;
+    private final List<Webhook> data;
 
-  public List<Webhook> getData() {
-    return data;
-  }
+    public ListWebhooksResponse() {
+        data = emptyList();
+    }
+
+    public ListWebhooksResponse(List<Webhook> data) {
+        this.data = data;
+    }
+
+    public List<Webhook> getData() {
+        return data;
+    }
 }
