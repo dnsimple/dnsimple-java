@@ -137,16 +137,12 @@ public class GoogleHttpEndpointClient implements HttpEndpointClient {
    * @throws IOException Any IO errors
    */
   private ApiResponse parseResponse(HttpResponse response, Class<?> c) throws IOException {
-    return (ApiResponse) parse(response, c);
-  }
-
-  private Object parse(HttpResponse response, Class<?> c) throws IOException {
     if (response.getStatusCode() == 204 || response.getContent() == null)
       return buildTypeSafe(c);
 
     try (InputStream in = response.getContent()) {
       JsonParser jsonParser = GsonFactory.getDefaultInstance().createJsonParser(in);
-      return jsonParser.parse(c);
+      return (ApiResponse) jsonParser.parse(c);
     }
   }
 
