@@ -1,8 +1,6 @@
 package com.dnsimple.endpoints.http;
 
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.response.ApiResponse;
-import com.google.api.client.http.HttpResponse;
 import java.io.IOException;
 import java.util.Map;
 

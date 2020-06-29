@@ -3,6 +3,7 @@ package cocotero;
 import com.dnsimple.Dnsimple;
 import com.dnsimple.endpoints.http.HttpEndpointClient;
 import com.dnsimple.exception.DnsimpleException;
+import com.dnsimple.exception.ResourceNotFoundException;
 import com.dnsimple.request.Filter;
 import com.dnsimple.response.ApiResponse;
 import com.google.api.client.http.GenericUrl;
@@ -124,7 +125,7 @@ public class GoogleHttpEndpointClient implements HttpEndpointClient {
     try {
       return request.execute();
     } catch (HttpResponseException e) {
-      throw DnsimpleException.transformException(e);
+      throw transformException(e);
     }
   }
 
@@ -177,6 +178,21 @@ public class GoogleHttpEndpointClient implements HttpEndpointClient {
     }
 
     return new GenericUrl(urlBuilder.toUrl());
+  }
+
+  /**
+   * Transform an HttpResponseException into a DnsimpleException.
+   *
+   * @param e The HttpResponseException
+   * @return The DnsimpleException
+   */
+  private static DnsimpleException transformException(HttpResponseException e) {
+    switch (e.getStatusCode()) {
+      case 404:
+        return new ResourceNotFoundException("Failed to retreive domain: " + e.getMessage(), null, e.getStatusCode(), e);
+      default:
+        return new DnsimpleException(e.getMessage(), null, e.getStatusCode(), e);
+    }
   }
 
 }
