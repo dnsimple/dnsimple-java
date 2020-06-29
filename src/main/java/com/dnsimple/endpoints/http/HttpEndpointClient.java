@@ -164,9 +164,6 @@ public class HttpEndpointClient {
   protected ApiResponse parseResponse(HttpResponse response, Class<?> c) throws IOException {
     ApiResponse res = buildApiResponse(response, c);
 
-    res.setHttpRequest(response.getRequest());
-    res.setHttpResponse(response);
-
     return res;
   }
 
