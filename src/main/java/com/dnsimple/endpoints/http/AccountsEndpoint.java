@@ -1,13 +1,9 @@
 package com.dnsimple.endpoints.http;
 
 import com.dnsimple.Accounts;
-import com.dnsimple.response.ListAccountsResponse;
 import com.dnsimple.exception.DnsimpleException;
-
-import com.google.api.client.http.HttpResponse;
-
+import com.dnsimple.response.ListAccountsResponse;
 import java.io.IOException;
-import java.util.List;
 
 public class AccountsEndpoint implements Accounts {
   private HttpEndpointClient client;
@@ -17,7 +13,6 @@ public class AccountsEndpoint implements Accounts {
   }
 
   public ListAccountsResponse listAccounts() throws DnsimpleException, IOException {
-    HttpResponse response = client.get("accounts");
-    return (ListAccountsResponse)client.parseResponse(response, ListAccountsResponse.class);
+    return (ListAccountsResponse) client.get("accounts", null, ListAccountsResponse.class);
   }
 }

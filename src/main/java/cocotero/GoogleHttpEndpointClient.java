@@ -1,6 +1,7 @@
-package com.dnsimple.endpoints.http;
+package cocotero;
 
 import com.dnsimple.Dnsimple;
+import com.dnsimple.endpoints.http.HttpEndpointClient;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.request.Filter;
 import com.dnsimple.response.ApiResponse;
@@ -79,6 +80,12 @@ public class GoogleHttpEndpointClient implements HttpEndpointClient {
   }
 
   @Override
+  public Object get(String path, Map<String, Object> options, Class<?> c) throws DnsimpleException, IOException {
+    HttpResponse response = request(HttpMethods.GET, versionedPath(path), null, options);
+    return parseResponse(response, c);
+  }
+
+  @Override
   public HttpResponse post(String path) throws DnsimpleException, IOException {
     return post(path, null);
   }
@@ -91,6 +98,11 @@ public class GoogleHttpEndpointClient implements HttpEndpointClient {
   @Override
   public HttpResponse post(String path, Map<String, Object> attributes, Map<String, Object> options) throws DnsimpleException, IOException {
     return request(HttpMethods.POST, versionedPath(path), attributes, null);
+  }
+
+  @Override
+  public Object post(String path, Map<String, Object> attributes, Map<String, Object> options, Class<?> c) throws DnsimpleException, IOException {
+    return parseResponse(request(HttpMethods.POST, versionedPath(path), attributes, null), c);
   }
 
   @Override
@@ -109,6 +121,12 @@ public class GoogleHttpEndpointClient implements HttpEndpointClient {
   }
 
   @Override
+  public Object put(String path, Object attributes, Map<String, Object> options, Class<?> c) throws DnsimpleException, IOException {
+    HttpResponse put = put(path, attributes, null);
+    return parseResponse(put, c);
+  }
+
+  @Override
   public HttpResponse patch(String path, Object attributes) throws DnsimpleException, IOException {
     return patch(path, attributes, null);
   }
@@ -116,6 +134,11 @@ public class GoogleHttpEndpointClient implements HttpEndpointClient {
   @Override
   public HttpResponse patch(String path, Object attributes, Map<String, Object> options) throws DnsimpleException, IOException {
     return request(HttpMethods.PATCH, versionedPath(path), attributes, null);
+  }
+
+  @Override
+  public Object patch(String path, Object attributes, Map<String, Object> options, Class<?> c) throws DnsimpleException, IOException {
+    return parseResponse(request(HttpMethods.PATCH, versionedPath(path), attributes, null), c);
   }
 
   @Override
@@ -128,6 +151,10 @@ public class GoogleHttpEndpointClient implements HttpEndpointClient {
     return request(HttpMethods.DELETE, versionedPath(path), null, null);
   }
 
+  @Override
+  public Object delete(String path, Map<String, Object> options, Class<?> c) throws DnsimpleException, IOException {
+    return parseResponse(request(HttpMethods.DELETE, versionedPath(path), null, null), c);
+  }
 
   private HttpResponse request(String method, String url, Object data, Map<String, Object> options) throws DnsimpleException, IOException {
     HttpContent content = null;

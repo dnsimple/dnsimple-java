@@ -1,7 +1,7 @@
 package com.dnsimple;
 
 import com.dnsimple.endpoints.EndpointAdapter;
-import com.dnsimple.endpoints.http.GoogleHttpEndpointClient;
+import cocotero.GoogleHttpEndpointClient;
 import com.dnsimple.endpoints.http.HttpEndpointAdapter;
 import com.dnsimple.endpoints.http.HttpEndpointClient;
 

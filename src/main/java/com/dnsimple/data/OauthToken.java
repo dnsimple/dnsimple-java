@@ -1,8 +1,9 @@
 package com.dnsimple.data;
 
+import com.dnsimple.response.ApiResponse;
 import com.google.api.client.util.Key;
 
-public class OauthToken {
+public class OauthToken extends ApiResponse {
   @Key("access_token")
   private String accessToken;
 
