@@ -1,11 +1,19 @@
 package com.dnsimple.data;
 
 public class Tld {
-    private String tld;
-    private Integer tldType;
-    private Boolean whoisPrivacy;
-    private Boolean autorenewOnly;
-    private Boolean idn;
+    private final String tld;
+    private final Integer tldType;
+    private final Boolean whoisPrivacy;
+    private final Boolean autorenewOnly;
+    private final Boolean idn;
+
+    public Tld(String tld, Integer tldType, Boolean whoisPrivacy, Boolean autorenewOnly, Boolean idn) {
+        this.tld = tld;
+        this.tldType = tldType;
+        this.whoisPrivacy = whoisPrivacy;
+        this.autorenewOnly = autorenewOnly;
+        this.idn = idn;
+    }
 
     public String getTld() {
         return tld;

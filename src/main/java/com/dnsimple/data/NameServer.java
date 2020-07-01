@@ -1,12 +1,21 @@
 package com.dnsimple.data;
 
 public class NameServer {
-    private Integer id;
-    private String name;
-    private String ipv4;
-    private String ipv6;
-    private String createdAt;
-    private String updatedAt;
+    private final Integer id;
+    private final String name;
+    private final String ipv4;
+    private final String ipv6;
+    private final String createdAt;
+    private final String updatedAt;
+
+    public NameServer(Integer id, String name, String ipv4, String ipv6, String createdAt, String updatedAt) {
+        this.id = id;
+        this.name = name;
+        this.ipv4 = ipv4;
+        this.ipv6 = ipv6;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
     public Integer getId() {
         return id;

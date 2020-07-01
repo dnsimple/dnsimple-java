@@ -1,14 +1,25 @@
 package com.dnsimple.data;
 
 public class WhoisPrivacyRenewal {
-    private Integer id;
-    private Integer domainId;
-    private Integer whoisPrivacyId;
-    private String state;
-    private Boolean enabled;
-    private String expiresOn;
-    private String createdAt;
-    private String updatedAt;
+    private final Integer id;
+    private final Integer domainId;
+    private final Integer whoisPrivacyId;
+    private final String state;
+    private final Boolean enabled;
+    private final String expiresOn;
+    private final String createdAt;
+    private final String updatedAt;
+
+    public WhoisPrivacyRenewal(Integer id, Integer domainId, Integer whoisPrivacyId, String state, Boolean enabled, String expiresOn, String createdAt, String updatedAt) {
+        this.id = id;
+        this.domainId = domainId;
+        this.whoisPrivacyId = whoisPrivacyId;
+        this.state = state;
+        this.enabled = enabled;
+        this.expiresOn = expiresOn;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
     public Integer getId() {
         return id;
