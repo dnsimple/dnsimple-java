@@ -1,38 +1,17 @@
 package com.dnsimple.data;
 
 public class Domain {
-
-  private Integer id;
-
-
-  private Integer accountId;
-
-
-  private Integer registrantId;
-
-
-  private String name;
-
-
-  private String unicodeName;
-
-
-  private String state;
-
-
-  private boolean autoRenew;
-
-
-  private boolean privateWhois;
-
-
-  private String expiresAt;
-
-
-  private String createdAt;
-
-
-  private String updatedAt;
+    private Integer id;
+    private Integer accountId;
+    private Integer registrantId;
+    private String name;
+    private String unicodeName;
+    private String state;
+    private boolean autoRenew;
+    private boolean privateWhois;
+    private String expiresAt;
+    private String createdAt;
+    private String updatedAt;
 
     public Integer getId() {
         return id;
@@ -71,8 +50,8 @@ public class Domain {
     }
 
     /**
+     * @return the expiration date in {@link DateTimeFormatter#ISO_DATE} pattern.
      * @deprecated use {@link Domain#getExpiresAt()} instead.
-   * @return the expiration date in {@link DateTimeFormatter#ISO_DATE} pattern.
      */
     @Deprecated
     public String getExpiresOn() {

@@ -1,23 +1,12 @@
 package com.dnsimple.data;
 
 public class WhoisPrivacy {
-
-  private Integer id;
-
-
-  private Integer domainId;
-
-
-  private String expiresOn;
-
-
-  private Boolean enabled;
-
-
-  private String createdAt;
-
-
-  private String updatedAt;
+    private Integer id;
+    private Integer domainId;
+    private String expiresOn;
+    private Boolean enabled;
+    private String createdAt;
+    private String updatedAt;
 
     public Integer getId() {
         return id;

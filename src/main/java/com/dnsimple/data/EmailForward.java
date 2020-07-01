@@ -1,23 +1,12 @@
 package com.dnsimple.data;
 
 public class EmailForward {
-
-  private Integer id;
-
-
-  private Integer domainId;
-
-
-  private String from;
-
-
-  private String to;
-
-
-  private String createdAt;
-
-
-  private String updatedAt;
+    private Integer id;
+    private Integer domainId;
+    private String from;
+    private String to;
+    private String createdAt;
+    private String updatedAt;
 
     public Integer getId() {
         return id;

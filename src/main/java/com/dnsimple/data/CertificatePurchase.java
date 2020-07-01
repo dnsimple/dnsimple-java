@@ -1,17 +1,10 @@
 package com.dnsimple.data;
 
 public class CertificatePurchase {
-
-  private Integer id;
-
-
-  private Integer certificateId;
-
-
-  private String createdAt;
-
-
-  private String updatedAt;
+    private Integer id;
+    private Integer certificateId;
+    private String createdAt;
+    private String updatedAt;
 
     public Integer getId() {
         return id;

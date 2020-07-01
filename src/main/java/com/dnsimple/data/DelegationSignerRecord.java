@@ -1,29 +1,14 @@
 package com.dnsimple.data;
 
 public class DelegationSignerRecord {
-
-  private Integer id;
-
-
-  private Integer domainId;
-
-
-  private String algorithm;
-
-
-  private String digest;
-
-
-  private String digestType;
-
-
-  private String keytag;
-
-
-  private String createdAt;
-
-
-  private String updatedAt;
+    private Integer id;
+    private Integer domainId;
+    private String algorithm;
+    private String digest;
+    private String digestType;
+    private String keytag;
+    private String createdAt;
+    private String updatedAt;
 
     public Integer getId() {
         return id;

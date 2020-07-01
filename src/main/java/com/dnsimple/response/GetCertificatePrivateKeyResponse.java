@@ -2,14 +2,11 @@ package com.dnsimple.response;
 
 import com.dnsimple.data.CertificateBundle;
 
-
-
 public class GetCertificatePrivateKeyResponse extends ApiResponse {
-
-  private CertificateBundle data;
+    private CertificateBundle data;
 
     public GetCertificatePrivateKeyResponse() {
-    this(new CertificateBundle());
+        this(new CertificateBundle());
     }
 
     public GetCertificatePrivateKeyResponse(CertificateBundle data) {

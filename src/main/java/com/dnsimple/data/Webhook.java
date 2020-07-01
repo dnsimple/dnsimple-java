@@ -1,11 +1,8 @@
 package com.dnsimple.data;
 
 public class Webhook {
-
-  private Integer id;
-
-
-  private String url;
+    private Integer id;
+    private String url;
 
     public Integer getId() {
         return id;

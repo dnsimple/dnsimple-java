@@ -2,11 +2,8 @@ package com.dnsimple.response;
 
 import com.dnsimple.data.DelegationSignerRecord;
 
-
-
 public class GetDelegationSignerRecordResponse extends ApiResponse {
-
-  private DelegationSignerRecord data;
+    private DelegationSignerRecord data;
 
     public DelegationSignerRecord getData() {
         return data;

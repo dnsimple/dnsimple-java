@@ -3,60 +3,25 @@ package com.dnsimple.data;
 import com.google.gson.annotations.SerializedName;
 
 public class Contact {
-
-  private Integer id;
-
-
-  private Integer accountId;
-
-
-  private String label;
-
-
-  private String firstName;
-
-
-  private String lastName;
-
-
-  private String jobTitle;
-
-
-  private String organizationName;
-
-
-  private String email;
-
-
-  private String phone;
-
-
-  private String fax;
-
-
-  private String address1;
-
-
-  private String address2;
-
-
-  private String city;
-
-
-  @SerializedName("state_province")
-  private String stateOrProvince;
-
-
-  private String postalCode;
-
-
-  private String country;
-
-
-  private String createdAt;
-
-
-  private String updatedAt;
+    private Integer id;
+    private Integer accountId;
+    private String label;
+    private String firstName;
+    private String lastName;
+    private String jobTitle;
+    private String organizationName;
+    private String email;
+    private String phone;
+    private String fax;
+    private String address1;
+    private String address2;
+    private String city;
+    @SerializedName("state_province")
+    private String stateOrProvince;
+    private String postalCode;
+    private String country;
+    private String createdAt;
+    private String updatedAt;
 
     public Integer getId() {
         return id;
@@ -110,8 +75,8 @@ public class Contact {
         return city;
     }
 
-  public String getStateOrProvince() {
-    return stateOrProvince;
+    public String getStateOrProvince() {
+        return stateOrProvince;
     }
 
     public String getPostalCode() {

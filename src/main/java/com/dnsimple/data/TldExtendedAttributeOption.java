@@ -1,14 +1,9 @@
 package com.dnsimple.data;
 
 public class TldExtendedAttributeOption {
-
-  private String title;
-
-
-  private String value;
-
-
-  private String description;
+    private String title;
+    private String value;
+    private String description;
 
     public String getTitle() {
         return title;

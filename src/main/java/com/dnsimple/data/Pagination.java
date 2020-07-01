@@ -1,17 +1,10 @@
 package com.dnsimple.data;
 
 public class Pagination {
-
-  private Integer currentPage;
-
-
-  private Integer perPage;
-
-
-  private Integer totalEntries;
-
-
-  private Integer totalPages;
+    private Integer currentPage;
+    private Integer perPage;
+    private Integer totalEntries;
+    private Integer totalPages;
 
     public Integer getCurrentPage() {
         return currentPage;

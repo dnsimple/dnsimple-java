@@ -1,32 +1,15 @@
 package com.dnsimple.data;
 
 public class DomainTransfer {
-
-  private Integer id;
-
-
-  private Integer domainId;
-
-
-  private Integer registrantId;
-
-
-  private String state;
-
-
-  private boolean autoRenew;
-
-
-  private boolean whoisPrivacy;
-
-
-  private String statusDescription;
-
-
-  private String createdAt;
-
-
-  private String updatedAt;
+    private Integer id;
+    private Integer domainId;
+    private Integer registrantId;
+    private String state;
+    private boolean autoRenew;
+    private boolean whoisPrivacy;
+    private String statusDescription;
+    private String createdAt;
+    private String updatedAt;
 
     public Integer getId() {
         return id;
