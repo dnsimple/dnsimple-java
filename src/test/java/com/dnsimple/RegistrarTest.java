@@ -145,7 +145,7 @@ public class RegistrarTest extends DnsimpleTestBase {
     @Test
     public void testTransferDomainOut() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("authorizeDomainTransferOut/success.http");
-        EmptyResponse response = client.registrar.transferDomainOut("1010", "example.com");
+        client.registrar.transferDomainOut("1010", "example.com");
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/authorize_transfer_out"));
     }

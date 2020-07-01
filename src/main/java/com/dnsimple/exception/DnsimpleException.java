@@ -1,8 +1,8 @@
 package com.dnsimple.exception;
 
 public class DnsimpleException extends Exception {
-    private String requestId;
-    private Integer statusCode;
+    private final String requestId;
+    private final Integer statusCode;
 
     public DnsimpleException(String message, String requestId, Integer statusCode) {
         super(message, null);

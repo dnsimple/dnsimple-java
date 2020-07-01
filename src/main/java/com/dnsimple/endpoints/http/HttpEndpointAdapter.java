@@ -4,7 +4,7 @@ import com.dnsimple.*;
 import com.dnsimple.endpoints.EndpointAdapter;
 
 public class HttpEndpointAdapter implements EndpointAdapter {
-    private HttpEndpointClient endpointClient;
+    private final HttpEndpointClient endpointClient;
 
     public HttpEndpointAdapter(HttpEndpointClient endpointClient) {
         this.endpointClient = endpointClient;
