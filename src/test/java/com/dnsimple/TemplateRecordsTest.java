@@ -24,28 +24,28 @@ import org.junit.Test;
 public class TemplateRecordsTest extends DnsimpleTestBase {
 
   @Test
-  public void testListTemplatesSupportsPagination() throws DnsimpleException, IOException {
+  public void testListTemplatesSupportsPagination() throws DnsimpleException, IOException, InterruptedException {
     client.templates.listTemplateRecords("1", "2", singletonMap("page", 1));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
     assertThat(server.getRecordedRequest().getPath(), is("/v2/1/templates/2/records?page=1"));
   }
 
   @Test
-  public void testListTemplatesSupportsExtraRequestOptions() throws DnsimpleException, IOException {
+  public void testListTemplatesSupportsExtraRequestOptions() throws DnsimpleException, IOException, InterruptedException {
     client.templates.listTemplateRecords("1", "2", singletonMap("foo", "bar"));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
     assertThat(server.getRecordedRequest().getPath(), is("/v2/1/templates/2/records?foo=bar"));
   }
 
   @Test
-  public void testListTemplatesSupportsSorting() throws DnsimpleException, IOException {
+  public void testListTemplatesSupportsSorting() throws DnsimpleException, IOException, InterruptedException {
     client.templates.listTemplateRecords("1", "2", singletonMap("sort", "name:asc"));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
-    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/templates/2/records?sort=name:asc"));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/templates/2/records?sort=name%3Aasc"));
   }
 
   @Test
-  public void testListTemplateRecordsProducesTemplateRecordList() throws DnsimpleException, IOException {
+  public void testListTemplateRecordsProducesTemplateRecordList() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("listTemplateRecords/success.http");
 
     List<TemplateRecord> templateRecords = client.templates.listTemplateRecords("1", "2").getData();
@@ -54,7 +54,7 @@ public class TemplateRecordsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testListTemplateRecordsExposesPaginationInfo() throws DnsimpleException, IOException {
+  public void testListTemplateRecordsExposesPaginationInfo() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("listTemplateRecords/success.http");
 
     ListTemplateRecordsResponse response = client.templates.listTemplateRecords("1", "2");
@@ -62,7 +62,7 @@ public class TemplateRecordsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testGetTemplateRecord() throws DnsimpleException, IOException {
+  public void testGetTemplateRecord() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("getTemplateRecord/success.http");
 
     TemplateRecord record = client.templates.getTemplateRecord("1010", "1", "301").getData();
@@ -80,7 +80,7 @@ public class TemplateRecordsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testCreateTemplateRecordSendsCorrectRequest() throws DnsimpleException, IOException {
+  public void testCreateTemplateRecordSendsCorrectRequest() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("createTemplateRecord/created.http");
 
     Map<String, Object> attributes = new HashMap<>();
@@ -93,7 +93,7 @@ public class TemplateRecordsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testCreateTemplateRecordProducesTemplateRecord() throws DnsimpleException, IOException {
+  public void testCreateTemplateRecordProducesTemplateRecord() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("createTemplateRecord/created.http");
 
     Map<String, Object> attributes = new HashMap<>();
@@ -104,7 +104,7 @@ public class TemplateRecordsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testDeleteTemplateRecord() throws DnsimpleException, IOException {
+  public void testDeleteTemplateRecord() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("deleteTemplateRecord/success.http");
 
     DeleteTemplateRecordResponse response = client.templates.deleteTemplateRecord("1010", "1", "300");

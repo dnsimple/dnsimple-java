@@ -4,16 +4,23 @@ import com.dnsimple.data.Certificate;
 import com.dnsimple.data.Pagination;
 
 import java.util.List;
+import java.util.ArrayList;
 
-import static java.util.Collections.emptyList;
+
 
 public class ListCertificatesResponse extends ApiResponse {
-    private final List<Certificate> data;
-    private final Pagination pagination;
+
+  private List<Certificate> data;
+
+
+  private Pagination pagination;
 
     public ListCertificatesResponse() {
-        data = emptyList();
-        pagination = Pagination.empty();
+    this(new ArrayList<Certificate>());
+  }
+
+  public ListCertificatesResponse(List<Certificate> data) {
+    this(data, new Pagination());
     }
 
     public ListCertificatesResponse(List<Certificate> data, Pagination pagination) {

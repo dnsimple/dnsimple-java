@@ -28,28 +28,28 @@ import org.junit.Test;
 public class ContactsTest extends DnsimpleTestBase {
 
   @Test
-  public void testListContactsSupportsPagination() throws DnsimpleException, IOException {
+  public void testListContactsSupportsPagination() throws DnsimpleException, IOException, InterruptedException {
     client.contacts.listContacts("1", singletonMap("page", 1));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
     assertThat(server.getRecordedRequest().getPath(), is("/v2/1/contacts?page=1"));
   }
 
   @Test
-  public void testListContactsSupportsExtraRequestOptions() throws DnsimpleException, IOException {
+  public void testListContactsSupportsExtraRequestOptions() throws DnsimpleException, IOException, InterruptedException {
     client.contacts.listContacts("1", singletonMap("foo", "bar"));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
     assertThat(server.getRecordedRequest().getPath(), is("/v2/1/contacts?foo=bar"));
   }
 
   @Test
-  public void testListContactsSupportsSorting() throws DnsimpleException, IOException {
+  public void testListContactsSupportsSorting() throws DnsimpleException, IOException, InterruptedException {
     client.contacts.listContacts("1", singletonMap("sort", "last_name:asc"));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
-    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/contacts?sort=last_name:asc"));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/contacts?sort=last_name%3Aasc"));
   }
 
   @Test
-  public void testListContactsProducesContactList() throws DnsimpleException, IOException {
+  public void testListContactsProducesContactList() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("listContacts/success.http");
 
     List<Contact> contacts = client.contacts.listContacts("1").getData();
@@ -58,14 +58,14 @@ public class ContactsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testListContactsExposesPaginationInfo() throws DnsimpleException, IOException {
+  public void testListContactsExposesPaginationInfo() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("listContacts/success.http");
 
     assertThat(client.contacts.listContacts("1").getPagination().getCurrentPage(), is(1));
   }
 
   @Test
-  public void testGetContact() throws DnsimpleException, IOException {
+  public void testGetContact() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("getContact/success.http");
 
     GetContactResponse response = client.contacts.getContact("1010", "1");
@@ -86,7 +86,7 @@ public class ContactsTest extends DnsimpleTestBase {
     assertThat(contact.getAddress1(), is("Italian Street, 10"));
     assertThat(contact.getAddress2(), is(""));
     assertThat(contact.getCity(), is("Roma"));
-    assertThat(contact.getStateProvince(), is("RM"));
+    assertThat(contact.getStateOrProvince(), is("RM"));
     assertThat(contact.getPostalCode(), is("00100"));
     assertThat(contact.getCountry(), is("IT"));
     assertThat(contact.getCreatedAt(), is("2016-01-19T20:50:26Z"));
@@ -102,7 +102,7 @@ public class ContactsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testCreateContactSendsCorrectRequest() throws DnsimpleException, IOException {
+  public void testCreateContactSendsCorrectRequest() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("createContact/created.http");
 
     Map<String, Object> attributes = new HashMap<>();
@@ -116,7 +116,7 @@ public class ContactsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testCreateContactProducesContact() throws DnsimpleException, IOException {
+  public void testCreateContactProducesContact() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("createContact/created.http");
 
     Contact contact = client.contacts.createContact("1", emptyMap()).getData();
@@ -124,7 +124,7 @@ public class ContactsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testUpdateContact() throws DnsimpleException, IOException {
+  public void testUpdateContact() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("updateContact/success.http");
 
     Map<String, Object> attributes = new HashMap<>();
@@ -139,7 +139,7 @@ public class ContactsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testDeleteContact() throws DnsimpleException, IOException {
+  public void testDeleteContact() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("deleteContact/success.http");
 
     DeleteContactResponse response = client.contacts.deleteContact("1010", "1");

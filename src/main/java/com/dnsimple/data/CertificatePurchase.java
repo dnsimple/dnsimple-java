@@ -1,17 +1,17 @@
 package com.dnsimple.data;
 
 public class CertificatePurchase {
-    private final Integer id;
-    private final Integer certificateId;
-    private final String createdAt;
-    private final String updatedAt;
 
-    public CertificatePurchase(Integer id, Integer certificateId, String createdAt, String updatedAt) {
-        this.id = id;
-        this.certificateId = certificateId;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
+  private Integer id;
+
+
+  private Integer certificateId;
+
+
+  private String createdAt;
+
+
+  private String updatedAt;
 
     public Integer getId() {
         return id;

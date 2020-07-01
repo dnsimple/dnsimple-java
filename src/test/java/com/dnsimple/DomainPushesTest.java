@@ -17,7 +17,7 @@ import org.junit.Test;
 
 public class DomainPushesTest extends DnsimpleTestBase {
   @Test
-  public void testInitiatePushProducesPush() throws DnsimpleException, IOException {
+  public void testInitiatePushProducesPush() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("initiatePush/success.http");
 
     Push push = client.domains.initiatePush("1", "example.com", singletonMap("new_account_email", "jim@example.com")).getData();
@@ -30,7 +30,7 @@ public class DomainPushesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testListPushesProducesPushList() throws DnsimpleException, IOException {
+  public void testListPushesProducesPushList() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("listPushes/success.http");
 
     List<Push> pushes = client.domains.listPushes("1", "example.com").getData();
@@ -39,7 +39,7 @@ public class DomainPushesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testAcceptPush() throws DnsimpleException, IOException {
+  public void testAcceptPush() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("acceptPush/success.http");
 
     AcceptPushResponse response = client.domains.acceptPush("1010", "200", singletonMap("contact_id", 1));
@@ -47,7 +47,7 @@ public class DomainPushesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testRejectPush() throws DnsimpleException, IOException {
+  public void testRejectPush() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("rejectPush/success.http");
 
     RejectPushResponse response = client.domains.rejectPush("1010", "200");

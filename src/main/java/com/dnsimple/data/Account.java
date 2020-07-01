@@ -1,12 +1,18 @@
 package com.dnsimple.data;
 
-public class Account {
-    private final Integer id;
-    private final String email;
 
-    public Account(Integer id, String email) {
+public class Account {
+
+  private Integer id;
+
+
+  private String email;
+
+  public Account() {
+  }
+
+  public Account(Integer id) {
         this.id = id;
-        this.email = email;
     }
 
     public Integer getId() {

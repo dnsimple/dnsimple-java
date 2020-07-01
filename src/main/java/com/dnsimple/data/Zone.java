@@ -1,21 +1,23 @@
 package com.dnsimple.data;
 
 public class Zone {
-    private final Integer id;
-    private final Integer accountId;
-    private final String name;
-    private final Boolean reverse;
-    private final String createdAt;
-    private final String updatedAt;
 
-    public Zone(Integer id, Integer accountId, String name, Boolean reverse, String createdAt, String updatedAt) {
-        this.id = id;
-        this.accountId = accountId;
-        this.name = name;
-        this.reverse = reverse;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
+  private Integer id;
+
+
+  private Integer accountId;
+
+
+  private String name;
+
+
+  private Boolean reverse;
+
+
+  private String createdAt;
+
+
+  private String updatedAt;
 
     public Integer getId() {
         return id;

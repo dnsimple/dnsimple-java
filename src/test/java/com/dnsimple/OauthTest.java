@@ -15,7 +15,7 @@ import org.junit.Test;
 
 public class OauthTest extends DnsimpleTestBase {
   @Test
-  public void testExchangeAuthorizationForToken() throws DnsimpleException, IOException {
+  public void testExchangeAuthorizationForToken() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("oauthAccessToken/success.http");
 
     Map<String, Object> attributes = new HashMap<>();
@@ -35,7 +35,7 @@ public class OauthTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testExchangeAuthorizationForTokenWithOptions() throws DnsimpleException, IOException {
+  public void testExchangeAuthorizationForTokenWithOptions() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("oauthAccessToken/success.http");
 
     Map<String, Object> options = new HashMap<>();

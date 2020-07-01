@@ -1,19 +1,26 @@
 package com.dnsimple.response;
 
-import com.dnsimple.data.Pagination;
 import com.dnsimple.data.Service;
+import com.dnsimple.data.Pagination;
 
 import java.util.List;
+import java.util.ArrayList;
 
-import static java.util.Collections.emptyList;
+
 
 public class AppliedServicesResponse extends ApiResponse {
-    private final List<Service> data;
-    private final Pagination pagination;
+
+  private List<Service> data;
+
+
+  private Pagination pagination;
 
     public AppliedServicesResponse() {
-        data = emptyList();
-        pagination = Pagination.empty();
+    this(new ArrayList<Service>());
+  }
+
+  public AppliedServicesResponse(List<Service> data) {
+    this(data, new Pagination());
     }
 
     public AppliedServicesResponse(List<Service> data, Pagination pagination) {

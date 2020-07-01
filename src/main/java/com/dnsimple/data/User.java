@@ -1,13 +1,13 @@
 package com.dnsimple.data;
 
 public class User {
-    private final Integer id;
-    private final String email;
 
-    public User(Integer id, String email) {
-        this.id = id;
-        this.email = email;
-    }
+  private Integer id;
+
+
+  private String email;
+
+  public User() {}
 
     public Integer getId() {
         return id;

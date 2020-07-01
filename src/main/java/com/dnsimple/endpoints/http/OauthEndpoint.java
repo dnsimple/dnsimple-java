@@ -19,11 +19,11 @@ public class OauthEndpoint implements Oauth {
         this.client = client;
     }
 
-    public OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret) throws DnsimpleException, IOException {
+    public OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret) throws DnsimpleException, IOException, InterruptedException {
         return exchangeAuthorizationForToken(code, clientId, clientSecret, new HashMap<String, Object>());
     }
 
-    public OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret, Map<String, Object> options) throws DnsimpleException, IOException {
+    public OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
         Map<String, Object> attributes = new HashMap<String, Object>();
         attributes.put("code", code);
         attributes.put("client_id", clientId);

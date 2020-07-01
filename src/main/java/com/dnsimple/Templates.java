@@ -21,7 +21,7 @@ public interface Templates {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/templates/#list">https://developer.dnsimple.com/v2/templates/#list</a>
      */
-    public ListTemplatesResponse listTemplates(String accountId) throws DnsimpleException, IOException;
+    public ListTemplatesResponse listTemplates(String accountId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Lists the templates in the account.
@@ -33,7 +33,7 @@ public interface Templates {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/templates/#list">https://developer.dnsimple.com/v2/templates/#list</a>
      */
-    public ListTemplatesResponse listTemplates(String accountId, Map<String, Object> options) throws DnsimpleException, IOException;
+    public ListTemplatesResponse listTemplates(String accountId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Get a specific template associated to an account using the templates's ID.
@@ -45,7 +45,7 @@ public interface Templates {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/templates/#get">https://developer.dnsimple.com/v2/templates/#list</a>
      */
-    public GetTemplateResponse getTemplate(String accountId, String templateId) throws DnsimpleException, IOException;
+    public GetTemplateResponse getTemplate(String accountId, String templateId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Create a template in the account.
@@ -57,7 +57,7 @@ public interface Templates {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/templates/#create">https://developer.dnsimple.com/v2/templates/#create</a>
      */
-    public CreateTemplateResponse createTemplate(String accountId, Map<String, Object> attributes) throws DnsimpleException, IOException;
+    public CreateTemplateResponse createTemplate(String accountId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Update a template in the account.
@@ -70,7 +70,7 @@ public interface Templates {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/templates/#update">https://developer.dnsimple.com/v2/templates/#update</a>
      */
-    public UpdateTemplateResponse updateTemplate(String accountId, String templateId, Map<String, Object> attributes) throws DnsimpleException, IOException;
+    public UpdateTemplateResponse updateTemplate(String accountId, String templateId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Delete a template from the account.
@@ -82,7 +82,7 @@ public interface Templates {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/templates/#delete">https://developer.dnsimple.com/v2/templates/#delete</a>
      */
-    public DeleteTemplateResponse deleteTemplate(String accountId, String templateId) throws DnsimpleException, IOException;
+    public DeleteTemplateResponse deleteTemplate(String accountId, String templateId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Apply a template from the account to the domain
@@ -95,7 +95,7 @@ public interface Templates {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/templates/#apply">https://developer.dnsimple.com/v2/domains/templates/#apply</a>
      */
-    public ApplyTemplateResponse applyTemplate(String accountId, String templateId, String domainId) throws DnsimpleException, IOException;
+    public ApplyTemplateResponse applyTemplate(String accountId, String templateId, String domainId) throws DnsimpleException, IOException, InterruptedException;
     // Template records
 
     /**
@@ -108,7 +108,7 @@ public interface Templates {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/templates/records#list">https://developer.dnsimple.com/v2/templates/records#list</a>
      */
-    public ListTemplateRecordsResponse listTemplateRecords(String accountId, String templateId) throws DnsimpleException, IOException;
+    public ListTemplateRecordsResponse listTemplateRecords(String accountId, String templateId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Lists the records in the template.
@@ -121,7 +121,7 @@ public interface Templates {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/templates/records#list">https://developer.dnsimple.com/v2/templates/records#list</a>
      */
-    public ListTemplateRecordsResponse listTemplateRecords(String accountId, String templateId, Map<String, Object> options) throws DnsimpleException, IOException;
+    public ListTemplateRecordsResponse listTemplateRecords(String accountId, String templateId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Get a specific record associated to a template using the record's ID.
@@ -134,7 +134,7 @@ public interface Templates {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/templates/records/#get">https://developer.dnsimple.com/v2/templates/records/#get</a>
      */
-    public GetTemplateRecordResponse getTemplateRecord(String accountId, String templateId, String recordId) throws DnsimpleException, IOException;
+    public GetTemplateRecordResponse getTemplateRecord(String accountId, String templateId, String recordId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Create a record in the template.
@@ -147,7 +147,7 @@ public interface Templates {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/templates/records#create">https://developer.dnsimple.com/v2/templates/records#create</a>
      */
-    public CreateTemplateRecordResponse createTemplateRecord(String accountId, String templateId, Map<String, Object> attributes) throws DnsimpleException, IOException;
+    public CreateTemplateRecordResponse createTemplateRecord(String accountId, String templateId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Delete a record from the template.
@@ -160,5 +160,5 @@ public interface Templates {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/templates/records#delete">https://developer.dnsimple.com/v2/templates/records#delete</a>
      */
-    public DeleteTemplateRecordResponse deleteTemplateRecord(String accountId, String templateId, String recordId) throws DnsimpleException, IOException;
+    public DeleteTemplateRecordResponse deleteTemplateRecord(String accountId, String templateId, String recordId) throws DnsimpleException, IOException, InterruptedException;
 }

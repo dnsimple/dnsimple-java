@@ -1,27 +1,32 @@
 package com.dnsimple.data;
 
 public class DomainRegistration {
-    private final Integer id;
-    private final Integer domainId;
-    private final Integer registrantId;
-    private final Integer period;
-    private final String state;
-    private final boolean autoRenew;
-    private final boolean whoisPrivacy;
-    private final String createdAt;
-    private final String updatedAt;
 
-    public DomainRegistration(Integer id, Integer domainId, Integer registrantId, Integer period, String state, boolean autoRenew, boolean whoisPrivacy, String createdAt, String updatedAt) {
-        this.id = id;
-        this.domainId = domainId;
-        this.registrantId = registrantId;
-        this.period = period;
-        this.state = state;
-        this.autoRenew = autoRenew;
-        this.whoisPrivacy = whoisPrivacy;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
+  private Integer id;
+
+
+  private Integer domainId;
+
+
+  private Integer registrantId;
+
+
+  private Integer period;
+
+
+  private String state;
+
+
+  private boolean autoRenew;
+
+
+  private boolean whoisPrivacy;
+
+
+  private String createdAt;
+
+
+  private String updatedAt;
 
     public Integer getId() {
         return id;

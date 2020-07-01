@@ -33,28 +33,28 @@ import org.junit.Test;
 public class CertificatesTest extends DnsimpleTestBase {
 
   @Test
-  public void testListCertificatesSupportsPagination() throws DnsimpleException, IOException {
+  public void testListCertificatesSupportsPagination() throws DnsimpleException, IOException, InterruptedException {
     client.certificates.listCertificates("1", "example.com", singletonMap("page", 1));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
     assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/certificates?page=1"));
   }
 
   @Test
-  public void testListCertificatesSupportsExtraRequestOptions() throws DnsimpleException, IOException {
+  public void testListCertificatesSupportsExtraRequestOptions() throws DnsimpleException, IOException, InterruptedException {
     client.certificates.listCertificates("1", "example.com", singletonMap("foo", "bar"));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
     assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/certificates?foo=bar"));
   }
 
   @Test
-  public void testListCertificatesSupportsSorting() throws DnsimpleException, IOException {
+  public void testListCertificatesSupportsSorting() throws DnsimpleException, IOException, InterruptedException {
     client.certificates.listCertificates("1", "example.com", singletonMap("sort", "expires_on:asc"));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
-    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/certificates?sort=expires_on:asc"));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/certificates?sort=expires_on%3Aasc"));
   }
 
   @Test
-  public void testListCertificatesProducesCertificateList() throws DnsimpleException, IOException {
+  public void testListCertificatesProducesCertificateList() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("listCertificates/success.http");
 
     List<Certificate> certificates = client.certificates.listCertificates("1", "dnsimple.us").getData();
@@ -63,7 +63,7 @@ public class CertificatesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testListCertificatesExposesPaginationInfo() throws DnsimpleException, IOException {
+  public void testListCertificatesExposesPaginationInfo() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("listCertificates/success.http");
 
     ListCertificatesResponse certificates = client.certificates.listCertificates("1", "bingo.pizza");
@@ -71,7 +71,7 @@ public class CertificatesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testGetCertificate() throws DnsimpleException, IOException {
+  public void testGetCertificate() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("getCertificate/success.http");
 
     GetCertificateResponse response = client.certificates.getCertificate("1010", "bingo.pizza", "101967");
@@ -118,7 +118,7 @@ public class CertificatesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testDownloadCertificate() throws DnsimpleException, IOException {
+  public void testDownloadCertificate() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("downloadCertificate/success.http");
 
     DownloadCertificateResponse response = client.certificates.downloadCertificate("1010", "weppos.net", "1");
@@ -127,7 +127,7 @@ public class CertificatesTest extends DnsimpleTestBase {
 
     CertificateBundle certificateBundle = response.getData();
     assertThat(certificateBundle.getPrivateKey(), is(nullValue()));
-    assertThat(certificateBundle.getServer(), is("" +
+    assertThat(certificateBundle.getServerCertificate(), is("" +
         "-----BEGIN CERTIFICATE-----\n" +
         "MIIE7TCCA9WgAwIBAgITAPpTe4O3vjuQ9L4gLsogi/ukujANBgkqhkiG9w0BAQsF\n" +
         "ADAiMSAwHgYDVQQDDBdGYWtlIExFIEludGVybWVkaWF0ZSBYMTAeFw0xNjA2MTEx\n" +
@@ -157,9 +157,9 @@ public class CertificatesTest extends DnsimpleTestBase {
         "tQaemFWTjGPgSLXJAtQO30DgNJBHX/fJEaHv6Wy8TF3J0wOGpzGbOwaTX8YAmEzC\n" +
         "lzzjs+clg5MN5rd1g4POJtU=\n" +
         "-----END CERTIFICATE-----\n"));
-    assertThat(certificateBundle.getRoot(), is(isEmptyOrNullString()));
-    assertThat(certificateBundle.getChain(), hasSize(1));
-    assertThat(certificateBundle.getChain().get(0), is("" +
+    assertThat(certificateBundle.getRootCertificate(), is(isEmptyOrNullString()));
+    assertThat(certificateBundle.getIntermediateCertificates(), hasSize(1));
+    assertThat(certificateBundle.getIntermediateCertificates().get(0), is("" +
         "-----BEGIN CERTIFICATE-----\n" +
         "MIIEqzCCApOgAwIBAgIRAIvhKg5ZRO08VGQx8JdhT+UwDQYJKoZIhvcNAQELBQAw\n" +
         "GjEYMBYGA1UEAwwPRmFrZSBMRSBSb290IFgxMB4XDTE2MDUyMzIyMDc1OVoXDTM2\n" +
@@ -190,7 +190,7 @@ public class CertificatesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testCertificatePrivateKey() throws DnsimpleException, IOException {
+  public void testCertificatePrivateKey() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("getCertificatePrivateKey/success.http");
 
     GetCertificatePrivateKeyResponse response = client.certificates.getCertificatePrivateKey("1010", "weppos.net", "1");
@@ -229,7 +229,7 @@ public class CertificatesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testPurchaseLetsencryptCertificate() throws DnsimpleException, IOException {
+  public void testPurchaseLetsencryptCertificate() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("purchaseLetsencryptCertificate/success.http");
 
     PurchaseLetsencryptResponse response = client.certificates.purchaseLetsencryptCertificate("1010", "bingo.pizza", new HashMap<String, Object>());
@@ -242,7 +242,7 @@ public class CertificatesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testIssueLetsencryptCertificate() throws DnsimpleException, IOException {
+  public void testIssueLetsencryptCertificate() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("issueLetsencryptCertificate/success.http");
 
     IssueLetsencryptResponse response = client.certificates.issueLetsencryptCertificate("1010", "bingo.pizza", "101967");
@@ -255,7 +255,7 @@ public class CertificatesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testPurchaseLetsencryptCertificateRenewal() throws DnsimpleException, IOException {
+  public void testPurchaseLetsencryptCertificateRenewal() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("purchaseRenewalLetsencryptCertificate/success.http");
 
     PurchaseLetsencryptRenewalResponse response = client.certificates.purchaseLetsencryptCertificateRenewal("1010", "bingo.pizza", "101967", new HashMap<String, Object>());
@@ -269,7 +269,7 @@ public class CertificatesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testIssueLetsencryptCertificateRenewal() throws DnsimpleException, IOException {
+  public void testIssueLetsencryptCertificateRenewal() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("issueLetsencryptCertificate/success.http");
 
     IssueLetsencryptRenewalResponse response = client.certificates.issueLetsencryptCertificateRenewal("1010", "bingo.pizza", "101967", "65082");

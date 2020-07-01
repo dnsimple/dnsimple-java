@@ -24,28 +24,28 @@ import org.junit.Test;
 public class DomainEmailForwardsTest extends DnsimpleTestBase {
 
   @Test
-  public void testListEmailForwardsSupportsPagination() throws DnsimpleException, IOException {
+  public void testListEmailForwardsSupportsPagination() throws DnsimpleException, IOException, InterruptedException {
     client.domains.listEmailForwards("1", "example.com", singletonMap("page", 1));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
     assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/email_forwards?page=1"));
   }
 
   @Test
-  public void testListEmailForwardsSupportsExtraRequestOptions() throws DnsimpleException, IOException {
+  public void testListEmailForwardsSupportsExtraRequestOptions() throws DnsimpleException, IOException, InterruptedException {
     client.domains.listEmailForwards("1", "example.com", singletonMap("foo", "bar"));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
     assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/email_forwards?foo=bar"));
   }
 
   @Test
-  public void testListEmailForwardsSupportsSorting() throws DnsimpleException, IOException {
+  public void testListEmailForwardsSupportsSorting() throws DnsimpleException, IOException, InterruptedException {
     client.domains.listEmailForwards("1", "example.com", singletonMap("sort", "from:asc"));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
-    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/email_forwards?sort=from:asc"));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/email_forwards?sort=from%3Aasc"));
   }
 
   @Test
-  public void testListEmailForwardsProducesDomainList() throws DnsimpleException, IOException {
+  public void testListEmailForwardsProducesDomainList() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("listEmailForwards/success.http");
 
     ListEmailForwardsResponse response = client.domains.listEmailForwards("1", "example.com");
@@ -54,7 +54,7 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testListEmailForwardsExposesPaginationInfo() throws DnsimpleException, IOException {
+  public void testListEmailForwardsExposesPaginationInfo() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("listEmailForwards/success.http");
 
     ListEmailForwardsResponse response = client.domains.listEmailForwards("1", "example.com");
@@ -62,7 +62,7 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testGetEmailForward() throws DnsimpleException, IOException {
+  public void testGetEmailForward() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("getEmailForward/success.http");
 
     EmailForward emailForward = client.domains.getEmailForward("1", "example.com", "17706").getData();
@@ -87,7 +87,7 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testCreateEmailForwardProducesEmailForward() throws DnsimpleException, IOException {
+  public void testCreateEmailForwardProducesEmailForward() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("createEmailForward/created.http");
 
     Map<String, Object> attributes = new HashMap<>();
@@ -99,7 +99,7 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testDeleteEmailForward() throws DnsimpleException, IOException {
+  public void testDeleteEmailForward() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("deleteEmailForward/success.http");
 
     DeleteEmailForwardResponse response = client.domains.deleteEmailForward("1", "example.com", "2");

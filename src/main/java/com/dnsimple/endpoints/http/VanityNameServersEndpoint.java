@@ -14,11 +14,11 @@ public class VanityNameServersEndpoint implements VanityNameServers {
         this.client = client;
     }
 
-    public EnableVanityNameServersResponse enableVanityNameServers(String accountId, String domainId) throws DnsimpleException, IOException {
+    public EnableVanityNameServersResponse enableVanityNameServers(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
         return (EnableVanityNameServersResponse) client.put(accountId + "/vanity/" + domainId, null, null, EnableVanityNameServersResponse.class);
     }
 
-    public DisableVanityNameServersResponse disableVanityNameServers(String accountId, String domainId) throws DnsimpleException, IOException {
+    public DisableVanityNameServersResponse disableVanityNameServers(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
         return (DisableVanityNameServersResponse) client.delete(accountId + "/vanity/" + domainId, null, DisableVanityNameServersResponse.class);
     }
 }

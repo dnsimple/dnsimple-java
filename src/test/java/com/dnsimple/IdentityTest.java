@@ -12,7 +12,7 @@ import org.junit.Test;
 
 public class IdentityTest extends DnsimpleTestBase {
   @Test
-  public void testWhoamiWithAccount() throws DnsimpleException, IOException {
+  public void testWhoamiWithAccount() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("whoami/success-account.http");
     Whoami data = client.identity.whoami().getData();
     assertThat(data.getUser(), is(nullValue()));
@@ -21,7 +21,7 @@ public class IdentityTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testWhoamiWithUser() throws DnsimpleException, IOException {
+  public void testWhoamiWithUser() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("whoami/success-user.http");
     WhoamiResponse whoami = client.identity.whoami();
     Whoami data = whoami.getData();

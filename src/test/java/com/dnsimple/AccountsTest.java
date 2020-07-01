@@ -15,7 +15,7 @@ import org.junit.Test;
 public class AccountsTest extends DnsimpleTestBase {
 
   @Test
-  public void testListAccounts() throws DnsimpleException, IOException {
+  public void testListAccounts() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("listAccounts/success-account.http");
 
     ListAccountsResponse response = client.accounts.listAccounts();

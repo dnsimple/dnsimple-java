@@ -14,27 +14,27 @@ public class ContactsEndpoint implements Contacts {
         this.client = client;
     }
 
-    public ListContactsResponse listContacts(String accountId) throws DnsimpleException, IOException {
+    public ListContactsResponse listContacts(String accountId) throws DnsimpleException, IOException, InterruptedException {
         return listContacts(accountId, null);
     }
 
-    public ListContactsResponse listContacts(String accountId, Map<String, Object> options) throws DnsimpleException, IOException {
+    public ListContactsResponse listContacts(String accountId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
         return (ListContactsResponse) client.get(accountId + "/contacts", options, ListContactsResponse.class);
     }
 
-    public GetContactResponse getContact(String accountId, String contactId) throws DnsimpleException, IOException {
+    public GetContactResponse getContact(String accountId, String contactId) throws DnsimpleException, IOException, InterruptedException {
         return (GetContactResponse) client.get(accountId + "/contacts/" + contactId, null, GetContactResponse.class);
     }
 
-    public CreateContactResponse createContact(String accountId, Map<String, Object> attributes) throws DnsimpleException, IOException {
+    public CreateContactResponse createContact(String accountId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException {
         return (CreateContactResponse) client.post(accountId + "/contacts", attributes, null, CreateContactResponse.class);
     }
 
-    public UpdateContactResponse updateContact(String accountId, String contactId, Map<String, Object> attributes) throws DnsimpleException, IOException {
+    public UpdateContactResponse updateContact(String accountId, String contactId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException {
         return (UpdateContactResponse) client.patch(accountId + "/contacts/" + contactId, attributes, null, UpdateContactResponse.class);
     }
 
-    public DeleteContactResponse deleteContact(String accountId, String contactId) throws DnsimpleException, IOException {
+    public DeleteContactResponse deleteContact(String accountId, String contactId) throws DnsimpleException, IOException, InterruptedException {
         return (DeleteContactResponse) client.delete(accountId + "/contacts/" + contactId, null, DeleteContactResponse.class);
     }
 }

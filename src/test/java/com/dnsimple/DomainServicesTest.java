@@ -22,28 +22,28 @@ import org.junit.Test;
 public class DomainServicesTest extends DnsimpleTestBase {
 
   @Test
-  public void testAppliedServicesSupportsPagination() throws DnsimpleException, IOException {
+  public void testAppliedServicesSupportsPagination() throws DnsimpleException, IOException, InterruptedException {
     client.services.appliedServices("1", "example.com", singletonMap("page", 1));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
     assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/services?page=1"));
   }
 
   @Test
-  public void testAppliedServicesSupportsExtraRequestOptions() throws DnsimpleException, IOException {
+  public void testAppliedServicesSupportsExtraRequestOptions() throws DnsimpleException, IOException, InterruptedException {
     client.services.appliedServices("1", "example.com", singletonMap("foo", "bar"));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
     assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/services?foo=bar"));
   }
 
   @Test
-  public void testAppliedServicesSupportsSorting() throws DnsimpleException, IOException {
+  public void testAppliedServicesSupportsSorting() throws DnsimpleException, IOException, InterruptedException {
     client.services.appliedServices("1", "example.com", singletonMap("sort", "name:asc"));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
-    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/services?sort=name:asc"));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/services?sort=name%3Aasc"));
   }
 
   @Test
-  public void testAppliedServicesProducesServiceList() throws DnsimpleException, IOException {
+  public void testAppliedServicesProducesServiceList() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("appliedServices/success.http");
 
     List<Service> services = client.services.appliedServices("1", "example.com").getData();
@@ -52,7 +52,7 @@ public class DomainServicesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testAppliedServicesExposesPaginationInfo() throws DnsimpleException, IOException {
+  public void testAppliedServicesExposesPaginationInfo() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("appliedServices/success.http");
 
     AppliedServicesResponse response = client.services.appliedServices("1", "example.com");
@@ -60,7 +60,7 @@ public class DomainServicesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testApplyService() throws DnsimpleException, IOException {
+  public void testApplyService() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("applyService/success.http");
 
     ApplyServiceResponse response = client.services.applyService("1010", "example.com", "2", emptyMap());
@@ -70,7 +70,7 @@ public class DomainServicesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testUnapplyService() throws DnsimpleException, IOException {
+  public void testUnapplyService() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("unapplyService/success.http");
 
     UnapplyServiceResponse response = client.services.unapplyService("1010", "example.com", "2");

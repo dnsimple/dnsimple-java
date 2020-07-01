@@ -4,16 +4,23 @@ import com.dnsimple.data.Domain;
 import com.dnsimple.data.Pagination;
 
 import java.util.List;
+import java.util.ArrayList;
 
-import static java.util.Collections.emptyList;
+
 
 public class ListDomainsResponse extends ApiResponse {
-    private final List<Domain> data;
-    private final Pagination pagination;
+
+  private List<Domain> data;
+
+
+  private Pagination pagination;
 
     public ListDomainsResponse() {
-        data = emptyList();
-        pagination = Pagination.empty();
+    this(new ArrayList<Domain>());
+  }
+
+  public ListDomainsResponse(List<Domain> data) {
+    this(data, new Pagination());
     }
 
     public ListDomainsResponse(List<Domain> data, Pagination pagination) {

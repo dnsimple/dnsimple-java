@@ -14,51 +14,51 @@ public class ZonesEndpoint implements Zones {
         this.client = client;
     }
 
-    public ListZonesResponse listZones(String accountId) throws DnsimpleException, IOException {
+    public ListZonesResponse listZones(String accountId) throws DnsimpleException, IOException, InterruptedException {
         return listZones(accountId, null);
     }
 
-    public ListZonesResponse listZones(String accountId, Map<String, Object> options) throws DnsimpleException, IOException {
+    public ListZonesResponse listZones(String accountId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
         return (ListZonesResponse) client.get(accountId + "/zones", options, ListZonesResponse.class);
     }
 
-    public GetZoneResponse getZone(String accountId, String zoneId) throws DnsimpleException, IOException {
+    public GetZoneResponse getZone(String accountId, String zoneId) throws DnsimpleException, IOException, InterruptedException {
         return (GetZoneResponse) client.get(accountId + "/zones/" + zoneId, null, GetZoneResponse.class);
     }
 
-    public GetZoneFileResponse getZoneFile(String accountId, String zoneId) throws DnsimpleException, IOException {
+    public GetZoneFileResponse getZoneFile(String accountId, String zoneId) throws DnsimpleException, IOException, InterruptedException {
         return (GetZoneFileResponse) client.get(accountId + "/zones/" + zoneId + "/file", null, GetZoneFileResponse.class);
     }
 
-    public CheckZoneDistributionResponse checkZoneDistribution(String accountId, String zoneId) throws DnsimpleException, IOException {
+    public CheckZoneDistributionResponse checkZoneDistribution(String accountId, String zoneId) throws DnsimpleException, IOException, InterruptedException {
         return (CheckZoneDistributionResponse) client.get(accountId + "/zones/" + zoneId + "/distribution", null, CheckZoneDistributionResponse.class);
     }
 
-    public CheckZoneDistributionResponse checkZoneRecordDistribution(String accountId, String zoneId, String recordId) throws DnsimpleException, IOException {
+    public CheckZoneDistributionResponse checkZoneRecordDistribution(String accountId, String zoneId, String recordId) throws DnsimpleException, IOException, InterruptedException {
         return (CheckZoneDistributionResponse) client.get(accountId + "/zones/" + zoneId + "/records/" + recordId + "/distribution", null, CheckZoneDistributionResponse.class);
     }
 
-    public ListZoneRecordsResponse listZoneRecords(String accountId, String zoneId) throws DnsimpleException, IOException {
+    public ListZoneRecordsResponse listZoneRecords(String accountId, String zoneId) throws DnsimpleException, IOException, InterruptedException {
         return listZoneRecords(accountId, zoneId, null);
     }
 
-    public ListZoneRecordsResponse listZoneRecords(String accountId, String zoneId, Map<String, Object> options) throws DnsimpleException, IOException {
+    public ListZoneRecordsResponse listZoneRecords(String accountId, String zoneId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
         return (ListZoneRecordsResponse) client.get(accountId + "/zones/" + zoneId + "/records", options, ListZoneRecordsResponse.class);
     }
 
-    public GetZoneRecordResponse getZoneRecord(String accountId, String zoneId, String recordId) throws DnsimpleException, IOException {
+    public GetZoneRecordResponse getZoneRecord(String accountId, String zoneId, String recordId) throws DnsimpleException, IOException, InterruptedException {
         return (GetZoneRecordResponse) client.get(accountId + "/zones/" + zoneId + "/records/" + recordId, null, GetZoneRecordResponse.class);
     }
 
-    public CreateZoneRecordResponse createZoneRecord(String accountId, String zoneId, Map<String, Object> attributes) throws DnsimpleException, IOException {
+    public CreateZoneRecordResponse createZoneRecord(String accountId, String zoneId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException {
         return (CreateZoneRecordResponse) client.post(accountId + "/zones/" + zoneId + "/records", attributes, null, CreateZoneRecordResponse.class);
     }
 
-    public UpdateZoneRecordResponse updateZoneRecord(String accountId, String zoneId, String recordId, Map<String, Object> attributes) throws DnsimpleException, IOException {
+    public UpdateZoneRecordResponse updateZoneRecord(String accountId, String zoneId, String recordId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException {
         return (UpdateZoneRecordResponse) client.patch(accountId + "/zones/" + zoneId + "/records/" + recordId, attributes, null, UpdateZoneRecordResponse.class);
     }
 
-    public DeleteZoneRecordResponse deleteZoneRecord(String accountId, String zoneId, String recordId) throws DnsimpleException, IOException {
+    public DeleteZoneRecordResponse deleteZoneRecord(String accountId, String zoneId, String recordId) throws DnsimpleException, IOException, InterruptedException {
         return (DeleteZoneRecordResponse) client.delete(accountId + "/zones/" + zoneId + "/records/" + recordId, null, DeleteZoneRecordResponse.class);
     }
 }

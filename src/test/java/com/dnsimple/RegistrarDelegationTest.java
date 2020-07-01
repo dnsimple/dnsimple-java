@@ -19,7 +19,7 @@ import org.junit.Test;
 
 public class RegistrarDelegationTest extends DnsimpleTestBase {
   @Test
-  public void testGetDomainDelegation() throws DnsimpleException, IOException {
+  public void testGetDomainDelegation() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("getDomainDelegation/success.http");
 
     List<String> delegatedTo = client.registrar.getDomainDelegation("1010", "example.com").getData();
@@ -33,7 +33,7 @@ public class RegistrarDelegationTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testChangeDomainDelegation() throws DnsimpleException, IOException {
+  public void testChangeDomainDelegation() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("changeDomainDelegation/success.http");
 
     List<String> nameServerNames = singletonList("ns1.example.com");
@@ -48,7 +48,7 @@ public class RegistrarDelegationTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testChangeDomainDelegationToVanity() throws DnsimpleException, IOException {
+  public void testChangeDomainDelegationToVanity() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("changeDomainDelegationToVanity/success.http");
 
     List<String> nameServerNames = Arrays.asList("ns1.example.com", "ns2.example.com");
@@ -66,7 +66,7 @@ public class RegistrarDelegationTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testChangeDomainDelegationFromVanity() throws DnsimpleException, IOException {
+  public void testChangeDomainDelegationFromVanity() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("changeDomainDelegationFromVanity/success.http");
 
     ChangeDomainDelegationFromVanityResponse response = client.registrar.changeDomainDelegationFromVanity("1010", "example.com");

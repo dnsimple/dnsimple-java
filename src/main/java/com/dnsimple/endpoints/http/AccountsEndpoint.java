@@ -13,7 +13,7 @@ public class AccountsEndpoint implements Accounts {
         this.client = client;
     }
 
-    public ListAccountsResponse listAccounts() throws DnsimpleException, IOException {
+    public ListAccountsResponse listAccounts() throws DnsimpleException, IOException, InterruptedException {
         return (ListAccountsResponse) client.get("accounts", null, ListAccountsResponse.class);
     }
 }

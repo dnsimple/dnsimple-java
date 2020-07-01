@@ -28,28 +28,28 @@ import org.junit.Test;
 public class TemplatesTest extends DnsimpleTestBase {
 
   @Test
-  public void testListTemplatesSupportsPagination() throws DnsimpleException, IOException {
+  public void testListTemplatesSupportsPagination() throws DnsimpleException, IOException, InterruptedException {
     client.templates.listTemplates("1", singletonMap("page", 1));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
     assertThat(server.getRecordedRequest().getPath(), is("/v2/1/templates?page=1"));
   }
 
   @Test
-  public void testListTemplatesSupportsExtraRequestOptions() throws DnsimpleException, IOException {
+  public void testListTemplatesSupportsExtraRequestOptions() throws DnsimpleException, IOException, InterruptedException {
     client.templates.listTemplates("1", singletonMap("foo", "bar"));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
     assertThat(server.getRecordedRequest().getPath(), is("/v2/1/templates?foo=bar"));
   }
 
   @Test
-  public void testListTemplatesSupportsSorting() throws DnsimpleException, IOException {
+  public void testListTemplatesSupportsSorting() throws DnsimpleException, IOException, InterruptedException {
     client.templates.listTemplates("1", singletonMap("sort", "name:asc"));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
-    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/templates?sort=name:asc"));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/templates?sort=name%3Aasc"));
   }
 
   @Test
-  public void testListTemplatesProducesTemplateList() throws DnsimpleException, IOException {
+  public void testListTemplatesProducesTemplateList() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("listTemplates/success.http");
 
     List<Template> templates = client.templates.listTemplates("1").getData();
@@ -58,7 +58,7 @@ public class TemplatesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testListTemplatesExposesPaginationInfo() throws DnsimpleException, IOException {
+  public void testListTemplatesExposesPaginationInfo() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("listTemplates/success.http");
 
     ListTemplatesResponse response = client.templates.listTemplates("1");
@@ -66,7 +66,7 @@ public class TemplatesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testGetTemplate() throws DnsimpleException, IOException {
+  public void testGetTemplate() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("getTemplate/success.http");
 
     Template template = client.templates.getTemplate("1010", "1").getData();
@@ -75,7 +75,7 @@ public class TemplatesTest extends DnsimpleTestBase {
     assertThat(template.getId(), is(1));
     assertThat(template.getAccountId(), is(1010));
     assertThat(template.getName(), is("Alpha"));
-    assertThat(template.getSid(), is("alpha"));
+    assertThat(template.getShortName(), is("alpha"));
     assertThat(template.getDescription(), is("An alpha template."));
     assertThat(template.getCreatedAt(), is("2016-03-22T11:08:58Z"));
     assertThat(template.getUpdatedAt(), is("2016-03-22T11:08:58Z"));
@@ -90,7 +90,7 @@ public class TemplatesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testCreateTemplateSendsCorrectRequest() throws DnsimpleException, IOException {
+  public void testCreateTemplateSendsCorrectRequest() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("createTemplate/created.http");
 
     Map<String, Object> attributes = new HashMap<>();
@@ -103,7 +103,7 @@ public class TemplatesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testCreateTemplateProducesTemplate() throws DnsimpleException, IOException {
+  public void testCreateTemplateProducesTemplate() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("createTemplate/created.http");
 
     Map<String, Object> attributes = new HashMap<>();
@@ -114,7 +114,7 @@ public class TemplatesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testUpdateTemplate() throws DnsimpleException, IOException {
+  public void testUpdateTemplate() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("updateTemplate/success.http");
 
     Map<String, Object> attributes = new HashMap<>();
@@ -128,7 +128,7 @@ public class TemplatesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testDeleteTemplate() throws DnsimpleException, IOException {
+  public void testDeleteTemplate() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("deleteTemplate/success.http");
 
     DeleteTemplateResponse response = client.templates.deleteTemplate("1010", "1");
@@ -138,7 +138,7 @@ public class TemplatesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testApplyTemplate() throws DnsimpleException, IOException {
+  public void testApplyTemplate() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("applyTemplate/success.http");
 
     ApplyTemplateResponse response = client.templates.applyTemplate("1010", "1", "example.com");
