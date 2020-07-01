@@ -15,5 +15,5 @@ public interface Accounts {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/accounts#list">https://developer.dnsimple.com/v2/accounts#list</a>
      */
-    public ListResponse<Account> listAccounts() throws DnsimpleException, IOException, InterruptedException;
+    ListResponse<Account> listAccounts() throws DnsimpleException, IOException, InterruptedException;
 }

@@ -23,7 +23,7 @@ public interface VanityNameServers {
      * @throws IOException       Any IO error
      * @see <a href="https://developer.dnsimple.com/v2/domains/vanity/#enable">https://developer.dnsimple.com/v2/domains/vanity/#enable</a>
      */
-    public ListResponse<NameServer> enableVanityNameServers(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
+    ListResponse<NameServer> enableVanityNameServers(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Disable vanity name servers for the domain
@@ -35,5 +35,5 @@ public interface VanityNameServers {
      * @throws IOException       Any IO error
      * @see <a href="https://developer.dnsimple.com/v2/domains/vanity/#disable">https://developer.dnsimple.com/v2/domains/vanity/#disable</a>
      */
-    public EmptyResponse disableVanityNameServers(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
+    EmptyResponse disableVanityNameServers(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
 }
