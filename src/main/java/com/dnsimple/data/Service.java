@@ -1,14 +1,11 @@
 package com.dnsimple.data;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class Service {
     private Integer id;
     private String name;
-    @SerializedName(value = "sid")
-    private String shortName;
+    private String sid;
     private String description;
     private String setupDescription;
     private Boolean requiresSetup;
@@ -26,7 +23,7 @@ public class Service {
     }
 
     public String getShortName() {
-        return shortName;
+        return sid;
     }
 
     public String getDescription() {

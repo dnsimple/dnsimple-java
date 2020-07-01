@@ -1,31 +1,26 @@
 package com.dnsimple.data;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class CertificateBundle {
     private String privateKey;
-    @SerializedName("server")
-    private String serverCertificate;
-    @SerializedName("root")
-    private String rootCertificate;
-    @SerializedName("chain")
-    private List<String> intermediateCertificates;
+    private String server;
+    private String root;
+    private List<String> chain;
 
     public String getPrivateKey() {
         return privateKey;
     }
 
     public String getServerCertificate() {
-        return serverCertificate;
+        return server;
     }
 
     public String getRootCertificate() {
-        return rootCertificate;
+        return root;
     }
 
     public List<String> getIntermediateCertificates() {
-        return intermediateCertificates;
+        return chain;
     }
 }
