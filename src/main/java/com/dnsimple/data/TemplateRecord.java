@@ -1,27 +1,15 @@
 package com.dnsimple.data;
 
 public class TemplateRecord {
-    private final Integer id;
-    private final Integer templateId;
-    private final String name;
-    private final String content;
-    private final Integer ttl;
-    private final Integer priority;
-    private final String type;
-    private final String createdAt;
-    private final String updatedAt;
-
-    public TemplateRecord(Integer id, Integer templateId, String name, String content, Integer ttl, Integer priority, String type, String createdAt, String updatedAt) {
-        this.id = id;
-        this.templateId = templateId;
-        this.name = name;
-        this.content = content;
-        this.ttl = ttl;
-        this.priority = priority;
-        this.type = type;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
+    private Integer id;
+    private Integer templateId;
+    private String name;
+    private String content;
+    private Integer ttl;
+    private Integer priority;
+    private String type;
+    private String createdAt;
+    private String updatedAt;
 
     public Integer getId() {
         return id;

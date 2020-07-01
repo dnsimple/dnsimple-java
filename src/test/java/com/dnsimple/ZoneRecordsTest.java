@@ -27,28 +27,28 @@ import org.junit.Test;
 public class ZoneRecordsTest extends DnsimpleTestBase {
 
   @Test
-  public void testListZoneRecordsSupportsPagination() throws DnsimpleException, IOException {
+  public void testListZoneRecordsSupportsPagination() throws DnsimpleException, IOException, InterruptedException {
     client.zones.listZoneRecords("1", "example.com", singletonMap("page", 1));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
     assertThat(server.getRecordedRequest().getPath(), is("/v2/1/zones/example.com/records?page=1"));
   }
 
   @Test
-  public void testListZoneRecordsSupportsExtraRequestOptions() throws DnsimpleException, IOException {
+  public void testListZoneRecordsSupportsExtraRequestOptions() throws DnsimpleException, IOException, InterruptedException {
     client.zones.listZoneRecords("1", "example.com", singletonMap("foo", "bar"));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
     assertThat(server.getRecordedRequest().getPath(), is("/v2/1/zones/example.com/records?foo=bar"));
   }
 
   @Test
-  public void testListZoneRecordsSupportsSorting() throws DnsimpleException, IOException {
+  public void testListZoneRecordsSupportsSorting() throws DnsimpleException, IOException, InterruptedException {
     client.zones.listZoneRecords("1", "example.com", singletonMap("sort", "name:asc"));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
-    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/zones/example.com/records?sort=name:asc"));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/zones/example.com/records?sort=name%3Aasc"));
   }
 
   @Test
-  public void testListZoneRecordsProducesDomainList() throws DnsimpleException, IOException {
+  public void testListZoneRecordsProducesDomainList() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("listZoneRecords/success.http");
 
     List<ZoneRecord> zoneRecords = client.zones.listZoneRecords("1", "example.com").getData();
@@ -57,7 +57,7 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testListZoneRecordsExposesPaginationInfo() throws DnsimpleException, IOException {
+  public void testListZoneRecordsExposesPaginationInfo() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("listZoneRecords/success.http");
 
     ListZoneRecordsResponse response = client.zones.listZoneRecords("1", "example.com");
@@ -65,7 +65,7 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testGetZoneRecord() throws DnsimpleException, IOException {
+  public void testGetZoneRecord() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("getZoneRecord/success.http");
 
     ZoneRecord record = client.zones.getZoneRecord("1", "example.com", "2").getData();
@@ -91,7 +91,7 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testCreateZoneRecordSendsCorrectRequest() throws DnsimpleException, IOException {
+  public void testCreateZoneRecordSendsCorrectRequest() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("createZoneRecord/created.http");
 
     Map<String, Object> attributes = singletonMap("name", "www");
@@ -103,7 +103,7 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testCreateZoneRecordProducesZoneRecord() throws DnsimpleException, IOException {
+  public void testCreateZoneRecordProducesZoneRecord() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("createZoneRecord/created.http");
 
     CreateZoneRecordResponse response = client.zones.createZoneRecord("1", "example.com", singletonMap("name", "www"));
@@ -111,7 +111,7 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testUpdateZoneRecordProducesZoneRecord() throws DnsimpleException, IOException {
+  public void testUpdateZoneRecordProducesZoneRecord() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("updateZoneRecord/success.http");
 
     Map<String, Object> attributes = singletonMap("name", "www");
@@ -123,7 +123,7 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testDeleteZoneRecord() throws DnsimpleException, IOException {
+  public void testDeleteZoneRecord() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("deleteZoneRecord/success.http");
 
     DeleteZoneRecordResponse response = client.zones.deleteZoneRecord("1", "example.com", "2");

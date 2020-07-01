@@ -13,7 +13,7 @@ import org.junit.Test;
 
 public class VanityNameServersTest extends DnsimpleTestBase {
   @Test
-  public void testEnableVanityNameServers() throws DnsimpleException, IOException {
+  public void testEnableVanityNameServers() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("enableVanityNameServers/success.http");
 
     client.vanityNameServers.enableVanityNameServers("1010", "example.com");
@@ -22,7 +22,7 @@ public class VanityNameServersTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testDisableVanityNameServers() throws DnsimpleException, IOException {
+  public void testDisableVanityNameServers() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("disableVanityNameServers/success.http");
 
     DisableVanityNameServersResponse response = client.vanityNameServers.disableVanityNameServers("1010", "example.com");

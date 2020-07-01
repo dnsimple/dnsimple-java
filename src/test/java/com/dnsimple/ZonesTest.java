@@ -25,28 +25,28 @@ import org.junit.Test;
 public class ZonesTest extends DnsimpleTestBase {
 
   @Test
-  public void testListZonesSupportsPagination() throws DnsimpleException, IOException {
+  public void testListZonesSupportsPagination() throws DnsimpleException, IOException, InterruptedException {
     client.zones.listZones("1", singletonMap("page", 1));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
     assertThat(server.getRecordedRequest().getPath(), is("/v2/1/zones?page=1"));
   }
 
   @Test
-  public void testListZonesSupportsExtraRequestOptions() throws DnsimpleException, IOException {
+  public void testListZonesSupportsExtraRequestOptions() throws DnsimpleException, IOException, InterruptedException {
     client.zones.listZones("1", singletonMap("foo", "bar"));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
     assertThat(server.getRecordedRequest().getPath(), is("/v2/1/zones?foo=bar"));
   }
 
   @Test
-  public void testListDomainsSupportsSorting() throws DnsimpleException, IOException {
+  public void testListDomainsSupportsSorting() throws DnsimpleException, IOException, InterruptedException {
     client.zones.listZones("1", singletonMap("sort", "expires_on:asc"));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
-    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/zones?sort=expires_on:asc"));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/zones?sort=expires_on%3Aasc"));
   }
 
   @Test
-  public void testListZonesSupportsFiltering() throws DnsimpleException, IOException {
+  public void testListZonesSupportsFiltering() throws DnsimpleException, IOException, InterruptedException {
     Map<String, Object> options = new HashMap<>();
     options.put("filter", new Filter("name_like", "example"));
     client.zones.listZones("1", options);
@@ -55,7 +55,7 @@ public class ZonesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testListZonesProducesZoneList() throws DnsimpleException, IOException {
+  public void testListZonesProducesZoneList() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("listZones/success.http");
 
     List<Zone> zones = client.zones.listZones("1").getData();
@@ -64,7 +64,7 @@ public class ZonesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testListZonesExposesPaginationInfo() throws DnsimpleException, IOException {
+  public void testListZonesExposesPaginationInfo() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("listZones/success.http");
 
     ListZonesResponse response = client.zones.listZones("1");
@@ -72,7 +72,7 @@ public class ZonesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testGetZone() throws DnsimpleException, IOException {
+  public void testGetZone() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("getZone/success.http");
 
     Zone zone = client.zones.getZone("1", "example.com").getData();
@@ -92,7 +92,7 @@ public class ZonesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testGetZoneFile() throws DnsimpleException, IOException {
+  public void testGetZoneFile() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("getZoneFile/success.http");
 
     GetZoneFileResponse response = client.zones.getZoneFile("1", "example.com");
@@ -116,7 +116,7 @@ public class ZonesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testCheckZoneDistribution() throws DnsimpleException, IOException {
+  public void testCheckZoneDistribution() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("checkZoneDistribution/success.http");
 
     CheckZoneDistributionResponse response = client.zones.checkZoneDistribution("1", "example.com");
@@ -124,7 +124,7 @@ public class ZonesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testCheckZoneDistributionNotDistributed() throws DnsimpleException, IOException {
+  public void testCheckZoneDistributionNotDistributed() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("checkZoneDistribution/failure.http");
 
     CheckZoneDistributionResponse response = client.zones.checkZoneDistribution("1", "example.com");
@@ -148,7 +148,7 @@ public class ZonesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testCheckZoneRecordDistribution() throws DnsimpleException, IOException {
+  public void testCheckZoneRecordDistribution() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("checkZoneRecordDistribution/success.http");
 
     CheckZoneDistributionResponse response = client.zones.checkZoneRecordDistribution("1010", "example.com", "1");
@@ -156,7 +156,7 @@ public class ZonesTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testCheckZoneRecordDistributionNotDistributed() throws DnsimpleException, IOException {
+  public void testCheckZoneRecordDistributionNotDistributed() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("checkZoneRecordDistribution/failure.http");
 
     CheckZoneDistributionResponse response = client.zones.checkZoneRecordDistribution("1010", "example.com", "1010");

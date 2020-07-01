@@ -3,18 +3,24 @@ package com.dnsimple.response;
 import com.dnsimple.data.DelegationSignerRecord;
 import com.dnsimple.data.Pagination;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.ArrayList;
 
-import static java.util.Collections.*;
+
 
 public class ListDelegationSignerRecordsResponse extends ApiResponse {
-    private final List<DelegationSignerRecord> data;
-    private final Pagination pagination;
+
+  private List<DelegationSignerRecord> data;
+
+
+  private Pagination pagination;
 
     public ListDelegationSignerRecordsResponse() {
-        data = emptyList();
-        pagination = Pagination.empty();
+    this(new ArrayList<DelegationSignerRecord>());
+  }
+
+  public ListDelegationSignerRecordsResponse(List<DelegationSignerRecord> data) {
+    this(data, new Pagination());
     }
 
     public ListDelegationSignerRecordsResponse(List<DelegationSignerRecord> data, Pagination pagination) {

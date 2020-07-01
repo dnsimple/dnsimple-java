@@ -23,14 +23,14 @@ import org.junit.Test;
 public class WebhooksTest extends DnsimpleTestBase {
 
   @Test
-  public void testListWebhooksSupportsExtraRequestOptions() throws DnsimpleException, IOException {
+  public void testListWebhooksSupportsExtraRequestOptions() throws DnsimpleException, IOException, InterruptedException {
     client.webhooks.listWebhooks("1010", singletonMap("foo", "bar"));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
     assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/webhooks?foo=bar"));
   }
 
   @Test
-  public void testListWebhooksProducesWebhookList() throws DnsimpleException, IOException {
+  public void testListWebhooksProducesWebhookList() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("listWebhooks/success.http");
 
     List<Webhook> webhooks = client.webhooks.listWebhooks("1010").getData();
@@ -39,7 +39,7 @@ public class WebhooksTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testGetWebhook() throws DnsimpleException, IOException {
+  public void testGetWebhook() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("getWebhook/success.http");
 
     Webhook webhook = client.webhooks.getWebhook("1010", "1").getData();
@@ -58,7 +58,7 @@ public class WebhooksTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testCreateWebhook() throws DnsimpleException, IOException {
+  public void testCreateWebhook() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("createWebhook/created.http");
 
     Map<String, Object> attributes = singletonMap("url", "https://webhook.test");
@@ -71,7 +71,7 @@ public class WebhooksTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testDeleteWebhook() throws DnsimpleException, IOException {
+  public void testDeleteWebhook() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("deleteWebhook/success.http");
 
     DeleteWebhookResponse response = client.webhooks.deleteWebhook("1010", "1");

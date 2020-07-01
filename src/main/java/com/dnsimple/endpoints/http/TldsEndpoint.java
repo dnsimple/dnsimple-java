@@ -16,19 +16,19 @@ public class TldsEndpoint implements Tlds {
         this.client = client;
     }
 
-    public ListTldsResponse listTlds() throws DnsimpleException, IOException {
+    public ListTldsResponse listTlds() throws DnsimpleException, IOException, InterruptedException {
         return listTlds(null);
     }
 
-    public ListTldsResponse listTlds(Map<String, Object> options) throws DnsimpleException, IOException {
+    public ListTldsResponse listTlds(Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
         return (ListTldsResponse) client.get("tlds", options, ListTldsResponse.class);
     }
 
-    public GetTldResponse getTld(String tld) throws DnsimpleException, IOException {
+    public GetTldResponse getTld(String tld) throws DnsimpleException, IOException, InterruptedException {
         return (GetTldResponse) client.get("tlds/" + tld, null, GetTldResponse.class);
     }
 
-    public GetTldExtendedAttributesResponse getTldExtendedAttributes(String tld) throws DnsimpleException, IOException {
+    public GetTldExtendedAttributesResponse getTldExtendedAttributes(String tld) throws DnsimpleException, IOException, InterruptedException {
         return (GetTldExtendedAttributesResponse) client.get("tlds/" + tld + "/extended_attributes", null, GetTldExtendedAttributesResponse.class);
     }
 }

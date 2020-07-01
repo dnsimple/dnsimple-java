@@ -1,9 +1,9 @@
 package com.dnsimple;
 
-import cocotero.GoogleHttpEndpointClient;
 import com.dnsimple.endpoints.EndpointAdapter;
 import com.dnsimple.endpoints.http.HttpEndpointAdapter;
 import com.dnsimple.endpoints.http.HttpEndpointClient;
+import com.dnsimple.endpoints.http.NativeHttpEndpointClient;
 
 /**
  * Instances of the Client handle low-level HTTP calls to the API.
@@ -36,7 +36,7 @@ public class Client {
      * WhoamiResponse response = client.accounts.whoami();
      */
     public Client() {
-        this.endpointClient = new GoogleHttpEndpointClient();
+        this.endpointClient = new NativeHttpEndpointClient();
         EndpointAdapter adapter = new HttpEndpointAdapter(endpointClient);
         this.accounts = adapter.accounts();
         this.certificates = adapter.certificates();
@@ -53,7 +53,7 @@ public class Client {
         this.zones = adapter.zones();
     }
 
-    public Client(GoogleHttpEndpointClient endpointClient) {
+    public Client(HttpEndpointClient endpointClient) {
         this.endpointClient = endpointClient;
         EndpointAdapter adapter = new HttpEndpointAdapter(this.endpointClient);
         this.accounts = adapter.accounts();

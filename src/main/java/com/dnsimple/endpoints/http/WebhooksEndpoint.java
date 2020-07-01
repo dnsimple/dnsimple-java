@@ -17,23 +17,23 @@ public class WebhooksEndpoint implements Webhooks {
         this.client = client;
     }
 
-    public ListWebhooksResponse listWebhooks(String accountId) throws DnsimpleException, IOException {
+    public ListWebhooksResponse listWebhooks(String accountId) throws DnsimpleException, IOException, InterruptedException {
         return listWebhooks(accountId, null);
     }
 
-    public ListWebhooksResponse listWebhooks(String accountId, Map<String, Object> options) throws DnsimpleException, IOException {
+    public ListWebhooksResponse listWebhooks(String accountId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
         return (ListWebhooksResponse) client.get(accountId + "/webhooks", options, ListWebhooksResponse.class);
     }
 
-    public GetWebhookResponse getWebhook(String accountId, String webhookId) throws DnsimpleException, IOException {
+    public GetWebhookResponse getWebhook(String accountId, String webhookId) throws DnsimpleException, IOException, InterruptedException {
         return (GetWebhookResponse) client.get(accountId + "/webhooks/" + webhookId, null, GetWebhookResponse.class);
     }
 
-    public CreateWebhookResponse createWebhook(String accountId, Map<String, Object> attributes) throws DnsimpleException, IOException {
+    public CreateWebhookResponse createWebhook(String accountId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException {
         return (CreateWebhookResponse) client.post(accountId + "/webhooks", attributes, null, CreateWebhookResponse.class);
     }
 
-    public DeleteWebhookResponse deleteWebhook(String accountId, String webhookId) throws DnsimpleException, IOException {
+    public DeleteWebhookResponse deleteWebhook(String accountId, String webhookId) throws DnsimpleException, IOException, InterruptedException {
         return (DeleteWebhookResponse) client.delete(accountId + "/webhooks/" + webhookId, null, DeleteWebhookResponse.class);
     }
 }

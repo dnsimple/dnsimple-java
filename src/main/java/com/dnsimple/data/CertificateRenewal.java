@@ -1,19 +1,20 @@
 package com.dnsimple.data;
 
 public class CertificateRenewal {
-    private final Integer id;
-    private final Integer oldCertificateId;
-    private final Integer newCertificateId;
-    private final String createdAt;
-    private final String updatedAt;
 
-    public CertificateRenewal(Integer id, Integer oldCertificateId, Integer newCertificateId, String createdAt, String updatedAt) {
-        this.id = id;
-        this.oldCertificateId = oldCertificateId;
-        this.newCertificateId = newCertificateId;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
+  private Integer id;
+
+
+  private Integer oldCertificateId;
+
+
+  private Integer newCertificateId;
+
+
+  private String createdAt;
+
+
+  private String updatedAt;
 
     public Integer getId() {
         return id;

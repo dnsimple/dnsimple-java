@@ -11,9 +11,6 @@ repositories {
 
 dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.google.http-client:google-http-client:1.35.0'
-    implementation 'com.google.http-client:google-http-client-gson:1.35.0'
-    implementation 'com.google.http-client:google-http-client-apache-v2:1.35.0'
     implementation 'io.mikael:urlbuilder:2.0.9'
     testImplementation 'junit:junit:4.13'
     testImplementation 'org.hamcrest:hamcrest-all:1.3'

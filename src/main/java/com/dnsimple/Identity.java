@@ -19,5 +19,5 @@ public interface Identity {
      * @throws IOException       Any IO error
      * @see <a href="https://developer.dnsimple.com/v2/identity/#whoami">https://developer.dnsimple.com/v2/identity/#whoami</a>
      */
-    public WhoamiResponse whoami() throws DnsimpleException, IOException;
+    public WhoamiResponse whoami() throws DnsimpleException, IOException, InterruptedException;
 }

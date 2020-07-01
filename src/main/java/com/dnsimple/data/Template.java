@@ -1,23 +1,30 @@
 package com.dnsimple.data;
 
-public class Template {
-    private final Integer id;
-    private final Integer accountId;
-    private final String name;
-    private final String sid;
-    private final String description;
-    private final String createdAt;
-    private final String updatedAt;
+import com.google.gson.annotations.SerializedName;
 
-    public Template(Integer id, Integer accountId, String name, String sid, String description, String createdAt, String updatedAt) {
-        this.id = id;
-        this.accountId = accountId;
-        this.name = name;
-        this.sid = sid;
-        this.description = description;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
+public class Template {
+
+  private Integer id;
+
+
+  private Integer accountId;
+
+
+  private String name;
+
+
+  @SerializedName("sid")
+  private String shortName;
+
+
+  private String description;
+
+
+  private String createdAt;
+
+
+  private String updatedAt;
+
 
     public Integer getId() {
         return id;
@@ -31,8 +38,8 @@ public class Template {
         return name;
     }
 
-    public String getSid() {
-        return sid;
+  public String getShortName() {
+    return shortName;
     }
 
     public String getDescription() {

@@ -22,28 +22,28 @@ import org.junit.Test;
 public class DomainCollaboratorsTest extends DnsimpleTestBase {
 
   @Test
-  public void testListCollaboratorsSupportsPagination() throws DnsimpleException, IOException {
+  public void testListCollaboratorsSupportsPagination() throws DnsimpleException, IOException, InterruptedException {
     client.domains.listCollaborators("1", "example.com", singletonMap("page", 1));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
     assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/collaborators?page=1"));
   }
 
   @Test
-  public void testListCollaboratorsSupportsExtraRequestOptions() throws DnsimpleException, IOException {
+  public void testListCollaboratorsSupportsExtraRequestOptions() throws DnsimpleException, IOException, InterruptedException {
     client.domains.listCollaborators("1", "example.com", singletonMap("foo", "bar"));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
     assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/collaborators?foo=bar"));
   }
 
   @Test
-  public void testCollaboratorsSupportsSorting() throws DnsimpleException, IOException {
+  public void testCollaboratorsSupportsSorting() throws DnsimpleException, IOException, InterruptedException {
     client.domains.listCollaborators("1", "example.com", singletonMap("sort", "created_at:asc"));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
-    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/collaborators?sort=created_at:asc"));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/collaborators?sort=created_at%3Aasc"));
   }
 
   @Test
-  public void testCollaboratorsProducesDelegationSignerRecordList() throws DnsimpleException, IOException {
+  public void testCollaboratorsProducesDelegationSignerRecordList() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("listCollaborators/success.http");
 
     List<Collaborator> collaborators = client.domains.listCollaborators("1", "example.com").getData();
@@ -52,7 +52,7 @@ public class DomainCollaboratorsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testListCollaboratorsExposesPaginationInfo() throws DnsimpleException, IOException {
+  public void testListCollaboratorsExposesPaginationInfo() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("listCollaborators/success.http");
 
     ListCollaboratorsResponse response = client.domains.listCollaborators("1", "example.com");
@@ -60,7 +60,7 @@ public class DomainCollaboratorsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testAddColaboratorProducersInvitedUserCollaborator() throws DnsimpleException, IOException {
+  public void testAddColaboratorProducersInvitedUserCollaborator() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("addCollaborator/invite-success.http");
 
     Collaborator collaborator = client.domains.addCollaborator("1", "example.com", singletonMap("email", "invited-user@example.com")).getData();
@@ -73,7 +73,7 @@ public class DomainCollaboratorsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testAddColaboratorProducersExistingUserCollaborator() throws DnsimpleException, IOException {
+  public void testAddColaboratorProducersExistingUserCollaborator() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("addCollaborator/success.http");
 
     Collaborator collaborator = client.domains.addCollaborator("1", "example.com", singletonMap("email", "invited-user@example.com")).getData();
@@ -86,7 +86,7 @@ public class DomainCollaboratorsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testRemoveCollaborator() throws DnsimpleException, IOException {
+  public void testRemoveCollaborator() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("removeCollaborator/success.http");
 
     RemoveCollaboratorResponse response = client.domains.removeCollaborator("1", "example.com", "100");

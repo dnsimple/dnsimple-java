@@ -13,7 +13,7 @@ public class IdentityEndpoint implements Identity {
         this.client = client;
     }
 
-    public WhoamiResponse whoami() throws DnsimpleException, IOException {
+    public WhoamiResponse whoami() throws DnsimpleException, IOException, InterruptedException {
         return (WhoamiResponse) client.get("whoami", null, WhoamiResponse.class);
     }
 }

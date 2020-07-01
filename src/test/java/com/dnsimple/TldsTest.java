@@ -23,28 +23,28 @@ import org.junit.Test;
 public class TldsTest extends DnsimpleTestBase {
 
   @Test
-  public void testListTldsSupportsPagination() throws DnsimpleException, IOException {
+  public void testListTldsSupportsPagination() throws DnsimpleException, IOException, InterruptedException {
     client.tlds.listTlds(singletonMap("page", 1));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
     assertThat(server.getRecordedRequest().getPath(), is("/v2/tlds?page=1"));
   }
 
   @Test
-  public void testListTldsSupportsExtraRequestOptions() throws DnsimpleException, IOException {
+  public void testListTldsSupportsExtraRequestOptions() throws DnsimpleException, IOException, InterruptedException {
     client.tlds.listTlds(singletonMap("foo", "bar"));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
     assertThat(server.getRecordedRequest().getPath(), is("/v2/tlds?foo=bar"));
   }
 
   @Test
-  public void testListTldsSupportsSorting() throws DnsimpleException, IOException {
+  public void testListTldsSupportsSorting() throws DnsimpleException, IOException, InterruptedException {
     client.tlds.listTlds(singletonMap("sort", "name:asc"));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
-    assertThat(server.getRecordedRequest().getPath(), is("/v2/tlds?sort=name:asc"));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/tlds?sort=name%3Aasc"));
   }
 
   @Test
-  public void testListTldsProducesTldList() throws DnsimpleException, IOException {
+  public void testListTldsProducesTldList() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("listTlds/success.http");
 
     List<Tld> tlds = client.tlds.listTlds().getData();
@@ -53,7 +53,7 @@ public class TldsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testListTldsExposesPaginationInfo() throws DnsimpleException, IOException {
+  public void testListTldsExposesPaginationInfo() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("listTlds/success.http");
 
     ListTldsResponse response = client.tlds.listTlds();
@@ -61,7 +61,7 @@ public class TldsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testGetTld() throws DnsimpleException, IOException {
+  public void testGetTld() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("getTld/success.http");
 
     GetTldResponse response = client.tlds.getTld("com");
@@ -69,7 +69,7 @@ public class TldsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testGetTldExtendedAttributes() throws DnsimpleException, IOException {
+  public void testGetTldExtendedAttributes() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("getTldExtendedAttributes/success.http");
 
     GetTldExtendedAttributesResponse response = client.tlds.getTldExtendedAttributes("uk");
@@ -90,7 +90,7 @@ public class TldsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testGetTldExtendedAttributesWhenNone() throws DnsimpleException, IOException {
+  public void testGetTldExtendedAttributesWhenNone() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("getTldExtendedAttributes/success-noattributes.http");
 
     GetTldExtendedAttributesResponse response = client.tlds.getTldExtendedAttributes("com");

@@ -25,28 +25,28 @@ import org.junit.Test;
 public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
 
   @Test
-  public void testListDelegationSignerRecordsSupportsPagination() throws DnsimpleException, IOException {
+  public void testListDelegationSignerRecordsSupportsPagination() throws DnsimpleException, IOException, InterruptedException {
     client.domains.listDelegationSignerRecords("1", "1010", singletonMap("page", 1));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
     assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/1010/ds_records?page=1"));
   }
 
   @Test
-  public void testListDelegationSignerRecordsSupportsExtraRequestOptions() throws DnsimpleException, IOException {
+  public void testListDelegationSignerRecordsSupportsExtraRequestOptions() throws DnsimpleException, IOException, InterruptedException {
     client.domains.listDelegationSignerRecords("1", "1010", singletonMap("foo", "bar"));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
     assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/1010/ds_records?foo=bar"));
   }
 
   @Test
-  public void testListDelegationSignerRecordsSupportsSorting() throws DnsimpleException, IOException {
+  public void testListDelegationSignerRecordsSupportsSorting() throws DnsimpleException, IOException, InterruptedException {
     client.domains.listDelegationSignerRecords("1", "1010", singletonMap("sort", "created_at:asc"));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
-    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/1010/ds_records?sort=created_at:asc"));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/1010/ds_records?sort=created_at%3Aasc"));
   }
 
   @Test
-  public void testListDelegationSignerRecordsProducesDelegationSignerRecordList() throws DnsimpleException, IOException {
+  public void testListDelegationSignerRecordsProducesDelegationSignerRecordList() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("listDelegationSignerRecords/success.http");
 
     List<DelegationSignerRecord> dsRecords = client.domains.listDelegationSignerRecords("1", "1010").getData();
@@ -55,7 +55,7 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testListDelegationSignerRecordsExposesPaginationInfo() throws DnsimpleException, IOException {
+  public void testListDelegationSignerRecordsExposesPaginationInfo() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("listDelegationSignerRecords/success.http");
 
     ListDelegationSignerRecordsResponse response = client.domains.listDelegationSignerRecords("1", "1010");
@@ -63,7 +63,7 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testGetDelegationSignerRecord() throws DnsimpleException, IOException {
+  public void testGetDelegationSignerRecord() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("getDelegationSignerRecord/success.http");
 
     DelegationSignerRecord dsRecord = client.domains.getDelegationSignerRecord("1", "example.com", "24").getData();
@@ -86,7 +86,7 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testCreateDelegationSignerRecordProducesDelegationSignerRecord() throws DnsimpleException, IOException {
+  public void testCreateDelegationSignerRecordProducesDelegationSignerRecord() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("createDelegationSignerRecord/created.http");
 
     Map<String, Object> attributes = new HashMap<>();
@@ -100,7 +100,7 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testDeleteDelegationSignerRecord() throws DnsimpleException, IOException {
+  public void testDeleteDelegationSignerRecord() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("deleteDelegationSignerRecord/success.http");
 
     DeleteDelegationSignerRecordResponse response = client.domains.deleteDelegationSignerRecord("1", "example.com", "24");

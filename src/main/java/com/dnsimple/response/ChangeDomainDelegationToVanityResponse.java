@@ -2,15 +2,17 @@ package com.dnsimple.response;
 
 import com.dnsimple.data.NameServer;
 
-import java.util.List;
 
-import static java.util.Collections.emptyList;
+
+import java.util.List;
+import java.util.ArrayList;
 
 public class ChangeDomainDelegationToVanityResponse extends ApiResponse {
-    private final List<NameServer> data;
+
+  private List<NameServer> data;
 
     public ChangeDomainDelegationToVanityResponse() {
-        data = emptyList();
+    this(new ArrayList<NameServer>());
     }
 
     public ChangeDomainDelegationToVanityResponse(List<NameServer> data) {

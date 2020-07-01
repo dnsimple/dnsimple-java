@@ -15,7 +15,7 @@ import org.junit.Test;
 
 public class RegistrarWhoisPrivacyTest extends DnsimpleTestBase {
   @Test
-  public void testGetWhoisPrivacy() throws DnsimpleException, IOException {
+  public void testGetWhoisPrivacy() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("getWhoisPrivacy/success.http");
 
     WhoisPrivacy whoisPrivacy = client.registrar.getWhoisPrivacy("1010", "example.com").getData();
@@ -30,7 +30,7 @@ public class RegistrarWhoisPrivacyTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testEnableWhoisPrivacyAlreadyPurchased() throws DnsimpleException, IOException {
+  public void testEnableWhoisPrivacyAlreadyPurchased() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("enableWhoisPrivacy/success.http");
 
     client.registrar.enableWhoisPrivacy("1010", "example.com");
@@ -39,7 +39,7 @@ public class RegistrarWhoisPrivacyTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testEnableWhoisPrivacyNewlyPurchased() throws DnsimpleException, IOException {
+  public void testEnableWhoisPrivacyNewlyPurchased() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("enableWhoisPrivacy/created.http");
 
     WhoisPrivacy whoisPrivacy = client.registrar.enableWhoisPrivacy("1010", "example.com").getData();
@@ -49,7 +49,7 @@ public class RegistrarWhoisPrivacyTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testDisableWhoisPrivacyNewlyPurchased() throws DnsimpleException, IOException {
+  public void testDisableWhoisPrivacyNewlyPurchased() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("disableWhoisPrivacy/success.http");
 
     WhoisPrivacy whoisPrivacy = client.registrar.disableWhoisPrivacy("1010", "example.com").getData();
@@ -59,7 +59,7 @@ public class RegistrarWhoisPrivacyTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testRenewWhoisPrivacy() throws DnsimpleException, IOException {
+  public void testRenewWhoisPrivacy() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("renewWhoisPrivacy/success.http");
 
     WhoisPrivacyRenewal whoisPrivacyRenewal = client.registrar.renewWhoisPrivacy("1010", "example.com").getData();

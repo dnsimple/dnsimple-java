@@ -29,28 +29,28 @@ import org.junit.Test;
 public class DomainsTest extends DnsimpleTestBase {
 
   @Test
-  public void testListDomainsSupportsPagination() throws DnsimpleException, IOException {
+  public void testListDomainsSupportsPagination() throws DnsimpleException, IOException, InterruptedException {
     client.domains.listDomains("1", singletonMap("page", 1));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
     assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains?page=1"));
   }
 
   @Test
-  public void testListDomainsSupportsExtraRequestOptions() throws DnsimpleException, IOException {
+  public void testListDomainsSupportsExtraRequestOptions() throws DnsimpleException, IOException, InterruptedException {
     client.domains.listDomains("1", singletonMap("foo", "bar"));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
     assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains?foo=bar"));
   }
 
   @Test
-  public void testListDomainsSupportsSorting() throws DnsimpleException, IOException {
+  public void testListDomainsSupportsSorting() throws DnsimpleException, IOException, InterruptedException {
     client.domains.listDomains("1", singletonMap("sort", "expiration:asc"));
     assertThat(server.getRecordedRequest().getMethod(), is(GET));
-    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains?sort=expiration:asc"));
+    assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains?sort=expiration%3Aasc"));
   }
 
   @Test
-  public void testListDomainsSupportsFiltering() throws DnsimpleException, IOException {
+  public void testListDomainsSupportsFiltering() throws DnsimpleException, IOException, InterruptedException {
     Map<String, Object> options = new HashMap<>();
     options.put("filter", new Filter("name_like", "example"));
     client.domains.listDomains("1", options);
@@ -59,7 +59,7 @@ public class DomainsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testListDomainsProducesDomainList() throws DnsimpleException, IOException {
+  public void testListDomainsProducesDomainList() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("listDomains/success.http");
 
     List<Domain> domains = client.domains.listDomains("1").getData();
@@ -68,7 +68,7 @@ public class DomainsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testListDomainsExposesPaginationInfo() throws DnsimpleException, IOException {
+  public void testListDomainsExposesPaginationInfo() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("listDomains/success.http");
 
     ListDomainsResponse response = client.domains.listDomains("1");
@@ -76,7 +76,7 @@ public class DomainsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testGetDomain() throws DnsimpleException, IOException {
+  public void testGetDomain() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("getDomain/success.http");
 
     Domain domain = client.domains.getDomain("1", "example.com").getData();
@@ -103,7 +103,7 @@ public class DomainsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testCreateDomainSendsCorrectRequest() throws DnsimpleException, IOException {
+  public void testCreateDomainSendsCorrectRequest() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("createDomain/created.http");
 
     Map<String, Object> attributes = singletonMap("name", "example.com");
@@ -115,7 +115,7 @@ public class DomainsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testCreateDomainProducesDomain() throws DnsimpleException, IOException {
+  public void testCreateDomainProducesDomain() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("createDomain/created.http");
 
     CreateDomainResponse response = client.domains.createDomain("1", singletonMap("name", "example.com"));
@@ -123,7 +123,7 @@ public class DomainsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testDeleteDomain() throws DnsimpleException, IOException {
+  public void testDeleteDomain() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("deleteDomain/success.http");
 
     DeleteDomainResponse response = client.domains.deleteDomain("1", "example.com");
@@ -133,7 +133,7 @@ public class DomainsTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testResetDomainToken() throws DnsimpleException, IOException {
+  public void testResetDomainToken() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("resetDomainToken/success.http");
 
     ResetDomainTokenResponse response = client.domains.resetDomainToken("1", "example.com");

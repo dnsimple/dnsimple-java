@@ -18,7 +18,7 @@ import org.junit.Test;
 public class DomainDnssecTest extends DnsimpleTestBase {
 
   @Test
-  public void testEnableDnssec() throws DnsimpleException, IOException {
+  public void testEnableDnssec() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("enableDnssec/success.http");
 
     EnableDnssecResponse response = client.domains.enableDnssec("1", "example.com");
@@ -26,7 +26,7 @@ public class DomainDnssecTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testDisableDnssec() throws DnsimpleException, IOException {
+  public void testDisableDnssec() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("disableDnssec/success.http");
 
     DisableDnssecResponse response = client.domains.disableDnssec("1", "example.com");
@@ -44,7 +44,7 @@ public class DomainDnssecTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testGetDnssec() throws DnsimpleException, IOException {
+  public void testGetDnssec() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("getDnssec/success.http");
 
     GetDnssecResponse response = client.domains.getDnssec("1", "example.com");

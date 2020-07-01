@@ -1,45 +1,62 @@
 package com.dnsimple.data;
 
-public class Contact {
-    private final Integer id;
-    private final Integer accountId;
-    private final String label;
-    private final String firstName;
-    private final String lastName;
-    private final String jobTitle;
-    private final String organizationName;
-    private final String email;
-    private final String phone;
-    private final String fax;
-    private final String address1;
-    private final String address2;
-    private final String city;
-    private final String stateProvince;
-    private final String postalCode;
-    private final String country;
-    private final String createdAt;
-    private final String updatedAt;
+import com.google.gson.annotations.SerializedName;
 
-    public Contact(Integer id, Integer accountId, String label, String firstName, String lastName, String jobTitle, String organizationName, String email, String phone, String fax, String address1, String address2, String city, String stateProvince, String postalCode, String country, String createdAt, String updatedAt) {
-        this.id = id;
-        this.accountId = accountId;
-        this.label = label;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.jobTitle = jobTitle;
-        this.organizationName = organizationName;
-        this.email = email;
-        this.phone = phone;
-        this.fax = fax;
-        this.address1 = address1;
-        this.address2 = address2;
-        this.city = city;
-        this.stateProvince = stateProvince;
-        this.postalCode = postalCode;
-        this.country = country;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
+public class Contact {
+
+  private Integer id;
+
+
+  private Integer accountId;
+
+
+  private String label;
+
+
+  private String firstName;
+
+
+  private String lastName;
+
+
+  private String jobTitle;
+
+
+  private String organizationName;
+
+
+  private String email;
+
+
+  private String phone;
+
+
+  private String fax;
+
+
+  private String address1;
+
+
+  private String address2;
+
+
+  private String city;
+
+
+  @SerializedName("state_province")
+  private String stateOrProvince;
+
+
+  private String postalCode;
+
+
+  private String country;
+
+
+  private String createdAt;
+
+
+  private String updatedAt;
 
     public Integer getId() {
         return id;
@@ -93,8 +110,8 @@ public class Contact {
         return city;
     }
 
-    public String getStateProvince() {
-        return stateProvince;
+  public String getStateOrProvince() {
+    return stateOrProvince;
     }
 
     public String getPostalCode() {

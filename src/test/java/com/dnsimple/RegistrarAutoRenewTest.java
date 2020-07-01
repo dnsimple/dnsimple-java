@@ -18,7 +18,7 @@ import org.junit.Test;
 public class RegistrarAutoRenewTest extends DnsimpleTestBase {
 
   @Test
-  public void testEnableAutoRenewal() throws DnsimpleException, IOException {
+  public void testEnableAutoRenewal() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("enableDomainAutoRenewal/success.http");
 
     EnableAutoRenewalResponse response = client.registrar.enableAutoRenewal("1010", "example.com");
@@ -28,7 +28,7 @@ public class RegistrarAutoRenewTest extends DnsimpleTestBase {
   }
 
   @Test(expected = ResourceNotFoundException.class)
-  public void testEnableAutoRenewalDomainDoesNotExist() throws DnsimpleException, IOException {
+  public void testEnableAutoRenewalDomainDoesNotExist() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("notfound-domain.http");
 
     client.registrar.enableAutoRenewal("1010", "0");
@@ -37,7 +37,7 @@ public class RegistrarAutoRenewTest extends DnsimpleTestBase {
   }
 
   @Test
-  public void testDisableAutoRenewal() throws DnsimpleException, IOException {
+  public void testDisableAutoRenewal() throws DnsimpleException, IOException, InterruptedException {
     server.stubFixtureAt("disableDomainAutoRenewal/success.http");
 
     DisableAutoRenewalResponse response = client.registrar.disableAutoRenewal("1010", "example.com");

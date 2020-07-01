@@ -4,16 +4,23 @@ import com.dnsimple.data.Contact;
 import com.dnsimple.data.Pagination;
 
 import java.util.List;
+import java.util.ArrayList;
 
-import static java.util.Collections.emptyList;
+
 
 public class ListContactsResponse extends ApiResponse {
-    private final List<Contact> data;
-    private final Pagination pagination;
+
+  private List<Contact> data;
+
+
+  private Pagination pagination;
 
     public ListContactsResponse() {
-        data = emptyList();
-        pagination = Pagination.empty();
+    this(new ArrayList<Contact>());
+  }
+
+  public ListContactsResponse(List<Contact> data) {
+    this(data, new Pagination());
     }
 
     public ListContactsResponse(List<Contact> data, Pagination pagination) {

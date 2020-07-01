@@ -3,17 +3,17 @@ package com.dnsimple.data;
 import java.util.List;
 
 public class TldExtendedAttribute {
-    private final String name;
-    private final String description;
-    private final Boolean required;
-    private final List<TldExtendedAttributeOption> options;
 
-    public TldExtendedAttribute(String name, String description, Boolean required, List<TldExtendedAttributeOption> options) {
-        this.name = name;
-        this.description = description;
-        this.required = required;
-        this.options = options;
-    }
+  private String name;
+
+
+  private String description;
+
+
+  private Boolean required;
+
+
+  private List<TldExtendedAttributeOption> options;
 
     public String getName() {
         return name;

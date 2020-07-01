@@ -2,11 +2,14 @@ package com.dnsimple.response;
 
 import com.dnsimple.data.Certificate;
 
+
+
 public class GetCertificateResponse extends ApiResponse {
-    private final Certificate data;
+
+  private Certificate data;
 
     public GetCertificateResponse() {
-        data = null;
+    this(new Certificate());
     }
 
     public GetCertificateResponse(Certificate data) {
