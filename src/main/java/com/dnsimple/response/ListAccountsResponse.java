@@ -2,17 +2,14 @@ package com.dnsimple.response;
 
 import com.dnsimple.data.Account;
 
-import java.util.List;
 import java.util.ArrayList;
-
-
+import java.util.List;
 
 public class ListAccountsResponse extends ApiResponse {
-
-  private List<Account> data;
+    private List<Account> data;
 
     public ListAccountsResponse() {
-    this(new ArrayList<Account>());
+        this(new ArrayList<Account>());
     }
 
     public ListAccountsResponse(List<Account> data) {

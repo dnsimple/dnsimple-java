@@ -1,26 +1,13 @@
 package com.dnsimple.data;
 
 public class Push {
-
-  private Integer id;
-
-
-  private Integer domainId;
-
-
-  private Integer contactId;
-
-
-  private Integer accountId;
-
-
-  private String acceptedAt;
-
-
-  private String createdAt;
-
-
-  private String updatedAt;
+    private Integer id;
+    private Integer domainId;
+    private Integer contactId;
+    private Integer accountId;
+    private String acceptedAt;
+    private String createdAt;
+    private String updatedAt;
 
     public Integer getId() {
         return id;

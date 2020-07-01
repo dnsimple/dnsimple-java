@@ -1,23 +1,12 @@
 package com.dnsimple.data;
 
 public class NameServer {
-
-  private Integer id;
-
-
-  private String name;
-
-
-  private String ipv4;
-
-
-  private String ipv6;
-
-
-  private String createdAt;
-
-
-  private String updatedAt;
+    private Integer id;
+    private String name;
+    private String ipv4;
+    private String ipv6;
+    private String createdAt;
+    private String updatedAt;
 
     public Integer getId() {
         return id;

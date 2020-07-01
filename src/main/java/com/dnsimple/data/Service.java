@@ -25,7 +25,6 @@ public class Service {
         return name;
     }
 
-
     public String getShortName() {
         return shortName;
     }

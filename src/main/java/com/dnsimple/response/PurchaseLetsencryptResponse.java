@@ -2,14 +2,11 @@ package com.dnsimple.response;
 
 import com.dnsimple.data.CertificatePurchase;
 
-
-
 public class PurchaseLetsencryptResponse extends ApiResponse {
-
-  private CertificatePurchase data;
+    private CertificatePurchase data;
 
     public PurchaseLetsencryptResponse() {
-    this(new CertificatePurchase());
+        this(new CertificatePurchase());
     }
 
     public PurchaseLetsencryptResponse(CertificatePurchase data) {

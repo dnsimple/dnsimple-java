@@ -1,5 +1,5 @@
 package com.dnsimple.tools;
 
 enum Status {
-  IDLE, RUNNING, STOPPED;
+    IDLE, RUNNING, STOPPED;
 }

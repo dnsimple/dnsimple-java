@@ -1,29 +1,14 @@
 package com.dnsimple.data;
 
 public class Collaborator {
-
-  private Integer id;
-
-
-  private Integer domainId;
-
-
-  private String domainName;
-
-
-  private Integer userId;
-
-
-  private String userEmail;
-
-
-  private Boolean invitation;
-
-
-  private String createdAt;
-
-
-  private String updatedAt;
+    private Integer id;
+    private Integer domainId;
+    private String domainName;
+    private Integer userId;
+    private String userEmail;
+    private Boolean invitation;
+    private String createdAt;
+    private String updatedAt;
 
     public Integer getId() {
         return id;

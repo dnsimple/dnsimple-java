@@ -1,24 +1,12 @@
 package com.dnsimple.data;
 
 public class ServiceSetting {
-
-
-  private String name;
-
-
-  private String label;
-
-
-  private String append;
-
-
-  private String description;
-
-
-  private String example;
-
-
-  private Boolean password;
+    private String name;
+    private String label;
+    private String append;
+    private String description;
+    private String example;
+    private Boolean password;
 
     public String getName() {
         return name;

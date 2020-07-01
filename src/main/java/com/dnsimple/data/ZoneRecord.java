@@ -1,38 +1,17 @@
 package com.dnsimple.data;
 
 public class ZoneRecord {
-
-  private Integer id;
-
-
-  private String zoneId;
-
-
-  private Integer parentId;
-
-
-  private String name;
-
-
-  private String content;
-
-
-  private Integer ttl;
-
-
-  private Integer priority;
-
-
-  private String type;
-
-
-  private Boolean systemRecord;
-
-
-  private String createdAt;
-
-
-  private String updatedAt;
+    private Integer id;
+    private String zoneId;
+    private Integer parentId;
+    private String name;
+    private String content;
+    private Integer ttl;
+    private Integer priority;
+    private String type;
+    private Boolean systemRecord;
+    private String createdAt;
+    private String updatedAt;
 
     public Integer getId() {
         return id;

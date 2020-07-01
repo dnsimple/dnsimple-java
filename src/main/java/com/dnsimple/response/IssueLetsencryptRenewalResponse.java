@@ -2,13 +2,11 @@ package com.dnsimple.response;
 
 import com.dnsimple.data.Certificate;
 
-
 public class IssueLetsencryptRenewalResponse extends ApiResponse {
-
-  private Certificate data;
+    private Certificate data;
 
     public IssueLetsencryptRenewalResponse() {
-    this(new Certificate());
+        this(new Certificate());
     }
 
     public IssueLetsencryptRenewalResponse(Certificate data) {

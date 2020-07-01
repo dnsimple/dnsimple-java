@@ -1,14 +1,9 @@
 package com.dnsimple.data;
 
 public class Dnssec {
-
-  private Boolean enabled;
-
-
-  private String createdAt;
-
-
-  private String updatedAt;
+    private Boolean enabled;
+    private String createdAt;
+    private String updatedAt;
 
     public Boolean getEnabled() {
         return enabled;

@@ -1,38 +1,17 @@
 package com.dnsimple.data;
 
 public class Certificate {
-
-  private Integer id;
-
-
-  private Integer domainId;
-
-
-  private String name;
-
-
-  private String commonName;
-
-
-  private Integer years;
-
-
-  private String csr;
-
-
-  private String state;
-
-
-  private String authorityIdentifier;
-
-
-  private String createdAt;
-
-
-  private String updatedAt;
-
-
-  private String expiresAt;
+    private Integer id;
+    private Integer domainId;
+    private String name;
+    private String commonName;
+    private Integer years;
+    private String csr;
+    private String state;
+    private String authorityIdentifier;
+    private String createdAt;
+    private String updatedAt;
+    private String expiresAt;
 
     public Integer getId() {
         return id;
@@ -79,8 +58,8 @@ public class Certificate {
     }
 
     /**
+     * @return the expiration date in {@link java.time.format.DateTimeFormatter.DateTimeFormatter#ISO_DATE} pattern.
      * @deprecated use {@link Domain#getExpiresAt()} instead.
-   * @return the expiration date in {@link java.time.format.DateTimeFormatter.DateTimeFormatter#ISO_DATE} pattern.
      */
     @Deprecated
     public String getExpiresOn() {

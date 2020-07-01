@@ -1,18 +1,17 @@
 package com.dnsimple.data;
 
 public class Whoami {
+    private Account account;
+    private User user;
 
-  private Account account;
+    public Whoami() {
+    }
 
-  private User user;
-
-  public Whoami() {}
-
-  public Whoami(Account account) {
+    public Whoami(Account account) {
         this.account = account;
-  }
+    }
 
-  public Whoami(User user) {
+    public Whoami(User user) {
         this.user = user;
     }
 

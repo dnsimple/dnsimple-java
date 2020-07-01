@@ -1,29 +1,14 @@
 package com.dnsimple.data;
 
 public class WhoisPrivacyRenewal {
-
-  private Integer id;
-
-
-  private Integer domainId;
-
-
-  private Integer whoisPrivacyId;
-
-
-  private String state;
-
-
-  private Boolean enabled;
-
-
-  private String expiresOn;
-
-
-  private String createdAt;
-
-
-  private String updatedAt;
+    private Integer id;
+    private Integer domainId;
+    private Integer whoisPrivacyId;
+    private String state;
+    private Boolean enabled;
+    private String expiresOn;
+    private String createdAt;
+    private String updatedAt;
 
     public Integer getId() {
         return id;

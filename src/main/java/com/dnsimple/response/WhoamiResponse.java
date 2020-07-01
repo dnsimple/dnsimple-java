@@ -2,14 +2,11 @@ package com.dnsimple.response;
 
 import com.dnsimple.data.Whoami;
 
-
-
 public class WhoamiResponse extends ApiResponse {
-
-  private Whoami data;
+    private Whoami data;
 
     public WhoamiResponse() {
-    this(new Whoami());
+        this(new Whoami());
     }
 
     public WhoamiResponse(Whoami data) {
