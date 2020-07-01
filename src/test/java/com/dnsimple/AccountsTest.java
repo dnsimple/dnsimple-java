@@ -1,8 +1,8 @@
 package com.dnsimple;
 
 import com.dnsimple.data.Account;
+import com.dnsimple.response.ListResponse;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.response.ListAccountsResponse;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -17,7 +17,7 @@ public class AccountsTest extends DnsimpleTestBase {
     @Test
     public void testListAccounts() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("listAccounts/success-account.http");
-        ListAccountsResponse response = client.accounts.listAccounts();
+        ListResponse<Account> response = client.accounts.listAccounts();
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/accounts"));
         List<Account> accounts = response.getData();

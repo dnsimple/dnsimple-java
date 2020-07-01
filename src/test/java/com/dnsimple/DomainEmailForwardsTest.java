@@ -1,11 +1,10 @@
 package com.dnsimple;
 
 import com.dnsimple.data.EmailForward;
+import com.dnsimple.response.PaginatedResponse;
+import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
-import com.dnsimple.response.CreateEmailForwardResponse;
-import com.dnsimple.response.DeleteEmailForwardResponse;
-import com.dnsimple.response.ListEmailForwardsResponse;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -44,7 +43,7 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
     @Test
     public void testListEmailForwardsProducesDomainList() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("listEmailForwards/success.http");
-        ListEmailForwardsResponse response = client.domains.listEmailForwards("1", "example.com");
+        PaginatedResponse<EmailForward> response = client.domains.listEmailForwards("1", "example.com");
         assertThat(response.getData(), hasSize(2));
         assertThat(response.getData().get(0).getId(), is(17702));
     }
@@ -52,7 +51,7 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
     @Test
     public void testListEmailForwardsExposesPaginationInfo() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("listEmailForwards/success.http");
-        ListEmailForwardsResponse response = client.domains.listEmailForwards("1", "example.com");
+        PaginatedResponse<EmailForward> response = client.domains.listEmailForwards("1", "example.com");
         assertThat(response.getPagination().getCurrentPage(), is(1));
     }
 
@@ -84,15 +83,14 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("from", "john");
         attributes.put("to", "john@another.com");
-        CreateEmailForwardResponse response = client.domains.createEmailForward("1", "example.com", attributes);
+        SimpleResponse<EmailForward> response = client.domains.createEmailForward("1", "example.com", attributes);
         assertThat(response.getData().getId(), is(17706));
     }
 
     @Test
     public void testDeleteEmailForward() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("deleteEmailForward/success.http");
-        DeleteEmailForwardResponse response = client.domains.deleteEmailForward("1", "example.com", "2");
-        assertThat(response.getData(), is(nullValue()));
+        client.domains.deleteEmailForward("1", "example.com", "2");
         assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/email_forwards/2"));
     }

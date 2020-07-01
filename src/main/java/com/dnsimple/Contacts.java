@@ -1,7 +1,10 @@
 package com.dnsimple;
 
+import com.dnsimple.data.Contact;
+import com.dnsimple.response.EmptyResponse;
+import com.dnsimple.response.PaginatedResponse;
+import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.response.*;
 
 import java.io.IOException;
 import java.util.Map;
@@ -21,7 +24,7 @@ public interface Contacts {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/contacts/#list">https://developer.dnsimple.com/v2/contacts/#list</a>
      */
-    public ListContactsResponse listContacts(String accountId) throws DnsimpleException, IOException, InterruptedException;
+    public PaginatedResponse<Contact> listContacts(String accountId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Lists the contacts in the account.
@@ -33,7 +36,7 @@ public interface Contacts {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/contacts/#list">https://developer.dnsimple.com/v2/contacts/#list</a>
      */
-    public ListContactsResponse listContacts(String accountId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException;
+    public PaginatedResponse<Contact> listContacts(String accountId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Get a specific contact associated to an account using the contacts's ID.
@@ -45,7 +48,7 @@ public interface Contacts {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/contacts/#get">https://developer.dnsimple.com/v2/contacts/#get</a>
      */
-    public GetContactResponse getContact(String accountId, String contactId) throws DnsimpleException, IOException, InterruptedException;
+    public SimpleResponse<Contact> getContact(String accountId, String contactId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Create a contact in the account.
@@ -57,7 +60,7 @@ public interface Contacts {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/contacts/#create">https://developer.dnsimple.com/v2/contacts/#create</a>
      */
-    public CreateContactResponse createContact(String accountId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
+    public SimpleResponse<Contact> createContact(String accountId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Update a contact in the account.
@@ -70,7 +73,7 @@ public interface Contacts {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/contacts/#update">https://developer.dnsimple.com/v2/contacts/#update</a>
      */
-    public UpdateContactResponse updateContact(String accountId, String contactId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
+    public SimpleResponse<Contact> updateContact(String accountId, String contactId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Delete a contact from the account.
@@ -82,5 +85,5 @@ public interface Contacts {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/contacts/#delete">https://developer.dnsimple.com/v2/contacts/#delete</a>
      */
-    public DeleteContactResponse deleteContact(String accountId, String contactId) throws DnsimpleException, IOException, InterruptedException;
+    public EmptyResponse deleteContact(String accountId, String contactId) throws DnsimpleException, IOException, InterruptedException;
 }

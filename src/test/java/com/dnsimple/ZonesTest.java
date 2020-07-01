@@ -1,12 +1,13 @@
 package com.dnsimple;
 
 import com.dnsimple.data.Zone;
+import com.dnsimple.data.ZoneDistribution;
+import com.dnsimple.data.ZoneFile;
+import com.dnsimple.response.PaginatedResponse;
+import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 import com.dnsimple.request.Filter;
-import com.dnsimple.response.CheckZoneDistributionResponse;
-import com.dnsimple.response.GetZoneFileResponse;
-import com.dnsimple.response.ListZonesResponse;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -62,7 +63,7 @@ public class ZonesTest extends DnsimpleTestBase {
     @Test
     public void testListZonesExposesPaginationInfo() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("listZones/success.http");
-        ListZonesResponse response = client.zones.listZones("1");
+        PaginatedResponse<Zone> response = client.zones.listZones("1");
         assertThat(response.getPagination().getCurrentPage(), is(1));
     }
 
@@ -87,7 +88,7 @@ public class ZonesTest extends DnsimpleTestBase {
     @Test
     public void testGetZoneFile() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("getZoneFile/success.http");
-        GetZoneFileResponse response = client.zones.getZoneFile("1", "example.com");
+        SimpleResponse<ZoneFile> response = client.zones.getZoneFile("1", "example.com");
         assertThat(response.getData().getZone(), is("" +
                 "$ORIGIN example.com.\n" +
                 "$TTL 1h\n" +
@@ -109,14 +110,14 @@ public class ZonesTest extends DnsimpleTestBase {
     @Test
     public void testCheckZoneDistribution() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("checkZoneDistribution/success.http");
-        CheckZoneDistributionResponse response = client.zones.checkZoneDistribution("1", "example.com");
+        SimpleResponse<ZoneDistribution> response = client.zones.checkZoneDistribution("1", "example.com");
         assertThat(response.getData().isDistributed(), is(true));
     }
 
     @Test
     public void testCheckZoneDistributionNotDistributed() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("checkZoneDistribution/failure.http");
-        CheckZoneDistributionResponse response = client.zones.checkZoneDistribution("1", "example.com");
+        SimpleResponse<ZoneDistribution> response = client.zones.checkZoneDistribution("1", "example.com");
         assertThat(response.getData().isDistributed(), is(false));
     }
 
@@ -137,14 +138,14 @@ public class ZonesTest extends DnsimpleTestBase {
     @Test
     public void testCheckZoneRecordDistribution() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("checkZoneRecordDistribution/success.http");
-        CheckZoneDistributionResponse response = client.zones.checkZoneRecordDistribution("1010", "example.com", "1");
+        SimpleResponse<ZoneDistribution> response = client.zones.checkZoneRecordDistribution("1010", "example.com", "1");
         assertThat(response.getData().isDistributed(), is(true));
     }
 
     @Test
     public void testCheckZoneRecordDistributionNotDistributed() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("checkZoneRecordDistribution/failure.http");
-        CheckZoneDistributionResponse response = client.zones.checkZoneRecordDistribution("1010", "example.com", "1010");
+        SimpleResponse<ZoneDistribution> response = client.zones.checkZoneRecordDistribution("1010", "example.com", "1010");
         assertThat(response.getData().isDistributed(), is(false));
     }
 

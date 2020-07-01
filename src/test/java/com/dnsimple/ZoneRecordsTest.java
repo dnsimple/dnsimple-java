@@ -1,11 +1,10 @@
 package com.dnsimple;
 
 import com.dnsimple.data.ZoneRecord;
+import com.dnsimple.response.PaginatedResponse;
+import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
-import com.dnsimple.response.CreateZoneRecordResponse;
-import com.dnsimple.response.DeleteZoneRecordResponse;
-import com.dnsimple.response.ListZoneRecordsResponse;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
@@ -52,7 +51,7 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
     @Test
     public void testListZoneRecordsExposesPaginationInfo() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("listZoneRecords/success.http");
-        ListZoneRecordsResponse response = client.zones.listZoneRecords("1", "example.com");
+        PaginatedResponse<ZoneRecord> response = client.zones.listZoneRecords("1", "example.com");
         assertThat(response.getPagination().getCurrentPage(), is(1));
     }
 
@@ -94,7 +93,7 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
     @Test
     public void testCreateZoneRecordProducesZoneRecord() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("createZoneRecord/created.http");
-        CreateZoneRecordResponse response = client.zones.createZoneRecord("1", "example.com", singletonMap("name", "www"));
+        SimpleResponse<ZoneRecord> response = client.zones.createZoneRecord("1", "example.com", singletonMap("name", "www"));
         assertThat(response.getData().getId(), is(1));
     }
 
@@ -112,9 +111,8 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
     @Test
     public void testDeleteZoneRecord() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("deleteZoneRecord/success.http");
-        DeleteZoneRecordResponse response = client.zones.deleteZoneRecord("1", "example.com", "2");
+        client.zones.deleteZoneRecord("1", "example.com", "2");
         assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/zones/example.com/records/2"));
-        assertThat(response.getData(), is(nullValue()));
     }
 }

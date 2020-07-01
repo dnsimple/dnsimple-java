@@ -1,10 +1,21 @@
 package com.dnsimple.data;
 
 public class Pagination {
-    private Integer currentPage;
-    private Integer perPage;
-    private Integer totalEntries;
-    private Integer totalPages;
+    private final Integer currentPage;
+    private final Integer perPage;
+    private final Integer totalEntries;
+    private final Integer totalPages;
+
+    public Pagination(Integer currentPage, Integer perPage, Integer totalEntries, Integer totalPages) {
+        this.currentPage = currentPage;
+        this.perPage = perPage;
+        this.totalEntries = totalEntries;
+        this.totalPages = totalPages;
+    }
+
+    public static Pagination empty() {
+        return new Pagination(0, 0, 0, 0);
+    }
 
     public Integer getCurrentPage() {
         return currentPage;

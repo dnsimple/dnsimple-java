@@ -1,11 +1,9 @@
 package com.dnsimple;
 
 import com.dnsimple.data.Contact;
+import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
-import com.dnsimple.response.DeleteContactResponse;
-import com.dnsimple.response.GetContactResponse;
-import com.dnsimple.response.UpdateContactResponse;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -59,7 +57,7 @@ public class ContactsTest extends DnsimpleTestBase {
     @Test
     public void testGetContact() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("getContact/success.http");
-        GetContactResponse response = client.contacts.getContact("1010", "1");
+        SimpleResponse<Contact> response = client.contacts.getContact("1010", "1");
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/contacts/1"));
         Contact contact = response.getData();
@@ -115,7 +113,7 @@ public class ContactsTest extends DnsimpleTestBase {
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("first_name", "John");
         attributes.put("last_name", "Smith");
-        UpdateContactResponse response = client.contacts.updateContact("1010", "1", attributes);
+        SimpleResponse<Contact> response = client.contacts.updateContact("1010", "1", attributes);
         assertThat(server.getRecordedRequest().getMethod(), is(PATCH));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/contacts/1"));
         assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
@@ -125,9 +123,8 @@ public class ContactsTest extends DnsimpleTestBase {
     @Test
     public void testDeleteContact() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("deleteContact/success.http");
-        DeleteContactResponse response = client.contacts.deleteContact("1010", "1");
+        client.contacts.deleteContact("1010", "1");
         assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/contacts/1"));
-        assertThat(response.getData(), is(nullValue()));
     }
 }

@@ -1,34 +1,36 @@
 package com.dnsimple.endpoints.http;
 
 import com.dnsimple.Tlds;
+import com.dnsimple.data.Tld;
+import com.dnsimple.data.TldExtendedAttribute;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.response.GetTldExtendedAttributesResponse;
-import com.dnsimple.response.GetTldResponse;
-import com.dnsimple.response.ListTldsResponse;
+import com.dnsimple.response.ListResponse;
+import com.dnsimple.response.PaginatedResponse;
+import com.dnsimple.response.SimpleResponse;
 
 import java.io.IOException;
 import java.util.Map;
 
 public class TldsEndpoint implements Tlds {
-    private HttpEndpointClient client;
+    private final HttpEndpointClient client;
 
     public TldsEndpoint(HttpEndpointClient client) {
         this.client = client;
     }
 
-    public ListTldsResponse listTlds() throws DnsimpleException, IOException, InterruptedException {
+    public PaginatedResponse<Tld> listTlds() throws DnsimpleException, IOException, InterruptedException {
         return listTlds(null);
     }
 
-    public ListTldsResponse listTlds(Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
-        return (ListTldsResponse) client.get("tlds", options, ListTldsResponse.class);
+    public PaginatedResponse<Tld> listTlds(Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
+        return client.getPage("tlds", options, Tld.class);
     }
 
-    public GetTldResponse getTld(String tld) throws DnsimpleException, IOException, InterruptedException {
-        return (GetTldResponse) client.get("tlds/" + tld, null, GetTldResponse.class);
+    public SimpleResponse<Tld> getTld(String tld) throws DnsimpleException, IOException, InterruptedException {
+        return client.getSimple("tlds/" + tld, null, Tld.class);
     }
 
-    public GetTldExtendedAttributesResponse getTldExtendedAttributes(String tld) throws DnsimpleException, IOException, InterruptedException {
-        return (GetTldExtendedAttributesResponse) client.get("tlds/" + tld + "/extended_attributes", null, GetTldExtendedAttributesResponse.class);
+    public ListResponse<TldExtendedAttribute> getTldExtendedAttributes(String tld) throws DnsimpleException, IOException, InterruptedException {
+        return client.getList("tlds/" + tld + "/extended_attributes", null, TldExtendedAttribute.class);
     }
 }

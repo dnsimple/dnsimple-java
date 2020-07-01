@@ -1,10 +1,10 @@
 package com.dnsimple;
 
 import com.dnsimple.data.Collaborator;
+import com.dnsimple.response.EmptyResponse;
+import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
-import com.dnsimple.response.ListCollaboratorsResponse;
-import com.dnsimple.response.RemoveCollaboratorResponse;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -50,7 +50,7 @@ public class DomainCollaboratorsTest extends DnsimpleTestBase {
     @Test
     public void testListCollaboratorsExposesPaginationInfo() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("listCollaborators/success.http");
-        ListCollaboratorsResponse response = client.domains.listCollaborators("1", "example.com");
+        PaginatedResponse<Collaborator> response = client.domains.listCollaborators("1", "example.com");
         assertThat(response.getPagination().getCurrentPage(), is(1));
     }
 
@@ -81,10 +81,9 @@ public class DomainCollaboratorsTest extends DnsimpleTestBase {
     @Test
     public void testRemoveCollaborator() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("removeCollaborator/success.http");
-        RemoveCollaboratorResponse response = client.domains.removeCollaborator("1", "example.com", "100");
+        EmptyResponse response = client.domains.removeCollaborator("1", "example.com", "100");
         assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/collaborators/100"));
-        assertThat(response.getData(), is(nullValue()));
     }
 
     @Test

@@ -1,13 +1,11 @@
 package com.dnsimple;
 
 import com.dnsimple.data.Domain;
+import com.dnsimple.response.PaginatedResponse;
+import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 import com.dnsimple.request.Filter;
-import com.dnsimple.response.CreateDomainResponse;
-import com.dnsimple.response.DeleteDomainResponse;
-import com.dnsimple.response.ListDomainsResponse;
-import com.dnsimple.response.ResetDomainTokenResponse;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -63,7 +61,7 @@ public class DomainsTest extends DnsimpleTestBase {
     @Test
     public void testListDomainsExposesPaginationInfo() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("listDomains/success.http");
-        ListDomainsResponse response = client.domains.listDomains("1");
+        PaginatedResponse<Domain> response = client.domains.listDomains("1");
         assertThat(response.getPagination().getCurrentPage(), is(1));
     }
 
@@ -105,23 +103,22 @@ public class DomainsTest extends DnsimpleTestBase {
     @Test
     public void testCreateDomainProducesDomain() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("createDomain/created.http");
-        CreateDomainResponse response = client.domains.createDomain("1", singletonMap("name", "example.com"));
+        SimpleResponse<Domain> response = client.domains.createDomain("1", singletonMap("name", "example.com"));
         assertThat(response.getData().getId(), is(181985));
     }
 
     @Test
     public void testDeleteDomain() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("deleteDomain/success.http");
-        DeleteDomainResponse response = client.domains.deleteDomain("1", "example.com");
+        client.domains.deleteDomain("1", "example.com");
         assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com"));
-        assertThat(response.getData(), is(nullValue()));
     }
 
     @Test
     public void testResetDomainToken() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("resetDomainToken/success.http");
-        ResetDomainTokenResponse response = client.domains.resetDomainToken("1", "example.com");
+        SimpleResponse<Domain> response = client.domains.resetDomainToken("1", "example.com");
         assertThat(response.getData().getId(), is(1));
     }
 }

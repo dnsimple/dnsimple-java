@@ -4,9 +4,10 @@ import com.dnsimple.data.Certificate;
 import com.dnsimple.data.CertificateBundle;
 import com.dnsimple.data.CertificatePurchase;
 import com.dnsimple.data.CertificateRenewal;
+import com.dnsimple.response.PaginatedResponse;
+import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
-import com.dnsimple.response.*;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -53,14 +54,14 @@ public class CertificatesTest extends DnsimpleTestBase {
     @Test
     public void testListCertificatesExposesPaginationInfo() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("listCertificates/success.http");
-        ListCertificatesResponse certificates = client.certificates.listCertificates("1", "bingo.pizza");
+        PaginatedResponse<Certificate> certificates = client.certificates.listCertificates("1", "bingo.pizza");
         assertThat(certificates.getPagination().getCurrentPage(), is(1));
     }
 
     @Test
     public void testGetCertificate() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("getCertificate/success.http");
-        GetCertificateResponse response = client.certificates.getCertificate("1010", "bingo.pizza", "101967");
+        SimpleResponse<Certificate> response = client.certificates.getCertificate("1010", "bingo.pizza", "101967");
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/bingo.pizza/certificates/101967"));
         Certificate certificate = response.getData();
@@ -104,7 +105,7 @@ public class CertificatesTest extends DnsimpleTestBase {
     @Test
     public void testDownloadCertificate() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("downloadCertificate/success.http");
-        DownloadCertificateResponse response = client.certificates.downloadCertificate("1010", "weppos.net", "1");
+        SimpleResponse<CertificateBundle> response = client.certificates.downloadCertificate("1010", "weppos.net", "1");
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/weppos.net/certificates/1/download"));
         CertificateBundle certificateBundle = response.getData();
@@ -174,7 +175,7 @@ public class CertificatesTest extends DnsimpleTestBase {
     @Test
     public void testCertificatePrivateKey() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("getCertificatePrivateKey/success.http");
-        GetCertificatePrivateKeyResponse response = client.certificates.getCertificatePrivateKey("1010", "weppos.net", "1");
+        SimpleResponse<CertificateBundle> response = client.certificates.getCertificatePrivateKey("1010", "weppos.net", "1");
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/weppos.net/certificates/1/private_key"));
         CertificateBundle certificateBundle = response.getData();
@@ -211,7 +212,7 @@ public class CertificatesTest extends DnsimpleTestBase {
     @Test
     public void testPurchaseLetsencryptCertificate() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("purchaseLetsencryptCertificate/success.http");
-        PurchaseLetsencryptResponse response = client.certificates.purchaseLetsencryptCertificate("1010", "bingo.pizza", new HashMap<String, Object>());
+        SimpleResponse<CertificatePurchase> response = client.certificates.purchaseLetsencryptCertificate("1010", "bingo.pizza", new HashMap<String, Object>());
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/bingo.pizza/certificates/letsencrypt"));
         CertificatePurchase purchase = response.getData();
@@ -222,7 +223,7 @@ public class CertificatesTest extends DnsimpleTestBase {
     @Test
     public void testIssueLetsencryptCertificate() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("issueLetsencryptCertificate/success.http");
-        IssueLetsencryptResponse response = client.certificates.issueLetsencryptCertificate("1010", "bingo.pizza", "101967");
+        SimpleResponse<Certificate> response = client.certificates.issueLetsencryptCertificate("1010", "bingo.pizza", "101967");
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/bingo.pizza/certificates/letsencrypt/101967/issue"));
         Certificate certificate = response.getData();
@@ -233,7 +234,7 @@ public class CertificatesTest extends DnsimpleTestBase {
     @Test
     public void testPurchaseLetsencryptCertificateRenewal() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("purchaseRenewalLetsencryptCertificate/success.http");
-        PurchaseLetsencryptRenewalResponse response = client.certificates.purchaseLetsencryptCertificateRenewal("1010", "bingo.pizza", "101967", new HashMap<String, Object>());
+        SimpleResponse<CertificateRenewal> response = client.certificates.purchaseLetsencryptCertificateRenewal("1010", "bingo.pizza", "101967", new HashMap<String, Object>());
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/bingo.pizza/certificates/letsencrypt/101967/renewals"));
         CertificateRenewal renewal = response.getData();
@@ -245,7 +246,7 @@ public class CertificatesTest extends DnsimpleTestBase {
     @Test
     public void testIssueLetsencryptCertificateRenewal() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("issueLetsencryptCertificate/success.http");
-        IssueLetsencryptRenewalResponse response = client.certificates.issueLetsencryptCertificateRenewal("1010", "bingo.pizza", "101967", "65082");
+        SimpleResponse<Certificate> response = client.certificates.issueLetsencryptCertificateRenewal("1010", "bingo.pizza", "101967", "65082");
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/bingo.pizza/certificates/letsencrypt/101967/renewals/65082/issue"));
         Certificate certificate = response.getData();

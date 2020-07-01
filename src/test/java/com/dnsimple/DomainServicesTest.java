@@ -1,10 +1,9 @@
 package com.dnsimple;
 
 import com.dnsimple.data.Service;
+import com.dnsimple.response.PaginatedResponse;
+import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.response.AppliedServicesResponse;
-import com.dnsimple.response.ApplyServiceResponse;
-import com.dnsimple.response.UnapplyServiceResponse;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -49,14 +48,14 @@ public class DomainServicesTest extends DnsimpleTestBase {
     @Test
     public void testAppliedServicesExposesPaginationInfo() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("appliedServices/success.http");
-        AppliedServicesResponse response = client.services.appliedServices("1", "example.com");
+        PaginatedResponse<Service> response = client.services.appliedServices("1", "example.com");
         assertThat(response.getPagination().getCurrentPage(), is(1));
     }
 
     @Test
     public void testApplyService() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("applyService/success.http");
-        ApplyServiceResponse response = client.services.applyService("1010", "example.com", "2", emptyMap());
+        SimpleResponse<Service> response = client.services.applyService("1010", "example.com", "2", emptyMap());
         assertThat(response.getData(), is(nullValue()));
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/example.com/services/2"));
@@ -65,7 +64,7 @@ public class DomainServicesTest extends DnsimpleTestBase {
     @Test
     public void testUnapplyService() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("unapplyService/success.http");
-        UnapplyServiceResponse response = client.services.unapplyService("1010", "example.com", "2");
+        SimpleResponse<Service> response = client.services.unapplyService("1010", "example.com", "2");
         assertThat(response.getData(), is(nullValue()));
         assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/example.com/services/2"));

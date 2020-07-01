@@ -3,7 +3,6 @@ package com.dnsimple;
 import com.dnsimple.data.Webhook;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
-import com.dnsimple.response.DeleteWebhookResponse;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -64,9 +63,8 @@ public class WebhooksTest extends DnsimpleTestBase {
     @Test
     public void testDeleteWebhook() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("deleteWebhook/success.http");
-        DeleteWebhookResponse response = client.webhooks.deleteWebhook("1010", "1");
+        client.webhooks.deleteWebhook("1010", "1");
         assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/webhooks/1"));
-        assertThat(response.getData(), is(nullValue()));
     }
 }

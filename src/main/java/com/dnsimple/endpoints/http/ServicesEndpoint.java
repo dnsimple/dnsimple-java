@@ -1,45 +1,49 @@
 package com.dnsimple.endpoints.http;
 
 import com.dnsimple.Services;
+import com.dnsimple.data.Service;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.response.*;
+import com.dnsimple.response.ListResponse;
+import com.dnsimple.response.PaginatedResponse;
+import com.dnsimple.response.SimpleResponse;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
+import static java.util.Collections.emptyMap;
+
 public class ServicesEndpoint implements Services {
-    private HttpEndpointClient client;
+    private final HttpEndpointClient client;
 
     public ServicesEndpoint(HttpEndpointClient client) {
         this.client = client;
     }
 
-    public ListServicesResponse listServices() throws DnsimpleException, IOException, InterruptedException {
-        return listServices(new HashMap<String, Object>());
+    public ListResponse<Service> listServices() throws DnsimpleException, IOException, InterruptedException {
+        return listServices(emptyMap());
     }
 
-    public ListServicesResponse listServices(Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
-        return (ListServicesResponse) client.get("services", options, ListServicesResponse.class);
+    public ListResponse<Service> listServices(Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
+        return client.getList("services", options, Service.class);
     }
 
-    public GetServiceResponse getService(String serviceId) throws DnsimpleException, IOException, InterruptedException {
-        return (GetServiceResponse) client.get("services/" + serviceId, null, GetServiceResponse.class);
+    public SimpleResponse<Service> getService(String serviceId) throws DnsimpleException, IOException, InterruptedException {
+        return client.getSimple("services/" + serviceId, null, Service.class);
     }
 
-    public AppliedServicesResponse appliedServices(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
-        return appliedServices(accountId, domainId, new HashMap<String, Object>());
+    public PaginatedResponse<Service> appliedServices(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
+        return appliedServices(accountId, domainId, emptyMap());
     }
 
-    public AppliedServicesResponse appliedServices(String accountId, String domainId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
-        return (AppliedServicesResponse) client.get(accountId + "/domains/" + domainId + "/services", options, AppliedServicesResponse.class);
+    public PaginatedResponse<Service> appliedServices(String accountId, String domainId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
+        return client.getPage(accountId + "/domains/" + domainId + "/services", options, Service.class);
     }
 
-    public ApplyServiceResponse applyService(String accountId, String domainId, String serviceId, Map<String, Object> settings) throws DnsimpleException, IOException, InterruptedException {
-        return (ApplyServiceResponse) client.post(accountId + "/domains/" + domainId + "/services/" + serviceId, settings, null, ApplyServiceResponse.class);
+    public SimpleResponse<Service> applyService(String accountId, String domainId, String serviceId, Map<String, Object> settings) throws DnsimpleException, IOException, InterruptedException {
+        return client.postSimple(accountId + "/domains/" + domainId + "/services/" + serviceId, settings, null, Service.class);
     }
 
-    public UnapplyServiceResponse unapplyService(String accountId, String domainId, String serviceId) throws DnsimpleException, IOException, InterruptedException {
-        return (UnapplyServiceResponse) client.delete(accountId + "/domains/" + domainId + "/services/" + serviceId, null, UnapplyServiceResponse.class);
+    public SimpleResponse<Service> unapplyService(String accountId, String domainId, String serviceId) throws DnsimpleException, IOException, InterruptedException {
+        return client.deleteSimple(accountId + "/domains/" + domainId + "/services/" + serviceId, null, Service.class);
     }
 }
