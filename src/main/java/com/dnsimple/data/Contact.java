@@ -1,7 +1,5 @@
 package com.dnsimple.data;
 
-import com.google.gson.annotations.SerializedName;
-
 public class Contact {
     private Integer id;
     private Integer accountId;
@@ -16,8 +14,7 @@ public class Contact {
     private String address1;
     private String address2;
     private String city;
-    @SerializedName("state_province")
-    private String stateOrProvince;
+    private String stateProvince;
     private String postalCode;
     private String country;
     private String createdAt;
@@ -76,7 +73,7 @@ public class Contact {
     }
 
     public String getStateOrProvince() {
-        return stateOrProvince;
+        return stateProvince;
     }
 
     public String getPostalCode() {

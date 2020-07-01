@@ -1,13 +1,10 @@
 package com.dnsimple.data;
 
-import com.google.gson.annotations.SerializedName;
-
 public class Template {
     private Integer id;
     private Integer accountId;
     private String name;
-    @SerializedName("sid")
-    private String shortName;
+    private String sid;
     private String description;
     private String createdAt;
     private String updatedAt;
@@ -25,7 +22,7 @@ public class Template {
     }
 
     public String getShortName() {
-        return shortName;
+        return sid;
     }
 
     public String getDescription() {

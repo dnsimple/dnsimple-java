@@ -1,15 +1,12 @@
 package com.dnsimple.data;
 
-import com.google.gson.annotations.SerializedName;
-
 public class DomainAvailability {
-    @SerializedName("domain")
-    private String domainName;
+    private String domain;
     private Boolean available;
     private Boolean premium;
 
     public String getDomainName() {
-        return domainName;
+        return domain;
     }
 
     public Boolean getAvailable() {
