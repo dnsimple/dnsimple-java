@@ -1,8 +1,6 @@
 package com.dnsimple.data;
 
-import com.dnsimple.response.ApiResponse;
-
-public class OauthToken extends ApiResponse {
+public class OauthToken {
     private String accessToken;
     private String tokenType;
     private String scope;

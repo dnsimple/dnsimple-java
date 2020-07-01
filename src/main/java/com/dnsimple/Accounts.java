@@ -1,7 +1,8 @@
 package com.dnsimple;
 
+import com.dnsimple.data.Account;
+import com.dnsimple.response.ListResponse;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.response.ListAccountsResponse;
 
 import java.io.IOException;
 
@@ -14,5 +15,5 @@ public interface Accounts {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/accounts#list">https://developer.dnsimple.com/v2/accounts#list</a>
      */
-    public ListAccountsResponse listAccounts() throws DnsimpleException, IOException, InterruptedException;
+    public ListResponse<Account> listAccounts() throws DnsimpleException, IOException, InterruptedException;
 }

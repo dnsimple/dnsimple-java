@@ -1,12 +1,10 @@
 package com.dnsimple;
 
 import com.dnsimple.data.Template;
+import com.dnsimple.response.PaginatedResponse;
+import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
-import com.dnsimple.response.ApplyTemplateResponse;
-import com.dnsimple.response.CreateTemplateResponse;
-import com.dnsimple.response.DeleteTemplateResponse;
-import com.dnsimple.response.ListTemplatesResponse;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -53,7 +51,7 @@ public class TemplatesTest extends DnsimpleTestBase {
     @Test
     public void testListTemplatesExposesPaginationInfo() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("listTemplates/success.http");
-        ListTemplatesResponse response = client.templates.listTemplates("1");
+        PaginatedResponse<Template> response = client.templates.listTemplates("1");
         assertThat(response.getPagination().getCurrentPage(), is(1));
     }
 
@@ -97,7 +95,7 @@ public class TemplatesTest extends DnsimpleTestBase {
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("name", "A Template");
         attributes.put("short_name", "a_template");
-        CreateTemplateResponse response = client.templates.createTemplate("1", attributes);
+        SimpleResponse<Template> response = client.templates.createTemplate("1", attributes);
         assertThat(response.getData().getId(), is(1));
     }
 
@@ -117,18 +115,16 @@ public class TemplatesTest extends DnsimpleTestBase {
     @Test
     public void testDeleteTemplate() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("deleteTemplate/success.http");
-        DeleteTemplateResponse response = client.templates.deleteTemplate("1010", "1");
+        client.templates.deleteTemplate("1010", "1");
         assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/templates/1"));
-        assertThat(response.getData(), is(nullValue()));
     }
 
     @Test
     public void testApplyTemplate() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("applyTemplate/success.http");
-        ApplyTemplateResponse response = client.templates.applyTemplate("1010", "1", "example.com");
+        client.templates.applyTemplate("1010", "1", "example.com");
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/example.com/templates/1"));
-        assertThat(response.getData(), is(nullValue()));
     }
 }

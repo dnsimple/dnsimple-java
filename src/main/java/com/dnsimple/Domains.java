@@ -1,7 +1,10 @@
 package com.dnsimple;
 
+import com.dnsimple.data.*;
+import com.dnsimple.response.EmptyResponse;
+import com.dnsimple.response.PaginatedResponse;
+import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.response.*;
 
 import java.io.IOException;
 import java.util.Map;
@@ -23,7 +26,7 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/#list">https://developer.dnsimple.com/v2/domains/#list</a>
      */
-    public ListDomainsResponse listDomains(String accountId) throws DnsimpleException, IOException, InterruptedException;
+    public PaginatedResponse<Domain> listDomains(String accountId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Lists the domains in the account.
@@ -35,7 +38,7 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/#list">https://developer.dnsimple.com/v2/domains/#list</a>
      */
-    public ListDomainsResponse listDomains(String accountId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException;
+    public PaginatedResponse<Domain> listDomains(String accountId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Get a specific domain associated to an account using the domain's name or ID.
@@ -47,7 +50,7 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/#get">https://developer.dnsimple.com/v2/domains/#get</a>
      */
-    public GetDomainResponse getDomain(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
+    public SimpleResponse<Domain> getDomain(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Create a domain in an account.
@@ -59,7 +62,7 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/#create">https://developer.dnsimple.com/v2/domains/#create</a>
      */
-    public CreateDomainResponse createDomain(String accountId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
+    public SimpleResponse<Domain> createDomain(String accountId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Delete a domain from an account.
@@ -73,7 +76,7 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/#delete">https://developer.dnsimple.com/v2/domains/#delete</a>
      */
-    public DeleteDomainResponse deleteDomain(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
+    public EmptyResponse deleteDomain(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Resets the domain token.
@@ -85,7 +88,7 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/#reset-token">https://developer.dnsimple.com/v2/domains/#reset-token</a>
      */
-    public ResetDomainTokenResponse resetDomainToken(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
+    public SimpleResponse<Domain> resetDomainToken(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
     // Collaborators
 
     /**
@@ -98,7 +101,7 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/collaborators/#list">https://developer.dnsimple.com/v2/domains/collaborators/#list</a>
      */
-    public ListCollaboratorsResponse listCollaborators(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
+    public PaginatedResponse<Collaborator> listCollaborators(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Lists the collaborators in the account.
@@ -111,7 +114,7 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/collaborators/#list">https://developer.dnsimple.com/v2/domains/collaborators/#list</a>
      */
-    public ListCollaboratorsResponse listCollaborators(String accountId, String domainId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException;
+    public PaginatedResponse<Collaborator> listCollaborators(String accountId, String domainId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Add a collaborator to a domain.
@@ -124,7 +127,7 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/collaborators/#add">https://developer.dnsimple.com/v2/domains/collaborators/#create</a>
      */
-    public AddCollaboratorResponse addCollaborator(String accountId, String domainId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
+    public SimpleResponse<Collaborator> addCollaborator(String accountId, String domainId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Remove a collaborator from a domain.
@@ -137,7 +140,7 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/collaborators/#remove">https://developer.dnsimple.com/v2/domains/collaborators/#remove</a>
      */
-    public RemoveCollaboratorResponse removeCollaborator(String accountId, String domainId, String collaboratorId) throws DnsimpleException, IOException, InterruptedException;
+    public EmptyResponse removeCollaborator(String accountId, String domainId, String collaboratorId) throws DnsimpleException, IOException, InterruptedException;
     // DNSSEC
 
     /**
@@ -150,7 +153,7 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#enable">https://developer.dnsimple.com/v2/domains/dnssec/#enable</a>
      */
-    public EnableDnssecResponse enableDnssec(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
+    public SimpleResponse<Dnssec> enableDnssec(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Disables DNSSEC on the domain.
@@ -162,7 +165,7 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#disable">https://developer.dnsimple.com/v2/domains/dnssec/#disable</a>
      */
-    public DisableDnssecResponse disableDnssec(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
+    public EmptyResponse disableDnssec(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Get DNSSEC status of the domain.
@@ -174,7 +177,7 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#get">https://developer.dnsimple.com/v2/domains/dnssec/#get</a>
      */
-    public GetDnssecResponse getDnssec(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
+    public SimpleResponse<Dnssec> getDnssec(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
     // Delegation Signer Records
 
     /**
@@ -187,7 +190,7 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list</a>
      */
-    public ListDelegationSignerRecordsResponse listDelegationSignerRecords(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
+    public PaginatedResponse<DelegationSignerRecord> listDelegationSignerRecords(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Lists the delegation signer records in the domain.
@@ -200,7 +203,7 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list</a>
      */
-    public ListDelegationSignerRecordsResponse listDelegationSignerRecords(String accountId, String domainId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException;
+    public PaginatedResponse<DelegationSignerRecord> listDelegationSignerRecords(String accountId, String domainId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Get a delegation signer record for a domain using the delegation signer records's ID.
@@ -213,7 +216,7 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-get">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-get</a>
      */
-    public GetDelegationSignerRecordResponse getDelegationSignerRecord(String accountId, String domainId, String dsRecordId) throws DnsimpleException, IOException, InterruptedException;
+    public SimpleResponse<DelegationSignerRecord> getDelegationSignerRecord(String accountId, String domainId, String dsRecordId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Create a delegation signer record for a domain.
@@ -226,7 +229,7 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-create">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-create</a>
      */
-    public CreateDelegationSignerRecordResponse createDelegationSignerRecord(String accountId, String domainId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
+    public SimpleResponse<DelegationSignerRecord> createDelegationSignerRecord(String accountId, String domainId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Delete a delegation signer record from a domain.
@@ -241,7 +244,7 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-delete">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-delete</a>
      */
-    public DeleteDelegationSignerRecordResponse deleteDelegationSignerRecord(String accountId, String domainId, String dsRecordId) throws DnsimpleException, IOException, InterruptedException;
+    public EmptyResponse deleteDelegationSignerRecord(String accountId, String domainId, String dsRecordId) throws DnsimpleException, IOException, InterruptedException;
     // Email Forwards
 
     /**
@@ -254,7 +257,7 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#list">https://developer.dnsimple.com/v2/domains/email-forwards/#list</a>
      */
-    public ListEmailForwardsResponse listEmailForwards(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
+    public PaginatedResponse<EmailForward> listEmailForwards(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * List email forwards under a given domain.
@@ -267,7 +270,7 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#list">https://developer.dnsimple.com/v2/domains/email-forwards/#list</a>
      */
-    public ListEmailForwardsResponse listEmailForwards(String accountId, String domainId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException;
+    public PaginatedResponse<EmailForward> listEmailForwards(String accountId, String domainId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Get a specific email forward associated to a domain using the email forward's ID.
@@ -280,7 +283,7 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#get">https://developer.dnsimple.com/v2/domains/email-forwards/#get</a>
      */
-    public GetEmailForwardResponse getEmailForward(String accountId, String domainId, String emailForwardId) throws DnsimpleException, IOException, InterruptedException;
+    public SimpleResponse<EmailForward> getEmailForward(String accountId, String domainId, String emailForwardId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Create an email forward for a domain.
@@ -293,7 +296,7 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#create">https://developer.dnsimple.com/v2/domains/email-forwards/#create</a>
      */
-    public CreateEmailForwardResponse createEmailForward(String accountId, String domainId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
+    public SimpleResponse<EmailForward> createEmailForward(String accountId, String domainId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Delete an email forward from a domain.
@@ -308,7 +311,7 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#delete">https://developer.dnsimple.com/v2/domains/email-forwards/#delete</a>
      */
-    public DeleteEmailForwardResponse deleteEmailForward(String accountId, String domainId, String emailForwardId) throws DnsimpleException, IOException, InterruptedException;
+    public EmptyResponse deleteEmailForward(String accountId, String domainId, String emailForwardId) throws DnsimpleException, IOException, InterruptedException;
     // Pushes
 
     /**
@@ -322,7 +325,7 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#initiate">https://developer.dnsimple.com/v2/domains/pushes/#initiate</a>
      */
-    public InitiatePushResponse initiatePush(String accountId, String domainId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
+    public SimpleResponse<Push> initiatePush(String accountId, String domainId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * List pushes under a given domain.
@@ -334,7 +337,7 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#list">https://developer.dnsimple.com/v2/domains/pushes/#list</a>
      */
-    public ListPushesResponse listPushes(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
+    public PaginatedResponse<Push> listPushes(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * List pushes under a given domain.
@@ -347,7 +350,7 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#list">https://developer.dnsimple.com/v2/domains/pushes/#list</a>
      */
-    public ListPushesResponse listPushes(String accountId, String domainId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException;
+    public PaginatedResponse<Push> listPushes(String accountId, String domainId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Accept a push.
@@ -360,7 +363,7 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#accept">https://developer.dnsimple.com/v2/domains/pushes/#accept</a>
      */
-    public AcceptPushResponse acceptPush(String accountId, String pushId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
+    public EmptyResponse acceptPush(String accountId, String pushId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Reject a push.
@@ -372,5 +375,5 @@ public interface Domains {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#reject">https://developer.dnsimple.com/v2/domains/pushes/#reject</a>
      */
-    public RejectPushResponse rejectPush(String accountId, String pushId) throws DnsimpleException, IOException, InterruptedException;
+    public EmptyResponse rejectPush(String accountId, String pushId) throws DnsimpleException, IOException, InterruptedException;
 }

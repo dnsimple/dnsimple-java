@@ -2,7 +2,6 @@ package com.dnsimple;
 
 import com.dnsimple.data.NameServer;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.response.ChangeDomainDelegationFromVanityResponse;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -12,7 +11,8 @@ import java.util.List;
 import static com.dnsimple.tools.HttpMethod.*;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 
 public class RegistrarDelegationTest extends DnsimpleTestBase {
     @Test
@@ -62,9 +62,8 @@ public class RegistrarDelegationTest extends DnsimpleTestBase {
     @Test
     public void testChangeDomainDelegationFromVanity() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("changeDomainDelegationFromVanity/success.http");
-        ChangeDomainDelegationFromVanityResponse response = client.registrar.changeDomainDelegationFromVanity("1010", "example.com");
+        client.registrar.changeDomainDelegationFromVanity("1010", "example.com");
         assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/delegation/vanity"));
-        assertThat(response.getData(), is(nullValue()));
     }
 }

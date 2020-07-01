@@ -1,11 +1,10 @@
 package com.dnsimple;
 
 import com.dnsimple.data.DelegationSignerRecord;
+import com.dnsimple.response.PaginatedResponse;
+import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
-import com.dnsimple.response.CreateDelegationSignerRecordResponse;
-import com.dnsimple.response.DeleteDelegationSignerRecordResponse;
-import com.dnsimple.response.ListDelegationSignerRecordsResponse;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -53,7 +52,7 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
     @Test
     public void testListDelegationSignerRecordsExposesPaginationInfo() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("listDelegationSignerRecords/success.http");
-        ListDelegationSignerRecordsResponse response = client.domains.listDelegationSignerRecords("1", "1010");
+        PaginatedResponse<DelegationSignerRecord> response = client.domains.listDelegationSignerRecords("1", "1010");
         assertThat(response.getPagination().getCurrentPage(), is(1));
     }
 
@@ -86,16 +85,15 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
         attributes.put("digest", "684a1f049d7d082b7f98691657da5a65764913df7f065f6f8c36edf62d66ca03");
         attributes.put("digest_type", "2");
         attributes.put("keytag", "2371");
-        CreateDelegationSignerRecordResponse response = client.domains.createDelegationSignerRecord("1", "example.com", attributes);
+        SimpleResponse<DelegationSignerRecord> response = client.domains.createDelegationSignerRecord("1", "example.com", attributes);
         assertThat(response.getData().getId(), is(2));
     }
 
     @Test
     public void testDeleteDelegationSignerRecord() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("deleteDelegationSignerRecord/success.http");
-        DeleteDelegationSignerRecordResponse response = client.domains.deleteDelegationSignerRecord("1", "example.com", "24");
+        client.domains.deleteDelegationSignerRecord("1", "example.com", "24");
         assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/ds_records/24"));
-        assertThat(response.getData(), is(nullValue()));
     }
 }

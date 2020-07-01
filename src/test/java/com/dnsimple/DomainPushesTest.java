@@ -2,13 +2,13 @@ package com.dnsimple;
 
 import com.dnsimple.data.Push;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.response.AcceptPushResponse;
-import com.dnsimple.response.RejectPushResponse;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.List;
 
+import static com.dnsimple.tools.HttpMethod.DELETE;
+import static com.dnsimple.tools.HttpMethod.POST;
 import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -37,14 +37,16 @@ public class DomainPushesTest extends DnsimpleTestBase {
     @Test
     public void testAcceptPush() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("acceptPush/success.http");
-        AcceptPushResponse response = client.domains.acceptPush("1010", "200", singletonMap("contact_id", 1));
-        assertThat(response.getData(), is(nullValue()));
+        client.domains.acceptPush("1010", "200", singletonMap("contact_id", 1));
+        assertThat(server.getRecordedRequest().getMethod(), is(POST));
+        assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/pushes/200"));
     }
 
     @Test
     public void testRejectPush() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("rejectPush/success.http");
-        RejectPushResponse response = client.domains.rejectPush("1010", "200");
-        assertThat(response.getData(), is(nullValue()));
+        client.domains.rejectPush("1010", "200");
+        assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
+        assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/pushes/200"));
     }
 }

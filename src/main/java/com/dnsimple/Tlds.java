@@ -1,9 +1,11 @@
 package com.dnsimple;
 
+import com.dnsimple.data.Tld;
+import com.dnsimple.data.TldExtendedAttribute;
+import com.dnsimple.response.ListResponse;
+import com.dnsimple.response.PaginatedResponse;
+import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.response.GetTldExtendedAttributesResponse;
-import com.dnsimple.response.GetTldResponse;
-import com.dnsimple.response.ListTldsResponse;
 
 import java.io.IOException;
 import java.util.Map;
@@ -22,7 +24,7 @@ public interface Tlds {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/tlds/#list">https://developer.dnsimple.com/v2/tlds/#list</a>
      */
-    public ListTldsResponse listTlds() throws DnsimpleException, IOException, InterruptedException;
+    public PaginatedResponse<Tld> listTlds() throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Lists supported TLDs for registration
@@ -33,7 +35,7 @@ public interface Tlds {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/tlds/#list">https://developer.dnsimple.com/v2/tlds/#list</a>
      */
-    public ListTldsResponse listTlds(Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException;
+    public PaginatedResponse<Tld> listTlds(Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Get details for a specific tld.
@@ -44,7 +46,7 @@ public interface Tlds {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/tlds/#get">https://developer.dnsimple.com/v2/tlds/#get</a>
      */
-    public GetTldResponse getTld(String tld) throws DnsimpleException, IOException, InterruptedException;
+    public SimpleResponse<Tld> getTld(String tld) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Get extended attributes for a TLD
@@ -55,6 +57,6 @@ public interface Tlds {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/tlds/#extended-attributes">https://developer.dnsimple.com/v2/tlds/#extended-attributes</a>
      */
-    public GetTldExtendedAttributesResponse getTldExtendedAttributes(String tld) throws DnsimpleException, IOException, InterruptedException;
+    public ListResponse<TldExtendedAttribute> getTldExtendedAttributes(String tld) throws DnsimpleException, IOException, InterruptedException;
 }
 

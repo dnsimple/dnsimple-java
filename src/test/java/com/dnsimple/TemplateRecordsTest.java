@@ -1,10 +1,10 @@
 package com.dnsimple;
 
 import com.dnsimple.data.TemplateRecord;
+import com.dnsimple.response.EmptyResponse;
+import com.dnsimple.response.PaginatedResponse;
+import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.response.CreateTemplateRecordResponse;
-import com.dnsimple.response.DeleteTemplateRecordResponse;
-import com.dnsimple.response.ListTemplateRecordsResponse;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -50,7 +50,7 @@ public class TemplateRecordsTest extends DnsimpleTestBase {
     @Test
     public void testListTemplateRecordsExposesPaginationInfo() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("listTemplateRecords/success.http");
-        ListTemplateRecordsResponse response = client.templates.listTemplateRecords("1", "2");
+        PaginatedResponse<TemplateRecord> response = client.templates.listTemplateRecords("1", "2");
         assertThat(response.getPagination().getCurrentPage(), is(1));
     }
 
@@ -89,16 +89,15 @@ public class TemplateRecordsTest extends DnsimpleTestBase {
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("name", "www");
         attributes.put("content", "example.com");
-        CreateTemplateRecordResponse response = client.templates.createTemplateRecord("1", "300", attributes);
+        SimpleResponse<TemplateRecord> response = client.templates.createTemplateRecord("1", "300", attributes);
         assertThat(response.getData().getId(), is(300));
     }
 
     @Test
     public void testDeleteTemplateRecord() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("deleteTemplateRecord/success.http");
-        DeleteTemplateRecordResponse response = client.templates.deleteTemplateRecord("1010", "1", "300");
+        EmptyResponse response = client.templates.deleteTemplateRecord("1010", "1", "300");
         assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/templates/1/records/300"));
-        assertThat(response.getData(), is(nullValue()));
     }
 }

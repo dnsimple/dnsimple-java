@@ -1,85 +1,88 @@
 package com.dnsimple.endpoints.http;
 
 import com.dnsimple.Registrar;
+import com.dnsimple.data.*;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.response.*;
+import com.dnsimple.response.EmptyResponse;
+import com.dnsimple.response.ListResponse;
+import com.dnsimple.response.SimpleResponse;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 public class RegistrarEndpoint implements Registrar {
-    private HttpEndpointClient client;
+    private final HttpEndpointClient client;
 
     public RegistrarEndpoint(HttpEndpointClient client) {
         this.client = client;
     }
 
-    public CheckDomainResponse checkDomain(String accountId, String domainName) throws DnsimpleException, IOException, InterruptedException {
-        return (CheckDomainResponse) client.get(accountId + "/registrar/domains/" + domainName + "/check", null, CheckDomainResponse.class);
+    public SimpleResponse<DomainAvailability> checkDomain(String accountId, String domainName) throws DnsimpleException, IOException, InterruptedException {
+        return client.getSimple(accountId + "/registrar/domains/" + domainName + "/check", null, DomainAvailability.class);
     }
 
-    public RegisterDomainResponse registerDomain(String accountId, String domainName, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException {
-        return (RegisterDomainResponse) client.post(accountId + "/registrar/domains/" + domainName + "/registrations", attributes, null, RegisterDomainResponse.class);
+    public SimpleResponse<DomainRegistration> registerDomain(String accountId, String domainName, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException {
+        return client.postSimple(accountId + "/registrar/domains/" + domainName + "/registrations", attributes, null, DomainRegistration.class);
     }
 
-    public RenewDomainResponse renewDomain(String accountId, String domainId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException {
-        return (RenewDomainResponse) client.post(accountId + "/registrar/domains/" + domainId + "/renewals", attributes, null, RenewDomainResponse.class);
+    public SimpleResponse<DomainRenewal> renewDomain(String accountId, String domainId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException {
+        return client.postSimple(accountId + "/registrar/domains/" + domainId + "/renewals", attributes, null, DomainRenewal.class);
     }
 
-    public TransferDomainResponse transferDomain(String accountId, String domainId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException {
-        return (TransferDomainResponse) client.post(accountId + "/registrar/domains/" + domainId + "/transfers", attributes, null, TransferDomainResponse.class);
+    public SimpleResponse<DomainTransfer> transferDomain(String accountId, String domainId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException {
+        return client.postSimple(accountId + "/registrar/domains/" + domainId + "/transfers", attributes, null, DomainTransfer.class);
     }
 
-    public TransferDomainResponse getDomainTransfer(String accountId, String domainId, String domainTransferId) throws DnsimpleException, IOException, InterruptedException {
-        return (TransferDomainResponse) client.get(accountId + "/registrar/domains/" + domainId + "/transfers/" + domainTransferId, null, TransferDomainResponse.class);
+    public SimpleResponse<DomainTransfer> getDomainTransfer(String accountId, String domainId, String domainTransferId) throws DnsimpleException, IOException, InterruptedException {
+        return client.getSimple(accountId + "/registrar/domains/" + domainId + "/transfers/" + domainTransferId, null, DomainTransfer.class);
     }
 
-    public TransferDomainResponse cancelDomainTransfer(String accountId, String domainId, String domainTransferId) throws DnsimpleException, IOException, InterruptedException {
-        return (TransferDomainResponse) client.delete(accountId + "/registrar/domains/" + domainId + "/transfers/" + domainTransferId, null, TransferDomainResponse.class);
+    public SimpleResponse<DomainTransfer> cancelDomainTransfer(String accountId, String domainId, String domainTransferId) throws DnsimpleException, IOException, InterruptedException {
+        return client.deleteSimple(accountId + "/registrar/domains/" + domainId + "/transfers/" + domainTransferId, null, DomainTransfer.class);
     }
 
-    public TransferDomainOutResponse transferDomainOut(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
-        return (TransferDomainOutResponse) client.post(accountId + "/registrar/domains/" + domainId + "/authorize_transfer_out", null, null, TransferDomainOutResponse.class);
+    public EmptyResponse transferDomainOut(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
+        return client.postEmpty(accountId + "/registrar/domains/" + domainId + "/authorize_transfer_out", null, null);
     }
 
-    public EnableAutoRenewalResponse enableAutoRenewal(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
-        return (EnableAutoRenewalResponse) client.put(accountId + "/registrar/domains/" + domainId + "/auto_renewal", null, null, EnableAutoRenewalResponse.class);
+    public EmptyResponse enableAutoRenewal(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
+        return client.putEmpty(accountId + "/registrar/domains/" + domainId + "/auto_renewal", null, null);
     }
 
-    public DisableAutoRenewalResponse disableAutoRenewal(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
-        return (DisableAutoRenewalResponse) client.delete(accountId + "/registrar/domains/" + domainId + "/auto_renewal", null, DisableAutoRenewalResponse.class);
+    public EmptyResponse disableAutoRenewal(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
+        return client.deleteEmpty(accountId + "/registrar/domains/" + domainId + "/auto_renewal", null);
     }
 
-    public GetWhoisPrivacyResponse getWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
-        return (GetWhoisPrivacyResponse) client.get(accountId + "/registrar/domains/" + domainId + "/whois_privacy", null, GetWhoisPrivacyResponse.class);
+    public SimpleResponse<WhoisPrivacy> getWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
+        return client.getSimple(accountId + "/registrar/domains/" + domainId + "/whois_privacy", null, WhoisPrivacy.class);
     }
 
-    public EnableWhoisPrivacyResponse enableWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
-        return (EnableWhoisPrivacyResponse) client.put(accountId + "/registrar/domains/" + domainId + "/whois_privacy", null, null, EnableWhoisPrivacyResponse.class);
+    public SimpleResponse<WhoisPrivacy> enableWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
+        return client.putSimple(accountId + "/registrar/domains/" + domainId + "/whois_privacy", null, null, WhoisPrivacy.class);
     }
 
-    public DisableWhoisPrivacyResponse disableWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
-        return (DisableWhoisPrivacyResponse) client.delete(accountId + "/registrar/domains/" + domainId + "/whois_privacy", null, DisableWhoisPrivacyResponse.class);
+    public SimpleResponse<WhoisPrivacy> disableWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
+        return client.deleteSimple(accountId + "/registrar/domains/" + domainId + "/whois_privacy", null, WhoisPrivacy.class);
     }
 
-    public RenewWhoisPrivacyResponse renewWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
-        return (RenewWhoisPrivacyResponse) client.post(accountId + "/registrar/domains/" + domainId + "/whois_privacy/renewals", null, null, RenewWhoisPrivacyResponse.class);
+    public SimpleResponse<WhoisPrivacyRenewal> renewWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
+        return client.postSimple(accountId + "/registrar/domains/" + domainId + "/whois_privacy/renewals", null, null, WhoisPrivacyRenewal.class);
     }
 
-    public GetDomainDelegationResponse getDomainDelegation(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
-        return (GetDomainDelegationResponse) client.get(accountId + "/registrar/domains/" + domainId + "/delegation", null, GetDomainDelegationResponse.class);
+    public ListResponse<String> getDomainDelegation(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
+        return client.getList(accountId + "/registrar/domains/" + domainId + "/delegation", null, String.class);
     }
 
-    public ChangeDomainDelegationResponse changeDomainDelegation(String accountId, String domainId, List<String> nameServerNames) throws DnsimpleException, IOException, InterruptedException {
-        return (ChangeDomainDelegationResponse) client.put(accountId + "/registrar/domains/" + domainId + "/delegation", nameServerNames, null, ChangeDomainDelegationResponse.class);
+    public ListResponse<String> changeDomainDelegation(String accountId, String domainId, List<String> nameServerNames) throws DnsimpleException, IOException, InterruptedException {
+        return client.putList(accountId + "/registrar/domains/" + domainId + "/delegation", nameServerNames, null, String.class);
     }
 
-    public ChangeDomainDelegationToVanityResponse changeDomainDelegationToVanity(String accountId, String domainId, List<String> nameServerNames) throws DnsimpleException, IOException, InterruptedException {
-        return (ChangeDomainDelegationToVanityResponse) client.put(accountId + "/registrar/domains/" + domainId + "/delegation/vanity", nameServerNames, null, ChangeDomainDelegationToVanityResponse.class);
+    public ListResponse<NameServer> changeDomainDelegationToVanity(String accountId, String domainId, List<String> nameServerNames) throws DnsimpleException, IOException, InterruptedException {
+        return client.putList(accountId + "/registrar/domains/" + domainId + "/delegation/vanity", nameServerNames, null, NameServer.class);
     }
 
-    public ChangeDomainDelegationFromVanityResponse changeDomainDelegationFromVanity(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
-        return (ChangeDomainDelegationFromVanityResponse) client.delete(accountId + "/registrar/domains/" + domainId + "/delegation/vanity", null, ChangeDomainDelegationFromVanityResponse.class);
+    public EmptyResponse changeDomainDelegationFromVanity(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
+        return client.deleteEmpty(accountId + "/registrar/domains/" + domainId + "/delegation/vanity", null);
     }
 }

@@ -7,24 +7,25 @@ import com.dnsimple.exception.DnsimpleException;
 import io.mikael.urlbuilder.UrlBuilder;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.util.Collections.emptyMap;
+
 public class OauthEndpoint implements Oauth {
     private static final String CODE_RESPONSE_TYPE = "code";
-    private HttpEndpointClient client;
+    private final HttpEndpointClient client;
 
     public OauthEndpoint(HttpEndpointClient client) {
         this.client = client;
     }
 
     public OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret) throws DnsimpleException, IOException, InterruptedException {
-        return exchangeAuthorizationForToken(code, clientId, clientSecret, new HashMap<String, Object>());
+        return exchangeAuthorizationForToken(code, clientId, clientSecret, emptyMap());
     }
 
     public OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
-        Map<String, Object> attributes = new HashMap<String, Object>();
+        Map<String, Object> attributes = new HashMap<>();
         attributes.put("code", code);
         attributes.put("client_id", clientId);
         attributes.put("client_secret", clientSecret);
@@ -35,11 +36,11 @@ public class OauthEndpoint implements Oauth {
         if (options.containsKey("redirect_uri")) {
             attributes.put("redirect_uri", options.remove("redirect_uri"));
         }
-        return (OauthToken) client.post("oauth/access_token", attributes, null, OauthToken.class);
+        return client.postUnwrapped("oauth/access_token", attributes, null, OauthToken.class);
     }
 
     public String authorizeUrl(String clientId) {
-        return authorizeUrl(clientId, Collections.emptyMap());
+        return authorizeUrl(clientId, emptyMap());
     }
 
     public String authorizeUrl(String clientId, Map<Object, Object> options) {

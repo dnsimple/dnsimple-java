@@ -3,10 +3,10 @@ package com.dnsimple;
 import com.dnsimple.data.Tld;
 import com.dnsimple.data.TldExtendedAttribute;
 import com.dnsimple.data.TldExtendedAttributeOption;
+import com.dnsimple.response.ListResponse;
+import com.dnsimple.response.PaginatedResponse;
+import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.response.GetTldExtendedAttributesResponse;
-import com.dnsimple.response.GetTldResponse;
-import com.dnsimple.response.ListTldsResponse;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -50,21 +50,21 @@ public class TldsTest extends DnsimpleTestBase {
     @Test
     public void testListTldsExposesPaginationInfo() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("listTlds/success.http");
-        ListTldsResponse response = client.tlds.listTlds();
+        PaginatedResponse<Tld> response = client.tlds.listTlds();
         assertThat(response.getPagination().getCurrentPage(), is(1));
     }
 
     @Test
     public void testGetTld() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("getTld/success.http");
-        GetTldResponse response = client.tlds.getTld("com");
+        SimpleResponse<Tld> response = client.tlds.getTld("com");
         assertThat(response.getData().getTld(), is("com"));
     }
 
     @Test
     public void testGetTldExtendedAttributes() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("getTldExtendedAttributes/success.http");
-        GetTldExtendedAttributesResponse response = client.tlds.getTldExtendedAttributes("uk");
+        ListResponse<TldExtendedAttribute> response = client.tlds.getTldExtendedAttributes("uk");
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/tlds/uk/extended_attributes"));
         List<TldExtendedAttribute> extendedAttributes = response.getData();
@@ -82,7 +82,7 @@ public class TldsTest extends DnsimpleTestBase {
     @Test
     public void testGetTldExtendedAttributesWhenNone() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("getTldExtendedAttributes/success-noattributes.http");
-        GetTldExtendedAttributesResponse response = client.tlds.getTldExtendedAttributes("com");
+        ListResponse<TldExtendedAttribute> response = client.tlds.getTldExtendedAttributes("com");
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/tlds/com/extended_attributes"));
         assertThat(response.getData(), is(empty()));

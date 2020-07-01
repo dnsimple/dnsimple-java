@@ -4,10 +4,9 @@ import com.dnsimple.data.DomainAvailability;
 import com.dnsimple.data.DomainRegistration;
 import com.dnsimple.data.DomainRenewal;
 import com.dnsimple.data.DomainTransfer;
+import com.dnsimple.response.EmptyResponse;
+import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.response.RegisterDomainResponse;
-import com.dnsimple.response.TransferDomainOutResponse;
-import com.dnsimple.response.TransferDomainResponse;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -35,7 +34,7 @@ public class RegistrarTest extends DnsimpleTestBase {
     public void testRegisterDomain() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("registerDomain/success.http");
         Map<String, Object> attributes = singletonMap("registrant_id", "10");
-        RegisterDomainResponse response = client.registrar.registerDomain("1010", "example.com", attributes);
+        SimpleResponse<DomainRegistration> response = client.registrar.registerDomain("1010", "example.com", attributes);
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/registrations"));
         assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
@@ -77,7 +76,7 @@ public class RegistrarTest extends DnsimpleTestBase {
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("registrant_id", "1");
         attributes.put("auth_info", "x1y2z3");
-        TransferDomainResponse response = client.registrar.transferDomain("1010", "example.com", attributes);
+        SimpleResponse<DomainTransfer> response = client.registrar.transferDomain("1010", "example.com", attributes);
         DomainTransfer transfer = response.getData();
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/transfers"));
@@ -88,7 +87,7 @@ public class RegistrarTest extends DnsimpleTestBase {
     @Test
     public void testGetDomainTransfer() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("getDomainTransfer/success.http");
-        TransferDomainResponse response = client.registrar.getDomainTransfer("1010", "example.com", "361");
+        SimpleResponse<DomainTransfer> response = client.registrar.getDomainTransfer("1010", "example.com", "361");
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/transfers/361"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         DomainTransfer transfer = response.getData();
@@ -106,7 +105,7 @@ public class RegistrarTest extends DnsimpleTestBase {
     @Test
     public void testCancelDomainTransfer() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("cancelDomainTransfer/success.http");
-        TransferDomainResponse response = client.registrar.cancelDomainTransfer("1010", "example.com", "361");
+        SimpleResponse<DomainTransfer> response = client.registrar.cancelDomainTransfer("1010", "example.com", "361");
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/transfers/361"));
         assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
         DomainTransfer transfer = response.getData();
@@ -146,9 +145,8 @@ public class RegistrarTest extends DnsimpleTestBase {
     @Test
     public void testTransferDomainOut() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("authorizeDomainTransferOut/success.http");
-        TransferDomainOutResponse response = client.registrar.transferDomainOut("1010", "example.com");
+        EmptyResponse response = client.registrar.transferDomainOut("1010", "example.com");
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/authorize_transfer_out"));
-        assertThat(response.getData(), is(nullValue()));
     }
 }

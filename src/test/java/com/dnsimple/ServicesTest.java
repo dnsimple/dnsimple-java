@@ -1,8 +1,8 @@
 package com.dnsimple;
 
 import com.dnsimple.data.Service;
+import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.response.GetServiceResponse;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -46,8 +46,8 @@ public class ServicesTest extends DnsimpleTestBase {
     @Test
     public void testGetService() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("getService/success.http");
-        GetServiceResponse service1 = client.services.getService("1");
-        Service service = service1.getData();
+        SimpleResponse<Service> response = client.services.getService("1");
+        Service service = response.getData();
         assertThat(service.getId(), is(1));
         assertThat(service.getName(), is("Service 1"));
         assertThat(service.getShortName(), is("service1"));

@@ -1,7 +1,8 @@
 package com.dnsimple;
 
+import com.dnsimple.data.Whoami;
+import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.response.WhoamiResponse;
 
 import java.io.IOException;
 
@@ -19,5 +20,5 @@ public interface Identity {
      * @throws IOException       Any IO error
      * @see <a href="https://developer.dnsimple.com/v2/identity/#whoami">https://developer.dnsimple.com/v2/identity/#whoami</a>
      */
-    public WhoamiResponse whoami() throws DnsimpleException, IOException, InterruptedException;
+    public SimpleResponse<Whoami> whoami() throws DnsimpleException, IOException, InterruptedException;
 }

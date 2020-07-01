@@ -1,7 +1,12 @@
 package com.dnsimple;
 
+import com.dnsimple.data.Certificate;
+import com.dnsimple.data.CertificateBundle;
+import com.dnsimple.data.CertificatePurchase;
+import com.dnsimple.data.CertificateRenewal;
+import com.dnsimple.response.PaginatedResponse;
+import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.response.*;
 
 import java.io.IOException;
 import java.util.Map;
@@ -17,7 +22,7 @@ public interface Certificates {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/certificates/#listCertificates">https://developer.dnsimple.com/v2/certificates/#listCertificates</a>
      */
-    public ListCertificatesResponse listCertificates(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
+    public PaginatedResponse<Certificate> listCertificates(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * List certificates for a domain in the account.
@@ -30,7 +35,7 @@ public interface Certificates {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/certificates/#listCertificates">https://developer.dnsimple.com/v2/certificates/#listCertificates</a>
      */
-    public ListCertificatesResponse listCertificates(String accountId, String domainId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException;
+    public PaginatedResponse<Certificate> listCertificates(String accountId, String domainId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Get the details of a certificate.
@@ -43,7 +48,7 @@ public interface Certificates {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/certificates/#getCertificate">https://developer.dnsimple.com/v2/certificates/#getCertificate</a>
      */
-    public GetCertificateResponse getCertificate(String accountId, String domainId, String certificateId) throws DnsimpleException, IOException, InterruptedException;
+    public SimpleResponse<Certificate> getCertificate(String accountId, String domainId, String certificateId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Get the PEM-encoded certificate, along with the root certificate and intermediate chain.
@@ -56,7 +61,7 @@ public interface Certificates {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/certificates/#downloadCertificate">https://developer.dnsimple.com/v2/certificates/#downloadCertificate</a>
      */
-    public DownloadCertificateResponse downloadCertificate(String accountId, String domainId, String certificateId) throws DnsimpleException, IOException, InterruptedException;
+    public SimpleResponse<CertificateBundle> downloadCertificate(String accountId, String domainId, String certificateId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Get the PEM-encoded certificate private key.
@@ -69,7 +74,7 @@ public interface Certificates {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/certificates/#getCertificatePrivateKey">https://developer.dnsimple.com/v2/certificates/#getCertificatePrivateKey</a>
      */
-    public GetCertificatePrivateKeyResponse getCertificatePrivateKey(String accountId, String domainId, String certificateId) throws DnsimpleException, IOException, InterruptedException;
+    public SimpleResponse<CertificateBundle> getCertificatePrivateKey(String accountId, String domainId, String certificateId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Purchase a Let's Encrypt certificate.
@@ -85,7 +90,7 @@ public interface Certificates {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/certificates/#purchaseLetsencryptCertificate">https://developer.dnsimple.com/v2/certificates/#purchaseLetsencryptCertificate</a>
      */
-    public PurchaseLetsencryptResponse purchaseLetsencryptCertificate(String accountId, String domainId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
+    public SimpleResponse<CertificatePurchase> purchaseLetsencryptCertificate(String accountId, String domainId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Issue a pending Let's Encrypt certificate order.
@@ -101,7 +106,7 @@ public interface Certificates {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/certificates/#issueLetsencryptCertificate">https://developer.dnsimple.com/v2/certificates/#issueLetsencryptCertificate</a>
      */
-    public IssueLetsencryptResponse issueLetsencryptCertificate(String accountId, String domainId, String certificatePurchaseId) throws DnsimpleException, IOException, InterruptedException;
+    public SimpleResponse<Certificate> issueLetsencryptCertificate(String accountId, String domainId, String certificatePurchaseId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Purchase a Let's Encrypt certificate renewal.
@@ -118,7 +123,7 @@ public interface Certificates {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/certificates/#purchaseRenewalLetsencryptCertificate">https://developer.dnsimple.com/v2/certificates/#purchaseRenewalLetsencryptCertificate</a>
      */
-    public PurchaseLetsencryptRenewalResponse purchaseLetsencryptCertificateRenewal(String accountId, String domainId, String certificateId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
+    public SimpleResponse<CertificateRenewal> purchaseLetsencryptCertificateRenewal(String accountId, String domainId, String certificateId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Issue a pending Let's Encrypt certificate renewal order.
@@ -135,5 +140,5 @@ public interface Certificates {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/certificates/#issueRenewalLetsencryptCertificate">https://developer.dnsimple.com/v2/certificates/#issueRenewalLetsencryptCertificate</a>
      */
-    public IssueLetsencryptRenewalResponse issueLetsencryptCertificateRenewal(String accountId, String domainId, String certificateId, String certificateRenewalId) throws DnsimpleException, IOException, InterruptedException;
+    public SimpleResponse<Certificate> issueLetsencryptCertificateRenewal(String accountId, String domainId, String certificateId, String certificateRenewalId) throws DnsimpleException, IOException, InterruptedException;
 }

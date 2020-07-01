@@ -1,19 +1,20 @@
 package com.dnsimple.endpoints.http;
 
 import com.dnsimple.Accounts;
+import com.dnsimple.data.Account;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.response.ListAccountsResponse;
+import com.dnsimple.response.ListResponse;
 
 import java.io.IOException;
 
 public class AccountsEndpoint implements Accounts {
-    private HttpEndpointClient client;
+    private final HttpEndpointClient client;
 
     public AccountsEndpoint(HttpEndpointClient client) {
         this.client = client;
     }
 
-    public ListAccountsResponse listAccounts() throws DnsimpleException, IOException, InterruptedException {
-        return (ListAccountsResponse) client.get("accounts", null, ListAccountsResponse.class);
+    public ListResponse<Account> listAccounts() throws DnsimpleException, IOException, InterruptedException {
+        return client.getList("accounts", null, Account.class);
     }
 }

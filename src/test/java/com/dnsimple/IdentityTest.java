@@ -1,8 +1,8 @@
 package com.dnsimple;
 
 import com.dnsimple.data.Whoami;
+import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.response.WhoamiResponse;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -24,7 +24,7 @@ public class IdentityTest extends DnsimpleTestBase {
     @Test
     public void testWhoamiWithUser() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("whoami/success-user.http");
-        WhoamiResponse whoami = client.identity.whoami();
+        SimpleResponse<Whoami> whoami = client.identity.whoami();
         Whoami data = whoami.getData();
         assertThat(data.getUser().getId(), is(1));
         assertThat(data.getUser().getEmail(), is("example-user@example.com"));
