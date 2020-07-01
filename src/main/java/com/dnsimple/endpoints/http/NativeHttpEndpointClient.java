@@ -8,7 +8,6 @@ import com.dnsimple.response.EmptyResponse;
 import com.dnsimple.response.ListResponse;
 import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
-import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -27,13 +26,14 @@ import java.util.Map;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
+import static java.net.http.HttpClient.Redirect.ALWAYS;
+import static java.net.http.HttpClient.Version.HTTP_1_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class NativeHttpEndpointClient implements HttpEndpointClient {
-    private static final Gson gson = new GsonBuilder()
-            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-            .create();
-    public static final String DEFAULT_USER_AGENT = "dnsimple-java/" + Dnsimple.VERSION;
+    private static final Gson gson = new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
+    private static final String DEFAULT_USER_AGENT = "dnsimple-java/" + Dnsimple.VERSION;
     private static final String API_VERSION_PATH = "/v2/";
     private final HttpClient client;
     private String accessToken;
@@ -41,8 +41,8 @@ public class NativeHttpEndpointClient implements HttpEndpointClient {
 
     public NativeHttpEndpointClient() {
         client = HttpClient.newBuilder()
-                .version(HttpClient.Version.HTTP_1_1)
-                .followRedirects(HttpClient.Redirect.ALWAYS)
+                .version(HTTP_1_1)
+                .followRedirects(ALWAYS)
                 .build();
     }
 
