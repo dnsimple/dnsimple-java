@@ -19,7 +19,7 @@ public interface Webhooks {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/webhooks/#list">https://developer.dnsimple.com/v2/webhooks/#list</a>
      */
-    public ListResponse<Webhook> listWebhooks(String accountId) throws DnsimpleException, IOException, InterruptedException;
+    ListResponse<Webhook> listWebhooks(String accountId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Lists the webhooks in the account.
@@ -31,7 +31,7 @@ public interface Webhooks {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/webhooks/#list">https://developer.dnsimple.com/v2/webhooks/#list</a>
      */
-    public ListResponse<Webhook> listWebhooks(String accountId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException;
+    ListResponse<Webhook> listWebhooks(String accountId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Get a specific webhook associated to an account using the webhook's ID.
@@ -43,7 +43,7 @@ public interface Webhooks {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/webhooks/#get">https://developer.dnsimple.com/v2/webhooks/#get</a>
      */
-    public SimpleResponse<Webhook> getWebhook(String accountId, String webhookId) throws DnsimpleException, IOException, InterruptedException;
+    SimpleResponse<Webhook> getWebhook(String accountId, String webhookId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Create a webhook in the account.
@@ -55,7 +55,7 @@ public interface Webhooks {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/webhooks/#create">https://developer.dnsimple.com/v2/webhooks/#create</a>
      */
-    public SimpleResponse<Webhook> createWebhook(String accountId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
+    SimpleResponse<Webhook> createWebhook(String accountId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Delete a webhook from the account.
@@ -67,5 +67,5 @@ public interface Webhooks {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/webhooks/#delete">https://developer.dnsimple.com/v2/webhooks/#delete</a>
      */
-    public EmptyResponse deleteWebhook(String accountId, String webhookId) throws DnsimpleException, IOException, InterruptedException;
+    EmptyResponse deleteWebhook(String accountId, String webhookId) throws DnsimpleException, IOException, InterruptedException;
 }

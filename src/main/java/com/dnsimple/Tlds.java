@@ -24,7 +24,7 @@ public interface Tlds {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/tlds/#list">https://developer.dnsimple.com/v2/tlds/#list</a>
      */
-    public PaginatedResponse<Tld> listTlds() throws DnsimpleException, IOException, InterruptedException;
+    PaginatedResponse<Tld> listTlds() throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Lists supported TLDs for registration
@@ -35,7 +35,7 @@ public interface Tlds {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/tlds/#list">https://developer.dnsimple.com/v2/tlds/#list</a>
      */
-    public PaginatedResponse<Tld> listTlds(Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException;
+    PaginatedResponse<Tld> listTlds(Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Get details for a specific tld.
@@ -46,7 +46,7 @@ public interface Tlds {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/tlds/#get">https://developer.dnsimple.com/v2/tlds/#get</a>
      */
-    public SimpleResponse<Tld> getTld(String tld) throws DnsimpleException, IOException, InterruptedException;
+    SimpleResponse<Tld> getTld(String tld) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Get extended attributes for a TLD
@@ -57,6 +57,6 @@ public interface Tlds {
      * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/tlds/#extended-attributes">https://developer.dnsimple.com/v2/tlds/#extended-attributes</a>
      */
-    public ListResponse<TldExtendedAttribute> getTldExtendedAttributes(String tld) throws DnsimpleException, IOException, InterruptedException;
+    ListResponse<TldExtendedAttribute> getTldExtendedAttributes(String tld) throws DnsimpleException, IOException, InterruptedException;
 }
 

@@ -3,29 +3,29 @@ package com.dnsimple.endpoints;
 import com.dnsimple.*;
 
 public interface EndpointAdapter {
-    public Accounts accounts();
+    Accounts accounts();
 
-    public Certificates certificates();
+    Certificates certificates();
 
-    public Contacts contacts();
+    Contacts contacts();
 
-    public Domains domains();
+    Domains domains();
 
-    public Identity identity();
+    Identity identity();
 
-    public Oauth oauth();
+    Oauth oauth();
 
-    public Registrar registrar();
+    Registrar registrar();
 
-    public Services services();
+    Services services();
 
-    public Templates templates();
+    Templates templates();
 
-    public Tlds tlds();
+    Tlds tlds();
 
-    public VanityNameServers vanityNameServers();
+    VanityNameServers vanityNameServers();
 
-    public Webhooks webhooks();
+    Webhooks webhooks();
 
-    public Zones zones();
+    Zones zones();
 }

@@ -26,7 +26,7 @@ public interface Registrar {
      * @throws IOException       Any IO error
      * @see <a href="https://developer.dnsimple.com/v2/registrar/#check">https://developer.dnsimple.com/v2/registrar/#check</a>
      */
-    public SimpleResponse<DomainAvailability> checkDomain(String accountId, String domainName) throws DnsimpleException, IOException, InterruptedException;
+    SimpleResponse<DomainAvailability> checkDomain(String accountId, String domainName) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Registers a domain.
@@ -39,7 +39,7 @@ public interface Registrar {
      * @throws IOException       Any IO error
      * @see <a href="https://developer.dnsimple.com/v2/registrar/#register">https://developer.dnsimple.com/v2/registrar/#register</a>
      */
-    public SimpleResponse<DomainRegistration> registerDomain(String accountId, String domainName, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
+    SimpleResponse<DomainRegistration> registerDomain(String accountId, String domainName, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Renews a domain.
@@ -52,7 +52,7 @@ public interface Registrar {
      * @throws IOException       Any IO error
      * @see <a href="https://developer.dnsimple.com/v2/registrar/#renew">https://developer.dnsimple.com/v2/registrar/#renew</a>
      */
-    public SimpleResponse<DomainRenewal> renewDomain(String accountId, String domainId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
+    SimpleResponse<DomainRenewal> renewDomain(String accountId, String domainId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Starts the transfer of a domain to DNSimple.
@@ -65,7 +65,7 @@ public interface Registrar {
      * @throws IOException       Any IO error
      * @see <a href="https://developer.dnsimple.com/v2/registrar/#transfer">https://developer.dnsimple.com/v2/registrar/#transfer</a>
      */
-    public SimpleResponse<DomainTransfer> transferDomain(String accountId, String domainId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
+    SimpleResponse<DomainTransfer> transferDomain(String accountId, String domainId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Retrieves the details of an existing domain transfer.
@@ -78,7 +78,7 @@ public interface Registrar {
      * @throws IOException       Any IO error
      * @see <a href="https://developer.dnsimple.com/v2/registrar/#getDomainTransfer">https://developer.dnsimple.com/v2/registrar/#getDomainTransfer</a>
      */
-    public SimpleResponse<DomainTransfer> getDomainTransfer(String accountId, String domainId, String domainTransferId) throws DnsimpleException, IOException, InterruptedException;
+    SimpleResponse<DomainTransfer> getDomainTransfer(String accountId, String domainId, String domainTransferId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Cancels an in progress domain transfer.
@@ -91,7 +91,7 @@ public interface Registrar {
      * @throws IOException       Any IO error
      * @see <a href="https://developer.dnsimple.com/v2/registrar/#cancelDomainTransfer">https://developer.dnsimple.com/v2/registrar/#cancelDomainTransfer</a>
      */
-    public SimpleResponse<DomainTransfer> cancelDomainTransfer(String accountId, String domainId, String domainTransferId) throws DnsimpleException, IOException, InterruptedException;
+    SimpleResponse<DomainTransfer> cancelDomainTransfer(String accountId, String domainId, String domainTransferId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Requests the transfer of a domain out of DNSimple.
@@ -103,7 +103,7 @@ public interface Registrar {
      * @throws IOException       Any IO error
      * @see <a href="https://developer.dnsimple.com/v2/registrar/#transfer-out">https://developer.dnsimple.com/v2/registrar/#transfer-out</a>
      */
-    public EmptyResponse transferDomainOut(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
+    EmptyResponse transferDomainOut(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Enable auto renewal for the domain in the account.
@@ -115,7 +115,7 @@ public interface Registrar {
      * @throws IOException       Any IO error
      * @see <a href="https://developer.dnsimple.com/v2/registrar/auto-renewal/#enable">https://developer.dnsimple.com/v2/registrar/auto-renewal/#enable</a>
      */
-    public EmptyResponse enableAutoRenewal(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
+    EmptyResponse enableAutoRenewal(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Disable auto renewal for the domain in the account.
@@ -127,7 +127,7 @@ public interface Registrar {
      * @throws IOException       Any IO error
      * @see <a href="https://developer.dnsimple.com/v2/registrar/auto-renewal/#disable">https://developer.dnsimple.com/v2/registrar/auto-renewal/#disable</a>
      */
-    public EmptyResponse disableAutoRenewal(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
+    EmptyResponse disableAutoRenewal(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Gets the whois privacy for the domain.
@@ -139,7 +139,7 @@ public interface Registrar {
      * @throws IOException       Any IO error
      * @see <a href="https://developer.dnsimple.com/v2/registrar/whois-privacy/#get">https://developer.dnsimple.com/v2/registrar/whois-privacy/#get</a>
      */
-    public SimpleResponse<WhoisPrivacy> getWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
+    SimpleResponse<WhoisPrivacy> getWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Enable whois privacy for the domain.
@@ -151,7 +151,7 @@ public interface Registrar {
      * @throws IOException       Any IO error
      * @see <a href="https://developer.dnsimple.com/v2/registrar/whois-privacy/#enable">https://developer.dnsimple.com/v2/registrar/whois-privacy/#enable</a>
      */
-    public SimpleResponse<WhoisPrivacy> enableWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
+    SimpleResponse<WhoisPrivacy> enableWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Disable whois privacy for the domain.
@@ -163,7 +163,7 @@ public interface Registrar {
      * @throws IOException       Any IO error
      * @see <a href="https://developer.dnsimple.com/v2/registrar/whois-privacy/#disable">https://developer.dnsimple.com/v2/registrar/whois-privacy/#disable</a>
      */
-    public SimpleResponse<WhoisPrivacy> disableWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
+    SimpleResponse<WhoisPrivacy> disableWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Renew whois privacy for the domain.
@@ -175,7 +175,7 @@ public interface Registrar {
      * @throws IOException       Any IO error
      * @see <a href="https://developer.dnsimple.com/v2/registrar/whois-privacy/#renew">https://developer.dnsimple.com/v2/registrar/whois-privacy/#renew</a>
      */
-    public SimpleResponse<WhoisPrivacyRenewal> renewWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
+    SimpleResponse<WhoisPrivacyRenewal> renewWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Lists name servers the domain is delegating to.
@@ -187,7 +187,7 @@ public interface Registrar {
      * @throws IOException       Any IO error
      * @see <a href="https://developer.dnsimple.com/v2/registrar/delegation/#list">https://developer.dnsimple.com/v2/registrar/delegation/#list</a>
      */
-    public ListResponse<String> getDomainDelegation(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
+    ListResponse<String> getDomainDelegation(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Change name servers the domain is delegating to.
@@ -200,7 +200,7 @@ public interface Registrar {
      * @throws IOException       Any IO error
      * @see <a href="https://developer.dnsimple.com/v2/registrar/delegation/#update">https://developer.dnsimple.com/v2/registrar/delegation/#update</a>
      */
-    public ListResponse<String> changeDomainDelegation(String accountId, String domainId, List<String> nameServerNames) throws DnsimpleException, IOException, InterruptedException;
+    ListResponse<String> changeDomainDelegation(String accountId, String domainId, List<String> nameServerNames) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Change the domain delegation to the specified vanity name servers.
@@ -213,7 +213,7 @@ public interface Registrar {
      * @throws IOException       Any IO error
      * @see <a href="https://developer.dnsimple.com/v2/registrar/delegation/#delegateToVanity">https://developer.dnsimple.com/v2/registrar/delegation/#delegateToVanity</a>
      */
-    public ListResponse<NameServer> changeDomainDelegationToVanity(String accountId, String domainId, List<String> nameServerNames) throws DnsimpleException, IOException, InterruptedException;
+    ListResponse<NameServer> changeDomainDelegationToVanity(String accountId, String domainId, List<String> nameServerNames) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Change the domain delegation back to the standard DNSimple name servers.
@@ -225,5 +225,5 @@ public interface Registrar {
      * @throws IOException       Any IO error
      * @see <a href="https://developer.dnsimple.com/v2/registrar/delegation/#delegateFromVanity">https://developer.dnsimple.com/v2/registrar/delegation/#delegateFromVanity</a>
      */
-    public EmptyResponse changeDomainDelegationFromVanity(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
+    EmptyResponse changeDomainDelegationFromVanity(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
 }

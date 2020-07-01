@@ -24,7 +24,7 @@ public interface Oauth {
      * @throws IOException       Any IO error
      * @see <a href="https://developer.dnsimple.com/v2/oauth">https://developer.dnsimple.com/v2/oauth</a>
      */
-    public OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret) throws DnsimpleException, IOException, InterruptedException;
+    OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Exchange the short-lived authorization code for an access token
@@ -39,7 +39,7 @@ public interface Oauth {
      * @throws IOException       Any IO error
      * @see <a href="https://developer.dnsimple.com/v2/oauth">https://developer.dnsimple.com/v2/oauth</a>
      */
-    public OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException;
+    OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException;
 
     /**
      * Gets the URL to authorize a user for an application via the OAuth2 flow.
@@ -48,7 +48,7 @@ public interface Oauth {
      * @return The authorize URL String
      * @see <a href="https://developer.dnsimple.com/v2/oauth/">https://developer.dnsimple.com/v2/oauth/</a>
      */
-    public String authorizeUrl(String clientId);
+    String authorizeUrl(String clientId);
 
     /**
      * Gets the URL to authorize a user for an application via the OAuth2 flow.
@@ -58,5 +58,5 @@ public interface Oauth {
      * @return The authorize URL string
      * @see <a href="https://developer.dnsimple.com/v2/oauth/">https://developer.dnsimple.com/v2/oauth/</a>
      */
-    public String authorizeUrl(String clientId, Map<Object, Object> options);
+    String authorizeUrl(String clientId, Map<Object, Object> options);
 }
