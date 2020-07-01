@@ -12,12 +12,11 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import io.mikael.urlbuilder.UrlBuilder;
 
 import java.io.*;
 import java.lang.reflect.Type;
 import java.net.URI;
-import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -26,6 +25,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class NativeHttpEndpointClient implements HttpEndpointClient {
     private static final Gson gson = new GsonBuilder()
@@ -291,24 +293,17 @@ public class NativeHttpEndpointClient implements HttpEndpointClient {
     }
 
     private URI buildUrl(String url, Map<String, Object> options) {
-        if (options == null) {
+        if (options == null)
             options = Collections.emptyMap();
-        }
-        UrlBuilder urlBuilder = UrlBuilder.fromString(url);
+        var queryStringItems = new ArrayList<String>();
         if (options.containsKey("filter")) {
             Filter filter = (Filter) options.remove("filter");
-            urlBuilder = urlBuilder.addParameter(filter.name, filter.value);
+            queryStringItems.add(filter.name + "=" + URLEncoder.encode(filter.value, UTF_8));
         }
-        if (options.size() > 0) {
-            for (Map.Entry<String, Object> kv : options.entrySet()) {
-                urlBuilder = urlBuilder.addParameter(kv.getKey(), kv.getValue().toString());
-            }
-        }
-        try {
-            return urlBuilder.toUrl().toURI();
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
+        queryStringItems.addAll(options.entrySet().stream()
+                .map(e -> e.getKey() + "=" + URLEncoder.encode(e.getValue().toString(), UTF_8))
+                .collect(Collectors.toList()));
+        return URI.create(url + (queryStringItems.isEmpty() ? "" : ("?" + String.join("&", queryStringItems))));
     }
 
     public void setAccessToken(String accessToken) {

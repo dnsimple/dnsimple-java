@@ -4,16 +4,17 @@ import com.dnsimple.Dnsimple;
 import com.dnsimple.Oauth;
 import com.dnsimple.data.OauthToken;
 import com.dnsimple.exception.DnsimpleException;
-import io.mikael.urlbuilder.UrlBuilder;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyMap;
 
 public class OauthEndpoint implements Oauth {
-    private static final String CODE_RESPONSE_TYPE = "code";
     private final HttpEndpointClient client;
 
     public OauthEndpoint(HttpEndpointClient client) {
@@ -44,12 +45,11 @@ public class OauthEndpoint implements Oauth {
     }
 
     public String authorizeUrl(String clientId, Map<Object, Object> options) {
-        UrlBuilder urlBuilder = UrlBuilder.fromString(Dnsimple.getApiBase().replaceFirst("api\\.", "") + "/oauth/authorize")
-                .addParameter("client_id", clientId)
-                .addParameter("response_type", CODE_RESPONSE_TYPE);
-        for (Map.Entry<Object, Object> entry : options.entrySet()) {
-            urlBuilder = urlBuilder.addParameter(entry.getKey().toString(), entry.getValue().toString());
-        }
-        return urlBuilder.toString();
+        String baseUrl = Dnsimple.getApiBase().replaceFirst("api\\.", "") + "/oauth/authorize";
+        String queryString = String.format("client_id=%s&response_type=code", clientId);
+        queryString += options.isEmpty() ? "" : "&" + options.entrySet().stream()
+                .map(e -> e.getKey() + "=" + URLEncoder.encode(e.getValue().toString(), StandardCharsets.UTF_8))
+                .collect(Collectors.joining("&"));
+        return baseUrl + "?" + queryString;
     }
 }
