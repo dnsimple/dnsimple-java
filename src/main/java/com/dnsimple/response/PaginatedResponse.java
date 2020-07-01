@@ -1,7 +1,5 @@
 package com.dnsimple.response;
 
-import com.dnsimple.data.Pagination;
-
 import java.util.List;
 
 import static java.util.Collections.emptyList;

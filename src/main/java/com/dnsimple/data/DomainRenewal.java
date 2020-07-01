@@ -1,12 +1,21 @@
 package com.dnsimple.data;
 
 public class DomainRenewal {
-    private Integer id;
-    private Integer domainId;
-    private Integer period;
-    private String state;
-    private String createdAt;
-    private String updatedAt;
+    private final Integer id;
+    private final Integer domainId;
+    private final Integer period;
+    private final String state;
+    private final String createdAt;
+    private final String updatedAt;
+
+    public DomainRenewal(Integer id, Integer domainId, Integer period, String state, String createdAt, String updatedAt) {
+        this.id = id;
+        this.domainId = domainId;
+        this.period = period;
+        this.state = state;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
     public Integer getId() {
         return id;

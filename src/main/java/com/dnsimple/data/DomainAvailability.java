@@ -1,9 +1,15 @@
 package com.dnsimple.data;
 
 public class DomainAvailability {
-    private String domain;
-    private Boolean available;
-    private Boolean premium;
+    private final String domain;
+    private final Boolean available;
+    private final Boolean premium;
+
+    public DomainAvailability(String domain, Boolean available, Boolean premium) {
+        this.domain = domain;
+        this.available = available;
+        this.premium = premium;
+    }
 
     public String getDomainName() {
         return domain;

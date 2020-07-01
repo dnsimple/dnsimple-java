@@ -1,7 +1,11 @@
 package com.dnsimple.data;
 
 public class ZoneFile {
-    private String zone;
+    private final String zone;
+
+    public ZoneFile(String zone) {
+        this.zone = zone;
+    }
 
     public String getZone() {
         return zone;

@@ -1,10 +1,17 @@
 package com.dnsimple.data;
 
 public class OauthToken {
-    private String accessToken;
-    private String tokenType;
-    private String scope;
-    private Integer accountId;
+    private final String accessToken;
+    private final String tokenType;
+    private final String scope;
+    private final Integer accountId;
+
+    public OauthToken(String accessToken, String tokenType, String scope, Integer accountId) {
+        this.accessToken = accessToken;
+        this.tokenType = tokenType;
+        this.scope = scope;
+        this.accountId = accountId;
+    }
 
     public String getAccessToken() {
         return accessToken;

@@ -1,13 +1,23 @@
 package com.dnsimple.data;
 
 public class Push {
-    private Integer id;
-    private Integer domainId;
-    private Integer contactId;
-    private Integer accountId;
-    private String acceptedAt;
-    private String createdAt;
-    private String updatedAt;
+    private final Integer id;
+    private final Integer domainId;
+    private final Integer contactId;
+    private final Integer accountId;
+    private final String acceptedAt;
+    private final String createdAt;
+    private final String updatedAt;
+
+    public Push(Integer id, Integer domainId, Integer contactId, Integer accountId, String acceptedAt, String createdAt, String updatedAt) {
+        this.id = id;
+        this.domainId = domainId;
+        this.contactId = contactId;
+        this.accountId = accountId;
+        this.acceptedAt = acceptedAt;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
     public Integer getId() {
         return id;

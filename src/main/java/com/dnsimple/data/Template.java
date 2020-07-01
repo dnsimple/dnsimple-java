@@ -1,13 +1,23 @@
 package com.dnsimple.data;
 
 public class Template {
-    private Integer id;
-    private Integer accountId;
-    private String name;
-    private String sid;
-    private String description;
-    private String createdAt;
-    private String updatedAt;
+    private final Integer id;
+    private final Integer accountId;
+    private final String name;
+    private final String sid;
+    private final String description;
+    private final String createdAt;
+    private final String updatedAt;
+
+    public Template(Integer id, Integer accountId, String name, String sid, String description, String createdAt, String updatedAt) {
+        this.id = id;
+        this.accountId = accountId;
+        this.name = name;
+        this.sid = sid;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
     public Integer getId() {
         return id;

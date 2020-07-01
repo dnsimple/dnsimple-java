@@ -1,4 +1,4 @@
-package com.dnsimple.data;
+package com.dnsimple.response;
 
 public class Pagination {
     private final Integer currentPage;
