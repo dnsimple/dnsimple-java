@@ -1,10 +1,10 @@
 package com.dnsimple;
 
 import com.dnsimple.data.*;
+import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.response.EmptyResponse;
 import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
-import com.dnsimple.exception.DnsimpleException;
 
 import java.io.IOException;
 import java.util.Map;
@@ -15,7 +15,7 @@ import java.util.Map;
  * @see <a href="https://developer.dnsimple.com/v2/domains">https://developer.dnsimple.com/v2/domains</a>
  */
 public interface Domains {
-    // Domains
+    // region Domains
 
     /**
      * Lists the domains in the account.
@@ -178,7 +178,8 @@ public interface Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#get">https://developer.dnsimple.com/v2/domains/dnssec/#get</a>
      */
     SimpleResponse<Dnssec> getDnssec(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
-    // Delegation Signer Records
+    // endregion
+    // region Delegation Signer Records
 
     /**
      * Lists the delegation signer records in the domain.
@@ -245,7 +246,8 @@ public interface Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-delete">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-delete</a>
      */
     EmptyResponse deleteDelegationSignerRecord(String accountId, String domainId, String dsRecordId) throws DnsimpleException, IOException, InterruptedException;
-    // Email Forwards
+    // endregion
+    // region Email Forwards
 
     /**
      * List email forwards under a given domain.
@@ -312,7 +314,8 @@ public interface Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#delete">https://developer.dnsimple.com/v2/domains/email-forwards/#delete</a>
      */
     EmptyResponse deleteEmailForward(String accountId, String domainId, String emailForwardId) throws DnsimpleException, IOException, InterruptedException;
-    // Pushes
+    // endregion
+    // region Pushes
 
     /**
      * Initiate a push.
@@ -376,4 +379,5 @@ public interface Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#reject">https://developer.dnsimple.com/v2/domains/pushes/#reject</a>
      */
     EmptyResponse rejectPush(String accountId, String pushId) throws DnsimpleException, IOException, InterruptedException;
+    // endregion
 }

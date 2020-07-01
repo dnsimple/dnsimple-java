@@ -4,19 +4,19 @@ import com.dnsimple.data.Certificate;
 import com.dnsimple.data.CertificateBundle;
 import com.dnsimple.data.CertificatePurchase;
 import com.dnsimple.data.CertificateRenewal;
-import com.dnsimple.response.PaginatedResponse;
-import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
+import com.dnsimple.response.PaginatedResponse;
+import com.dnsimple.response.SimpleResponse;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
 import static com.dnsimple.tools.CustomMatchers.thrownException;
 import static com.dnsimple.tools.HttpMethod.GET;
 import static com.dnsimple.tools.HttpMethod.POST;
+import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -91,7 +91,6 @@ public class CertificatesTest extends DnsimpleTestBase {
         assertThat(certificate.getAuthorityIdentifier(), is("letsencrypt"));
         assertThat(certificate.getCreatedAt(), is("2020-06-18T18:54:17Z"));
         assertThat(certificate.getUpdatedAt(), is("2020-06-18T19:10:14Z"));
-        assertThat(certificate.getExpiresOn(), is("2020-09-16"));
         assertThat(certificate.getExpiresAt(), is("2020-09-16T18:10:13Z"));
     }
 
@@ -212,7 +211,7 @@ public class CertificatesTest extends DnsimpleTestBase {
     @Test
     public void testPurchaseLetsencryptCertificate() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("purchaseLetsencryptCertificate/success.http");
-        SimpleResponse<CertificatePurchase> response = client.certificates.purchaseLetsencryptCertificate("1010", "bingo.pizza", new HashMap<String, Object>());
+        SimpleResponse<CertificatePurchase> response = client.certificates.purchaseLetsencryptCertificate("1010", "bingo.pizza", emptyMap());
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/bingo.pizza/certificates/letsencrypt"));
         CertificatePurchase purchase = response.getData();
@@ -234,7 +233,7 @@ public class CertificatesTest extends DnsimpleTestBase {
     @Test
     public void testPurchaseLetsencryptCertificateRenewal() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("purchaseRenewalLetsencryptCertificate/success.http");
-        SimpleResponse<CertificateRenewal> response = client.certificates.purchaseLetsencryptCertificateRenewal("1010", "bingo.pizza", "101967", new HashMap<String, Object>());
+        SimpleResponse<CertificateRenewal> response = client.certificates.purchaseLetsencryptCertificateRenewal("1010", "bingo.pizza", "101967", emptyMap());
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/bingo.pizza/certificates/letsencrypt/101967/renewals"));
         CertificateRenewal renewal = response.getData();

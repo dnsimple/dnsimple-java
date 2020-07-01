@@ -1,10 +1,9 @@
 package com.dnsimple;
 
 import com.dnsimple.data.Collaborator;
-import com.dnsimple.response.EmptyResponse;
-import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
+import com.dnsimple.response.PaginatedResponse;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -81,7 +80,7 @@ public class DomainCollaboratorsTest extends DnsimpleTestBase {
     @Test
     public void testRemoveCollaborator() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("removeCollaborator/success.http");
-        EmptyResponse response = client.domains.removeCollaborator("1", "example.com", "100");
+        client.domains.removeCollaborator("1", "example.com", "100");
         assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/collaborators/100"));
     }

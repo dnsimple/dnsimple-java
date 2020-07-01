@@ -77,7 +77,6 @@ public class DomainsTest extends DnsimpleTestBase {
         assertThat(domain.getState(), is("registered"));
         assertThat(domain.getAutoRenew(), is(false));
         assertThat(domain.getPrivateWhois(), is(false));
-        assertThat(domain.getExpiresOn(), is("2021-06-05"));
         assertThat(domain.getExpiresAt(), is("2021-06-05T02:15:00Z"));
         assertThat(domain.getCreatedAt(), is("2020-06-04T19:15:14Z"));
         assertThat(domain.getUpdatedAt(), is("2020-06-04T19:15:21Z"));

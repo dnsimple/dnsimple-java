@@ -53,6 +53,20 @@ public class Client {
         this.zones = adapter.zones();
     }
 
+    /**
+     * Construct a new API client with the given endpoint client.
+     * <p>
+     * Once you have a client instance, use the public properties such as `accounts` or `domains`
+     * to communicate with the remote API.
+     * <p>
+     * For example:
+     * <p>
+     * HttpEndpointClient endpointClient = new NativeHttpEndpointClient();
+     * Client client = new Client(endpointClient);
+     * WhoamiResponse response = client.accounts.whoami();
+     *
+     * @param endpointClient The endpoint client to use in the client.
+     */
     public Client(HttpEndpointClient endpointClient) {
         this.endpointClient = endpointClient;
         EndpointAdapter adapter = new HttpEndpointAdapter(this.endpointClient);

@@ -96,7 +96,7 @@ public class TemplateRecordsTest extends DnsimpleTestBase {
     @Test
     public void testDeleteTemplateRecord() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("deleteTemplateRecord/success.http");
-        EmptyResponse response = client.templates.deleteTemplateRecord("1010", "1", "300");
+        client.templates.deleteTemplateRecord("1010", "1", "300");
         assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/templates/1/records/300"));
     }

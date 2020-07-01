@@ -25,7 +25,7 @@ public class DomainDnssecTest extends DnsimpleTestBase {
     @Test
     public void testDisableDnssec() throws DnsimpleException, IOException, InterruptedException {
         server.stubFixtureAt("disableDnssec/success.http");
-        EmptyResponse response = client.domains.disableDnssec("1", "example.com");
+        client.domains.disableDnssec("1", "example.com");
         assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/dnssec"));
     }
