@@ -5,8 +5,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-import static com.dnsimple.tools.HttpMethod.DELETE;
-import static com.dnsimple.tools.HttpMethod.PUT;
+import static com.dnsimple.endpoints.http.java11.HttpMethod.DELETE;
+import static com.dnsimple.endpoints.http.java11.HttpMethod.PUT;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 

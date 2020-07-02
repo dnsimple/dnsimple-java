@@ -12,7 +12,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.List;
 
-import static com.dnsimple.tools.HttpMethod.GET;
+import static com.dnsimple.endpoints.http.java11.HttpMethod.GET;
 import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;

@@ -9,7 +9,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.List;
 
-import static com.dnsimple.tools.HttpMethod.*;
+import static com.dnsimple.endpoints.http.java11.HttpMethod.*;
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;

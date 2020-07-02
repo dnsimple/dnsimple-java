@@ -1,5 +1,7 @@
 package com.dnsimple.tools;
 
+import com.dnsimple.endpoints.http.java11.HttpMethod;
+
 import java.io.*;
 import java.net.Socket;
 import java.nio.file.Files;
