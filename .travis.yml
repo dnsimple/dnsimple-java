@@ -2,11 +2,11 @@ language: java
 install: skip
 
 os: linux
-dist: trusty
+dist: bionic
 jdk: openjdk11
 
 script:
-  - ./gradlew build --scan -s
+  - ./gradlew build
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
