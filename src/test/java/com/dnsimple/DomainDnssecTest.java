@@ -2,11 +2,8 @@ package com.dnsimple;
 
 import com.dnsimple.data.Dnssec;
 import com.dnsimple.exception.BadRequestException;
-import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.response.SimpleResponse;
 import org.junit.Test;
-
-import java.io.IOException;
 
 import static com.dnsimple.endpoints.http.HttpMethod.DELETE;
 import static com.dnsimple.tools.CustomMatchers.property;
@@ -16,14 +13,14 @@ import static org.hamcrest.Matchers.*;
 
 public class DomainDnssecTest extends DnsimpleTestBase {
     @Test
-    public void testEnableDnssec() throws DnsimpleException, IOException, InterruptedException {
+    public void testEnableDnssec() {
         server.stubFixtureAt("enableDnssec/success.http");
         SimpleResponse<Dnssec> response = client.domains.enableDnssec("1", "example.com");
         assertThat(response.getData().getEnabled(), is(true));
     }
 
     @Test
-    public void testDisableDnssec() throws DnsimpleException, IOException, InterruptedException {
+    public void testDisableDnssec() {
         server.stubFixtureAt("disableDnssec/success.http");
         client.domains.disableDnssec("1", "example.com");
         assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
@@ -40,7 +37,7 @@ public class DomainDnssecTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testGetDnssec() throws DnsimpleException, IOException, InterruptedException {
+    public void testGetDnssec() {
         server.stubFixtureAt("getDnssec/success.http");
         SimpleResponse<Dnssec> response = client.domains.getDnssec("1", "example.com");
         assertThat(response.getData().getEnabled(), is(true));

@@ -27,6 +27,8 @@ public interface HttpRequestFactory {
      * @param dataType               type of the output data class
      * @param containerType          type of the output container
      * @param emptyContainerSupplier a supplier that must produce an empty container for HTTP 204 responses
+     * @param <DATA_TYPE>            the type of the items produced by the API request
+     * @param <CONTAINER>            the container where the items produced by the API request will be included
      * @return a container object containing objects of the provided data type
      */
     <DATA_TYPE, CONTAINER extends ApiResponse> CONTAINER execute(String userAgent, String accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType, Class<CONTAINER> containerType, Supplier<CONTAINER> emptyContainerSupplier);
@@ -41,6 +43,7 @@ public interface HttpRequestFactory {
      * @param queryStringParams a map of query string params to be used on the HTTP request
      * @param body              the HTTP request's body payload
      * @param dataType          type of the output data class
+     * @param <DATA_TYPE>       the type of the items produced by the API request
      * @return an object of the provided data type
      */
     <DATA_TYPE> DATA_TYPE execute(String userAgent, String accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType);

@@ -8,7 +8,6 @@ import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.response.SimpleResponse;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +19,7 @@ import static org.hamcrest.Matchers.isEmptyOrNullString;
 
 public class RegistrarTest extends DnsimpleTestBase {
     @Test
-    public void testCheckDomain() throws DnsimpleException, IOException, InterruptedException {
+    public void testCheckDomain() {
         server.stubFixtureAt("checkDomain/success.http");
         DomainAvailability availability = client.registrar.checkDomain("1010", "ruby.codes").getData();
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
@@ -31,7 +30,7 @@ public class RegistrarTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testRegisterDomain() throws DnsimpleException, IOException, InterruptedException {
+    public void testRegisterDomain() {
         server.stubFixtureAt("registerDomain/success.http");
         Map<String, Object> attributes = singletonMap("registrant_id", "10");
         SimpleResponse<DomainRegistration> response = client.registrar.registerDomain("1010", "example.com", attributes);
@@ -50,7 +49,7 @@ public class RegistrarTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testRenewDomain() throws DnsimpleException, IOException, InterruptedException {
+    public void testRenewDomain() {
         server.stubFixtureAt("renewDomain/success.http");
         Map<String, Object> attributes = singletonMap("period", "3");
         DomainRenewal domainRenewal = client.registrar.renewDomain("1010", "example.com", attributes).getData();
@@ -61,7 +60,7 @@ public class RegistrarTest extends DnsimpleTestBase {
     }
 
     @Test(expected = DnsimpleException.class)
-    public void testRenewDomainTooSoon() throws DnsimpleException, IOException, InterruptedException {
+    public void testRenewDomainTooSoon() {
         server.stubFixtureAt("renewDomain/error-tooearly.http");
         Map<String, Object> attributes = singletonMap("period", "3");
         client.registrar.renewDomain("1010", "example.com", attributes);
@@ -71,7 +70,7 @@ public class RegistrarTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testTransferDomain() throws DnsimpleException, IOException, InterruptedException {
+    public void testTransferDomain() {
         server.stubFixtureAt("transferDomain/success.http");
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("registrant_id", "1");
@@ -85,7 +84,7 @@ public class RegistrarTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testGetDomainTransfer() throws DnsimpleException, IOException, InterruptedException {
+    public void testGetDomainTransfer() {
         server.stubFixtureAt("getDomainTransfer/success.http");
         SimpleResponse<DomainTransfer> response = client.registrar.getDomainTransfer("1010", "example.com", "361");
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/transfers/361"));
@@ -103,7 +102,7 @@ public class RegistrarTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testCancelDomainTransfer() throws DnsimpleException, IOException, InterruptedException {
+    public void testCancelDomainTransfer() {
         server.stubFixtureAt("cancelDomainTransfer/success.http");
         SimpleResponse<DomainTransfer> response = client.registrar.cancelDomainTransfer("1010", "example.com", "361");
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/transfers/361"));
@@ -121,7 +120,7 @@ public class RegistrarTest extends DnsimpleTestBase {
     }
 
     @Test(expected = DnsimpleException.class)
-    public void testTransferDomainAlreadyInDnsimple() throws DnsimpleException, IOException, InterruptedException {
+    public void testTransferDomainAlreadyInDnsimple() {
         server.stubFixtureAt("transferDomain/error-indnsimple.http");
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("registrant_id", "1");
@@ -133,7 +132,7 @@ public class RegistrarTest extends DnsimpleTestBase {
     }
 
     @Test(expected = DnsimpleException.class)
-    public void testTransferDomainAuthInfoRequired() throws DnsimpleException, IOException, InterruptedException {
+    public void testTransferDomainAuthInfoRequired() {
         server.stubFixtureAt("transferDomain/error-missing-authcode.http");
         Map<String, Object> attributes = singletonMap("registrant_id", "1");
         client.registrar.transferDomain("1010", "example.com", attributes);
@@ -143,7 +142,7 @@ public class RegistrarTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testTransferDomainOut() throws DnsimpleException, IOException, InterruptedException {
+    public void testTransferDomainOut() {
         server.stubFixtureAt("authorizeDomainTransferOut/success.http");
         client.registrar.transferDomainOut("1010", "example.com");
         assertThat(server.getRecordedRequest().getMethod(), is(POST));

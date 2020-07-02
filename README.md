@@ -93,7 +93,7 @@ Here is an example of a test demonstrating how to do mock the endpoint adapter:
 ```java
 public class MyTest {
   @Test
-  public void testSomething() throws DnsimpleException, IOException, InterruptedException {
+  public void testSomething() {
     Account account = new Account(1);
 
     EndpointAdapter adapter = mock(EndpointAdapter.class);

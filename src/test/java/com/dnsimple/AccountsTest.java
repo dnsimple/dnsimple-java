@@ -1,11 +1,9 @@
 package com.dnsimple;
 
 import com.dnsimple.data.Account;
-import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.response.ListResponse;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.List;
 
 import static com.dnsimple.endpoints.http.HttpMethod.GET;
@@ -15,7 +13,7 @@ import static org.hamcrest.Matchers.is;
 
 public class AccountsTest extends DnsimpleTestBase {
     @Test
-    public void testListAccounts() throws DnsimpleException, IOException, InterruptedException {
+    public void testListAccounts() {
         server.stubFixtureAt("listAccounts/success-account.http");
         ListResponse<Account> response = client.accounts.listAccounts();
         assertThat(server.getRecordedRequest().getMethod(), is(GET));

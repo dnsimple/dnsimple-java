@@ -3,9 +3,7 @@ package com.dnsimple.endpoints.http;
 import com.dnsimple.Dnsimple;
 import com.dnsimple.Oauth;
 import com.dnsimple.data.OauthToken;
-import com.dnsimple.exception.DnsimpleException;
 
-import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -22,11 +20,11 @@ public class OauthEndpoint implements Oauth {
         this.client = client;
     }
 
-    public OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret) throws DnsimpleException, IOException, InterruptedException {
+    public OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret) {
         return exchangeAuthorizationForToken(code, clientId, clientSecret, emptyMap());
     }
 
-    public OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
+    public OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret, Map<String, Object> options) {
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("code", code);
         attributes.put("client_id", clientId);

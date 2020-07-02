@@ -1,10 +1,8 @@
 package com.dnsimple;
 
 import com.dnsimple.data.OauthToken;
-import com.dnsimple.exception.DnsimpleException;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +12,7 @@ import static org.hamcrest.Matchers.*;
 
 public class OauthTest extends DnsimpleTestBase {
     @Test
-    public void testExchangeAuthorizationForToken() throws DnsimpleException, IOException, InterruptedException {
+    public void testExchangeAuthorizationForToken() {
         server.stubFixtureAt("oauthAccessToken/success.http");
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("code", "super-code");
@@ -32,7 +30,7 @@ public class OauthTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testExchangeAuthorizationForTokenWithOptions() throws DnsimpleException, IOException, InterruptedException {
+    public void testExchangeAuthorizationForTokenWithOptions() {
         server.stubFixtureAt("oauthAccessToken/success.http");
         Map<String, Object> options = new HashMap<>();
         options.put("state", "some-state");

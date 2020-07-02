@@ -1,10 +1,7 @@
 package com.dnsimple;
 
-import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 import org.junit.Test;
-
-import java.io.IOException;
 
 import static com.dnsimple.endpoints.http.HttpMethod.DELETE;
 import static com.dnsimple.endpoints.http.HttpMethod.PUT;
@@ -15,7 +12,7 @@ import static org.hamcrest.Matchers.is;
 
 public class RegistrarAutoRenewTest extends DnsimpleTestBase {
     @Test
-    public void testEnableAutoRenewal() throws DnsimpleException, IOException, InterruptedException {
+    public void testEnableAutoRenewal() {
         server.stubFixtureAt("enableDomainAutoRenewal/success.http");
         client.registrar.enableAutoRenewal("1010", "example.com");
         assertThat(server.getRecordedRequest().getMethod(), is(PUT));
@@ -23,7 +20,7 @@ public class RegistrarAutoRenewTest extends DnsimpleTestBase {
     }
 
     @Test(expected = ResourceNotFoundException.class)
-    public void testEnableAutoRenewalDomainDoesNotExist() throws DnsimpleException, IOException, InterruptedException {
+    public void testEnableAutoRenewalDomainDoesNotExist() {
         server.stubFixtureAt("notfound-domain.http");
         client.registrar.enableAutoRenewal("1010", "0");
         assertThat(server.getRecordedRequest().getMethod(), is(PUT));
@@ -31,7 +28,7 @@ public class RegistrarAutoRenewTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testDisableAutoRenewal() throws DnsimpleException, IOException, InterruptedException {
+    public void testDisableAutoRenewal() {
         server.stubFixtureAt("disableDomainAutoRenewal/success.http");
         client.registrar.disableAutoRenewal("1010", "example.com");
         assertThat(server.getRecordedRequest().getMethod(), is(DELETE));

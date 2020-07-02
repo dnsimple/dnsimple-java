@@ -1,14 +1,12 @@
 package com.dnsimple;
 
 import com.dnsimple.data.Domain;
-import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 import com.dnsimple.request.Filter;
 import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,28 +19,28 @@ import static org.hamcrest.Matchers.*;
 
 public class DomainsTest extends DnsimpleTestBase {
     @Test
-    public void testListDomainsSupportsPagination() throws DnsimpleException, IOException, InterruptedException {
+    public void testListDomainsSupportsPagination() {
         client.domains.listDomains("1", singletonMap("page", 1));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains?page=1"));
     }
 
     @Test
-    public void testListDomainsSupportsExtraRequestOptions() throws DnsimpleException, IOException, InterruptedException {
+    public void testListDomainsSupportsExtraRequestOptions() {
         client.domains.listDomains("1", singletonMap("foo", "bar"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains?foo=bar"));
     }
 
     @Test
-    public void testListDomainsSupportsSorting() throws DnsimpleException, IOException, InterruptedException {
+    public void testListDomainsSupportsSorting() {
         client.domains.listDomains("1", singletonMap("sort", "expiration:asc"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains?sort=expiration%3Aasc"));
     }
 
     @Test
-    public void testListDomainsSupportsFiltering() throws DnsimpleException, IOException, InterruptedException {
+    public void testListDomainsSupportsFiltering() {
         Map<String, Object> options = new HashMap<>();
         options.put("filter", new Filter("name_like", "example"));
         client.domains.listDomains("1", options);
@@ -51,7 +49,7 @@ public class DomainsTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testListDomainsProducesDomainList() throws DnsimpleException, IOException, InterruptedException {
+    public void testListDomainsProducesDomainList() {
         server.stubFixtureAt("listDomains/success.http");
         List<Domain> domains = client.domains.listDomains("1").getData();
         assertThat(domains, hasSize(2));
@@ -59,14 +57,14 @@ public class DomainsTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testListDomainsExposesPaginationInfo() throws DnsimpleException, IOException, InterruptedException {
+    public void testListDomainsExposesPaginationInfo() {
         server.stubFixtureAt("listDomains/success.http");
         PaginatedResponse<Domain> response = client.domains.listDomains("1");
         assertThat(response.getPagination().getCurrentPage(), is(1));
     }
 
     @Test
-    public void testGetDomain() throws DnsimpleException, IOException, InterruptedException {
+    public void testGetDomain() {
         server.stubFixtureAt("getDomain/success.http");
         Domain domain = client.domains.getDomain("1", "example.com").getData();
         assertThat(domain.getId(), is(181984));
@@ -90,7 +88,7 @@ public class DomainsTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testCreateDomainSendsCorrectRequest() throws DnsimpleException, IOException, InterruptedException {
+    public void testCreateDomainSendsCorrectRequest() {
         server.stubFixtureAt("createDomain/created.http");
         Map<String, Object> attributes = singletonMap("name", "example.com");
         client.domains.createDomain("1010", attributes);
@@ -100,14 +98,14 @@ public class DomainsTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testCreateDomainProducesDomain() throws DnsimpleException, IOException, InterruptedException {
+    public void testCreateDomainProducesDomain() {
         server.stubFixtureAt("createDomain/created.http");
         SimpleResponse<Domain> response = client.domains.createDomain("1", singletonMap("name", "example.com"));
         assertThat(response.getData().getId(), is(181985));
     }
 
     @Test
-    public void testDeleteDomain() throws DnsimpleException, IOException, InterruptedException {
+    public void testDeleteDomain() {
         server.stubFixtureAt("deleteDomain/success.http");
         client.domains.deleteDomain("1", "example.com");
         assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
@@ -115,7 +113,7 @@ public class DomainsTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testResetDomainToken() throws DnsimpleException, IOException, InterruptedException {
+    public void testResetDomainToken() {
         server.stubFixtureAt("resetDomainToken/success.http");
         SimpleResponse<Domain> response = client.domains.resetDomainToken("1", "example.com");
         assertThat(response.getData().getId(), is(1));
