@@ -22,7 +22,7 @@ public class TemplatesEndpoint implements Templates {
     }
 
     public PaginatedResponse<Template> listTemplates(String accountId) throws DnsimpleException, IOException, InterruptedException {
-        return listTemplates(accountId, null);
+        return client.page(GET, accountId + "/templates", emptyMap(), null, Template.class);
     }
 
     public PaginatedResponse<Template> listTemplates(String accountId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
