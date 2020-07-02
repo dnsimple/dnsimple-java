@@ -28,7 +28,6 @@ import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static java.net.http.HttpClient.Redirect.ALWAYS;
 import static java.net.http.HttpClient.Version.HTTP_1_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.Collections.emptyMap;
 
 public class Java11HttpRequestFactory implements HttpRequestFactory {
     private static final Gson gson = new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
@@ -65,11 +64,11 @@ public class Java11HttpRequestFactory implements HttpRequestFactory {
         }
     }
 
-    private static HttpRequest buildRequest(String path, Map<String, Object> options, Object attributes, HttpMethod method, String userAgent, String accessToken) {
+    private static HttpRequest buildRequest(String path, Map<String, Object> queryStringParams, Object attributes, HttpMethod method, String userAgent, String accessToken) {
         HttpRequest.BodyPublisher bodyPublisher = attributes != null
                 ? HttpRequest.BodyPublishers.ofString(gson.toJson(attributes))
                 : HttpRequest.BodyPublishers.noBody();
-        return HttpRequest.newBuilder(buildUrl(Dnsimple.getApiBase() + API_VERSION_PATH + path, options))
+        return HttpRequest.newBuilder(buildUrl(Dnsimple.getApiBase() + API_VERSION_PATH + path, queryStringParams))
                 .header("Accept", "application/json")
                 .header("Content-Type", "application/json")
                 .header("User-Agent", String.join(" ", buildUserAgents(userAgent)))
@@ -86,15 +85,13 @@ public class Java11HttpRequestFactory implements HttpRequestFactory {
         return fullUserAgent;
     }
 
-    private static URI buildUrl(String url, Map<String, Object> options) {
-        if (options == null)
-            options = emptyMap();
+    private static URI buildUrl(String url, Map<String, Object> queryStringParams) {
         var queryStringItems = new ArrayList<String>();
-        if (options.containsKey("filter")) {
-            Filter filter = (Filter) options.remove("filter");
+        if (queryStringParams.containsKey("filter")) {
+            Filter filter = (Filter) queryStringParams.remove("filter");
             queryStringItems.add(filter.name + "=" + URLEncoder.encode(filter.value, UTF_8));
         }
-        queryStringItems.addAll(options.entrySet().stream()
+        queryStringItems.addAll(queryStringParams.entrySet().stream()
                 .map(e -> e.getKey() + "=" + URLEncoder.encode(e.getValue().toString(), UTF_8))
                 .collect(Collectors.toList()));
         return URI.create(url + (queryStringItems.isEmpty() ? "" : ("?" + String.join("&", queryStringItems))));

@@ -22,7 +22,7 @@ public class TldsEndpoint implements Tlds {
     }
 
     public PaginatedResponse<Tld> listTlds() throws DnsimpleException, IOException, InterruptedException {
-        return listTlds(null);
+        return client.page(GET, "tlds", emptyMap(), null, Tld.class);
     }
 
     public PaginatedResponse<Tld> listTlds(Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
