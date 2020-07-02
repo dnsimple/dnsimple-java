@@ -10,6 +10,7 @@ import java.net.http.HttpResponse;
 import java.util.function.Supplier;
 
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
+import static java.net.http.HttpResponse.BodySubscribers.mapping;
 
 class Java11ContainerResponseHandler<DATA_TYPE, CONTAINER extends ApiResponse<DATA_TYPE>> implements HttpResponse.BodyHandler<Supplier<CONTAINER>> {
     private static final Gson gson = new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
@@ -25,10 +26,10 @@ class Java11ContainerResponseHandler<DATA_TYPE, CONTAINER extends ApiResponse<DA
 
     @Override
     public HttpResponse.BodySubscriber<Supplier<CONTAINER>> apply(HttpResponse.ResponseInfo responseInfo) {
-        HttpResponse.BodySubscriber<InputStream> upstream = HttpResponse.BodySubscribers.ofInputStream();
+        var upstream = HttpResponse.BodySubscribers.ofInputStream();
         return responseInfo.statusCode() != 204
-                ? HttpResponse.BodySubscribers.mapping(upstream, is -> buildSupplier(is, dataType, containerType))
-                : HttpResponse.BodySubscribers.mapping(upstream, __ -> emptyContainerSupplier);
+                ? mapping(upstream, is -> buildSupplier(is, dataType, containerType))
+                : mapping(upstream, __ -> emptyContainerSupplier);
     }
 
     private static <CONTAINER extends ApiResponse<DATA_TYPE>, DATA_TYPE> Supplier<CONTAINER> buildSupplier(InputStream inputStream, Class<DATA_TYPE> dataType, Class<CONTAINER> containerType) {
