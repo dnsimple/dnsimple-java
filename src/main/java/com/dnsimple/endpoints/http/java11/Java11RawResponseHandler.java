@@ -22,19 +22,17 @@ class Java11RawResponseHandler<DATA_TYPE> implements HttpResponse.BodyHandler<Su
     public HttpResponse.BodySubscriber<Supplier<DATA_TYPE>> apply(HttpResponse.ResponseInfo responseInfo) {
         var upstream = HttpResponse.BodySubscribers.ofInputStream();
         return responseInfo.statusCode() != 204
-                ? mapping(upstream, is -> buildSupplier(is, dataType))
+                ? mapping(upstream, is -> () -> deserialize(is, dataType))
                 : mapping(upstream, __ -> () -> null);
     }
 
-    private static <DATA_TYPE> Supplier<DATA_TYPE> buildSupplier(InputStream inputStream, Class<DATA_TYPE> dataType) {
-        return () -> {
-            try (InputStream stream = inputStream;
-                 InputStreamReader isr = new InputStreamReader(stream);
-                 BufferedReader br = new BufferedReader(isr)) {
-                return gson.fromJson(br, dataType);
-            } catch (IOException e) {
-                throw new UncheckedIOException(e);
-            }
-        };
+    private static <DATA_TYPE> DATA_TYPE deserialize(InputStream inputStream, Class<DATA_TYPE> dataType) {
+        try (InputStream stream = inputStream;
+             InputStreamReader isr = new InputStreamReader(stream);
+             BufferedReader br = new BufferedReader(isr)) {
+            return gson.fromJson(br, dataType);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }
