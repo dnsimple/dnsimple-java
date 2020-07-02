@@ -3,7 +3,7 @@ package com.dnsimple.response;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public abstract class ApiResponse {
+public abstract class ApiResponse<T> {
     private HttpRequest httpRequest;
     private HttpResponse httpResponse;
 

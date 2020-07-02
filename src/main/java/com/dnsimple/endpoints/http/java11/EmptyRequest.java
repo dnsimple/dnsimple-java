@@ -5,12 +5,7 @@ import com.dnsimple.response.EmptyResponse;
 
 import java.io.IOException;
 import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.Map;
-
-import static com.dnsimple.endpoints.http.java11.CommonRequest.buildRequest;
-import static com.dnsimple.endpoints.http.java11.CommonRequest.checkStatusCode;
 
 public class EmptyRequest implements Request<EmptyResponse, Void> {
     private final HttpClient client;
@@ -25,12 +20,6 @@ public class EmptyRequest implements Request<EmptyResponse, Void> {
 
     @Override
     public EmptyResponse execute(String path, Object body, Map<String, Object> queryStringParams, Class<Void> dataType, String method) throws IOException, InterruptedException, DnsimpleException {
-        HttpRequest request = buildRequest(path, queryStringParams, body, method, userAgent, accessToken);
-        HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
-        checkStatusCode(response);
-        EmptyResponse apiResponse = new EmptyResponse();
-        apiResponse.setHttpRequest(request);
-        apiResponse.setHttpResponse(response);
-        return apiResponse;
+        return execute(client, userAgent, accessToken, path, body, queryStringParams, dataType, EmptyResponse.class, EmptyResponse::new, method);
     }
 }

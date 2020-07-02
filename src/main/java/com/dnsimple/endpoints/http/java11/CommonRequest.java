@@ -4,9 +4,12 @@ import com.dnsimple.Dnsimple;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 import com.dnsimple.request.Filter;
+import com.dnsimple.response.ApiResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.*;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpRequest;
@@ -14,6 +17,7 @@ import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
@@ -29,7 +33,7 @@ interface CommonRequest {
         HttpRequest.BodyPublisher bodyPublisher = attributes != null
                 ? HttpRequest.BodyPublishers.ofString(gson.toJson(attributes))
                 : HttpRequest.BodyPublishers.noBody();
-        return HttpRequest.newBuilder(buildUrl(versionedPath(path), options))
+        return HttpRequest.newBuilder(buildUrl(Dnsimple.getApiBase() + API_VERSION_PATH + path, options))
                 .header("Accept", "application/json")
                 .header("Content-Type", "application/json")
                 .header("User-Agent", String.join(" ", buildUserAgents(userAgent)))
@@ -61,8 +65,28 @@ interface CommonRequest {
         return URI.create(url + (queryStringItems.isEmpty() ? "" : ("?" + String.join("&", queryStringItems))));
     }
 
-    private static String versionedPath(String path) {
-        return Dnsimple.getApiBase() + API_VERSION_PATH + path;
+    static <CONTAINER extends ApiResponse<DATA_TYPE>, DATA_TYPE> Supplier<CONTAINER> buildSupplier(InputStream inputStream, Class<DATA_TYPE> dataType, Class<CONTAINER> containerType) {
+        return () -> {
+            try (InputStream stream = inputStream;
+                 InputStreamReader isr = new InputStreamReader(stream);
+                 BufferedReader br = new BufferedReader(isr)) {
+                return gson.fromJson(br, TypeToken.getParameterized(containerType, dataType).getType());
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+        };
+    }
+
+    static <DATA_TYPE> Supplier<DATA_TYPE> buildSupplier(InputStream inputStream, Class<DATA_TYPE> dataType) {
+        return () -> {
+            try (InputStream stream = inputStream;
+                 InputStreamReader isr = new InputStreamReader(stream);
+                 BufferedReader br = new BufferedReader(isr)) {
+                return gson.fromJson(br, dataType);
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+        };
     }
 
     static void checkStatusCode(HttpResponse<?> response) throws DnsimpleException {
@@ -73,5 +97,41 @@ interface CommonRequest {
             throw new DnsimpleException("Got an error executing the request", null, statusCode);
         if (statusCode >= 400)
             throw new DnsimpleException("Wrong request", null, statusCode);
+    }
+
+    class JsonContainerResponseHandler<DATA_TYPE, CONTAINER extends ApiResponse<DATA_TYPE>> implements HttpResponse.BodyHandler<Supplier<CONTAINER>> {
+        private final Class<DATA_TYPE> dataType;
+        private final Class<CONTAINER> containerType;
+        private final Supplier<CONTAINER> emptyContainerSupplier;
+
+        public JsonContainerResponseHandler(Class<DATA_TYPE> dataType, Class<CONTAINER> containerType, Supplier<CONTAINER> emptyContainerSupplier) {
+            this.dataType = dataType;
+            this.containerType = containerType;
+            this.emptyContainerSupplier = emptyContainerSupplier;
+        }
+
+        @Override
+        public HttpResponse.BodySubscriber<Supplier<CONTAINER>> apply(HttpResponse.ResponseInfo responseInfo) {
+            HttpResponse.BodySubscriber<InputStream> upstream = HttpResponse.BodySubscribers.ofInputStream();
+            return responseInfo.statusCode() != 204
+                    ? HttpResponse.BodySubscribers.mapping(upstream, is -> buildSupplier(is, dataType, containerType))
+                    : HttpResponse.BodySubscribers.mapping(upstream, __ -> emptyContainerSupplier);
+        }
+    }
+
+    class JsonResponseHandler<DATA_TYPE> implements HttpResponse.BodyHandler<Supplier<DATA_TYPE>> {
+        private final Class<DATA_TYPE> dataType;
+
+        public JsonResponseHandler(Class<DATA_TYPE> dataType) {
+            this.dataType = dataType;
+        }
+
+        @Override
+        public HttpResponse.BodySubscriber<Supplier<DATA_TYPE>> apply(HttpResponse.ResponseInfo responseInfo) {
+            HttpResponse.BodySubscriber<InputStream> upstream = HttpResponse.BodySubscribers.ofInputStream();
+            return responseInfo.statusCode() != 204
+                    ? HttpResponse.BodySubscribers.mapping(upstream, is -> buildSupplier(is, dataType))
+                    : HttpResponse.BodySubscribers.mapping(upstream, __ -> () -> null);
+        }
     }
 }
