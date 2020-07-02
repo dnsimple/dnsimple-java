@@ -13,9 +13,8 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 import static com.dnsimple.endpoints.http.java11.CommonRequest.*;
-import static java.util.Collections.emptyMap;
 
-public class ListRequest {
+public class ListRequest<T> implements Request<ListResponse<T>, T> {
     private final HttpClient client;
     private final String userAgent;
     private final String accessToken;
@@ -26,19 +25,10 @@ public class ListRequest {
         this.client = client;
     }
 
-    <T> ListResponse<T> requestList(String path, Map<String, Object> options, String method, Class<T> typeParam) throws IOException, InterruptedException, DnsimpleException {
-        HttpRequest request = buildRequest(path, options, emptyMap(), method, userAgent, accessToken);
-        HttpResponse<Supplier<ListResponse<T>>> response = client.send(request, new JsonListResponseHandler<>(typeParam));
-        checkStatusCode(response);
-        ListResponse<T> apiResponse = response.body().get();
-        apiResponse.setHttpRequest(request);
-        apiResponse.setHttpResponse(response);
-        return apiResponse;
-    }
-
-    <T> ListResponse<T> requestListWithBody(String path, Object attributes, Map<String, Object> options, Class<T> c, String method) throws IOException, InterruptedException, DnsimpleException {
-        HttpRequest request = buildRequest(path, options, attributes, method, userAgent, accessToken);
-        HttpResponse<Supplier<ListResponse<T>>> response = client.send(request, new JsonListResponseHandler<>(c));
+    @Override
+    public ListResponse<T> execute(String path, Object body, Map<String, Object> queryStringParams, Class<T> dataType, String method) throws IOException, InterruptedException, DnsimpleException {
+        HttpRequest request = buildRequest(path, queryStringParams, body, method, userAgent, accessToken);
+        HttpResponse<Supplier<ListResponse<T>>> response = client.send(request, new JsonListResponseHandler<>(dataType));
         checkStatusCode(response);
         ListResponse<T> apiResponse = response.body().get();
         apiResponse.setHttpRequest(request);

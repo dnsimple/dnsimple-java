@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 import static com.dnsimple.endpoints.http.java11.CommonRequest.*;
 import static java.util.Collections.emptyMap;
 
-public class PageRequest {
+public class PageRequest<T> implements Request<PaginatedResponse<T>, T> {
     private final HttpClient client;
     private final String userAgent;
     private final String accessToken;
@@ -26,9 +26,10 @@ public class PageRequest {
         this.client = client;
     }
 
-    <T> PaginatedResponse<T> requestPage(String path, Map<String, Object> options, String method, Class<T> typeParam) throws IOException, InterruptedException, DnsimpleException {
-        HttpRequest request = buildRequest(path, options, emptyMap(), method, userAgent, accessToken);
-        HttpResponse<Supplier<PaginatedResponse<T>>> response = client.send(request, new JsonPaginatedResponseHandler<>(typeParam));
+    @Override
+    public PaginatedResponse<T> execute(String path, Object body, Map<String, Object> queryStringParams, Class<T> dataType, String method) throws IOException, InterruptedException, DnsimpleException {
+        HttpRequest request = buildRequest(path, queryStringParams, emptyMap(), method, userAgent, accessToken);
+        HttpResponse<Supplier<PaginatedResponse<T>>> response = client.send(request, new JsonPaginatedResponseHandler<>(dataType));
         checkStatusCode(response);
         PaginatedResponse<T> apiResponse = response.body().get();
         apiResponse.setHttpRequest(request);
