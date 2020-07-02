@@ -1,6 +1,6 @@
 package com.dnsimple;
 
-import com.dnsimple.endpoints.http.NativeHttpEndpointClient;
+import com.dnsimple.endpoints.http.java11.Java11HttpEndpointClient;
 import com.dnsimple.tools.TestHttpServer;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -34,7 +34,7 @@ public abstract class DnsimpleTestBase {
     @Before
     public void setUp() {
         server.reset();
-        NativeHttpEndpointClient ec = new NativeHttpEndpointClient();
+        Java11HttpEndpointClient ec = new Java11HttpEndpointClient();
         ec.setAccessToken(TEST_ACCESS_TOKEN);
         ec.setUserAgent(TEST_USER_AGENT);
         client = new Client(ec);
