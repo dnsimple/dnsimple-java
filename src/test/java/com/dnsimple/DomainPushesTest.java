@@ -1,10 +1,8 @@
 package com.dnsimple;
 
 import com.dnsimple.data.Push;
-import com.dnsimple.exception.DnsimpleException;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.List;
 
 import static com.dnsimple.endpoints.http.HttpMethod.DELETE;
@@ -15,7 +13,7 @@ import static org.hamcrest.Matchers.*;
 
 public class DomainPushesTest extends DnsimpleTestBase {
     @Test
-    public void testInitiatePushProducesPush() throws DnsimpleException, IOException, InterruptedException {
+    public void testInitiatePushProducesPush() {
         server.stubFixtureAt("initiatePush/success.http");
         Push push = client.domains.initiatePush("1", "example.com", singletonMap("new_account_email", "jim@example.com")).getData();
         assertThat(push.getId(), is(1));
@@ -27,7 +25,7 @@ public class DomainPushesTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testListPushesProducesPushList() throws DnsimpleException, IOException, InterruptedException {
+    public void testListPushesProducesPushList() {
         server.stubFixtureAt("listPushes/success.http");
         List<Push> pushes = client.domains.listPushes("1", "example.com").getData();
         assertThat(pushes, hasSize(2));
@@ -35,7 +33,7 @@ public class DomainPushesTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testAcceptPush() throws DnsimpleException, IOException, InterruptedException {
+    public void testAcceptPush() {
         server.stubFixtureAt("acceptPush/success.http");
         client.domains.acceptPush("1010", "200", singletonMap("contact_id", 1));
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
@@ -43,7 +41,7 @@ public class DomainPushesTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testRejectPush() throws DnsimpleException, IOException, InterruptedException {
+    public void testRejectPush() {
         server.stubFixtureAt("rejectPush/success.http");
         client.domains.rejectPush("1010", "200");
         assertThat(server.getRecordedRequest().getMethod(), is(DELETE));

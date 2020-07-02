@@ -1,13 +1,11 @@
 package com.dnsimple;
 
 import com.dnsimple.data.DelegationSignerRecord;
-import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,28 +19,28 @@ import static org.hamcrest.Matchers.*;
 
 public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
     @Test
-    public void testListDelegationSignerRecordsSupportsPagination() throws DnsimpleException, IOException, InterruptedException {
+    public void testListDelegationSignerRecordsSupportsPagination() {
         client.domains.listDelegationSignerRecords("1", "1010", singletonMap("page", 1));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/1010/ds_records?page=1"));
     }
 
     @Test
-    public void testListDelegationSignerRecordsSupportsExtraRequestOptions() throws DnsimpleException, IOException, InterruptedException {
+    public void testListDelegationSignerRecordsSupportsExtraRequestOptions() {
         client.domains.listDelegationSignerRecords("1", "1010", singletonMap("foo", "bar"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/1010/ds_records?foo=bar"));
     }
 
     @Test
-    public void testListDelegationSignerRecordsSupportsSorting() throws DnsimpleException, IOException, InterruptedException {
+    public void testListDelegationSignerRecordsSupportsSorting() {
         client.domains.listDelegationSignerRecords("1", "1010", singletonMap("sort", "created_at:asc"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/1010/ds_records?sort=created_at%3Aasc"));
     }
 
     @Test
-    public void testListDelegationSignerRecordsProducesDelegationSignerRecordList() throws DnsimpleException, IOException, InterruptedException {
+    public void testListDelegationSignerRecordsProducesDelegationSignerRecordList() {
         server.stubFixtureAt("listDelegationSignerRecords/success.http");
         List<DelegationSignerRecord> dsRecords = client.domains.listDelegationSignerRecords("1", "1010").getData();
         assertThat(dsRecords, hasSize(1));
@@ -50,14 +48,14 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testListDelegationSignerRecordsExposesPaginationInfo() throws DnsimpleException, IOException, InterruptedException {
+    public void testListDelegationSignerRecordsExposesPaginationInfo() {
         server.stubFixtureAt("listDelegationSignerRecords/success.http");
         PaginatedResponse<DelegationSignerRecord> response = client.domains.listDelegationSignerRecords("1", "1010");
         assertThat(response.getPagination().getCurrentPage(), is(1));
     }
 
     @Test
-    public void testGetDelegationSignerRecord() throws DnsimpleException, IOException, InterruptedException {
+    public void testGetDelegationSignerRecord() {
         server.stubFixtureAt("getDelegationSignerRecord/success.http");
         DelegationSignerRecord dsRecord = client.domains.getDelegationSignerRecord("1", "example.com", "24").getData();
         assertThat(dsRecord.getId(), is(24));
@@ -78,7 +76,7 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testCreateDelegationSignerRecordProducesDelegationSignerRecord() throws DnsimpleException, IOException, InterruptedException {
+    public void testCreateDelegationSignerRecordProducesDelegationSignerRecord() {
         server.stubFixtureAt("createDelegationSignerRecord/created.http");
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("algorithm", "13");
@@ -90,7 +88,7 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testDeleteDelegationSignerRecord() throws DnsimpleException, IOException, InterruptedException {
+    public void testDeleteDelegationSignerRecord() {
         server.stubFixtureAt("deleteDelegationSignerRecord/success.http");
         client.domains.deleteDelegationSignerRecord("1", "example.com", "24");
         assertThat(server.getRecordedRequest().getMethod(), is(DELETE));

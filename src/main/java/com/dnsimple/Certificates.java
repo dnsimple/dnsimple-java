@@ -4,11 +4,9 @@ import com.dnsimple.data.Certificate;
 import com.dnsimple.data.CertificateBundle;
 import com.dnsimple.data.CertificatePurchase;
 import com.dnsimple.data.CertificateRenewal;
-import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
 
-import java.io.IOException;
 import java.util.Map;
 
 public interface Certificates {
@@ -18,11 +16,9 @@ public interface Certificates {
      * @param accountId The account ID
      * @param domainId  The domain name or ID
      * @return The list certificates response
-     * @throws DnsimpleException Any API errors
-     * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/certificates/#listCertificates">https://developer.dnsimple.com/v2/certificates/#listCertificates</a>
      */
-    PaginatedResponse<Certificate> listCertificates(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException;
+    PaginatedResponse<Certificate> listCertificates(String accountId, String domainId);
 
     /**
      * List certificates for a domain in the account.
@@ -31,11 +27,9 @@ public interface Certificates {
      * @param domainId  The domain name or ID
      * @param options   A Map of options to pass to the certificates API
      * @return The list certificates response
-     * @throws DnsimpleException Any API errors
-     * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/certificates/#listCertificates">https://developer.dnsimple.com/v2/certificates/#listCertificates</a>
      */
-    PaginatedResponse<Certificate> listCertificates(String accountId, String domainId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException;
+    PaginatedResponse<Certificate> listCertificates(String accountId, String domainId, Map<String, Object> options);
 
     /**
      * Get the details of a certificate.
@@ -44,11 +38,9 @@ public interface Certificates {
      * @param domainId      The domain name or ID
      * @param certificateId The certificate ID
      * @return The get certificate response
-     * @throws DnsimpleException Any API errors
-     * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/certificates/#getCertificate">https://developer.dnsimple.com/v2/certificates/#getCertificate</a>
      */
-    SimpleResponse<Certificate> getCertificate(String accountId, String domainId, String certificateId) throws DnsimpleException, IOException, InterruptedException;
+    SimpleResponse<Certificate> getCertificate(String accountId, String domainId, String certificateId);
 
     /**
      * Get the PEM-encoded certificate, along with the root certificate and intermediate chain.
@@ -57,11 +49,9 @@ public interface Certificates {
      * @param domainId      The domain name or ID
      * @param certificateId The certificate ID
      * @return The download certificate response
-     * @throws DnsimpleException Any API errors
-     * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/certificates/#downloadCertificate">https://developer.dnsimple.com/v2/certificates/#downloadCertificate</a>
      */
-    SimpleResponse<CertificateBundle> downloadCertificate(String accountId, String domainId, String certificateId) throws DnsimpleException, IOException, InterruptedException;
+    SimpleResponse<CertificateBundle> downloadCertificate(String accountId, String domainId, String certificateId);
 
     /**
      * Get the PEM-encoded certificate private key.
@@ -70,11 +60,9 @@ public interface Certificates {
      * @param domainId      The domain name or ID
      * @param certificateId The certificate ID
      * @return The get certificate private key response
-     * @throws DnsimpleException Any API errors
-     * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/certificates/#getCertificatePrivateKey">https://developer.dnsimple.com/v2/certificates/#getCertificatePrivateKey</a>
      */
-    SimpleResponse<CertificateBundle> getCertificatePrivateKey(String accountId, String domainId, String certificateId) throws DnsimpleException, IOException, InterruptedException;
+    SimpleResponse<CertificateBundle> getCertificatePrivateKey(String accountId, String domainId, String certificateId);
 
     /**
      * Purchase a Let's Encrypt certificate.
@@ -86,11 +74,9 @@ public interface Certificates {
      * @param domainId   The domain name or ID
      * @param attributes Attributes for the certificate
      * @return The Let's Encrypt purchase response
-     * @throws DnsimpleException Any API errors
-     * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/certificates/#purchaseLetsencryptCertificate">https://developer.dnsimple.com/v2/certificates/#purchaseLetsencryptCertificate</a>
      */
-    SimpleResponse<CertificatePurchase> purchaseLetsencryptCertificate(String accountId, String domainId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
+    SimpleResponse<CertificatePurchase> purchaseLetsencryptCertificate(String accountId, String domainId, Map<String, Object> attributes);
 
     /**
      * Issue a pending Let's Encrypt certificate order.
@@ -102,11 +88,9 @@ public interface Certificates {
      * @param domainId              The domain name or ID
      * @param certificatePurchaseId The ID of the purchase order returned by purchaseLetsencryptCertificate
      * @return The Let's Encrypt issue response
-     * @throws DnsimpleException Any API errors
-     * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/certificates/#issueLetsencryptCertificate">https://developer.dnsimple.com/v2/certificates/#issueLetsencryptCertificate</a>
      */
-    SimpleResponse<Certificate> issueLetsencryptCertificate(String accountId, String domainId, String certificatePurchaseId) throws DnsimpleException, IOException, InterruptedException;
+    SimpleResponse<Certificate> issueLetsencryptCertificate(String accountId, String domainId, String certificatePurchaseId);
 
     /**
      * Purchase a Let's Encrypt certificate renewal.
@@ -119,11 +103,9 @@ public interface Certificates {
      * @param certificateId The certificate ID
      * @param attributes    Attributes for the certificate
      * @return The Let's Encrypt purchase renewal response
-     * @throws DnsimpleException Any API errors
-     * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/certificates/#purchaseRenewalLetsencryptCertificate">https://developer.dnsimple.com/v2/certificates/#purchaseRenewalLetsencryptCertificate</a>
      */
-    SimpleResponse<CertificateRenewal> purchaseLetsencryptCertificateRenewal(String accountId, String domainId, String certificateId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException;
+    SimpleResponse<CertificateRenewal> purchaseLetsencryptCertificateRenewal(String accountId, String domainId, String certificateId, Map<String, Object> attributes);
 
     /**
      * Issue a pending Let's Encrypt certificate renewal order.
@@ -136,9 +118,7 @@ public interface Certificates {
      * @param certificateId        The domain name or ID
      * @param certificateRenewalId The ID of the purchase order returned by purchaseLetsencryptCertificateRenewal
      * @return The Let's Encrypt issue response
-     * @throws DnsimpleException Any API errors
-     * @throws IOException       Any IO errors
      * @see <a href="https://developer.dnsimple.com/v2/certificates/#issueRenewalLetsencryptCertificate">https://developer.dnsimple.com/v2/certificates/#issueRenewalLetsencryptCertificate</a>
      */
-    SimpleResponse<Certificate> issueLetsencryptCertificateRenewal(String accountId, String domainId, String certificateId, String certificateRenewalId) throws DnsimpleException, IOException, InterruptedException;
+    SimpleResponse<Certificate> issueLetsencryptCertificateRenewal(String accountId, String domainId, String certificateId, String certificateRenewalId);
 }

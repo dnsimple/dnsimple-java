@@ -1,9 +1,7 @@
 package com.dnsimple;
 
 import com.dnsimple.data.OauthToken;
-import com.dnsimple.exception.DnsimpleException;
 
-import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -20,11 +18,9 @@ public interface Oauth {
      * @param clientId     The client ID
      * @param clientSecret The client secret
      * @return The OauthToken instance
-     * @throws DnsimpleException Any API error
-     * @throws IOException       Any IO error
      * @see <a href="https://developer.dnsimple.com/v2/oauth">https://developer.dnsimple.com/v2/oauth</a>
      */
-    OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret) throws DnsimpleException, IOException, InterruptedException;
+    OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret);
 
     /**
      * Exchange the short-lived authorization code for an access token
@@ -35,11 +31,9 @@ public interface Oauth {
      * @param clientSecret The client secret
      * @param options      Map of options
      * @return The OauthToken instance
-     * @throws DnsimpleException Any API error
-     * @throws IOException       Any IO error
      * @see <a href="https://developer.dnsimple.com/v2/oauth">https://developer.dnsimple.com/v2/oauth</a>
      */
-    OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException;
+    OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret, Map<String, Object> options);
 
     /**
      * Gets the URL to authorize a user for an application via the OAuth2 flow.

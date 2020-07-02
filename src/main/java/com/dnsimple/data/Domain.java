@@ -64,7 +64,7 @@ public class Domain {
     }
 
     /**
-     * @return the expiration date in {@link DateTimeFormatter#ISO_DATE} pattern.
+     * @return the expiration date in ISO8601 format.
      * @deprecated use {@link Domain#getExpiresAt()} instead.
      */
     @Deprecated

@@ -1,9 +1,6 @@
 package com.dnsimple;
 
-import com.dnsimple.exception.DnsimpleException;
 import org.junit.Test;
-
-import java.io.IOException;
 
 import static com.dnsimple.endpoints.http.HttpMethod.DELETE;
 import static com.dnsimple.endpoints.http.HttpMethod.PUT;
@@ -12,7 +9,7 @@ import static org.hamcrest.Matchers.is;
 
 public class VanityNameServersTest extends DnsimpleTestBase {
     @Test
-    public void testEnableVanityNameServers() throws DnsimpleException, IOException, InterruptedException {
+    public void testEnableVanityNameServers() {
         server.stubFixtureAt("enableVanityNameServers/success.http");
         client.vanityNameServers.enableVanityNameServers("1010", "example.com");
         assertThat(server.getRecordedRequest().getMethod(), is(PUT));
@@ -20,7 +17,7 @@ public class VanityNameServersTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testDisableVanityNameServers() throws DnsimpleException, IOException, InterruptedException {
+    public void testDisableVanityNameServers() {
         server.stubFixtureAt("disableVanityNameServers/success.http");
         client.vanityNameServers.disableVanityNameServers("1010", "example.com");
         assertThat(server.getRecordedRequest().getMethod(), is(DELETE));

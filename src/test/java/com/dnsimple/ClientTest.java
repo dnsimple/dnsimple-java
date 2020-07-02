@@ -1,9 +1,6 @@
 package com.dnsimple;
 
-import com.dnsimple.exception.DnsimpleException;
 import org.junit.Test;
-
-import java.io.IOException;
 
 import static com.dnsimple.endpoints.http.HttpMethod.GET;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -12,7 +9,7 @@ import static org.hamcrest.Matchers.is;
 
 public class ClientTest extends DnsimpleTestBase {
     @Test
-    public void testAuthorizationHeader() throws DnsimpleException, IOException, InterruptedException {
+    public void testAuthorizationHeader() {
         server.stubFixtureAt("listAccounts/success-account.http");
         client.accounts.listAccounts();
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
@@ -21,7 +18,7 @@ public class ClientTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testUserAgentHeader() throws DnsimpleException, IOException, InterruptedException {
+    public void testUserAgentHeader() {
         server.stubFixtureAt("listAccounts/success-account.http");
         client.accounts.listAccounts();
         assertThat(server.getRecordedRequest().getMethod(), is(GET));

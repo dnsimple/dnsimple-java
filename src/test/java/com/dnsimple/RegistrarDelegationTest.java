@@ -1,10 +1,8 @@
 package com.dnsimple;
 
 import com.dnsimple.data.NameServer;
-import com.dnsimple.exception.DnsimpleException;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,7 +14,7 @@ import static org.hamcrest.Matchers.is;
 
 public class RegistrarDelegationTest extends DnsimpleTestBase {
     @Test
-    public void testGetDomainDelegation() throws DnsimpleException, IOException, InterruptedException {
+    public void testGetDomainDelegation() {
         server.stubFixtureAt("getDomainDelegation/success.http");
         List<String> delegatedTo = client.registrar.getDomainDelegation("1010", "example.com").getData();
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
@@ -29,7 +27,7 @@ public class RegistrarDelegationTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testChangeDomainDelegation() throws DnsimpleException, IOException, InterruptedException {
+    public void testChangeDomainDelegation() {
         server.stubFixtureAt("changeDomainDelegation/success.http");
         List<String> nameServerNames = singletonList("ns1.example.com");
         List<String> delegatedTo = client.registrar.changeDomainDelegation("1010", "example.com", nameServerNames).getData();
@@ -43,7 +41,7 @@ public class RegistrarDelegationTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testChangeDomainDelegationToVanity() throws DnsimpleException, IOException, InterruptedException {
+    public void testChangeDomainDelegationToVanity() {
         server.stubFixtureAt("changeDomainDelegationToVanity/success.http");
         List<String> nameServerNames = Arrays.asList("ns1.example.com", "ns2.example.com");
         List<NameServer> delegatedTo = client.registrar.changeDomainDelegationToVanity("1010", "example.com", nameServerNames).getData();
@@ -60,7 +58,7 @@ public class RegistrarDelegationTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testChangeDomainDelegationFromVanity() throws DnsimpleException, IOException, InterruptedException {
+    public void testChangeDomainDelegationFromVanity() {
         server.stubFixtureAt("changeDomainDelegationFromVanity/success.http");
         client.registrar.changeDomainDelegationFromVanity("1010", "example.com");
         assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
