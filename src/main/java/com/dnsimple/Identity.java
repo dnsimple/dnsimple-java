@@ -1,8 +1,8 @@
 package com.dnsimple;
 
 import com.dnsimple.data.Whoami;
-import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.exception.DnsimpleException;
+import com.dnsimple.response.SimpleResponse;
 
 import java.io.IOException;
 

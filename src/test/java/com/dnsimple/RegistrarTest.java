@@ -4,8 +4,8 @@ import com.dnsimple.data.DomainAvailability;
 import com.dnsimple.data.DomainRegistration;
 import com.dnsimple.data.DomainRenewal;
 import com.dnsimple.data.DomainTransfer;
-import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.exception.DnsimpleException;
+import com.dnsimple.response.SimpleResponse;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -15,7 +15,8 @@ import java.util.Map;
 import static com.dnsimple.endpoints.http.HttpMethod.*;
 import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
 
 public class RegistrarTest extends DnsimpleTestBase {
     @Test

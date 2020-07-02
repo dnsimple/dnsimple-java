@@ -13,9 +13,9 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.List;
 
-import static com.dnsimple.tools.CustomMatchers.thrownException;
 import static com.dnsimple.endpoints.http.HttpMethod.GET;
 import static com.dnsimple.endpoints.http.HttpMethod.POST;
+import static com.dnsimple.tools.CustomMatchers.thrownException;
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;

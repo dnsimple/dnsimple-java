@@ -1,8 +1,8 @@
 package com.dnsimple;
 
 import com.dnsimple.data.Service;
-import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.exception.DnsimpleException;
+import com.dnsimple.response.SimpleResponse;
 import org.junit.Test;
 
 import java.io.IOException;

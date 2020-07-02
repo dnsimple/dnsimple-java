@@ -2,15 +2,15 @@ package com.dnsimple;
 
 import com.dnsimple.data.Dnssec;
 import com.dnsimple.exception.BadRequestException;
-import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.exception.DnsimpleException;
+import com.dnsimple.response.SimpleResponse;
 import org.junit.Test;
 
 import java.io.IOException;
 
+import static com.dnsimple.endpoints.http.HttpMethod.DELETE;
 import static com.dnsimple.tools.CustomMatchers.property;
 import static com.dnsimple.tools.CustomMatchers.thrownException;
-import static com.dnsimple.endpoints.http.HttpMethod.DELETE;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
