@@ -38,7 +38,7 @@ public class Java11HttpRequestFactory implements HttpRequestFactory {
     }
 
     @Override
-    public <DATA_TYPE, CONTAINER extends ApiResponse<DATA_TYPE>> CONTAINER execute(String userAgent, String accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType, Class<CONTAINER> containerType, Supplier<CONTAINER> emptyContainerSupplier) {
+    public <DATA_TYPE, CONTAINER extends ApiResponse> CONTAINER execute(String userAgent, String accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType, Class<CONTAINER> containerType, Supplier<CONTAINER> emptyContainerSupplier) {
         try {
             HttpRequest request = buildRequest(path, queryStringParams, body, method, userAgent, accessToken);
             var response = client.send(request, new Java11ContainerResponseHandler<>(dataType, containerType, emptyContainerSupplier));

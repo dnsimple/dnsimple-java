@@ -29,7 +29,7 @@ public interface HttpRequestFactory {
      * @param emptyContainerSupplier a supplier that must produce an empty container for HTTP 204 responses
      * @return a container object containing objects of the provided data type
      */
-    <DATA_TYPE, CONTAINER extends ApiResponse<DATA_TYPE>> CONTAINER execute(String userAgent, String accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType, Class<CONTAINER> containerType, Supplier<CONTAINER> emptyContainerSupplier);
+    <DATA_TYPE, CONTAINER extends ApiResponse> CONTAINER execute(String userAgent, String accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType, Class<CONTAINER> containerType, Supplier<CONTAINER> emptyContainerSupplier);
 
     /**
      * Execute an HTTP request to an API endpoint
