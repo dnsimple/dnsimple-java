@@ -6,20 +6,16 @@ import com.dnsimple.response.EmptyResponse;
 import com.dnsimple.response.ListResponse;
 import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.net.http.HttpClient;
 import java.util.Map;
 
-import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static java.net.http.HttpClient.Redirect.ALWAYS;
 import static java.net.http.HttpClient.Version.HTTP_1_1;
 import static java.util.Collections.emptyMap;
 
 public class Java11HttpEndpointClient implements HttpEndpointClient {
-    private static final Gson gson = new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
     private final HttpClient client;
     private String accessToken;
     private String userAgent;
@@ -40,74 +36,75 @@ public class Java11HttpEndpointClient implements HttpEndpointClient {
     }
 
     @Override
-    public <T> ListResponse<T> getList(String path, Map<String, Object> options, Class<T> typeParam) throws IOException, InterruptedException, DnsimpleException {
-        return new ListRequest(client, userAgent, accessToken)
-                .requestList(path, options, "GET", typeParam);
+    public <T> ListResponse<T> getList(String path, Map<String, Object> queryStringParams, Class<T> typeParam) throws IOException, InterruptedException, DnsimpleException {
+        return new ListRequest<T>(client, userAgent, accessToken)
+                .execute(path, emptyMap(), queryStringParams, typeParam, "GET");
     }
 
     @Override
-    public <T> PaginatedResponse<T> getPage(String path, Map<String, Object> options, Class<T> typeParam) throws IOException, InterruptedException, DnsimpleException {
-        return new PageRequest(client, userAgent, accessToken)
-                .requestPage(path, options, "GET", typeParam);
+    public <T> PaginatedResponse<T> getPage(String path, Map<String, Object> queryStringParams, Class<T> typeParam) throws IOException, InterruptedException, DnsimpleException {
+        return new PageRequest<T>(client, userAgent, accessToken)
+                .execute(path, emptyMap(), queryStringParams, typeParam, "GET");
     }
 
     @Override
-    public <T> SimpleResponse<T> getSimple(String path, Map<String, Object> options, Class<T> typeParam) throws IOException, InterruptedException, DnsimpleException {
-        return new SimpleRequest(client, userAgent, accessToken)
-                .requestSimple(path, options, "GET", typeParam, emptyMap());
+    public <T> SimpleResponse<T> getSimple(String path, Map<String, Object> queryStringParams, Class<T> typeParam) throws IOException, InterruptedException, DnsimpleException {
+        return new SimpleRequest<T>(client, userAgent, accessToken)
+                .execute(path, emptyMap(), queryStringParams, typeParam, "GET");
     }
 
     @Override
-    public <T> SimpleResponse<T> postSimple(String path, Object attributes, Map<String, Object> options, Class<T> typeParam) throws IOException, InterruptedException, DnsimpleException {
-        return new SimpleRequest(client, userAgent, accessToken)
-                .requestSimple(path, options, "POST", typeParam, attributes);
+    public <T> SimpleResponse<T> postSimple(String path, Object body, Map<String, Object> queryStringParams, Class<T> typeParam) throws IOException, InterruptedException, DnsimpleException {
+        return new SimpleRequest<T>(client, userAgent, accessToken)
+                .execute(path, body, queryStringParams, typeParam, "POST");
     }
 
     @Override
-    public <T> T postUnwrapped(String path, Object attributes, Map<String, Object> options, Class<T> c) throws IOException, InterruptedException, DnsimpleException {
-        return new UnwrappedRequest(client, userAgent, accessToken)
-                .requestUnwrappedWithBody(path, attributes, options, c, "POST");
+    public <T> T postUnwrapped(String path, Object body, Map<String, Object> queryStringParams, Class<T> typeParam) throws IOException, InterruptedException, DnsimpleException {
+        return new UnwrappedRequest<T>(client, userAgent, accessToken)
+                .execute(path, body, queryStringParams, typeParam, "POST")
+                .getData();
     }
 
     @Override
-    public EmptyResponse postEmpty(String path, Object attributes, Map<String, Object> options) throws IOException, InterruptedException, DnsimpleException {
+    public EmptyResponse postEmpty(String path, Object body, Map<String, Object> queryStringParams) throws IOException, InterruptedException, DnsimpleException {
         return new EmptyRequest(client, userAgent, accessToken)
-                .requestEmpty(path, options, "POST", attributes);
+                .execute(path, body, queryStringParams, null, "POST");
     }
 
     @Override
-    public <T> ListResponse<T> putList(String path, Object attributes, Map<String, Object> options, Class<T> typeParam) throws IOException, InterruptedException, DnsimpleException {
-        return new ListRequest(client, userAgent, accessToken)
-                .requestListWithBody(path, attributes, options, typeParam, "PUT");
+    public <T> ListResponse<T> putList(String path, Object body, Map<String, Object> queryStringParams, Class<T> typeParam) throws IOException, InterruptedException, DnsimpleException {
+        return new ListRequest<T>(client, userAgent, accessToken)
+                .execute(path, body, queryStringParams, typeParam, "PUT");
     }
 
     @Override
-    public <T> SimpleResponse<T> putSimple(String path, Object attributes, Map<String, Object> options, Class<T> typeParam) throws IOException, InterruptedException, DnsimpleException {
-        return new SimpleRequest(client, userAgent, accessToken)
-                .requestSimpleWithBody(path, attributes, options, typeParam, "PUT");
+    public <T> SimpleResponse<T> putSimple(String path, Object body, Map<String, Object> queryStringParams, Class<T> typeParam) throws IOException, InterruptedException, DnsimpleException {
+        return new SimpleRequest<T>(client, userAgent, accessToken)
+                .execute(path, body, queryStringParams, typeParam, "PUT");
     }
 
     @Override
-    public EmptyResponse putEmpty(String path, Object attributes, Map<String, Object> options) throws IOException, InterruptedException, DnsimpleException {
+    public EmptyResponse putEmpty(String path, Object body, Map<String, Object> queryStringParams) throws IOException, InterruptedException, DnsimpleException {
         return new EmptyRequest(client, userAgent, accessToken)
-                .requestEmptyWithBody(path, attributes, options, "PUT");
+                .execute(path, body, queryStringParams, null, "PUT");
     }
 
     @Override
-    public <T> SimpleResponse<T> patchSimple(String path, Object attributes, Map<String, Object> options, Class<T> c) throws IOException, InterruptedException, DnsimpleException {
-        return new SimpleRequest(client, userAgent, accessToken)
-                .requestSimpleWithBody(path, attributes, options, c, "PATCH");
+    public <T> SimpleResponse<T> patchSimple(String path, Object body, Map<String, Object> queryStringParams, Class<T> typeParam) throws IOException, InterruptedException, DnsimpleException {
+        return new SimpleRequest<T>(client, userAgent, accessToken)
+                .execute(path, body, queryStringParams, typeParam, "PATCH");
     }
 
     @Override
-    public <T> SimpleResponse<T> deleteSimple(String path, Map<String, Object> options, Class<T> c) throws IOException, InterruptedException, DnsimpleException {
-        return new SimpleRequest(client, userAgent, accessToken)
-                .requestSimple(path, options, "DELETE", c, emptyMap());
+    public <T> SimpleResponse<T> deleteSimple(String path, Map<String, Object> queryStringParams, Class<T> typeParam) throws IOException, InterruptedException, DnsimpleException {
+        return new SimpleRequest<T>(client, userAgent, accessToken)
+                .execute(path, emptyMap(), queryStringParams, typeParam, "DELETE");
     }
 
     @Override
-    public EmptyResponse deleteEmpty(String path, Map<String, Object> options) throws IOException, InterruptedException, DnsimpleException {
+    public EmptyResponse deleteEmpty(String path, Map<String, Object> queryStringParams) throws IOException, InterruptedException, DnsimpleException {
         return new EmptyRequest(client, userAgent, accessToken)
-                .requestEmpty(path, options, "DELETE", emptyMap());
+                .execute(path, emptyMap(), queryStringParams, null, "DELETE");
     }
 }

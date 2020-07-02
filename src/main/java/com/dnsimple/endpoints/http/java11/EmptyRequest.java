@@ -12,7 +12,7 @@ import java.util.Map;
 import static com.dnsimple.endpoints.http.java11.CommonRequest.buildRequest;
 import static com.dnsimple.endpoints.http.java11.CommonRequest.checkStatusCode;
 
-public class EmptyRequest {
+public class EmptyRequest implements Request<EmptyResponse, Void> {
     private final HttpClient client;
     private final String userAgent;
     private final String accessToken;
@@ -23,18 +23,9 @@ public class EmptyRequest {
         this.client = client;
     }
 
-    EmptyResponse requestEmpty(String path, Map<String, Object> options, String method, Object attributes) throws IOException, InterruptedException, DnsimpleException {
-        HttpRequest request = buildRequest(path, options, attributes, method, userAgent, accessToken);
-        HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
-        checkStatusCode(response);
-        EmptyResponse apiResponse = new EmptyResponse();
-        apiResponse.setHttpRequest(request);
-        apiResponse.setHttpResponse(response);
-        return apiResponse;
-    }
-
-    EmptyResponse requestEmptyWithBody(String path, Object attributes, Map<String, Object> options, String method) throws IOException, InterruptedException, DnsimpleException {
-        HttpRequest request = buildRequest(path, options, attributes, method, userAgent, accessToken);
+    @Override
+    public EmptyResponse execute(String path, Object body, Map<String, Object> queryStringParams, Class<Void> dataType, String method) throws IOException, InterruptedException, DnsimpleException {
+        HttpRequest request = buildRequest(path, queryStringParams, body, method, userAgent, accessToken);
         HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
         checkStatusCode(response);
         EmptyResponse apiResponse = new EmptyResponse();

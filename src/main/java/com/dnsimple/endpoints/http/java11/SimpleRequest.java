@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 
 import static com.dnsimple.endpoints.http.java11.CommonRequest.*;
 
-public class SimpleRequest {
+public class SimpleRequest<T> implements Request<SimpleResponse<T>, T> {
     private final HttpClient client;
     private final String userAgent;
     private final String accessToken;
@@ -25,19 +25,10 @@ public class SimpleRequest {
         this.client = client;
     }
 
-    <T> SimpleResponse<T> requestSimple(String path, Map<String, Object> options, String method, Class<T> typeParam, Object attributes) throws IOException, InterruptedException, DnsimpleException {
-        HttpRequest request = buildRequest(path, options, attributes, method, userAgent, accessToken);
-        HttpResponse<Supplier<SimpleResponse<T>>> response = client.send(request, new JsonSimpleResponseHandler<>(typeParam));
-        checkStatusCode(response);
-        SimpleResponse<T> apiResponse = response.body().get();
-        apiResponse.setHttpRequest(request);
-        apiResponse.setHttpResponse(response);
-        return apiResponse;
-    }
-
-    <T> SimpleResponse<T> requestSimpleWithBody(String path, Object attributes, Map<String, Object> options, Class<T> c, String method) throws IOException, InterruptedException, DnsimpleException {
-        HttpRequest request = buildRequest(path, options, attributes, method, userAgent, accessToken);
-        HttpResponse<Supplier<SimpleResponse<T>>> response = client.send(request, new JsonSimpleResponseHandler<>(c));
+    @Override
+    public SimpleResponse<T> execute(String path, Object body, Map<String, Object> queryStringParams, Class<T> dataType, String method) throws IOException, InterruptedException, DnsimpleException {
+        HttpRequest request = buildRequest(path, queryStringParams, body, method, userAgent, accessToken);
+        HttpResponse<Supplier<SimpleResponse<T>>> response = client.send(request, new JsonSimpleResponseHandler<>(dataType));
         checkStatusCode(response);
         SimpleResponse<T> apiResponse = response.body().get();
         apiResponse.setHttpRequest(request);

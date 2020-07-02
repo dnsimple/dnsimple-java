@@ -1,6 +1,7 @@
 package com.dnsimple.endpoints.http.java11;
 
 import com.dnsimple.exception.DnsimpleException;
+import com.dnsimple.response.SimpleResponse;
 
 import java.io.*;
 import java.net.http.HttpClient;
@@ -11,7 +12,12 @@ import java.util.function.Supplier;
 
 import static com.dnsimple.endpoints.http.java11.CommonRequest.*;
 
-public class UnwrappedRequest {
+/**
+ * Request class to be used when the API's response doesn't wrap it's payload in
+ * a <code>{"data": ...}</code> JSON object and, instead, we need to assume the whole
+ * JSON object in the response is what we should provide inside a SimpleResponse
+ */
+public class UnwrappedRequest<T> implements Request<SimpleResponse<T>, T> {
     private final HttpClient client;
     private final String userAgent;
     private final String accessToken;
@@ -22,11 +28,15 @@ public class UnwrappedRequest {
         this.client = client;
     }
 
-    <T> T requestUnwrappedWithBody(String path, Object attributes, Map<String, Object> options, Class<T> c, String method) throws IOException, InterruptedException, DnsimpleException {
-        HttpRequest request = buildRequest(path, options, attributes, method, userAgent, accessToken);
-        HttpResponse<Supplier<T>> response = client.send(request, new JsonUnwrappedResponseHandler<>(c));
+    @Override
+    public SimpleResponse<T> execute(String path, Object body, Map<String, Object> queryStringParams, Class<T> dataType, String method) throws IOException, InterruptedException, DnsimpleException {
+        HttpRequest request = buildRequest(path, queryStringParams, body, method, userAgent, accessToken);
+        HttpResponse<Supplier<T>> response = client.send(request, new JsonUnwrappedResponseHandler<>(dataType));
         checkStatusCode(response);
-        return response.body().get();
+        SimpleResponse<T> apiResponse = new SimpleResponse<>(response.body().get());
+        apiResponse.setHttpRequest(request);
+        apiResponse.setHttpResponse(response);
+        return apiResponse;
     }
 
     public static <W> HttpResponse.BodySubscriber<Supplier<W>> fromJsonUnwrapped(Class<W> typeParam) {
