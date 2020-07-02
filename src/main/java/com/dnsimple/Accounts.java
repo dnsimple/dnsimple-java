@@ -1,8 +1,8 @@
 package com.dnsimple;
 
 import com.dnsimple.data.Account;
-import com.dnsimple.response.ListResponse;
 import com.dnsimple.exception.DnsimpleException;
+import com.dnsimple.response.ListResponse;
 
 import java.io.IOException;
 

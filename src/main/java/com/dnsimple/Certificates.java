@@ -4,9 +4,9 @@ import com.dnsimple.data.Certificate;
 import com.dnsimple.data.CertificateBundle;
 import com.dnsimple.data.CertificatePurchase;
 import com.dnsimple.data.CertificateRenewal;
+import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
-import com.dnsimple.exception.DnsimpleException;
 
 import java.io.IOException;
 import java.util.Map;

@@ -1,9 +1,9 @@
 package com.dnsimple;
 
 import com.dnsimple.data.TemplateRecord;
+import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
-import com.dnsimple.exception.DnsimpleException;
 import org.junit.Test;
 
 import java.io.IOException;

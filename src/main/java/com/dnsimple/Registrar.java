@@ -1,10 +1,10 @@
 package com.dnsimple;
 
 import com.dnsimple.data.*;
+import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.response.EmptyResponse;
 import com.dnsimple.response.ListResponse;
 import com.dnsimple.response.SimpleResponse;
-import com.dnsimple.exception.DnsimpleException;
 
 import java.io.IOException;
 import java.util.List;

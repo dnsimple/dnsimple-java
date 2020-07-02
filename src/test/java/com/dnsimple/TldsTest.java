@@ -3,10 +3,10 @@ package com.dnsimple;
 import com.dnsimple.data.Tld;
 import com.dnsimple.data.TldExtendedAttribute;
 import com.dnsimple.data.TldExtendedAttributeOption;
+import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.response.ListResponse;
 import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
-import com.dnsimple.exception.DnsimpleException;
 import org.junit.Test;
 
 import java.io.IOException;

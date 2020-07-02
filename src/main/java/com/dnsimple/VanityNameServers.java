@@ -1,9 +1,9 @@
 package com.dnsimple;
 
 import com.dnsimple.data.NameServer;
+import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.response.EmptyResponse;
 import com.dnsimple.response.ListResponse;
-import com.dnsimple.exception.DnsimpleException;
 
 import java.io.IOException;
 

@@ -2,10 +2,10 @@ package com.dnsimple;
 
 import com.dnsimple.data.Template;
 import com.dnsimple.data.TemplateRecord;
+import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.response.EmptyResponse;
 import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
-import com.dnsimple.exception.DnsimpleException;
 
 import java.io.IOException;
 import java.util.Map;
