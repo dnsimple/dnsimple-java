@@ -1,6 +1,7 @@
 package com.dnsimple;
 
 import com.dnsimple.data.Dnssec;
+import com.dnsimple.exception.BadRequestException;
 import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.exception.DnsimpleException;
 import org.junit.Test;
@@ -33,8 +34,8 @@ public class DomainDnssecTest extends DnsimpleTestBase {
     public void testDisableDnssecWhenNotEnabled() {
         server.stubFixtureAt("disableDnssec/not-enabled.http");
         assertThat(() -> client.domains.disableDnssec("1", "example.com"), allOf(
-                thrownException(is(instanceOf(DnsimpleException.class))),
-                thrownException(property(DnsimpleException::getStatusCode, is(428)))
+                thrownException(is(instanceOf(BadRequestException.class))),
+                thrownException(property(BadRequestException::getStatusCode, is(428)))
         ));
     }
 

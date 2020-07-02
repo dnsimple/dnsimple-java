@@ -3,8 +3,10 @@ package com.dnsimple.endpoints.http.java11;
 import com.dnsimple.Dnsimple;
 import com.dnsimple.endpoints.http.HttpMethod;
 import com.dnsimple.endpoints.http.HttpRequestFactory;
+import com.dnsimple.exception.BadRequestException;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
+import com.dnsimple.exception.ServerError;
 import com.dnsimple.request.Filter;
 import com.dnsimple.response.ApiResponse;
 import com.google.gson.Gson;
@@ -38,22 +40,30 @@ public class Java11HttpRequestFactory implements HttpRequestFactory {
     }
 
     @Override
-    public <DATA_TYPE, CONTAINER extends ApiResponse<DATA_TYPE>> CONTAINER execute(String userAgent, String accessToken, String path, Object body, Map<String, Object> queryStringParams, Class<DATA_TYPE> dataType, Class<CONTAINER> containerType, Supplier<CONTAINER> emptyContainerSupplier, HttpMethod method) throws IOException, InterruptedException, DnsimpleException {
-        HttpRequest request = buildRequest(path, queryStringParams, body, method, userAgent, accessToken);
-        HttpResponse<Supplier<CONTAINER>> response = client.send(request, new JsonContainerResponseHandler<>(dataType, containerType, emptyContainerSupplier));
-        checkStatusCode(response);
-        CONTAINER apiResponse = response.body().get();
-        apiResponse.setHttpRequest(request);
-        apiResponse.setHttpResponse(response);
-        return apiResponse;
+    public <DATA_TYPE, CONTAINER extends ApiResponse<DATA_TYPE>> CONTAINER execute(String userAgent, String accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType, Class<CONTAINER> containerType, Supplier<CONTAINER> emptyContainerSupplier) {
+        try {
+            HttpRequest request = buildRequest(path, queryStringParams, body, method, userAgent, accessToken);
+            HttpResponse<Supplier<CONTAINER>> response = client.send(request, new JsonContainerResponseHandler<>(dataType, containerType, emptyContainerSupplier));
+            checkStatusCode(response);
+            CONTAINER apiResponse = response.body().get();
+            apiResponse.setHttpRequest(request);
+            apiResponse.setHttpResponse(response);
+            return apiResponse;
+        } catch (IOException | InterruptedException e) {
+            throw new DnsimpleException(e);
+        }
     }
 
     @Override
-    public <DATA_TYPE> DATA_TYPE execute(String userAgent, String accessToken, String path, Object body, Map<String, Object> queryStringParams, HttpMethod method, Class<DATA_TYPE> dataType) throws IOException, InterruptedException, DnsimpleException {
-        HttpRequest request = buildRequest(path, queryStringParams, body, method, userAgent, accessToken);
-        HttpResponse<Supplier<DATA_TYPE>> response = client.send(request, new JsonResponseHandler<>(dataType));
-        checkStatusCode(response);
-        return response.body().get();
+    public <DATA_TYPE> DATA_TYPE execute(String userAgent, String accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType) {
+        try {
+            HttpRequest request = buildRequest(path, queryStringParams, body, method, userAgent, accessToken);
+            HttpResponse<Supplier<DATA_TYPE>> response = client.send(request, new JsonResponseHandler<>(dataType));
+            checkStatusCode(response);
+            return response.body().get();
+        } catch (IOException | InterruptedException e) {
+            throw new DnsimpleException(e);
+        }
     }
 
     private static HttpRequest buildRequest(String path, Map<String, Object> options, Object attributes, HttpMethod method, String userAgent, String accessToken) {
@@ -119,11 +129,11 @@ public class Java11HttpRequestFactory implements HttpRequestFactory {
     private static void checkStatusCode(HttpResponse<?> response) throws DnsimpleException {
         int statusCode = response.statusCode();
         if (statusCode == 404)
-            throw new ResourceNotFoundException("Failed to execute request", null, statusCode);
+            throw new ResourceNotFoundException();
         if (statusCode >= 500)
-            throw new DnsimpleException("Got an error executing the request", null, statusCode);
+            throw new ServerError(statusCode);
         if (statusCode >= 400)
-            throw new DnsimpleException("Wrong request", null, statusCode);
+            throw new BadRequestException(statusCode);
     }
 
     private static class JsonContainerResponseHandler<DATA_TYPE, CONTAINER extends ApiResponse<DATA_TYPE>> implements HttpResponse.BodyHandler<Supplier<CONTAINER>> {

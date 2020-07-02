@@ -27,25 +27,25 @@ public class HttpEndpointClient {
     }
 
     EmptyResponse empty(HttpMethod method, String path, Map<String, Object> queryStringParams, Object body) throws IOException, InterruptedException, DnsimpleException {
-        return requestFactory.execute(userAgent, accessToken, path, body, queryStringParams, Void.class, EmptyResponse.class, EmptyResponse::new, method);
+        return requestFactory.execute(userAgent, accessToken, method, path, queryStringParams, body, Void.class, EmptyResponse.class, EmptyResponse::new);
     }
 
     @SuppressWarnings("unchecked")
     <DATA_TYPE> SimpleResponse<DATA_TYPE> simple(HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType) throws IOException, InterruptedException, DnsimpleException {
-        return requestFactory.execute(userAgent, accessToken, path, body, queryStringParams, dataType, SimpleResponse.class, SimpleResponse::empty, method);
+        return requestFactory.execute(userAgent, accessToken, method, path, queryStringParams, body, dataType, SimpleResponse.class, SimpleResponse::empty);
     }
 
     @SuppressWarnings("unchecked")
     <DATA_TYPE> ListResponse<DATA_TYPE> list(HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType) throws IOException, InterruptedException, DnsimpleException {
-        return requestFactory.execute(userAgent, accessToken, path, body, queryStringParams, dataType, ListResponse.class, ListResponse::empty, method);
+        return requestFactory.execute(userAgent, accessToken, method, path, queryStringParams, body, dataType, ListResponse.class, ListResponse::empty);
     }
 
     @SuppressWarnings("unchecked")
     <DATA_TYPE> PaginatedResponse<DATA_TYPE> page(HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType) throws IOException, InterruptedException, DnsimpleException {
-        return requestFactory.execute(userAgent, accessToken, path, body, queryStringParams, dataType, PaginatedResponse.class, PaginatedResponse::empty, method);
+        return requestFactory.execute(userAgent, accessToken, method, path, queryStringParams, body, dataType, PaginatedResponse.class, PaginatedResponse::empty);
     }
 
     <DATA_TYPE> DATA_TYPE raw(HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType) throws IOException, InterruptedException, DnsimpleException {
-        return requestFactory.execute(userAgent, accessToken, path, body, queryStringParams, method, dataType);
+        return requestFactory.execute(userAgent, accessToken, method, path, queryStringParams, body, dataType);
     }
 }

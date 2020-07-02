@@ -1,28 +1,22 @@
 package com.dnsimple.exception;
 
-public class DnsimpleException extends Exception {
-    private final String requestId;
-    private final Integer statusCode;
-
-    public DnsimpleException(String message, String requestId, Integer statusCode) {
-        super(message, null);
-        this.requestId = requestId;
-        this.statusCode = statusCode;
+public class DnsimpleException extends RuntimeException {
+    public DnsimpleException() {
     }
 
-    public DnsimpleException(String message, String requestId, Integer statusCode, Throwable e) {
-        super(message, e);
-        this.requestId = requestId;
-        this.statusCode = statusCode;
+    public DnsimpleException(String message) {
+        super(message);
     }
 
-    public String getRequestId() {
-        return requestId;
+    public DnsimpleException(String message, Throwable cause) {
+        super(message, cause);
     }
 
-    public Integer getStatusCode() {
-        return statusCode;
+    public DnsimpleException(Throwable cause) {
+        super(cause);
     }
 
-    public static final long serialVersionUID = 1L;
+    public DnsimpleException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
 }
