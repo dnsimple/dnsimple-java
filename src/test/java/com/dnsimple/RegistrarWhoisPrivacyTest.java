@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-import static com.dnsimple.endpoints.http.java11.HttpMethod.*;
+import static com.dnsimple.endpoints.http.HttpMethod.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 

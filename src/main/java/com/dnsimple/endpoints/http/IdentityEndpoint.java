@@ -6,9 +6,9 @@ import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.response.SimpleResponse;
 
 import java.io.IOException;
-import java.util.Collections;
 
-import static com.dnsimple.endpoints.http.java11.HttpMethod.GET;
+import static com.dnsimple.endpoints.http.HttpMethod.GET;
+import static java.util.Collections.emptyMap;
 
 public class IdentityEndpoint implements Identity {
     private final HttpEndpointClient client;
@@ -18,6 +18,6 @@ public class IdentityEndpoint implements Identity {
     }
 
     public SimpleResponse<Whoami> whoami() throws DnsimpleException, IOException, InterruptedException {
-        return client.simple(GET, "whoami", null, Collections.emptyMap(), Whoami.class);
+        return client.simple(GET, "whoami", emptyMap(), null, Whoami.class);
     }
 }

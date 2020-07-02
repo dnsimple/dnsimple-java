@@ -8,10 +8,9 @@ import com.dnsimple.response.ListResponse;
 import com.dnsimple.response.SimpleResponse;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Map;
 
-import static com.dnsimple.endpoints.http.java11.HttpMethod.GET;
+import static com.dnsimple.endpoints.http.HttpMethod.*;
 import static java.util.Collections.emptyMap;
 
 public class WebhooksEndpoint implements Webhooks {
@@ -22,22 +21,22 @@ public class WebhooksEndpoint implements Webhooks {
     }
 
     public ListResponse<Webhook> listWebhooks(String accountId) throws DnsimpleException, IOException, InterruptedException {
-        return listWebhooks(accountId, null);
+        return client.list(GET, accountId + "/webhooks", emptyMap(), null, Webhook.class);
     }
 
     public ListResponse<Webhook> listWebhooks(String accountId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
-        return client.list(GET, accountId + "/webhooks", options, emptyMap(), Webhook.class);
+        return client.list(GET, accountId + "/webhooks", options, null, Webhook.class);
     }
 
     public SimpleResponse<Webhook> getWebhook(String accountId, String webhookId) throws DnsimpleException, IOException, InterruptedException {
-        return client.simple(GET, accountId + "/webhooks/" + webhookId, null, Collections.emptyMap(), Webhook.class);
+        return client.simple(GET, accountId + "/webhooks/" + webhookId, emptyMap(), null, Webhook.class);
     }
 
     public SimpleResponse<Webhook> createWebhook(String accountId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException {
-        return client.postSimple(accountId + "/webhooks", attributes, null, Webhook.class);
+        return client.simple(POST, accountId + "/webhooks", emptyMap(), attributes, Webhook.class);
     }
 
     public EmptyResponse deleteWebhook(String accountId, String webhookId) throws DnsimpleException, IOException, InterruptedException {
-        return client.deleteEmpty(accountId + "/webhooks/" + webhookId, null);
+        return client.empty(DELETE, accountId + "/webhooks/" + webhookId, emptyMap(), null);
     }
 }

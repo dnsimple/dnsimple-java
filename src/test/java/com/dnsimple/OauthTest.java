@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.dnsimple.endpoints.http.java11.HttpMethod.POST;
+import static com.dnsimple.endpoints.http.HttpMethod.POST;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 

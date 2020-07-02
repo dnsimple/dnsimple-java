@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.dnsimple.endpoints.http.java11.HttpMethod.*;
+import static com.dnsimple.endpoints.http.HttpMethod.*;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;

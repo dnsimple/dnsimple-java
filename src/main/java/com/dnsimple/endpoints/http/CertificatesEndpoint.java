@@ -10,10 +10,11 @@ import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Map;
 
-import static com.dnsimple.endpoints.http.java11.HttpMethod.GET;
+import static com.dnsimple.endpoints.http.HttpMethod.GET;
+import static com.dnsimple.endpoints.http.HttpMethod.POST;
+import static java.util.Collections.emptyMap;
 
 public class CertificatesEndpoint implements Certificates {
     private final HttpEndpointClient client;
@@ -23,38 +24,38 @@ public class CertificatesEndpoint implements Certificates {
     }
 
     public PaginatedResponse<Certificate> listCertificates(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
-        return listCertificates(accountId, domainId, null);
+        return client.page(GET, accountId + "/domains/" + domainId + "/certificates", emptyMap(), null, Certificate.class);
     }
 
     public PaginatedResponse<Certificate> listCertificates(String accountId, String domainId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
-        return client.page(GET, accountId + "/domains/" + domainId + "/certificates", options, Certificate.class);
+        return client.page(GET, accountId + "/domains/" + domainId + "/certificates", options, null, Certificate.class);
     }
 
     public SimpleResponse<Certificate> getCertificate(String accountId, String domainId, String certificateId) throws DnsimpleException, IOException, InterruptedException {
-        return client.simple(GET, accountId + "/domains/" + domainId + "/certificates/" + certificateId, null, Collections.emptyMap(), Certificate.class);
+        return client.simple(GET, accountId + "/domains/" + domainId + "/certificates/" + certificateId, emptyMap(), null, Certificate.class);
     }
 
     public SimpleResponse<CertificateBundle> downloadCertificate(String accountId, String domainId, String certificateId) throws DnsimpleException, IOException, InterruptedException {
-        return client.simple(GET, accountId + "/domains/" + domainId + "/certificates/" + certificateId + "/download", null, Collections.emptyMap(), CertificateBundle.class);
+        return client.simple(GET, accountId + "/domains/" + domainId + "/certificates/" + certificateId + "/download", emptyMap(), null, CertificateBundle.class);
     }
 
     public SimpleResponse<CertificateBundle> getCertificatePrivateKey(String accountId, String domainId, String certificateId) throws DnsimpleException, IOException, InterruptedException {
-        return client.simple(GET, accountId + "/domains/" + domainId + "/certificates/" + certificateId + "/private_key", null, Collections.emptyMap(), CertificateBundle.class);
+        return client.simple(GET, accountId + "/domains/" + domainId + "/certificates/" + certificateId + "/private_key", emptyMap(), null, CertificateBundle.class);
     }
 
     public SimpleResponse<CertificatePurchase> purchaseLetsencryptCertificate(String accountId, String domainId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException {
-        return client.postSimple(accountId + "/domains/" + domainId + "/certificates/letsencrypt", attributes, null, CertificatePurchase.class);
+        return client.simple(POST, accountId + "/domains/" + domainId + "/certificates/letsencrypt", emptyMap(), attributes, CertificatePurchase.class);
     }
 
     public SimpleResponse<Certificate> issueLetsencryptCertificate(String accountId, String domainId, String certificatePurchaseId) throws DnsimpleException, IOException, InterruptedException {
-        return client.postSimple(accountId + "/domains/" + domainId + "/certificates/letsencrypt/" + certificatePurchaseId + "/issue", null, null, Certificate.class);
+        return client.simple(POST, accountId + "/domains/" + domainId + "/certificates/letsencrypt/" + certificatePurchaseId + "/issue", emptyMap(), null, Certificate.class);
     }
 
     public SimpleResponse<CertificateRenewal> purchaseLetsencryptCertificateRenewal(String accountId, String domainId, String certificateId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException {
-        return client.postSimple(accountId + "/domains/" + domainId + "/certificates/letsencrypt/" + certificateId + "/renewals", attributes, null, CertificateRenewal.class);
+        return client.simple(POST, accountId + "/domains/" + domainId + "/certificates/letsencrypt/" + certificateId + "/renewals", emptyMap(), attributes, CertificateRenewal.class);
     }
 
     public SimpleResponse<Certificate> issueLetsencryptCertificateRenewal(String accountId, String domainId, String certificateId, String certificateRenewalId) throws DnsimpleException, IOException, InterruptedException {
-        return client.postSimple(accountId + "/domains/" + domainId + "/certificates/letsencrypt/" + certificateId + "/renewals/" + certificateRenewalId + "/issue", null, null, Certificate.class);
+        return client.simple(POST, accountId + "/domains/" + domainId + "/certificates/letsencrypt/" + certificateId + "/renewals/" + certificateRenewalId + "/issue", emptyMap(), null, Certificate.class);
     }
 }

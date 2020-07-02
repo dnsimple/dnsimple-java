@@ -8,11 +8,10 @@ import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Map;
 
-import static com.dnsimple.endpoints.http.java11.HttpMethod.GET;
-import static com.dnsimple.endpoints.http.java11.HttpMethod.POST;
+import static com.dnsimple.endpoints.http.HttpMethod.*;
+import static java.util.Collections.emptyMap;
 
 /**
  * Provides access to the DNSimple Domains API.
@@ -37,7 +36,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/#list">https://developer.dnsimple.com/v2/domains/#list</a>
      */
     public PaginatedResponse<Domain> listDomains(String accountId) throws DnsimpleException, IOException, InterruptedException {
-        return listDomains(accountId, null);
+        return client.page(GET, accountId + "/domains", emptyMap(), null, Domain.class);
     }
 
     /**
@@ -51,7 +50,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/#list">https://developer.dnsimple.com/v2/domains/#list</a>
      */
     public PaginatedResponse<Domain> listDomains(String accountId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
-        return client.page(GET, accountId + "/domains", options, Domain.class);
+        return client.page(GET, accountId + "/domains", options, null, Domain.class);
     }
 
     /**
@@ -65,7 +64,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/#get">https://developer.dnsimple.com/v2/domains/#get</a>
      */
     public SimpleResponse<Domain> getDomain(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
-        return client.simple(GET, accountId + "/domains/" + domainId, null, Collections.emptyMap(), Domain.class);
+        return client.simple(GET, accountId + "/domains/" + domainId, emptyMap(), null, Domain.class);
     }
 
     /**
@@ -79,7 +78,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/#create">https://developer.dnsimple.com/v2/domains/#create</a>
      */
     public SimpleResponse<Domain> createDomain(String accountId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException {
-        return client.postSimple(accountId + "/domains", attributes, null, Domain.class);
+        return client.simple(POST, accountId + "/domains", emptyMap(), attributes, Domain.class);
     }
 
     /**
@@ -95,7 +94,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/#delete">https://developer.dnsimple.com/v2/domains/#delete</a>
      */
     public EmptyResponse deleteDomain(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
-        return client.deleteEmpty(accountId + "/domains/" + domainId, null);
+        return client.empty(DELETE, accountId + "/domains/" + domainId, emptyMap(), null);
     }
 
     /**
@@ -109,7 +108,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/#reset-token">https://developer.dnsimple.com/v2/domains/#reset-token</a>
      */
     public SimpleResponse<Domain> resetDomainToken(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
-        return client.postSimple(accountId + "/domains/" + domainId, null, null, Domain.class);
+        return client.simple(POST, accountId + "/domains/" + domainId, emptyMap(), null, Domain.class);
     }
 
     /**
@@ -123,7 +122,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/collaborators/#list">https://developer.dnsimple.com/v2/collaborators/#list</a>
      */
     public PaginatedResponse<Collaborator> listCollaborators(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
-        return listCollaborators(accountId, domainId, null);
+        return client.page(GET, accountId + "/domains/" + domainId + "/collaborators", emptyMap(), null, Collaborator.class);
     }
 
     /**
@@ -138,7 +137,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/collaborators/#list">https://developer.dnsimple.com/v2/collaborators/#list</a>
      */
     public PaginatedResponse<Collaborator> listCollaborators(String accountId, String domainId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
-        return client.page(GET, accountId + "/domains/" + domainId + "/collaborators", options, Collaborator.class);
+        return client.page(GET, accountId + "/domains/" + domainId + "/collaborators", options, null, Collaborator.class);
     }
 
     /**
@@ -153,7 +152,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/collaborators/#add">https://developer.dnsimple.com/v2/domains/collaborators/#add</a>
      */
     public SimpleResponse<Collaborator> addCollaborator(String accountId, String domainId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException {
-        return client.postSimple(accountId + "/domains/" + domainId + "/collaborators", attributes, null, Collaborator.class);
+        return client.simple(POST, accountId + "/domains/" + domainId + "/collaborators", emptyMap(), attributes, Collaborator.class);
     }
 
     /**
@@ -168,7 +167,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/collaborators/#remove">https://developer.dnsimple.com/v2/domains/collaborators/#remove</a>
      */
     public EmptyResponse removeCollaborator(String accountId, String domainId, String collaboratorId) throws DnsimpleException, IOException, InterruptedException {
-        return client.deleteEmpty(accountId + "/domains/" + domainId + "/collaborators/" + collaboratorId, null);
+        return client.empty(DELETE, accountId + "/domains/" + domainId + "/collaborators/" + collaboratorId, emptyMap(), null);
     }
 
     /**
@@ -182,7 +181,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#enable">https://developer.dnsimple.com/v2/domains/dnssec/#enable</a>
      */
     public SimpleResponse<Dnssec> enableDnssec(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
-        return client.postSimple(accountId + "/domains/" + domainId + "/dnssec", null, null, Dnssec.class);
+        return client.simple(POST, accountId + "/domains/" + domainId + "/dnssec", emptyMap(), null, Dnssec.class);
     }
 
     /**
@@ -196,7 +195,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#disable">https://developer.dnsimple.com/v2/domains/dnssec/#disable</a>
      */
     public EmptyResponse disableDnssec(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
-        return client.deleteEmpty(accountId + "/domains/" + domainId + "/dnssec", null);
+        return client.empty(DELETE, accountId + "/domains/" + domainId + "/dnssec", emptyMap(), null);
     }
 
     /**
@@ -210,7 +209,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#get">https://developer.dnsimple.com/v2/domains/dnssec/#get</a>
      */
     public SimpleResponse<Dnssec> getDnssec(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
-        return client.simple(GET, accountId + "/domains/" + domainId + "/dnssec", null, Collections.emptyMap(), Dnssec.class);
+        return client.simple(GET, accountId + "/domains/" + domainId + "/dnssec", emptyMap(), null, Dnssec.class);
     }
     // endregion
     // region Delegation Signer Records
@@ -226,7 +225,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list</a>
      */
     public PaginatedResponse<DelegationSignerRecord> listDelegationSignerRecords(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
-        return listDelegationSignerRecords(accountId, domainId, null);
+        return client.page(GET, accountId + "/domains/" + domainId + "/ds_records", emptyMap(), null, DelegationSignerRecord.class);
     }
 
     /**
@@ -241,7 +240,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list</a>
      */
     public PaginatedResponse<DelegationSignerRecord> listDelegationSignerRecords(String accountId, String domainId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
-        return client.page(GET, accountId + "/domains/" + domainId + "/ds_records", options, DelegationSignerRecord.class);
+        return client.page(GET, accountId + "/domains/" + domainId + "/ds_records", options, null, DelegationSignerRecord.class);
     }
 
     /**
@@ -256,7 +255,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-get">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-get</a>
      */
     public SimpleResponse<DelegationSignerRecord> getDelegationSignerRecord(String accountId, String domainId, String dsRecordId) throws DnsimpleException, IOException, InterruptedException {
-        return client.simple(GET, accountId + "/domains/" + domainId + "/ds_records/" + dsRecordId, null, Collections.emptyMap(), DelegationSignerRecord.class);
+        return client.simple(GET, accountId + "/domains/" + domainId + "/ds_records/" + dsRecordId, emptyMap(), null, DelegationSignerRecord.class);
     }
 
     /**
@@ -271,7 +270,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-create">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-create</a>
      */
     public SimpleResponse<DelegationSignerRecord> createDelegationSignerRecord(String accountId, String domainId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException {
-        return client.postSimple(accountId + "/domains/" + domainId + "/ds_records", attributes, null, DelegationSignerRecord.class);
+        return client.simple(POST, accountId + "/domains/" + domainId + "/ds_records", emptyMap(), attributes, DelegationSignerRecord.class);
     }
 
     /**
@@ -288,7 +287,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-delete">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-delete</a>
      */
     public EmptyResponse deleteDelegationSignerRecord(String accountId, String domainId, String dsRecordId) throws DnsimpleException, IOException, InterruptedException {
-        return client.deleteEmpty(accountId + "/domains/" + domainId + "/ds_records/" + dsRecordId, null);
+        return client.empty(DELETE, accountId + "/domains/" + domainId + "/ds_records/" + dsRecordId, emptyMap(), null);
     }
     // endregion
     // region Email Forwards
@@ -304,7 +303,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#list">https://developer.dnsimple.com/v2/domains/email-forwards/#list</a>
      */
     public PaginatedResponse<EmailForward> listEmailForwards(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
-        return listEmailForwards(accountId, domainId, null);
+        return client.page(GET, accountId + "/domains/" + domainId + "/email_forwards", emptyMap(), null, EmailForward.class);
     }
 
     /**
@@ -319,7 +318,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#list">https://developer.dnsimple.com/v2/domains/email-forwards/#list</a>
      */
     public PaginatedResponse<EmailForward> listEmailForwards(String accountId, String domainId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
-        return client.page(GET, accountId + "/domains/" + domainId + "/email_forwards", options, EmailForward.class);
+        return client.page(GET, accountId + "/domains/" + domainId + "/email_forwards", options, null, EmailForward.class);
     }
 
     /**
@@ -334,7 +333,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#get">https://developer.dnsimple.com/v2/domains/email-forwards/#get</a>
      */
     public SimpleResponse<EmailForward> getEmailForward(String accountId, String domainId, String emailForwardId) throws DnsimpleException, IOException, InterruptedException {
-        return client.simple(GET, accountId + "/domains/" + domainId + "/email_forwards/" + emailForwardId, null, Collections.emptyMap(), EmailForward.class);
+        return client.simple(GET, accountId + "/domains/" + domainId + "/email_forwards/" + emailForwardId, emptyMap(), null, EmailForward.class);
     }
 
     /**
@@ -349,7 +348,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#create">https://developer.dnsimple.com/v2/domains/email-forwards/#create</a>
      */
     public SimpleResponse<EmailForward> createEmailForward(String accountId, String domainId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException {
-        return client.postSimple(accountId + "/domains/" + domainId + "/email_forwards", attributes, null, EmailForward.class);
+        return client.simple(POST, accountId + "/domains/" + domainId + "/email_forwards", emptyMap(), attributes, EmailForward.class);
     }
 
     /**
@@ -366,7 +365,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#delete">https://developer.dnsimple.com/v2/domains/email-forwards/#delete</a>
      */
     public EmptyResponse deleteEmailForward(String accountId, String domainId, String emailForwardId) throws DnsimpleException, IOException, InterruptedException {
-        return client.deleteEmpty(accountId + "/domains/" + domainId + "/email_forwards/" + emailForwardId, null);
+        return client.empty(DELETE, accountId + "/domains/" + domainId + "/email_forwards/" + emailForwardId, emptyMap(), null);
     }
     // endregion
     // region Pushes
@@ -383,7 +382,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#initiate">https://developer.dnsimple.com/v2/domains/pushes/#initiate</a>
      */
     public SimpleResponse<Push> initiatePush(String accountId, String domainId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException {
-        return client.postSimple(accountId + "/domains/" + domainId + "/pushes", attributes, null, Push.class);
+        return client.simple(POST, accountId + "/domains/" + domainId + "/pushes", emptyMap(), attributes, Push.class);
     }
 
     /**
@@ -397,7 +396,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#list">https://developer.dnsimple.com/v2/domains/pushes/#list</a>
      */
     public PaginatedResponse<Push> listPushes(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
-        return listPushes(accountId, domainId, null);
+        return client.page(GET, accountId + "/domains/" + domainId + "/pushes", emptyMap(), null, Push.class);
     }
 
     /**
@@ -412,7 +411,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#list">https://developer.dnsimple.com/v2/domains/pushes/#list</a>
      */
     public PaginatedResponse<Push> listPushes(String accountId, String domainId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
-        return client.page(GET, accountId + "/domains/" + domainId + "/pushes", options, Push.class);
+        return client.page(GET, accountId + "/domains/" + domainId + "/pushes", options, null, Push.class);
     }
 
     /**
@@ -427,7 +426,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#accept">https://developer.dnsimple.com/v2/domains/pushes/#accept</a>
      */
     public EmptyResponse acceptPush(String accountId, String pushId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException {
-        return client.empty(POST, accountId + "/pushes/" + pushId, null, attributes);
+        return client.empty(POST, accountId + "/pushes/" + pushId, emptyMap(), attributes);
     }
 
     /**
@@ -441,7 +440,7 @@ public class DomainsEndpoint implements Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#reject">https://developer.dnsimple.com/v2/domains/pushes/#reject</a>
      */
     public EmptyResponse rejectPush(String accountId, String pushId) throws DnsimpleException, IOException, InterruptedException {
-        return client.deleteEmpty(accountId + "/pushes/" + pushId, null);
+        return client.empty(DELETE, accountId + "/pushes/" + pushId, emptyMap(), null);
     }
     // endregion
 }

@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.dnsimple.endpoints.http.java11.HttpMethod.POST;
+import static com.dnsimple.endpoints.http.HttpMethod.POST;
 import static java.util.Collections.emptyMap;
 
 public class OauthEndpoint implements Oauth {
@@ -38,7 +38,7 @@ public class OauthEndpoint implements Oauth {
         if (options.containsKey("redirect_uri")) {
             attributes.put("redirect_uri", options.remove("redirect_uri"));
         }
-        return client.raw(POST, "oauth/access_token", attributes, null, OauthToken.class);
+        return client.raw(POST, "oauth/access_token", emptyMap(), attributes, OauthToken.class);
     }
 
     public String authorizeUrl(String clientId) {
