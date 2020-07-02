@@ -3,7 +3,7 @@ package com.dnsimple;
 import com.dnsimple.endpoints.EndpointAdapter;
 import com.dnsimple.endpoints.http.HttpEndpointAdapter;
 import com.dnsimple.endpoints.http.HttpEndpointClient;
-import com.dnsimple.endpoints.http.NativeHttpEndpointClient;
+import com.dnsimple.endpoints.http.java11.Java11HttpEndpointClient;
 
 /**
  * Instances of the Client handle low-level HTTP calls to the API.
@@ -36,7 +36,7 @@ public class Client {
      * WhoamiResponse response = client.accounts.whoami();
      */
     public Client() {
-        this.endpointClient = new NativeHttpEndpointClient();
+        this.endpointClient = new Java11HttpEndpointClient();
         EndpointAdapter adapter = new HttpEndpointAdapter(endpointClient);
         this.accounts = adapter.accounts();
         this.certificates = adapter.certificates();
