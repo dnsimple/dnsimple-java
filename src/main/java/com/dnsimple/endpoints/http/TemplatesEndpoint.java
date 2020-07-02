@@ -9,7 +9,11 @@ import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Map;
+
+import static com.dnsimple.endpoints.http.java11.HttpMethod.GET;
+import static com.dnsimple.endpoints.http.java11.HttpMethod.POST;
 
 public class TemplatesEndpoint implements Templates {
     private final HttpEndpointClient client;
@@ -23,11 +27,11 @@ public class TemplatesEndpoint implements Templates {
     }
 
     public PaginatedResponse<Template> listTemplates(String accountId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
-        return client.getPage(accountId + "/templates", options, Template.class);
+        return client.page(GET, accountId + "/templates", options, Template.class);
     }
 
     public SimpleResponse<Template> getTemplate(String accountId, String templateId) throws DnsimpleException, IOException, InterruptedException {
-        return client.getSimple(accountId + "/templates/" + templateId, null, Template.class);
+        return client.simple(GET, accountId + "/templates/" + templateId, null, Collections.emptyMap(), Template.class);
     }
 
     public SimpleResponse<Template> createTemplate(String accountId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException {
@@ -35,7 +39,7 @@ public class TemplatesEndpoint implements Templates {
     }
 
     public SimpleResponse<Template> updateTemplate(String accountId, String templateId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException {
-        return client.patchSimple(accountId + "/templates/" + templateId, attributes, null, Template.class);
+        return client.patchSimple(accountId + "/templates/" + templateId, null, attributes, Template.class);
     }
 
     public EmptyResponse deleteTemplate(String accountId, String templateId) throws DnsimpleException, IOException, InterruptedException {
@@ -43,7 +47,7 @@ public class TemplatesEndpoint implements Templates {
     }
 
     public EmptyResponse applyTemplate(String accountId, String templateId, String domainId) throws DnsimpleException, IOException, InterruptedException {
-        return client.postEmpty(accountId + "/domains/" + domainId + "/templates/" + templateId, null, null);
+        return client.empty(POST, accountId + "/domains/" + domainId + "/templates/" + templateId, null, null);
     }
     // region Template records
 
@@ -52,11 +56,11 @@ public class TemplatesEndpoint implements Templates {
     }
 
     public PaginatedResponse<TemplateRecord> listTemplateRecords(String accountId, String templateId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
-        return client.getPage(accountId + "/templates/" + templateId + "/records", options, TemplateRecord.class);
+        return client.page(GET, accountId + "/templates/" + templateId + "/records", options, TemplateRecord.class);
     }
 
     public SimpleResponse<TemplateRecord> getTemplateRecord(String accountId, String templateId, String recordId) throws DnsimpleException, IOException, InterruptedException {
-        return client.getSimple(accountId + "/templates/" + templateId + "/records/" + recordId, null, TemplateRecord.class);
+        return client.simple(GET, accountId + "/templates/" + templateId + "/records/" + recordId, null, Collections.emptyMap(), TemplateRecord.class);
     }
 
     public SimpleResponse<TemplateRecord> createTemplateRecord(String accountId, String templateId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException {

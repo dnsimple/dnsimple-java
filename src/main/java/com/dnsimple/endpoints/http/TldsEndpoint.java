@@ -9,7 +9,11 @@ import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Map;
+
+import static com.dnsimple.endpoints.http.java11.HttpMethod.GET;
+import static java.util.Collections.emptyMap;
 
 public class TldsEndpoint implements Tlds {
     private final HttpEndpointClient client;
@@ -23,14 +27,14 @@ public class TldsEndpoint implements Tlds {
     }
 
     public PaginatedResponse<Tld> listTlds(Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
-        return client.getPage("tlds", options, Tld.class);
+        return client.page(GET, "tlds", options, Tld.class);
     }
 
     public SimpleResponse<Tld> getTld(String tld) throws DnsimpleException, IOException, InterruptedException {
-        return client.getSimple("tlds/" + tld, null, Tld.class);
+        return client.simple(GET, "tlds/" + tld, null, Collections.emptyMap(), Tld.class);
     }
 
     public ListResponse<TldExtendedAttribute> getTldExtendedAttributes(String tld) throws DnsimpleException, IOException, InterruptedException {
-        return client.getList("tlds/" + tld + "/extended_attributes", null, TldExtendedAttribute.class);
+        return client.list(GET, "tlds/" + tld + "/extended_attributes", null, emptyMap(), TldExtendedAttribute.class);
     }
 }
