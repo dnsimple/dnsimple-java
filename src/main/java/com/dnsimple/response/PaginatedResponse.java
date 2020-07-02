@@ -4,7 +4,7 @@ import java.util.List;
 
 import static java.util.Collections.emptyList;
 
-public class PaginatedResponse<T> extends ApiResponse {
+public class PaginatedResponse<T> extends ApiResponse<T> {
     private final List<T> data;
     private final Pagination pagination;
 
