@@ -90,8 +90,7 @@ class UncheckedSocket {
                 "Server: Test HTTP Server",
                 "Date: " + OffsetDateTime.now().format(DateTimeFormatter.RFC_1123_DATE_TIME),
                 "Connection: close",
-                "Content-type: text/plain",
-                "Content-length: 0"
+                "Content-type: text/plain"
         );
     }
 }
