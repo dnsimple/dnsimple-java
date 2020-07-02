@@ -1,6 +1,6 @@
 package com.dnsimple.response;
 
-public class SimpleResponse<T> extends ApiResponse<T> {
+public class SimpleResponse<T> extends ApiResponse {
     private final T data;
 
     public SimpleResponse(T data) {
