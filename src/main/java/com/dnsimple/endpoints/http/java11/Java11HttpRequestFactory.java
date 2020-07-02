@@ -11,9 +11,8 @@ import com.dnsimple.request.Filter;
 import com.dnsimple.response.ApiResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
@@ -43,7 +42,7 @@ public class Java11HttpRequestFactory implements HttpRequestFactory {
     public <DATA_TYPE, CONTAINER extends ApiResponse<DATA_TYPE>> CONTAINER execute(String userAgent, String accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType, Class<CONTAINER> containerType, Supplier<CONTAINER> emptyContainerSupplier) {
         try {
             HttpRequest request = buildRequest(path, queryStringParams, body, method, userAgent, accessToken);
-            HttpResponse<Supplier<CONTAINER>> response = client.send(request, new JsonContainerResponseHandler<>(dataType, containerType, emptyContainerSupplier));
+            HttpResponse<Supplier<CONTAINER>> response = client.send(request, new Java11ContainerResponseHandler<>(dataType, containerType, emptyContainerSupplier));
             checkStatusCode(response);
             CONTAINER apiResponse = response.body().get();
             apiResponse.setHttpRequest(request);
@@ -58,7 +57,7 @@ public class Java11HttpRequestFactory implements HttpRequestFactory {
     public <DATA_TYPE> DATA_TYPE execute(String userAgent, String accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType) {
         try {
             HttpRequest request = buildRequest(path, queryStringParams, body, method, userAgent, accessToken);
-            HttpResponse<Supplier<DATA_TYPE>> response = client.send(request, new JsonResponseHandler<>(dataType));
+            HttpResponse<Supplier<DATA_TYPE>> response = client.send(request, new Java11RawResponseHandler<>(dataType));
             checkStatusCode(response);
             return response.body().get();
         } catch (IOException | InterruptedException e) {
@@ -80,7 +79,6 @@ public class Java11HttpRequestFactory implements HttpRequestFactory {
     }
 
     private static List<String> buildUserAgents(String userAgent) {
-        // Add the user agent string to the headers
         List<String> fullUserAgent = new ArrayList<>();
         if (userAgent != null)
             fullUserAgent.add(userAgent);
@@ -102,30 +100,6 @@ public class Java11HttpRequestFactory implements HttpRequestFactory {
         return URI.create(url + (queryStringItems.isEmpty() ? "" : ("?" + String.join("&", queryStringItems))));
     }
 
-    private static <CONTAINER extends ApiResponse<DATA_TYPE>, DATA_TYPE> Supplier<CONTAINER> buildSupplier(InputStream inputStream, Class<DATA_TYPE> dataType, Class<CONTAINER> containerType) {
-        return () -> {
-            try (InputStream stream = inputStream;
-                 InputStreamReader isr = new InputStreamReader(stream);
-                 BufferedReader br = new BufferedReader(isr)) {
-                return gson.fromJson(br, TypeToken.getParameterized(containerType, dataType).getType());
-            } catch (IOException e) {
-                throw new UncheckedIOException(e);
-            }
-        };
-    }
-
-    private static <DATA_TYPE> Supplier<DATA_TYPE> buildSupplier(InputStream inputStream, Class<DATA_TYPE> dataType) {
-        return () -> {
-            try (InputStream stream = inputStream;
-                 InputStreamReader isr = new InputStreamReader(stream);
-                 BufferedReader br = new BufferedReader(isr)) {
-                return gson.fromJson(br, dataType);
-            } catch (IOException e) {
-                throw new UncheckedIOException(e);
-            }
-        };
-    }
-
     private static void checkStatusCode(HttpResponse<?> response) throws DnsimpleException {
         int statusCode = response.statusCode();
         if (statusCode == 404)
@@ -134,41 +108,5 @@ public class Java11HttpRequestFactory implements HttpRequestFactory {
             throw new ServerError(statusCode);
         if (statusCode >= 400)
             throw new BadRequestException(statusCode);
-    }
-
-    private static class JsonContainerResponseHandler<DATA_TYPE, CONTAINER extends ApiResponse<DATA_TYPE>> implements HttpResponse.BodyHandler<Supplier<CONTAINER>> {
-        private final Class<DATA_TYPE> dataType;
-        private final Class<CONTAINER> containerType;
-        private final Supplier<CONTAINER> emptyContainerSupplier;
-
-        public JsonContainerResponseHandler(Class<DATA_TYPE> dataType, Class<CONTAINER> containerType, Supplier<CONTAINER> emptyContainerSupplier) {
-            this.dataType = dataType;
-            this.containerType = containerType;
-            this.emptyContainerSupplier = emptyContainerSupplier;
-        }
-
-        @Override
-        public HttpResponse.BodySubscriber<Supplier<CONTAINER>> apply(HttpResponse.ResponseInfo responseInfo) {
-            HttpResponse.BodySubscriber<InputStream> upstream = HttpResponse.BodySubscribers.ofInputStream();
-            return responseInfo.statusCode() != 204
-                    ? HttpResponse.BodySubscribers.mapping(upstream, is -> buildSupplier(is, dataType, containerType))
-                    : HttpResponse.BodySubscribers.mapping(upstream, __ -> emptyContainerSupplier);
-        }
-    }
-
-    private static class JsonResponseHandler<DATA_TYPE> implements HttpResponse.BodyHandler<Supplier<DATA_TYPE>> {
-        private final Class<DATA_TYPE> dataType;
-
-        public JsonResponseHandler(Class<DATA_TYPE> dataType) {
-            this.dataType = dataType;
-        }
-
-        @Override
-        public HttpResponse.BodySubscriber<Supplier<DATA_TYPE>> apply(HttpResponse.ResponseInfo responseInfo) {
-            HttpResponse.BodySubscriber<InputStream> upstream = HttpResponse.BodySubscribers.ofInputStream();
-            return responseInfo.statusCode() != 204
-                    ? HttpResponse.BodySubscribers.mapping(upstream, is -> buildSupplier(is, dataType))
-                    : HttpResponse.BodySubscribers.mapping(upstream, __ -> () -> null);
-        }
     }
 }
