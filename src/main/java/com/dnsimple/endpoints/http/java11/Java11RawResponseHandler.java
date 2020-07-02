@@ -8,6 +8,7 @@ import java.net.http.HttpResponse;
 import java.util.function.Supplier;
 
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
+import static java.net.http.HttpResponse.BodySubscribers.mapping;
 
 class Java11RawResponseHandler<DATA_TYPE> implements HttpResponse.BodyHandler<Supplier<DATA_TYPE>> {
     private static final Gson gson = new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
@@ -19,10 +20,10 @@ class Java11RawResponseHandler<DATA_TYPE> implements HttpResponse.BodyHandler<Su
 
     @Override
     public HttpResponse.BodySubscriber<Supplier<DATA_TYPE>> apply(HttpResponse.ResponseInfo responseInfo) {
-        HttpResponse.BodySubscriber<InputStream> upstream = HttpResponse.BodySubscribers.ofInputStream();
+        var upstream = HttpResponse.BodySubscribers.ofInputStream();
         return responseInfo.statusCode() != 204
-                ? HttpResponse.BodySubscribers.mapping(upstream, is -> buildSupplier(is, dataType))
-                : HttpResponse.BodySubscribers.mapping(upstream, __ -> () -> null);
+                ? mapping(upstream, is -> buildSupplier(is, dataType))
+                : mapping(upstream, __ -> () -> null);
     }
 
     private static <DATA_TYPE> Supplier<DATA_TYPE> buildSupplier(InputStream inputStream, Class<DATA_TYPE> dataType) {

@@ -41,7 +41,7 @@ public class Java11HttpRequestFactory implements HttpRequestFactory {
     public <DATA_TYPE, CONTAINER extends ApiResponse<DATA_TYPE>> CONTAINER execute(String userAgent, String accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType, Class<CONTAINER> containerType, Supplier<CONTAINER> emptyContainerSupplier) {
         try {
             HttpRequest request = buildRequest(path, queryStringParams, body, method, userAgent, accessToken);
-            HttpResponse<Supplier<CONTAINER>> response = client.send(request, new Java11ContainerResponseHandler<>(dataType, containerType, emptyContainerSupplier));
+            var response = client.send(request, new Java11ContainerResponseHandler<>(dataType, containerType, emptyContainerSupplier));
             checkStatusCode(response);
             CONTAINER apiResponse = response.body().get();
             apiResponse.setHttpRequest(request);
@@ -56,7 +56,7 @@ public class Java11HttpRequestFactory implements HttpRequestFactory {
     public <DATA_TYPE> DATA_TYPE execute(String userAgent, String accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType) {
         try {
             HttpRequest request = buildRequest(path, queryStringParams, body, method, userAgent, accessToken);
-            HttpResponse<Supplier<DATA_TYPE>> response = client.send(request, new Java11RawResponseHandler<>(dataType));
+            var response = client.send(request, new Java11RawResponseHandler<>(dataType));
             checkStatusCode(response);
             return response.body().get();
         } catch (IOException | InterruptedException e) {
@@ -65,7 +65,7 @@ public class Java11HttpRequestFactory implements HttpRequestFactory {
     }
 
     private static HttpRequest buildRequest(String path, Map<String, Object> queryStringParams, Object attributes, HttpMethod method, String userAgent, String accessToken) {
-        HttpRequest.BodyPublisher bodyPublisher = attributes != null
+        var bodyPublisher = attributes != null
                 ? HttpRequest.BodyPublishers.ofString(gson.toJson(attributes))
                 : HttpRequest.BodyPublishers.noBody();
         return HttpRequest.newBuilder(buildUrl(Dnsimple.getApiBase() + API_VERSION_PATH + path, queryStringParams))
@@ -86,7 +86,7 @@ public class Java11HttpRequestFactory implements HttpRequestFactory {
     }
 
     private static URI buildUrl(String url, Map<String, Object> queryStringParams) {
-        var queryStringItems = new ArrayList<String>();
+        List<String> queryStringItems = new ArrayList<String>();
         if (queryStringParams.containsKey("filter")) {
             Filter filter = (Filter) queryStringParams.remove("filter");
             queryStringItems.add(filter.name + "=" + URLEncoder.encode(filter.value, UTF_8));
