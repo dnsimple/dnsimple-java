@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.dnsimple.tools.CustomMatchers.thrownException;
-import static com.dnsimple.tools.HttpMethod.DELETE;
-import static com.dnsimple.tools.HttpMethod.GET;
+import static com.dnsimple.endpoints.http.java11.HttpMethod.DELETE;
+import static com.dnsimple.endpoints.http.java11.HttpMethod.GET;
 import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;

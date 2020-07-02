@@ -7,8 +7,8 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.List;
 
-import static com.dnsimple.tools.HttpMethod.DELETE;
-import static com.dnsimple.tools.HttpMethod.POST;
+import static com.dnsimple.endpoints.http.java11.HttpMethod.DELETE;
+import static com.dnsimple.endpoints.http.java11.HttpMethod.POST;
 import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;

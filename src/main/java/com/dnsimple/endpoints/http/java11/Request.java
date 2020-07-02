@@ -39,26 +39,26 @@ class Request {
         this.client = client;
     }
 
-    EmptyResponse empty(String path, Object body, Map<String, Object> queryStringParams, String method) throws IOException, InterruptedException, DnsimpleException {
+    EmptyResponse empty(String path, Object body, Map<String, Object> queryStringParams, HttpMethod method) throws IOException, InterruptedException, DnsimpleException {
         return execute(client, userAgent, accessToken, path, body, queryStringParams, Void.class, EmptyResponse.class, EmptyResponse::new, method);
     }
 
     @SuppressWarnings("unchecked")
-    <DATA_TYPE> SimpleResponse<DATA_TYPE> simple(String path, Object body, Map<String, Object> queryStringParams, String method, Class<DATA_TYPE> dataType) throws IOException, InterruptedException, DnsimpleException {
+    <DATA_TYPE> SimpleResponse<DATA_TYPE> simple(String path, Object body, Map<String, Object> queryStringParams, HttpMethod method, Class<DATA_TYPE> dataType) throws IOException, InterruptedException, DnsimpleException {
         return execute(client, userAgent, accessToken, path, body, queryStringParams, dataType, SimpleResponse.class, SimpleResponse::empty, method);
     }
 
     @SuppressWarnings("unchecked")
-    <DATA_TYPE> ListResponse<DATA_TYPE> list(String path, Object body, Map<String, Object> queryStringParams, String method, Class<DATA_TYPE> dataType) throws IOException, InterruptedException, DnsimpleException {
+    <DATA_TYPE> ListResponse<DATA_TYPE> list(String path, Object body, Map<String, Object> queryStringParams, HttpMethod method, Class<DATA_TYPE> dataType) throws IOException, InterruptedException, DnsimpleException {
         return execute(client, userAgent, accessToken, path, body, queryStringParams, dataType, ListResponse.class, ListResponse::empty, method);
     }
 
     @SuppressWarnings("unchecked")
-    <DATA_TYPE> PaginatedResponse<DATA_TYPE> page(String path, Object body, Map<String, Object> queryStringParams, String method, Class<DATA_TYPE> dataType) throws IOException, InterruptedException, DnsimpleException {
+    <DATA_TYPE> PaginatedResponse<DATA_TYPE> page(String path, Object body, Map<String, Object> queryStringParams, HttpMethod method, Class<DATA_TYPE> dataType) throws IOException, InterruptedException, DnsimpleException {
         return execute(client, userAgent, accessToken, path, body, queryStringParams, dataType, PaginatedResponse.class, PaginatedResponse::empty, method);
     }
 
-    <DATA_TYPE> DATA_TYPE raw(String path, Object body, Map<String, Object> queryStringParams, String method, Class<DATA_TYPE> dataType) throws IOException, InterruptedException, DnsimpleException {
+    <DATA_TYPE> DATA_TYPE raw(String path, Object body, Map<String, Object> queryStringParams, HttpMethod method, Class<DATA_TYPE> dataType) throws IOException, InterruptedException, DnsimpleException {
         HttpRequest request = buildRequest(path, queryStringParams, body, method, userAgent, accessToken);
         HttpResponse<Supplier<DATA_TYPE>> response = client.send(request, new JsonResponseHandler<>(dataType));
         checkStatusCode(response);
@@ -66,7 +66,7 @@ class Request {
     }
 
     // We need to define a TYPED_CONTAINER instead of at interface level because otherwise, we won't be able to provide a valid containerType argument
-    private static <DATA_TYPE, CONTAINER extends ApiResponse<DATA_TYPE>> CONTAINER execute(HttpClient client, String userAgent, String accessToken, String path, Object body, Map<String, Object> queryStringParams, Class<DATA_TYPE> dataType, Class<CONTAINER> containerType, Supplier<CONTAINER> emptyContainerSupplier, String method) throws IOException, InterruptedException, DnsimpleException {
+    private static <DATA_TYPE, CONTAINER extends ApiResponse<DATA_TYPE>> CONTAINER execute(HttpClient client, String userAgent, String accessToken, String path, Object body, Map<String, Object> queryStringParams, Class<DATA_TYPE> dataType, Class<CONTAINER> containerType, Supplier<CONTAINER> emptyContainerSupplier, HttpMethod method) throws IOException, InterruptedException, DnsimpleException {
         HttpRequest request = buildRequest(path, queryStringParams, body, method, userAgent, accessToken);
         HttpResponse<Supplier<CONTAINER>> response = client.send(request, new JsonContainerResponseHandler<>(dataType, containerType, emptyContainerSupplier));
         checkStatusCode(response);
@@ -76,7 +76,7 @@ class Request {
         return apiResponse;
     }
 
-    private static HttpRequest buildRequest(String path, Map<String, Object> options, Object attributes, String method, String userAgent, String accessToken) {
+    private static HttpRequest buildRequest(String path, Map<String, Object> options, Object attributes, HttpMethod method, String userAgent, String accessToken) {
         HttpRequest.BodyPublisher bodyPublisher = attributes != null
                 ? HttpRequest.BodyPublishers.ofString(gson.toJson(attributes))
                 : HttpRequest.BodyPublishers.noBody();
@@ -85,7 +85,7 @@ class Request {
                 .header("Content-Type", "application/json")
                 .header("User-Agent", String.join(" ", buildUserAgents(userAgent)))
                 .header("Authorization", "Bearer " + accessToken)
-                .method(method, bodyPublisher)
+                .method(method.name(), bodyPublisher)
                 .build();
     }
 

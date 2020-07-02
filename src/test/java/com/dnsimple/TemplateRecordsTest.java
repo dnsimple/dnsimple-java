@@ -1,7 +1,6 @@
 package com.dnsimple;
 
 import com.dnsimple.data.TemplateRecord;
-import com.dnsimple.response.EmptyResponse;
 import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.exception.DnsimpleException;
@@ -12,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.dnsimple.tools.HttpMethod.*;
+import static com.dnsimple.endpoints.http.java11.HttpMethod.*;
 import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
