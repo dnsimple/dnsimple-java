@@ -1,4 +1,4 @@
-package com.dnsimple.endpoints.http.java11;
+package com.dnsimple.endpoints.http;
 
 public enum HttpMethod {
     HEAD, GET, POST, PUT, PATCH, DELETE;

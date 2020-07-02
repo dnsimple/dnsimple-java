@@ -1,6 +1,6 @@
 package com.dnsimple.tools;
 
-import com.dnsimple.endpoints.http.java11.HttpMethod;
+import com.dnsimple.endpoints.http.HttpMethod;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

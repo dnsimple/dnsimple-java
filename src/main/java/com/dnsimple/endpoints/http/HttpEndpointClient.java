@@ -1,6 +1,5 @@
 package com.dnsimple.endpoints.http;
 
-import com.dnsimple.endpoints.http.java11.HttpMethod;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.response.EmptyResponse;
 import com.dnsimple.response.ListResponse;
@@ -10,28 +9,43 @@ import com.dnsimple.response.SimpleResponse;
 import java.io.IOException;
 import java.util.Map;
 
-public interface HttpEndpointClient {
-    <T> ListResponse<T> list(HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<T> dataType) throws IOException, InterruptedException, DnsimpleException;
+public class HttpEndpointClient {
+    private final HttpRequestFactory requestFactory;
+    private String userAgent;
+    private String accessToken;
 
-    <T> PaginatedResponse<T> page(HttpMethod method, String path, Map<String, Object> queryStringParams, Class<T> dataType) throws IOException, InterruptedException, DnsimpleException;
+    public HttpEndpointClient(HttpRequestFactory requestFactory) {
+        this.requestFactory = requestFactory;
+    }
 
-    <T> SimpleResponse<T> simple(HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<T> dataType) throws IOException, InterruptedException, DnsimpleException;
+    public void setUserAgent(String userAgent) {
+        this.userAgent = userAgent;
+    }
 
-    <T> SimpleResponse<T> postSimple(String path, Object body, Map<String, Object> queryStringParams, Class<T> dataType) throws DnsimpleException, IOException, InterruptedException;
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
 
-    <T> T raw(HttpMethod method, String path, Object body, Map<String, Object> queryStringParams, Class<T> dataType) throws DnsimpleException, IOException, InterruptedException;
+    EmptyResponse empty(HttpMethod method, String path, Map<String, Object> queryStringParams, Object body) throws IOException, InterruptedException, DnsimpleException {
+        return requestFactory.execute(userAgent, accessToken, path, body, queryStringParams, Void.class, EmptyResponse.class, EmptyResponse::new, method);
+    }
 
-    EmptyResponse empty(HttpMethod method, String path, Map<String, Object> queryStringParams, Object body) throws DnsimpleException, IOException, InterruptedException;
+    @SuppressWarnings("unchecked")
+    <DATA_TYPE> SimpleResponse<DATA_TYPE> simple(HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType) throws IOException, InterruptedException, DnsimpleException {
+        return requestFactory.execute(userAgent, accessToken, path, body, queryStringParams, dataType, SimpleResponse.class, SimpleResponse::empty, method);
+    }
 
-    <T> ListResponse<T> putList(String path, Map<String, Object> queryStringParams, Object body, Class<T> dataType) throws DnsimpleException, IOException, InterruptedException;
+    @SuppressWarnings("unchecked")
+    <DATA_TYPE> ListResponse<DATA_TYPE> list(HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType) throws IOException, InterruptedException, DnsimpleException {
+        return requestFactory.execute(userAgent, accessToken, path, body, queryStringParams, dataType, ListResponse.class, ListResponse::empty, method);
+    }
 
-    <T> SimpleResponse<T> putSimple(String path, Map<String, Object> queryStringParams, Object body, Class<T> dataType) throws DnsimpleException, IOException, InterruptedException;
+    @SuppressWarnings("unchecked")
+    <DATA_TYPE> PaginatedResponse<DATA_TYPE> page(HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType) throws IOException, InterruptedException, DnsimpleException {
+        return requestFactory.execute(userAgent, accessToken, path, body, queryStringParams, dataType, PaginatedResponse.class, PaginatedResponse::empty, method);
+    }
 
-    EmptyResponse putEmpty(String path, Map<String, Object> queryStringParams, Object body) throws DnsimpleException, IOException, InterruptedException;
-
-    <T> SimpleResponse<T> patchSimple(String path, Map<String, Object> queryStringParams, Object body, Class<T> dataType) throws DnsimpleException, IOException, InterruptedException;
-
-    <T> SimpleResponse<T> deleteSimple(String path, Map<String, Object> queryStringParams, Class<T> dataType) throws DnsimpleException, IOException, InterruptedException;
-
-    EmptyResponse deleteEmpty(String path, Map<String, Object> queryStringParams) throws DnsimpleException, IOException, InterruptedException;
+    <DATA_TYPE> DATA_TYPE raw(HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType) throws IOException, InterruptedException, DnsimpleException {
+        return requestFactory.execute(userAgent, accessToken, path, body, queryStringParams, method, dataType);
+    }
 }

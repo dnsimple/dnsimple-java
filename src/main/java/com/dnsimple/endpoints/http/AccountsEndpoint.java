@@ -7,7 +7,7 @@ import com.dnsimple.response.ListResponse;
 
 import java.io.IOException;
 
-import static com.dnsimple.endpoints.http.java11.HttpMethod.GET;
+import static com.dnsimple.endpoints.http.HttpMethod.GET;
 import static java.util.Collections.emptyMap;
 
 public class AccountsEndpoint implements Accounts {
@@ -18,6 +18,6 @@ public class AccountsEndpoint implements Accounts {
     }
 
     public ListResponse<Account> listAccounts() throws DnsimpleException, IOException, InterruptedException {
-        return client.list(GET, "accounts", null, emptyMap(), Account.class);
+        return client.list(GET, "accounts", emptyMap(), null, Account.class);
     }
 }

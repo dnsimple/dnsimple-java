@@ -8,6 +8,10 @@ import com.dnsimple.response.ListResponse;
 
 import java.io.IOException;
 
+import static com.dnsimple.endpoints.http.HttpMethod.DELETE;
+import static com.dnsimple.endpoints.http.HttpMethod.PUT;
+import static java.util.Collections.emptyMap;
+
 public class VanityNameServersEndpoint implements VanityNameServers {
     private final HttpEndpointClient client;
 
@@ -16,11 +20,11 @@ public class VanityNameServersEndpoint implements VanityNameServers {
     }
 
     public ListResponse<NameServer> enableVanityNameServers(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
-        return client.putList(accountId + "/vanity/" + domainId, null, null, NameServer.class);
+        return client.list(PUT, accountId + "/vanity/" + domainId, emptyMap(), null, NameServer.class);
     }
 
     public EmptyResponse disableVanityNameServers(String accountId, String domainId) throws DnsimpleException, IOException, InterruptedException {
-        return client.deleteEmpty(accountId + "/vanity/" + domainId, null);
+        return client.empty(DELETE, accountId + "/vanity/" + domainId, emptyMap(), null);
     }
 }
 
