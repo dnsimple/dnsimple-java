@@ -8,7 +8,10 @@ import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Map;
+
+import static com.dnsimple.endpoints.http.java11.HttpMethod.GET;
 
 public class ContactsEndpoint implements Contacts {
     private final HttpEndpointClient client;
@@ -22,11 +25,11 @@ public class ContactsEndpoint implements Contacts {
     }
 
     public PaginatedResponse<Contact> listContacts(String accountId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
-        return client.getPage(accountId + "/contacts", options, Contact.class);
+        return client.page(GET, accountId + "/contacts", options, Contact.class);
     }
 
     public SimpleResponse<Contact> getContact(String accountId, String contactId) throws DnsimpleException, IOException, InterruptedException {
-        return client.getSimple(accountId + "/contacts/" + contactId, null, Contact.class);
+        return client.simple(GET, accountId + "/contacts/" + contactId, null, Collections.emptyMap(), Contact.class);
     }
 
     public SimpleResponse<Contact> createContact(String accountId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException {
@@ -34,7 +37,7 @@ public class ContactsEndpoint implements Contacts {
     }
 
     public SimpleResponse<Contact> updateContact(String accountId, String contactId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException {
-        return client.patchSimple(accountId + "/contacts/" + contactId, attributes, null, Contact.class);
+        return client.patchSimple(accountId + "/contacts/" + contactId, null, attributes, Contact.class);
     }
 
     public EmptyResponse deleteContact(String accountId, String contactId) throws DnsimpleException, IOException, InterruptedException {

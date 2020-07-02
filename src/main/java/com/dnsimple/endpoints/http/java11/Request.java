@@ -49,7 +49,7 @@ class Request {
     }
 
     @SuppressWarnings("unchecked")
-    <DATA_TYPE> ListResponse<DATA_TYPE> list(String path, Object body, Map<String, Object> queryStringParams, HttpMethod method, Class<DATA_TYPE> dataType) throws IOException, InterruptedException, DnsimpleException {
+    <DATA_TYPE> ListResponse<DATA_TYPE> list(HttpMethod method, String path, Object body, Map<String, Object> queryStringParams, Class<DATA_TYPE> dataType) throws IOException, InterruptedException, DnsimpleException {
         return execute(client, userAgent, accessToken, path, body, queryStringParams, dataType, ListResponse.class, ListResponse::empty, method);
     }
 

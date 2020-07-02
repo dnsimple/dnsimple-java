@@ -8,7 +8,11 @@ import com.dnsimple.response.ListResponse;
 import com.dnsimple.response.SimpleResponse;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Map;
+
+import static com.dnsimple.endpoints.http.java11.HttpMethod.GET;
+import static java.util.Collections.emptyMap;
 
 public class WebhooksEndpoint implements Webhooks {
     private final HttpEndpointClient client;
@@ -22,11 +26,11 @@ public class WebhooksEndpoint implements Webhooks {
     }
 
     public ListResponse<Webhook> listWebhooks(String accountId, Map<String, Object> options) throws DnsimpleException, IOException, InterruptedException {
-        return client.getList(accountId + "/webhooks", options, Webhook.class);
+        return client.list(GET, accountId + "/webhooks", options, emptyMap(), Webhook.class);
     }
 
     public SimpleResponse<Webhook> getWebhook(String accountId, String webhookId) throws DnsimpleException, IOException, InterruptedException {
-        return client.getSimple(accountId + "/webhooks/" + webhookId, null, Webhook.class);
+        return client.simple(GET, accountId + "/webhooks/" + webhookId, null, Collections.emptyMap(), Webhook.class);
     }
 
     public SimpleResponse<Webhook> createWebhook(String accountId, Map<String, Object> attributes) throws DnsimpleException, IOException, InterruptedException {
