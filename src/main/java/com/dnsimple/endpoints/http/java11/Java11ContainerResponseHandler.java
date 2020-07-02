@@ -28,19 +28,17 @@ class Java11ContainerResponseHandler<DATA_TYPE, CONTAINER extends ApiResponse<DA
     public HttpResponse.BodySubscriber<Supplier<CONTAINER>> apply(HttpResponse.ResponseInfo responseInfo) {
         var upstream = HttpResponse.BodySubscribers.ofInputStream();
         return responseInfo.statusCode() != 204
-                ? mapping(upstream, is -> buildSupplier(is, dataType, containerType))
+                ? mapping(upstream, is -> () -> deserialize(is, dataType, containerType))
                 : mapping(upstream, __ -> emptyContainerSupplier);
     }
 
-    private static <CONTAINER extends ApiResponse<DATA_TYPE>, DATA_TYPE> Supplier<CONTAINER> buildSupplier(InputStream inputStream, Class<DATA_TYPE> dataType, Class<CONTAINER> containerType) {
-        return () -> {
-            try (InputStream stream = inputStream;
-                 InputStreamReader isr = new InputStreamReader(stream);
-                 BufferedReader br = new BufferedReader(isr)) {
-                return gson.fromJson(br, TypeToken.getParameterized(containerType, dataType).getType());
-            } catch (IOException e) {
-                throw new UncheckedIOException(e);
-            }
-        };
+    private static <CONTAINER extends ApiResponse<DATA_TYPE>, DATA_TYPE> CONTAINER deserialize(InputStream inputStream, Class<DATA_TYPE> dataType, Class<CONTAINER> containerType) {
+        try (InputStream stream = inputStream;
+             InputStreamReader isr = new InputStreamReader(stream);
+             BufferedReader br = new BufferedReader(isr)) {
+            return gson.fromJson(br, TypeToken.getParameterized(containerType, dataType).getType());
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }
