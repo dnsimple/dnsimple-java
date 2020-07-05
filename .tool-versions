@@ -1,2 +1,2 @@
 gradle 6.5
-java adopt-openjdk-11+28
+java adoptopenjdk-11.0.0+28
