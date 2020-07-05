@@ -3,12 +3,12 @@ package com.dnsimple.endpoints.http.java11;
 import com.dnsimple.Dnsimple;
 import com.dnsimple.endpoints.http.HttpMethod;
 import com.dnsimple.endpoints.http.HttpRequestFactory;
+import com.dnsimple.endpoints.http.RawResponse;
 import com.dnsimple.exception.BadRequestException;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 import com.dnsimple.exception.ServerError;
 import com.dnsimple.request.Filter;
-import com.dnsimple.response.ApiResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -21,7 +21,6 @@ import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
@@ -38,27 +37,16 @@ public class Java11HttpRequestFactory implements HttpRequestFactory {
     }
 
     @Override
-    public <DATA_TYPE, CONTAINER extends ApiResponse> CONTAINER execute(String userAgent, String accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType, Class<CONTAINER> containerType, Supplier<CONTAINER> emptyContainerSupplier) {
+    public RawResponse execute(String userAgent, String accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body) {
         try {
             HttpRequest request = buildRequest(path, queryStringParams, body, method, userAgent, accessToken);
-            var response = client.send(request, new Java11ContainerResponseHandler<>(dataType, containerType, emptyContainerSupplier));
+            var response = client.send(request, HttpResponse.BodyHandlers.ofInputStream());
             checkStatusCode(response);
-            CONTAINER apiResponse = response.body().get();
-            apiResponse.setHttpRequest(request);
-            apiResponse.setHttpResponse(response);
-            return apiResponse;
-        } catch (IOException | InterruptedException e) {
-            throw new DnsimpleException(e);
-        }
-    }
-
-    @Override
-    public <DATA_TYPE> DATA_TYPE execute(String userAgent, String accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType) {
-        try {
-            HttpRequest request = buildRequest(path, queryStringParams, body, method, userAgent, accessToken);
-            var response = client.send(request, new Java11RawResponseHandler<>(dataType));
-            checkStatusCode(response);
-            return response.body().get();
+            return new RawResponse(
+                    response.statusCode(),
+                    response.headers().map(),
+                    response.body()
+            );
         } catch (IOException | InterruptedException e) {
             throw new DnsimpleException(e);
         }
