@@ -15,10 +15,6 @@ public class ListResponse<T> implements ApiResponse {
         return new ListResponse<>(emptyList());
     }
 
-    public static <W> ListResponse<W> from(List<W> data) {
-        return new ListResponse<>(data);
-    }
-
     public List<T> getData() {
         return data;
     }
