@@ -1,5 +1,4 @@
 package com.dnsimple.response;
 
-
-public abstract class ApiResponse {
+public interface ApiResponse {
 }
