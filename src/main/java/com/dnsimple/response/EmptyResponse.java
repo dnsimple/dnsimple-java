@@ -1,4 +1,4 @@
 package com.dnsimple.response;
 
-public class EmptyResponse extends ApiResponse {
+public class EmptyResponse implements ApiResponse {
 }

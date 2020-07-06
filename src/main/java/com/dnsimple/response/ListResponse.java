@@ -4,7 +4,7 @@ import java.util.List;
 
 import static java.util.Collections.emptyList;
 
-public class ListResponse<T> extends ApiResponse {
+public class ListResponse<T> implements ApiResponse {
     private final List<T> data;
 
     public ListResponse(List<T> data) {
