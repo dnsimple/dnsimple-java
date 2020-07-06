@@ -8,15 +8,7 @@ public class DnsimpleException extends RuntimeException {
         super(message);
     }
 
-    public DnsimpleException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
     public DnsimpleException(Throwable cause) {
         super(cause);
-    }
-
-    public DnsimpleException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
     }
 }
