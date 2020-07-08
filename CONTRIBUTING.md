@@ -1,9 +1,6 @@
 # Contributing to DNSimple/Java
 
-
 ## Getting started
-
-Using [jenv](http://www.jenv.be/) makes it possible to test on multiple versions of Java.
 
 #### 1. Clone the repository
 
@@ -14,119 +11,79 @@ git clone git@github.com:dnsimple/dnsimple-java.git
 cd dnsimple-java
 ```
 
-#### 2. Install Maven
+#### 2. Install external tools
 
-Install [Maven](https://maven.apache.org/install.html).
+The project includes an [ASDF](https://github.com/asdf-vm/asdf) `.tool-versions` file to set up the JVM required to work on the project.
+
+You can install the required version of Java executing `asdf install` at the root directory of the project.
 
 #### 3. Build and test
 
 [Run the test suite](#testing) to check everything works as expected.
 
+#### 4. Deploy locally for testing
+
+You can install this project into your local Maven repository by running:
+
+```shell
+./gradlew clean publishToMavenLocal
+```
+(use `gradlew.bat` in Windows instead)
+
+Then, you can import it into any project as if it were published to the Maven Central repo. 
 
 ## Testing
 
 To run the test suite:
 
 ```shell
-mvn test
+./gradlew clean test
 ```
-
+(use `gradlew.bat` in Windows instead)
 
 ## Releasing
 
-The following instructions uses `$VERSION` as a placeholder, where `$VERSION` is a `MAJOR.MINOR.BUGFIX` release such as `1.2.0`.
+This project uses [Semantic Versioning](https://semver.org/). The following instructions uses `<VERSION>` as a placeholder, where `$VERSION` is a `MAJOR.MINOR.BUGFIX` release such as `1.2.0`.
 
-1. Run the test suite and ensure all the tests pass.
-
+1. [Run the test suite](#testing) and ensure all the tests pass.
 1. Set the version in `dnsimple.java`:
-
     ```java
     public abstract class Dnsimple {
-      public static final String VERSION = "$VERSION";
+      public static final String VERSION = "<VERSION>";
+      //...
+    }
     ```
-
-1. Set the version in `pom.xml`:
-
-    ```xml
-    <version>$VERSION</version>
+1. Set the version in `build.gradle`:
+    ```groovy
+    version = '<VERSION>'
     ```
-
-1. Run the test suite and ensure all the tests pass.
-
 1. Finalize the `## master` section in `CHANGELOG.md` assigning the version.
-
 1. Commit and push the changes
-
     ```shell
     git commit -a -m "Release $VERSION"
     git push origin master
     ```
-
 1. Wait for CI to complete.
-
 1. Create a signed tag.
-
     ```shell
     git tag -a v$VERSION -s -m "Release $VERSION"
     git push origin --tags
     ```
-
-1. Release to Sonatype.
-
+1. Publish the signed JAR to OSSRH (be sure to go through the [Release configuration](#release-configuration) section first).
     ```shell
-    mvn clean deploy -P release
+    ./gradlew clean publish
     ```
+    (use `gradlew.bat` in Windows instead)
 
-### Configuration
+### Release configuration
 
-Releasing may only be done by one of the DNSimple team members (specifically @aeden or @weppos as of today).
+You need to create a `gradle.properties` file in the root directory of the project. Start by copy and pasting the example `gradle.properties.example` file on this repo.
 
-You need to update the Maven configuration file to include the ossrh server configuration and the ossrh profile with the GPG passphrase for using the private key for signing.
+Fill in your signing and OSSRH settings:
+- If you have no GPG setup, you can get your signing `keyId`, `password`, and `secretKeyRingFile` values following the guide at https://central.sonatype.org/pages/working-with-pgp-signatures.html
+- If you don't have an OSSRH account, you can get it following the "Initial Setup" section of the guide at https://central.sonatype.org/pages/ossrh-guide.html
 
-You should customize your Mave user-setting, you can find at `~/.m2/settings.xml`. If no setting file is present, you can create a new one from the [default Maven global settings](https://maven.apache.org/settings.html). Locate the file, copy it to `~/.m2/settings.xml` and update it accordingly.
-
-```shell
-cp /usr/local/Cellar/maven/<VERSION>/libexec/conf/settings.xml ~/.m2/settings.xml
-chmod 600 ~/.m2/settings.xml
-vim ~/.m2/settings.xml 
-```
-
-Edit the node `/settings/servers` and add the following configuration, using your Sonatype (ossrh) username and password:
-
-```xml
-<!-- dnsimple-java -->
-<server>
-  <id>ossrh</id>
-  <username>USERNAME</username>
-  <password>PASSWORD</password>
-</server>
-```
-
-Edit the node `/settings/profiles` and add a new profile for PGP signing. This is required to sign and release a new version of the package.
-Replace YOURKEY with the public identifier of the PGP key you want to use for signing. 
-
-```xml
-<!-- dnsimple-java -->
-<profile>
-  <id>ossrh</id>
-  <activation>
-    <activeByDefault>true</activeByDefault>
-  </activation>
-  <properties>
-    <gpg.keyname>YOURKEY</gpg.keyname>
-  </properties>
-</profile>
-```
-
-## Adding a contributor
-
-To add a new contributor to the project:
-
-1. Ask the user to create an account at https://oss.sonatype.org/#welcome
-1. An existing contributor needs to open a ticket to https://issues.sonatype.org/projects/MVNCENTRAL to request the user to be added to the os.dnsimple groupId. 
-
-
-## Tests
+## Requirements for contributing code to this repo
 
 Submit unit tests for your changes. You can test your changes on your machine by [running the test suite](#testing).
 

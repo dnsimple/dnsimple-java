@@ -128,6 +128,7 @@ public interface Certificates {
    *
    * @param accountId The account ID
    * @param domainId The domain name or ID
+   * @param certificateId The certificate ID
    * @param attributes Attributes for the certificate
    * @return The Let's Encrypt purchase renewal response
    * @throws DnsimpleException Any API errors
