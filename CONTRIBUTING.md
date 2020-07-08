@@ -13,7 +13,7 @@ cd dnsimple-java
 
 #### 2. Install external tools
 
-The project includes an [ASDF](https://github.com/asdf-vm/asdf) `.tool-versions` file to set up your JVM and Gradle dependencies in your system to work on the project.
+The project includes an [ASDF](https://github.com/asdf-vm/asdf) `.tool-versions` file to set up the JVM required to work on the project.
 
 You can install the required version of Java executing `asdf install` at the root directory of the project.
 
