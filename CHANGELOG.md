@@ -2,6 +2,8 @@
 
 ### master
 
+### Release 0.7.1
+
 - FIXED: Bug that produced an IllegalArgumentException in all requests that are responded with a HTTP 204 No Content ([GH-30](https://github.com/dnsimple/dnsimple-java/pull/30))
 
   As a result, now we package the Apache HTTP Client library as a transient dependency
