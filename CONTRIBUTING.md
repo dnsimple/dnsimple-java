@@ -21,6 +21,17 @@ You can install the required version of Java executing `asdf install` at the roo
 
 [Run the test suite](#testing) to check everything works as expected.
 
+#### 4. Deploy locally for testing
+
+You can install this project into your local Maven repository by running:
+
+```shell
+./gradlew clean publishToMavenLocal
+```
+(use `gradlew.bat` in Windows instead)
+
+Then, you can import it into any project as if it were published to the Maven Central repo. 
+
 ## Testing
 
 To run the test suite:
@@ -34,6 +45,7 @@ To run the test suite:
 
 This project uses [Semantic Versioning](https://semver.org/). The following instructions uses `<VERSION>` as a placeholder, where `$VERSION` is a `MAJOR.MINOR.BUGFIX` release such as `1.2.0`.
 
+1. [Run the test suite](#testing) and ensure all the tests pass.
 1. Set the version in `dnsimple.java`:
     ```java
     public abstract class Dnsimple {
@@ -45,7 +57,6 @@ This project uses [Semantic Versioning](https://semver.org/). The following inst
     ```groovy
     version = '<VERSION>'
     ```
-1. Run the test suite and ensure all the tests pass.
 1. Finalize the `## master` section in `CHANGELOG.md` assigning the version.
 1. Commit and push the changes
     ```shell
@@ -58,8 +69,19 @@ This project uses [Semantic Versioning](https://semver.org/). The following inst
     git tag -a v$VERSION -s -m "Release $VERSION"
     git push origin --tags
     ```
-1. Release.
-    _TBD_
+1. Publish the signed JAR to OSSRH (be sure to go through the [Release configuration](#release-configuration) section first).
+    ```shell
+    ./gradlew clean publish
+    ```
+    (use `gradlew.bat` in Windows instead)
+
+### Release configuration
+
+You need to create a `gradle.properties` file in the root directory of the project. Start by copy and pasting the example `gradle.properties.example` file on this repo.
+
+Fill in your signing and OSSRH settings:
+- If you have no GPG setup, you can get your signing `keyId`, `password`, and `secretKeyRingFile` values following the guide at https://central.sonatype.org/pages/working-with-pgp-signatures.html
+- If you don't have an OSSRH account, you can get it following the "Initial Setup" section of the guide at https://central.sonatype.org/pages/ossrh-guide.html
 
 ## Requirements for contributing code to this repo
 
