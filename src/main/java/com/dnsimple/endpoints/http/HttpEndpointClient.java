@@ -26,12 +26,13 @@ public class HttpEndpointClient {
     private final HttpRequestFactory requestFactory;
     private final URL apiBase;
     private final String userAgent;
-    private Optional<String> accessToken = Optional.empty();
+    private Optional<String> accessToken;
 
-    public HttpEndpointClient(HttpRequestFactory requestFactory, URL apiBase, String userAgent) {
+    public HttpEndpointClient(HttpRequestFactory requestFactory, URL apiBase, String userAgent, Optional<String> accessToken) {
         this.requestFactory = requestFactory;
         this.apiBase = apiBase;
         this.userAgent = userAgent;
+        this.accessToken = accessToken;
     }
 
     public URL getApiBase() {

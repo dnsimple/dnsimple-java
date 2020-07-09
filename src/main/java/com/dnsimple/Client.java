@@ -1,6 +1,7 @@
 package com.dnsimple;
 
 import com.dnsimple.endpoints.http.*;
+import com.dnsimple.endpoints.http.java11.Java11HttpRequestFactory;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -12,8 +13,8 @@ import java.util.Optional;
  * Instances of the Client handle low-level HTTP calls to the API.
  */
 public class Client {
-    public static final URL PRODUCTION_API_BASE = url("https://api.dnsimple.com");
-    public static final URL SANDBOX_API_BASE = url("https://api.sandbox.dnsimple.com");
+    private static final URL PRODUCTION_API_BASE = url("https://api.dnsimple.com");
+    private static final URL SANDBOX_API_BASE = url("https://api.sandbox.dnsimple.com");
     private static final String DEFAULT_USER_AGENT = "dnsimple-java/" + Dnsimple.VERSION;
     private final HttpEndpointClient endpointClient;
     public final Accounts accounts;
@@ -47,10 +48,8 @@ public class Client {
         this.zones = zones;
     }
 
-    public static Client of(HttpRequestFactory requestFactory, URL apiBase, String extraUserAgent, String accessToken) {
-        String userAgent = String.join(" ", buildUserAgent(extraUserAgent));
-        HttpEndpointClient endpointClient = new HttpEndpointClient(requestFactory, apiBase, userAgent);
-        Optional.ofNullable(accessToken).ifPresent(endpointClient::setAccessToken);
+    private static Client of(HttpRequestFactory httpRequestFactory, URL apiBase, String userAgent, Optional<String> accessToken) {
+        HttpEndpointClient endpointClient = new HttpEndpointClient(httpRequestFactory, apiBase, userAgent, accessToken);
         return new Client(
                 endpointClient,
                 new AccountsEndpoint(endpointClient),
@@ -82,11 +81,101 @@ public class Client {
         }
     }
 
-    private static List<String> buildUserAgent(String extraUserAgent) {
-        List<String> fullUserAgent = new ArrayList<>();
-        if (extraUserAgent != null)
-            fullUserAgent.add(extraUserAgent);
-        fullUserAgent.add(DEFAULT_USER_AGENT);
-        return fullUserAgent;
+    /**
+     * Builder class to obtain Client instances. By default, builders will
+     * provide a Client instance pointing to the production environment, a default
+     * user agent header, no access token, and using the default Java11 native HTTP
+     * client implementation of HttpRequestFactory.
+     *
+     * @see HttpRequestFactory
+     */
+    public static class Builder {
+        private URL apiBase = PRODUCTION_API_BASE;
+        private HttpRequestFactory httpRequestFactory = new Java11HttpRequestFactory();
+        private Optional<String> extraUserAgent = Optional.empty();
+        private Optional<String> accessToken = Optional.empty();
+
+        /**
+         * Use DNSimple API's sandbox environment
+         *
+         * @return this Builder object
+         */
+        public Builder sandbox() {
+            apiBase = SANDBOX_API_BASE;
+            return this;
+        }
+
+        /**
+         * Use a custom API base URL
+         *
+         * @param url
+         * @return this Builder object
+         */
+        public Builder apiBase(String url) {
+            apiBase = url(url);
+            return this;
+        }
+
+        /**
+         * Use a custom API base URL
+         *
+         * @param url
+         * @return this Builder object
+         */
+        public Builder apiBase(URL url) {
+            apiBase = url;
+            return this;
+        }
+
+        /**
+         * Use a custom HTTP request factory object
+         *
+         * @param factory
+         * @return this Builder object
+         */
+        public Builder httpRequestFactory(HttpRequestFactory factory) {
+            httpRequestFactory = factory;
+            return this;
+        }
+
+        /**
+         * Set an extra user agent that will be prefixed to the default
+         *
+         * @param userAgent
+         * @return this Builder object
+         */
+        public Builder extraUserAgent(String userAgent) {
+            extraUserAgent = Optional.of(userAgent);
+            return this;
+        }
+
+        /**
+         * Set a the access token for all API requests. You can set it later
+         * directly on the Client object as well.
+         *
+         * @param accessToken
+         * @return this Builder object
+         */
+        public Builder accessToken(String accessToken) {
+            this.accessToken = Optional.of(accessToken);
+            return this;
+        }
+
+        /**
+         * Builds a Client object with the configured values and returns it.
+         *
+         * @return the Client object
+         */
+        public Client build() {
+            String userAgent = String.join(" ", buildUserAgents(extraUserAgent));
+            return Client.of(httpRequestFactory, apiBase, userAgent, accessToken);
+        }
+
+        private static List<String> buildUserAgents(Optional<String> userAgent) {
+            List<String> userAgents = new ArrayList<>();
+            userAgent.ifPresent(userAgents::add);
+            userAgents.add(DEFAULT_USER_AGENT);
+            return userAgents;
+        }
     }
 }

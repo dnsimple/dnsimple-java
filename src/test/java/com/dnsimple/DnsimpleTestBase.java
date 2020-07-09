@@ -31,6 +31,10 @@ public abstract class DnsimpleTestBase {
     @Before
     public void setUp() {
         server.reset();
-        client = Client.of(new Java11HttpRequestFactory(), server.getBaseURL(), TEST_USER_AGENT, TEST_ACCESS_TOKEN);
+        client = new Client.Builder()
+                .apiBase(server.getBaseURL())
+                .extraUserAgent(TEST_USER_AGENT)
+                .accessToken(TEST_ACCESS_TOKEN)
+                .build();
     }
 }
