@@ -1,43 +1,37 @@
 package com.dnsimple.endpoints.http;
 
 import com.dnsimple.Tlds;
-import com.dnsimple.response.ListTldsResponse;
-import com.dnsimple.response.GetTldResponse;
-import com.dnsimple.response.GetTldExtendedAttributesResponse;
-import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.exception.ResourceNotFoundException;
+import com.dnsimple.data.Tld;
+import com.dnsimple.data.TldExtendedAttribute;
+import com.dnsimple.response.ListResponse;
+import com.dnsimple.response.PaginatedResponse;
+import com.dnsimple.response.SimpleResponse;
 
-import com.google.api.client.http.HttpResponse;
-import com.google.api.client.http.HttpResponseException;
-
-import java.io.IOException;
 import java.util.Map;
 
+import static com.dnsimple.endpoints.http.HttpMethod.GET;
+import static java.util.Collections.emptyMap;
+
 public class TldsEndpoint implements Tlds {
+    private final HttpEndpointClient client;
 
-  private HttpEndpointClient client;
+    public TldsEndpoint(HttpEndpointClient client) {
+        this.client = client;
+    }
 
-  public TldsEndpoint(HttpEndpointClient client) {
-    this.client = client;
-  }
+    public PaginatedResponse<Tld> listTlds() {
+        return client.page(GET, "tlds", emptyMap(), null, Tld.class);
+    }
 
-  public ListTldsResponse listTlds() throws DnsimpleException, IOException {
-    return listTlds(null);
-  }
+    public PaginatedResponse<Tld> listTlds(Map<String, Object> options) {
+        return client.page(GET, "tlds", options, null, Tld.class);
+    }
 
-  public ListTldsResponse listTlds(Map<String,Object> options) throws DnsimpleException, IOException {
-    HttpResponse response = client.get("tlds", options);
-    return (ListTldsResponse)client.parseResponse(response, ListTldsResponse.class);
-  }
+    public SimpleResponse<Tld> getTld(String tld) {
+        return client.simple(GET, "tlds/" + tld, emptyMap(), null, Tld.class);
+    }
 
-  public GetTldResponse getTld(String tld) throws DnsimpleException, IOException {
-    HttpResponse response = client.get("tlds/" + tld);
-    return (GetTldResponse)client.parseResponse(response, GetTldResponse.class);
-  }
-
-  public GetTldExtendedAttributesResponse getTldExtendedAttributes(String tld) throws DnsimpleException, IOException {
-    HttpResponse response = client.get("tlds/" + tld + "/extended_attributes");
-    return (GetTldExtendedAttributesResponse)client.parseResponse(response, GetTldExtendedAttributesResponse.class);
-  }
-
+    public ListResponse<TldExtendedAttribute> getTldExtendedAttributes(String tld) {
+        return client.list(GET, "tlds/" + tld + "/extended_attributes", emptyMap(), null, TldExtendedAttribute.class);
+    }
 }

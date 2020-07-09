@@ -1,34 +1,31 @@
 package com.dnsimple.data;
 
-import com.google.api.client.util.Key;
-
 public class CertificatePurchase {
-  @Key("id")
-  private Integer id;
+    private final Integer id;
+    private final Integer certificateId;
+    private final String createdAt;
+    private final String updatedAt;
 
-  @Key("certificate_id")
-  private Integer certificateId;
+    public CertificatePurchase(Integer id, Integer certificateId, String createdAt, String updatedAt) {
+        this.id = id;
+        this.certificateId = certificateId;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
-  @Key("created_at")
-  private String createdAt;
+    public Integer getId() {
+        return id;
+    }
 
-  @Key("updated_at")
-  private String updatedAt;
+    public Integer getCertificateId() {
+        return certificateId;
+    }
 
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-  public Integer getId() {
-    return id;
-  }
-
-  public Integer getCertificateId() {
-    return certificateId;
-  }
-
-  public String getCreatedAt() {
-    return createdAt;
-  }
-
-  public String getUpdatedAt() {
-    return updatedAt;
-  }
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
 }

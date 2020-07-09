@@ -1,13 +1,13 @@
 package com.dnsimple.data;
 
-import com.google.api.client.util.Key;
-
 public class ZoneFile {
-  @Key("zone")
-  private String zone;
+    private final String zone;
 
-  public String getZone() {
-    return zone;
-  }
+    public ZoneFile(String zone) {
+        this.zone = zone;
+    }
 
+    public String getZone() {
+        return zone;
+    }
 }

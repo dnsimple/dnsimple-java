@@ -1,26 +1,25 @@
 package com.dnsimple.data;
 
-import com.google.api.client.util.Key;
-
 public class DomainAvailability {
-  @Key("domain")
-  private String domainName;
+    private final String domain;
+    private final Boolean available;
+    private final Boolean premium;
 
-  @Key("available")
-  private Boolean available;
+    public DomainAvailability(String domain, Boolean available, Boolean premium) {
+        this.domain = domain;
+        this.available = available;
+        this.premium = premium;
+    }
 
-  @Key("premium")
-  private Boolean premium;
+    public String getDomainName() {
+        return domain;
+    }
 
-  public String getDomainName() {
-    return domainName;
-  }
+    public Boolean getAvailable() {
+        return available;
+    }
 
-  public Boolean getAvailable() {
-    return available;
-  }
-
-  public Boolean getPremium() {
-    return premium;
-  }
+    public Boolean getPremium() {
+        return premium;
+    }
 }

@@ -1,56 +1,44 @@
 package com.dnsimple.endpoints.http;
 
 import com.dnsimple.Contacts;
-import com.dnsimple.response.ListContactsResponse;
-import com.dnsimple.response.GetContactResponse;
-import com.dnsimple.response.CreateContactResponse;
-import com.dnsimple.response.UpdateContactResponse;
-import com.dnsimple.response.DeleteContactResponse;
+import com.dnsimple.data.Contact;
+import com.dnsimple.response.EmptyResponse;
+import com.dnsimple.response.PaginatedResponse;
+import com.dnsimple.response.SimpleResponse;
 
-import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.exception.ResourceNotFoundException;
-
-import com.google.api.client.http.HttpResponse;
-import com.google.api.client.http.HttpResponseException;
-
-import java.io.IOException;
-import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
+
+import static com.dnsimple.endpoints.http.HttpMethod.*;
+import static java.util.Collections.emptyMap;
 
 public class ContactsEndpoint implements Contacts {
-  private HttpEndpointClient client;
+    private final HttpEndpointClient client;
 
-  public ContactsEndpoint(HttpEndpointClient client) {
-    this.client = client;
-  }
+    public ContactsEndpoint(HttpEndpointClient client) {
+        this.client = client;
+    }
 
-  public ListContactsResponse listContacts(String accountId) throws DnsimpleException, IOException {
-    return listContacts(accountId, null);
-  }
+    public PaginatedResponse<Contact> listContacts(String accountId) {
+        return client.page(GET, accountId + "/contacts", emptyMap(), null, Contact.class);
+    }
 
-  public ListContactsResponse listContacts(String accountId, Map<String,Object> options) throws DnsimpleException, IOException {
-    HttpResponse response = client.get(accountId + "/contacts", options);
-    return (ListContactsResponse)client.parseResponse(response, ListContactsResponse.class);
-  }
+    public PaginatedResponse<Contact> listContacts(String accountId, Map<String, Object> options) {
+        return client.page(GET, accountId + "/contacts", options, null, Contact.class);
+    }
 
-  public GetContactResponse getContact(String accountId, String contactId) throws DnsimpleException, IOException {
-    HttpResponse response = client.get(accountId + "/contacts/" + contactId);
-    return (GetContactResponse)client.parseResponse(response, GetContactResponse.class);
-  }
+    public SimpleResponse<Contact> getContact(String accountId, String contactId) {
+        return client.simple(GET, accountId + "/contacts/" + contactId, emptyMap(), emptyMap(), Contact.class);
+    }
 
-  public CreateContactResponse createContact(String accountId, Map<String,Object> attributes) throws DnsimpleException, IOException {
-    HttpResponse response = client.post(accountId + "/contacts", attributes);
-    return (CreateContactResponse)client.parseResponse(response, CreateContactResponse.class);
-  }
+    public SimpleResponse<Contact> createContact(String accountId, Map<String, Object> attributes) {
+        return client.simple(POST, accountId + "/contacts", emptyMap(), attributes, Contact.class);
+    }
 
-  public UpdateContactResponse updateContact(String accountId, String contactId, Map<String,Object> attributes) throws DnsimpleException, IOException {
-    HttpResponse response = client.patch(accountId + "/contacts/" + contactId, attributes);
-    return (UpdateContactResponse)client.parseResponse(response, UpdateContactResponse.class);
-  }
+    public SimpleResponse<Contact> updateContact(String accountId, String contactId, Map<String, Object> attributes) {
+        return client.simple(PATCH, accountId + "/contacts/" + contactId, emptyMap(), attributes, Contact.class);
+    }
 
-  public DeleteContactResponse deleteContact(String accountId, String contactId) throws DnsimpleException, IOException {
-    HttpResponse response = client.delete(accountId + "/contacts/" + contactId);
-    return (DeleteContactResponse)client.parseResponse(response, DeleteContactResponse.class);
-  }
+    public EmptyResponse deleteContact(String accountId, String contactId) {
+        return client.empty(DELETE, accountId + "/contacts/" + contactId, emptyMap(), null);
+    }
 }

@@ -1,57 +1,49 @@
 package com.dnsimple.data;
 
-import com.google.api.client.util.Key;
-
 public class Template {
-  @Key("id")
-  private Integer id;
+    private final Integer id;
+    private final Integer accountId;
+    private final String name;
+    private final String sid;
+    private final String description;
+    private final String createdAt;
+    private final String updatedAt;
 
-  @Key("account_id")
-  private Integer accountId;
+    public Template(Integer id, Integer accountId, String name, String sid, String description, String createdAt, String updatedAt) {
+        this.id = id;
+        this.accountId = accountId;
+        this.name = name;
+        this.sid = sid;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
-  @Key("name")
-  private String name;
+    public Integer getId() {
+        return id;
+    }
 
-  @Key("sid")
-  private String shortName;
+    public Integer getAccountId() {
+        return accountId;
+    }
 
-  @Key("description")
-  private String description;
+    public String getName() {
+        return name;
+    }
 
-  @Key("created_at")
-  private String createdAt;
+    public String getShortName() {
+        return sid;
+    }
 
-  @Key("updated_at")
-  private String updatedAt;
+    public String getDescription() {
+        return description;
+    }
 
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-  public Integer getId() {
-    return id;
-  }
-
-  public Integer getAccountId() {
-    return accountId;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public String getShortName() {
-    return shortName;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public String getCreatedAt() {
-    return createdAt;
-  }
-
-  public String getUpdatedAt() {
-    return updatedAt;
-  }
-
-
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
 }

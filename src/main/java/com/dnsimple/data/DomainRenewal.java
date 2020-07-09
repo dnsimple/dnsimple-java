@@ -1,47 +1,43 @@
 package com.dnsimple.data;
 
-import com.google.api.client.util.Key;
-
 public class DomainRenewal {
-  @Key("id")
-  private Integer id;
+    private final Integer id;
+    private final Integer domainId;
+    private final Integer period;
+    private final String state;
+    private final String createdAt;
+    private final String updatedAt;
 
-  @Key("domain_id")
-  private Integer domainId;
+    public DomainRenewal(Integer id, Integer domainId, Integer period, String state, String createdAt, String updatedAt) {
+        this.id = id;
+        this.domainId = domainId;
+        this.period = period;
+        this.state = state;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
-  @Key("period")
-  private Integer period;
+    public Integer getId() {
+        return id;
+    }
 
-  @Key("state")
-  private String state;
+    public Integer getDomainId() {
+        return domainId;
+    }
 
-  @Key("created_at")
-  private String createdAt;
+    public Integer getPeriod() {
+        return period;
+    }
 
-  @Key("updated_at")
-  private String updatedAt;
+    public String getState() {
+        return state;
+    }
 
-  public Integer getId() {
-    return id;
-  }
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-  public Integer getDomainId() {
-    return domainId;
-  }
-
-  public Integer getPeriod() {
-    return period;
-  }
-
-  public String getState() {
-    return state;
-  }
-
-  public String getCreatedAt() {
-    return createdAt;
-  }
-
-  public String getUpdatedAt() {
-    return updatedAt;
-  }
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
 }

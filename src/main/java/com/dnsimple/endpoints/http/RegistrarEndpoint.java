@@ -1,119 +1,89 @@
 package com.dnsimple.endpoints.http;
 
 import com.dnsimple.Registrar;
-import com.dnsimple.response.CheckDomainResponse;
-import com.dnsimple.response.RegisterDomainResponse;
-import com.dnsimple.response.RenewDomainResponse;
-import com.dnsimple.response.TransferDomainResponse;
-import com.dnsimple.response.TransferDomainOutResponse;
-import com.dnsimple.response.EnableAutoRenewalResponse;
-import com.dnsimple.response.DisableAutoRenewalResponse;
-import com.dnsimple.response.GetWhoisPrivacyResponse;
-import com.dnsimple.response.EnableWhoisPrivacyResponse;
-import com.dnsimple.response.DisableWhoisPrivacyResponse;
-import com.dnsimple.response.RenewWhoisPrivacyResponse;
-import com.dnsimple.response.GetDomainDelegationResponse;
-import com.dnsimple.response.ChangeDomainDelegationResponse;
-import com.dnsimple.response.ChangeDomainDelegationToVanityResponse;
-import com.dnsimple.response.ChangeDomainDelegationFromVanityResponse;
-import com.dnsimple.exception.DnsimpleException;
+import com.dnsimple.data.*;
+import com.dnsimple.response.EmptyResponse;
+import com.dnsimple.response.ListResponse;
+import com.dnsimple.response.SimpleResponse;
 
-import com.google.api.client.http.HttpResponse;
-
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
+
+import static com.dnsimple.endpoints.http.HttpMethod.*;
+import static java.util.Collections.emptyMap;
 
 public class RegistrarEndpoint implements Registrar {
-  private HttpEndpointClient client;
+    private final HttpEndpointClient client;
 
-  public RegistrarEndpoint(HttpEndpointClient client) {
-    this.client = client;
-  }
+    public RegistrarEndpoint(HttpEndpointClient client) {
+        this.client = client;
+    }
 
-  public CheckDomainResponse checkDomain(String accountId, String domainName) throws DnsimpleException, IOException {
-    HttpResponse response = client.get(accountId + "/registrar/domains/" + domainName + "/check");
-    return (CheckDomainResponse)client.parseResponse(response, CheckDomainResponse.class);
-  }
+    public SimpleResponse<DomainAvailability> checkDomain(String accountId, String domainName) {
+        return client.simple(GET, accountId + "/registrar/domains/" + domainName + "/check", emptyMap(), null, DomainAvailability.class);
+    }
 
-  public RegisterDomainResponse registerDomain(String accountId, String domainName, Map<String,Object> attributes) throws DnsimpleException, IOException {
-    HttpResponse response = client.post(accountId + "/registrar/domains/" + domainName + "/registrations", attributes);
-    return (RegisterDomainResponse)client.parseResponse(response, RegisterDomainResponse.class);
-  }
+    public SimpleResponse<DomainRegistration> registerDomain(String accountId, String domainName, Map<String, Object> attributes) {
+        return client.simple(POST, accountId + "/registrar/domains/" + domainName + "/registrations", emptyMap(), attributes, DomainRegistration.class);
+    }
 
-  public RenewDomainResponse renewDomain(String accountId, String domainId, Map<String,Object> attributes) throws DnsimpleException, IOException {
-    HttpResponse response = client.post(accountId + "/registrar/domains/" + domainId + "/renewals", attributes);
-    return (RenewDomainResponse)client.parseResponse(response, RenewDomainResponse.class);
-  }
+    public SimpleResponse<DomainRenewal> renewDomain(String accountId, String domainId, Map<String, Object> attributes) {
+        return client.simple(POST, accountId + "/registrar/domains/" + domainId + "/renewals", emptyMap(), attributes, DomainRenewal.class);
+    }
 
-  public TransferDomainResponse transferDomain(String accountId, String domainId, Map<String,Object> attributes) throws DnsimpleException, IOException {
-    HttpResponse response = client.post(accountId + "/registrar/domains/" + domainId + "/transfers", attributes);
-    return (TransferDomainResponse)client.parseResponse(response, TransferDomainResponse.class);
-  }
+    public SimpleResponse<DomainTransfer> transferDomain(String accountId, String domainId, Map<String, Object> attributes) {
+        return client.simple(POST, accountId + "/registrar/domains/" + domainId + "/transfers", emptyMap(), attributes, DomainTransfer.class);
+    }
 
-  public TransferDomainResponse getDomainTransfer(String accountId, String domainId, String domainTransferId) throws DnsimpleException, IOException {
-    HttpResponse response = client.get(accountId + "/registrar/domains/" + domainId + "/transfers/" + domainTransferId);
-    return (TransferDomainResponse)client.parseResponse(response, TransferDomainResponse.class);
-  }
+    public SimpleResponse<DomainTransfer> getDomainTransfer(String accountId, String domainId, String domainTransferId) {
+        return client.simple(GET, accountId + "/registrar/domains/" + domainId + "/transfers/" + domainTransferId, emptyMap(), null, DomainTransfer.class);
+    }
 
-  public TransferDomainResponse cancelDomainTransfer(String accountId, String domainId, String domainTransferId) throws DnsimpleException, IOException {
-    HttpResponse response = client.delete(accountId + "/registrar/domains/" + domainId + "/transfers/" + domainTransferId);
-    return (TransferDomainResponse)client.parseResponse(response, TransferDomainResponse.class);
-  }
+    public SimpleResponse<DomainTransfer> cancelDomainTransfer(String accountId, String domainId, String domainTransferId) {
+        return client.simple(DELETE, accountId + "/registrar/domains/" + domainId + "/transfers/" + domainTransferId, emptyMap(), null, DomainTransfer.class);
+    }
 
-  public TransferDomainOutResponse transferDomainOut(String accountId, String domainId) throws DnsimpleException, IOException {
-    HttpResponse response = client.post(accountId + "/registrar/domains/" + domainId + "/authorize_transfer_out");
-    return (TransferDomainOutResponse)client.parseResponse(response, TransferDomainOutResponse.class);
-  }
+    public EmptyResponse transferDomainOut(String accountId, String domainId) {
+        return client.empty(POST, accountId + "/registrar/domains/" + domainId + "/authorize_transfer_out", emptyMap(), null);
+    }
 
-  public EnableAutoRenewalResponse enableAutoRenewal(String accountId, String domainId) throws DnsimpleException, IOException {
-    HttpResponse response = client.put(accountId + "/registrar/domains/" + domainId + "/auto_renewal");
-    return (EnableAutoRenewalResponse)client.parseResponse(response, EnableAutoRenewalResponse.class);
-  }
+    public EmptyResponse enableAutoRenewal(String accountId, String domainId) {
+        return client.empty(PUT, accountId + "/registrar/domains/" + domainId + "/auto_renewal", emptyMap(), null);
+    }
 
-  public DisableAutoRenewalResponse disableAutoRenewal(String accountId, String domainId) throws DnsimpleException, IOException {
-    HttpResponse response = client.delete(accountId + "/registrar/domains/" + domainId + "/auto_renewal");
-    return (DisableAutoRenewalResponse)client.parseResponse(response, DisableAutoRenewalResponse.class);
-  }
+    public EmptyResponse disableAutoRenewal(String accountId, String domainId) {
+        return client.empty(DELETE, accountId + "/registrar/domains/" + domainId + "/auto_renewal", emptyMap(), null);
+    }
 
-  public GetWhoisPrivacyResponse getWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException {
-    HttpResponse response = client.get(accountId + "/registrar/domains/" + domainId + "/whois_privacy");
-    return (GetWhoisPrivacyResponse)client.parseResponse(response, GetWhoisPrivacyResponse.class);
-  }
+    public SimpleResponse<WhoisPrivacy> getWhoisPrivacy(String accountId, String domainId) {
+        return client.simple(GET, accountId + "/registrar/domains/" + domainId + "/whois_privacy", emptyMap(), null, WhoisPrivacy.class);
+    }
 
-  public EnableWhoisPrivacyResponse enableWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException {
-    HttpResponse response = client.put(accountId + "/registrar/domains/" + domainId + "/whois_privacy");
-    return (EnableWhoisPrivacyResponse)client.parseResponse(response, EnableWhoisPrivacyResponse.class);
-  }
+    public SimpleResponse<WhoisPrivacy> enableWhoisPrivacy(String accountId, String domainId) {
+        return client.simple(PUT, accountId + "/registrar/domains/" + domainId + "/whois_privacy", emptyMap(), null, WhoisPrivacy.class);
+    }
 
-  public DisableWhoisPrivacyResponse disableWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException {
-    HttpResponse response = client.delete(accountId + "/registrar/domains/" + domainId + "/whois_privacy");
-    return (DisableWhoisPrivacyResponse)client.parseResponse(response, DisableWhoisPrivacyResponse.class);
-  }
+    public SimpleResponse<WhoisPrivacy> disableWhoisPrivacy(String accountId, String domainId) {
+        return client.simple(DELETE, accountId + "/registrar/domains/" + domainId + "/whois_privacy", emptyMap(), null, WhoisPrivacy.class);
+    }
 
-  public RenewWhoisPrivacyResponse renewWhoisPrivacy(String accountId, String domainId) throws DnsimpleException, IOException {
-    HttpResponse response = client.post(accountId + "/registrar/domains/" + domainId + "/whois_privacy/renewals");
-    return (RenewWhoisPrivacyResponse)client.parseResponse(response, RenewWhoisPrivacyResponse.class);
-  }
+    public SimpleResponse<WhoisPrivacyRenewal> renewWhoisPrivacy(String accountId, String domainId) {
+        return client.simple(POST, accountId + "/registrar/domains/" + domainId + "/whois_privacy/renewals", emptyMap(), null, WhoisPrivacyRenewal.class);
+    }
 
-  public GetDomainDelegationResponse getDomainDelegation(String accountId, String domainId) throws DnsimpleException, IOException {
-    HttpResponse response = client.get(accountId + "/registrar/domains/" + domainId + "/delegation");
-    return (GetDomainDelegationResponse)client.parseResponse(response, GetDomainDelegationResponse.class);
-  }
+    public ListResponse<String> getDomainDelegation(String accountId, String domainId) {
+        return client.list(GET, accountId + "/registrar/domains/" + domainId + "/delegation", emptyMap(), null, String.class);
+    }
 
-  public ChangeDomainDelegationResponse changeDomainDelegation(String accountId, String domainId, List<String> nameServerNames) throws DnsimpleException, IOException {
-    HttpResponse response = client.put(accountId + "/registrar/domains/" + domainId + "/delegation", nameServerNames);
-    return (ChangeDomainDelegationResponse)client.parseResponse(response, ChangeDomainDelegationResponse.class);
-  }
+    public ListResponse<String> changeDomainDelegation(String accountId, String domainId, List<String> nameServerNames) {
+        return client.list(PUT, accountId + "/registrar/domains/" + domainId + "/delegation", emptyMap(), nameServerNames, String.class);
+    }
 
-  public ChangeDomainDelegationToVanityResponse changeDomainDelegationToVanity(String accountId, String domainId, List<String> nameServerNames) throws DnsimpleException, IOException {
-    HttpResponse response = client.put(accountId + "/registrar/domains/" + domainId + "/delegation/vanity", nameServerNames);
-    return (ChangeDomainDelegationToVanityResponse)client.parseResponse(response, ChangeDomainDelegationToVanityResponse.class);
-  }
+    public ListResponse<NameServer> changeDomainDelegationToVanity(String accountId, String domainId, List<String> nameServerNames) {
+        return client.list(PUT, accountId + "/registrar/domains/" + domainId + "/delegation/vanity", emptyMap(), nameServerNames, NameServer.class);
+    }
 
-  public ChangeDomainDelegationFromVanityResponse changeDomainDelegationFromVanity(String accountId, String domainId) throws DnsimpleException, IOException {
-    HttpResponse response = client.delete(accountId + "/registrar/domains/" + domainId + "/delegation/vanity");
-    return (ChangeDomainDelegationFromVanityResponse)client.parseResponse(response, ChangeDomainDelegationFromVanityResponse.class);
-  }
+    public EmptyResponse changeDomainDelegationFromVanity(String accountId, String domainId) {
+        return client.empty(DELETE, accountId + "/registrar/domains/" + domainId + "/delegation/vanity", emptyMap(), null);
+    }
 }

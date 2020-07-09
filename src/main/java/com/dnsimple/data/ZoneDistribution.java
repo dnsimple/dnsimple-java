@@ -1,13 +1,13 @@
 package com.dnsimple.data;
 
-import com.google.api.client.util.Key;
-
 public class ZoneDistribution {
-  @Key("distributed")
-  private boolean distributed;
+    private final boolean distributed;
 
-  public boolean isDistributed() {
-    return distributed;
-  }
+    public ZoneDistribution(boolean distributed) {
+        this.distributed = distributed;
+    }
 
+    public boolean isDistributed() {
+        return distributed;
+    }
 }

@@ -1,23 +1,20 @@
 package com.dnsimple.endpoints.http;
 
 import com.dnsimple.Accounts;
-import com.dnsimple.response.ListAccountsResponse;
-import com.dnsimple.exception.DnsimpleException;
+import com.dnsimple.data.Account;
+import com.dnsimple.response.ListResponse;
 
-import com.google.api.client.http.HttpResponse;
-
-import java.io.IOException;
-import java.util.List;
+import static com.dnsimple.endpoints.http.HttpMethod.GET;
+import static java.util.Collections.emptyMap;
 
 public class AccountsEndpoint implements Accounts {
-  private HttpEndpointClient client;
+    private final HttpEndpointClient client;
 
-  public AccountsEndpoint(HttpEndpointClient client) {
-    this.client = client;
-  }
+    public AccountsEndpoint(HttpEndpointClient client) {
+        this.client = client;
+    }
 
-  public ListAccountsResponse listAccounts() throws DnsimpleException, IOException {
-    HttpResponse response = client.get("accounts");
-    return (ListAccountsResponse)client.parseResponse(response, ListAccountsResponse.class);
-  }
+    public ListResponse<Account> listAccounts() {
+        return client.list(GET, "accounts", emptyMap(), null, Account.class);
+    }
 }

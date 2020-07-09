@@ -1,45 +1,31 @@
 package com.dnsimple.endpoints;
 
-import com.dnsimple.Accounts;
-import com.dnsimple.Certificates;
-import com.dnsimple.Contacts;
-import com.dnsimple.Domains;
-import com.dnsimple.Identity;
-import com.dnsimple.Oauth;
-import com.dnsimple.Registrar;
-import com.dnsimple.Services;
-import com.dnsimple.Templates;
-import com.dnsimple.Tlds;
-import com.dnsimple.VanityNameServers;
-import com.dnsimple.Webhooks;
-import com.dnsimple.Zones;
+import com.dnsimple.*;
 
 public interface EndpointAdapter {
+    Accounts accounts();
 
-  public Accounts accounts();
+    Certificates certificates();
 
-  public Certificates certificates();
+    Contacts contacts();
 
-  public Contacts contacts();
+    Domains domains();
 
-  public Domains domains();
+    Identity identity();
 
-  public Identity identity();
+    Oauth oauth();
 
-  public Oauth oauth();
+    Registrar registrar();
 
-  public Registrar registrar();
+    Services services();
 
-  public Services services();
+    Templates templates();
 
-  public Templates templates();
+    Tlds tlds();
 
-  public Tlds tlds();
+    VanityNameServers vanityNameServers();
 
-  public VanityNameServers vanityNameServers();
+    Webhooks webhooks();
 
-  public Webhooks webhooks();
-
-  public Zones zones();
-
+    Zones zones();
 }

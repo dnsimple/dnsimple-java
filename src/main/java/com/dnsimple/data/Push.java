@@ -1,54 +1,49 @@
 package com.dnsimple.data;
 
-import com.google.api.client.util.Key;
-
 public class Push {
-  @Key("id")
-  private Integer id;
+    private final Integer id;
+    private final Integer domainId;
+    private final Integer contactId;
+    private final Integer accountId;
+    private final String acceptedAt;
+    private final String createdAt;
+    private final String updatedAt;
 
-  @Key("domain_id")
-  private Integer domainId;
+    public Push(Integer id, Integer domainId, Integer contactId, Integer accountId, String acceptedAt, String createdAt, String updatedAt) {
+        this.id = id;
+        this.domainId = domainId;
+        this.contactId = contactId;
+        this.accountId = accountId;
+        this.acceptedAt = acceptedAt;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
-  @Key("contact_id")
-  private Integer contactId;
+    public Integer getId() {
+        return id;
+    }
 
-  @Key("account_id")
-  private Integer accountId;
+    public Integer getDomainId() {
+        return domainId;
+    }
 
-  @Key("accepted_at")
-  private String acceptedAt;
+    public Integer getContactId() {
+        return contactId;
+    }
 
-  @Key("created_at")
-  private String createdAt;
+    public Integer getAccountId() {
+        return accountId;
+    }
 
-  @Key("updated_at")
-  private String updatedAt;
+    public String getAcceptedAt() {
+        return acceptedAt;
+    }
 
-  public Integer getId() {
-    return id;
-  }
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-  public Integer getDomainId() {
-    return domainId;
-  }
-
-  public Integer getContactId() {
-    return contactId;
-  }
-
-  public Integer getAccountId() {
-    return accountId;
-  }
-
-  public String getAcceptedAt() {
-    return acceptedAt;
-  }
-
-  public String getCreatedAt() {
-    return createdAt;
-  }
-
-  public String getUpdatedAt() {
-    return updatedAt;
-  }
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
 }

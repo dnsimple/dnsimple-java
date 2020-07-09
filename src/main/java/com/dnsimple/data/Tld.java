@@ -1,40 +1,37 @@
 package com.dnsimple.data;
 
-import com.google.api.client.util.Key;
-
 public class Tld {
-  @Key("tld")
-  private String tld;
+    private final String tld;
+    private final Integer tldType;
+    private final Boolean whoisPrivacy;
+    private final Boolean autorenewOnly;
+    private final Boolean idn;
 
-  @Key("tld_type")
-  private Integer tldType;
+    public Tld(String tld, Integer tldType, Boolean whoisPrivacy, Boolean autorenewOnly, Boolean idn) {
+        this.tld = tld;
+        this.tldType = tldType;
+        this.whoisPrivacy = whoisPrivacy;
+        this.autorenewOnly = autorenewOnly;
+        this.idn = idn;
+    }
 
-  @Key("whois_privacy")
-  private Boolean whoisPrivacy;
+    public String getTld() {
+        return tld;
+    }
 
-  @Key("autorenew_only")
-  private Boolean autorenewOnly;
+    public Integer getTldType() {
+        return tldType;
+    }
 
-  @Key("idn")
-  private Boolean idn;
+    public Boolean getWhoisPrivacy() {
+        return whoisPrivacy;
+    }
 
-  public String getTld() {
-    return tld;
-  }
+    public Boolean getAutorenewOnly() {
+        return autorenewOnly;
+    }
 
-  public Integer getTldType() {
-    return tldType;
-  }
-
-  public Boolean getWhoisPrivacy() {
-    return whoisPrivacy;
-  }
-
-  public Boolean getAutorenewOnly() {
-    return autorenewOnly;
-  }
-
-  public Boolean getIdn() {
-    return idn;
-  }
+    public Boolean getIdn() {
+        return idn;
+    }
 }

@@ -3,76 +3,52 @@ package com.dnsimple.endpoints.http;
 import com.dnsimple.Dnsimple;
 import com.dnsimple.Oauth;
 import com.dnsimple.data.OauthToken;
-import com.dnsimple.exception.DnsimpleException;
 
-import com.google.api.client.http.HttpResponse;
-import com.google.api.client.json.gson.GsonFactory;
-import com.google.api.client.json.JsonParser;
-
-import io.mikael.urlbuilder.UrlBuilder;
-
-import java.io.InputStream;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Map;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
-import java.util.Map.Entry.*;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static com.dnsimple.endpoints.http.HttpMethod.POST;
+import static java.util.Collections.emptyMap;
 
 public class OauthEndpoint implements Oauth {
-  private static final String CODE_RESPONSE_TYPE = "code";
+    private final HttpEndpointClient client;
 
-  private HttpEndpointClient client;
-
-  public OauthEndpoint(HttpEndpointClient client) {
-    this.client = client;
-  }
-
-  public OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret) throws DnsimpleException, IOException {
-    return exchangeAuthorizationForToken(code, clientId, clientSecret, new HashMap<String, Object>());
-  }
-
-  public OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret, Map<String, Object> options) throws DnsimpleException, IOException {
-    Map<String, Object> attributes = new HashMap<String, Object>();
-    attributes.put("code", code);
-    attributes.put("client_id", clientId);
-    attributes.put("client_secret", clientSecret);
-    attributes.put("grant_type", "authorization_code");
-
-    if (options.containsKey("state")) {
-      attributes.put("state", options.remove("state"));
+    public OauthEndpoint(HttpEndpointClient client) {
+        this.client = client;
     }
 
-    if (options.containsKey("redirect_uri")) {
-      attributes.put("redirect_uri", options.remove("redirect_uri"));
+    public OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret) {
+        return exchangeAuthorizationForToken(code, clientId, clientSecret, emptyMap());
     }
 
-    HttpResponse response = client.post("oauth/access_token", attributes);
-    InputStream in = response.getContent();
-    if (in == null) {
-      throw new DnsimpleException("Response was empty", null, response.getStatusCode());
-    } else {
-      try {
-        JsonParser jsonParser = GsonFactory.getDefaultInstance().createJsonParser(in);
-        return jsonParser.parse(OauthToken.class);
-      } finally {
-        in.close();
-      }
-    }
-  }
-
-  public String authorizeUrl(String clientId) {
-    return authorizeUrl(clientId, Collections.emptyMap());
-  }
-
-  public String authorizeUrl(String clientId, Map<Object, Object> options) {
-    UrlBuilder urlBuilder = UrlBuilder.fromString(Dnsimple.getApiBase().replaceFirst("api\\.", "") + "/oauth/authorize")
-      .addParameter("client_id", clientId)
-      .addParameter("response_type", CODE_RESPONSE_TYPE);
-
-    for (Map.Entry<Object,Object> entry : options.entrySet()) {
-      urlBuilder = urlBuilder.addParameter(entry.getKey().toString(), entry.getValue().toString());
+    public OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret, Map<String, Object> options) {
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("code", code);
+        attributes.put("client_id", clientId);
+        attributes.put("client_secret", clientSecret);
+        attributes.put("grant_type", "authorization_code");
+        if (options.containsKey("state")) {
+            attributes.put("state", options.remove("state"));
+        }
+        if (options.containsKey("redirect_uri")) {
+            attributes.put("redirect_uri", options.remove("redirect_uri"));
+        }
+        return client.raw(POST, "oauth/access_token", emptyMap(), attributes, OauthToken.class);
     }
 
-    return urlBuilder.toString();
-  }
+    public String authorizeUrl(String clientId) {
+        return authorizeUrl(clientId, emptyMap());
+    }
+
+    public String authorizeUrl(String clientId, Map<Object, Object> options) {
+        String baseUrl = Dnsimple.getApiBase().replaceFirst("api\\.", "") + "/oauth/authorize";
+        String queryString = String.format("client_id=%s&response_type=code", clientId);
+        queryString += options.isEmpty() ? "" : "&" + options.entrySet().stream()
+                .map(e -> e.getKey() + "=" + URLEncoder.encode(e.getValue().toString(), StandardCharsets.UTF_8))
+                .collect(Collectors.joining("&"));
+        return baseUrl + "?" + queryString;
+    }
 }

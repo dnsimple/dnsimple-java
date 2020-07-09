@@ -1,33 +1,31 @@
 package com.dnsimple.data;
 
-import com.google.api.client.util.Key;
-
 public class OauthToken {
-  @Key("access_token")
-  private String accessToken;
+    private final String accessToken;
+    private final String tokenType;
+    private final String scope;
+    private final Integer accountId;
 
-  @Key("token_type")
-  private String tokenType;
+    public OauthToken(String accessToken, String tokenType, String scope, Integer accountId) {
+        this.accessToken = accessToken;
+        this.tokenType = tokenType;
+        this.scope = scope;
+        this.accountId = accountId;
+    }
 
-  @Key("scope")
-  private String scope;
+    public String getAccessToken() {
+        return accessToken;
+    }
 
-  @Key("account_id")
-  private Integer accountId;
+    public String getTokenType() {
+        return tokenType;
+    }
 
-  public String getAccessToken() {
-    return accessToken;
-  }
+    public String getScope() {
+        return scope;
+    }
 
-  public String getTokenType() {
-    return tokenType;
-  }
-
-  public String getScope() {
-    return scope;
-  }
-
-  public Integer getAccountId() {
-    return accountId;
-  }
+    public Integer getAccountId() {
+        return accountId;
+    }
 }

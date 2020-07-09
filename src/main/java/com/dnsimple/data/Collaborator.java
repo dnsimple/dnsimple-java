@@ -1,62 +1,55 @@
 package com.dnsimple.data;
 
-import com.google.api.client.util.Key;
-
 public class Collaborator {
-  @Key("id")
-  private Integer id;
+    private final Integer id;
+    private final Integer domainId;
+    private final String domainName;
+    private final Integer userId;
+    private final String userEmail;
+    private final Boolean invitation;
+    private final String createdAt;
+    private final String updatedAt;
 
-  @Key("domain_id")
-  private Integer domainId;
+    public Collaborator(Integer id, Integer domainId, String domainName, Integer userId, String userEmail, Boolean invitation, String createdAt, String updatedAt) {
+        this.id = id;
+        this.domainId = domainId;
+        this.domainName = domainName;
+        this.userId = userId;
+        this.userEmail = userEmail;
+        this.invitation = invitation;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
-  @Key("domain_name")
-  private String domainName;
+    public Integer getId() {
+        return id;
+    }
 
-  @Key("user_id")
-  private Integer userId;
+    public Integer getDomainId() {
+        return domainId;
+    }
 
-  @Key("user_email")
-  private String userEmail;
+    public String getDomainName() {
+        return domainName;
+    }
 
-  @Key("invitation")
-  private Boolean invitation;
+    public Integer getUserId() {
+        return userId;
+    }
 
-  @Key("created_at")
-  private String createdAt;
+    public String getUserEmail() {
+        return userEmail;
+    }
 
-  @Key("updated_at")
-  private String updatedAt;
+    public Boolean getInvitation() {
+        return invitation;
+    }
 
-  public Integer getId() {
-    return id;
-  }
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-  public Integer getDomainId() {
-    return domainId;
-  }
-
-  public String getDomainName() {
-    return domainName;
-  }
-
-  public Integer getUserId() {
-    return userId;
-  }
-
-  public String getUserEmail() {
-    return userEmail;
-  }
-
-  public Boolean getInvitation() {
-    return invitation;
-  }
-
-  public String getCreatedAt() {
-    return createdAt;
-  }
-
-  public String getUpdatedAt() {
-    return updatedAt;
-  }
-
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
 }

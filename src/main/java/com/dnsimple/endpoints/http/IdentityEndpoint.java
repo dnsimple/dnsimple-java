@@ -1,22 +1,20 @@
 package com.dnsimple.endpoints.http;
 
 import com.dnsimple.Identity;
-import com.dnsimple.response.WhoamiResponse;
-import com.dnsimple.exception.DnsimpleException;
+import com.dnsimple.data.Whoami;
+import com.dnsimple.response.SimpleResponse;
 
-import com.google.api.client.http.HttpResponse;
-
-import java.io.IOException;
+import static com.dnsimple.endpoints.http.HttpMethod.GET;
+import static java.util.Collections.emptyMap;
 
 public class IdentityEndpoint implements Identity {
-  private HttpEndpointClient client;
+    private final HttpEndpointClient client;
 
-  public IdentityEndpoint(HttpEndpointClient client) {
-    this.client = client;
-  }
+    public IdentityEndpoint(HttpEndpointClient client) {
+        this.client = client;
+    }
 
-  public WhoamiResponse whoami() throws DnsimpleException, IOException {
-    HttpResponse response = client.get("whoami");
-    return (WhoamiResponse)client.parseResponse(response, WhoamiResponse.class);
-  }
+    public SimpleResponse<Whoami> whoami() {
+        return client.simple(GET, "whoami", emptyMap(), null, Whoami.class);
+    }
 }

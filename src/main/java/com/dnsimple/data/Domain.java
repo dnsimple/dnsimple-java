@@ -1,91 +1,82 @@
 package com.dnsimple.data;
 
-import com.google.api.client.util.Key;
-
 public class Domain {
-  @Key("id")
-  private Integer id;
+    private final Integer id;
+    private final Integer accountId;
+    private final Integer registrantId;
+    private final String name;
+    private final String unicodeName;
+    private final String state;
+    private final boolean autoRenew;
+    private final boolean privateWhois;
+    private final String expiresAt;
+    private final String createdAt;
+    private final String updatedAt;
 
-  @Key("account_id")
-  private Integer accountId;
+    public Domain(Integer id, Integer accountId, Integer registrantId, String name, String unicodeName, String state, boolean autoRenew, boolean privateWhois, String expiresAt, String createdAt, String updatedAt) {
+        this.id = id;
+        this.accountId = accountId;
+        this.registrantId = registrantId;
+        this.name = name;
+        this.unicodeName = unicodeName;
+        this.state = state;
+        this.autoRenew = autoRenew;
+        this.privateWhois = privateWhois;
+        this.expiresAt = expiresAt;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
-  @Key("registrant_id")
-  private Integer registrantId;
+    public Integer getId() {
+        return id;
+    }
 
-  @Key("name")
-  private String name;
+    public Integer getAccountId() {
+        return accountId;
+    }
 
-  @Key("unicode_name")
-  private String unicodeName;
+    public Integer getRegistrantId() {
+        return registrantId;
+    }
 
-  @Key("state")
-  private String state;
+    public String getName() {
+        return name;
+    }
 
-  @Key("auto_renew")
-  private boolean autoRenew;
+    public String getUnicodeName() {
+        return unicodeName;
+    }
 
-  @Key("private_whois")
-  private boolean privateWhois;
+    public String getState() {
+        return state;
+    }
 
-  @Key("expires_at")
-  private String expiresAt;
+    public boolean getAutoRenew() {
+        return autoRenew;
+    }
 
-  @Key("created_at")
-  private String createdAt;
+    public boolean getPrivateWhois() {
+        return privateWhois;
+    }
 
-  @Key("updated_at")
-  private String updatedAt;
+    public String getExpiresAt() {
+        return expiresAt;
+    }
 
-  public Integer getId() {
-    return id;
-  }
+    /**
+     * @return the expiration date in ISO8601 format.
+     * @deprecated use {@link Domain#getExpiresAt()} instead.
+     */
+    @Deprecated
+    public String getExpiresOn() {
+        return expiresAt != null ? expiresAt.substring(0, 10) : null;
+    }
 
-  public Integer getAccountId() {
-    return accountId;
-  }
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-  public Integer getRegistrantId() {
-    return registrantId;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public String getUnicodeName() {
-    return unicodeName;
-  }
-
-  public String getState() {
-    return state;
-  }
-
-  public boolean getAutoRenew() {
-    return autoRenew;
-  }
-
-  public boolean getPrivateWhois() {
-    return privateWhois;
-  }
-
-  public String getExpiresAt() {
-    return expiresAt;
-  }
-
-  /**
-   * @deprecated use {@link Domain#getExpiresAt()} instead.
-   * @return the expiration date in ISO8601 format.
-   */
-  @Deprecated
-  public String getExpiresOn() {
-    return expiresAt != null ? expiresAt.substring(0, 10) : null;
-  }
-
-  public String getCreatedAt() {
-    return createdAt;
-  }
-
-  public String getUpdatedAt() {
-    return updatedAt;
-  }
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
 }

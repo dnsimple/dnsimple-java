@@ -1,49 +1,40 @@
 package com.dnsimple.endpoints.http;
 
 import com.dnsimple.Webhooks;
-import com.dnsimple.response.ListWebhooksResponse;
-import com.dnsimple.response.GetWebhookResponse;
-import com.dnsimple.response.CreateWebhookResponse;
-import com.dnsimple.response.DeleteWebhookResponse;
-import com.dnsimple.exception.DnsimpleException;
-import com.dnsimple.exception.ResourceNotFoundException;
+import com.dnsimple.data.Webhook;
+import com.dnsimple.response.EmptyResponse;
+import com.dnsimple.response.ListResponse;
+import com.dnsimple.response.SimpleResponse;
 
-import com.google.api.client.http.HttpResponse;
-import com.google.api.client.http.HttpResponseException;
-
-import java.io.IOException;
-import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
+
+import static com.dnsimple.endpoints.http.HttpMethod.*;
+import static java.util.Collections.emptyMap;
 
 public class WebhooksEndpoint implements Webhooks {
-  private HttpEndpointClient client;
+    private final HttpEndpointClient client;
 
-  public WebhooksEndpoint(HttpEndpointClient client) {
-    this.client = client;
-  }
+    public WebhooksEndpoint(HttpEndpointClient client) {
+        this.client = client;
+    }
 
-  public ListWebhooksResponse listWebhooks(String accountId) throws DnsimpleException, IOException {
-    return listWebhooks(accountId, null);
-  }
+    public ListResponse<Webhook> listWebhooks(String accountId) {
+        return client.list(GET, accountId + "/webhooks", emptyMap(), null, Webhook.class);
+    }
 
-  public ListWebhooksResponse listWebhooks(String accountId, Map<String,Object> options) throws DnsimpleException, IOException {
-    HttpResponse response = client.get(accountId + "/webhooks", options);
-    return (ListWebhooksResponse)client.parseResponse(response, ListWebhooksResponse.class);
-  }
+    public ListResponse<Webhook> listWebhooks(String accountId, Map<String, Object> options) {
+        return client.list(GET, accountId + "/webhooks", options, null, Webhook.class);
+    }
 
-  public GetWebhookResponse getWebhook(String accountId, String webhookId) throws DnsimpleException, IOException {
-    HttpResponse response = client.get(accountId + "/webhooks/" + webhookId);
-    return (GetWebhookResponse)client.parseResponse(response, GetWebhookResponse.class);
-  }
+    public SimpleResponse<Webhook> getWebhook(String accountId, String webhookId) {
+        return client.simple(GET, accountId + "/webhooks/" + webhookId, emptyMap(), null, Webhook.class);
+    }
 
-  public CreateWebhookResponse createWebhook(String accountId, Map<String,Object> attributes) throws DnsimpleException, IOException {
-    HttpResponse response = client.post(accountId + "/webhooks", attributes);
-    return (CreateWebhookResponse)client.parseResponse(response, CreateWebhookResponse.class);
-  }
+    public SimpleResponse<Webhook> createWebhook(String accountId, Map<String, Object> attributes) {
+        return client.simple(POST, accountId + "/webhooks", emptyMap(), attributes, Webhook.class);
+    }
 
-  public DeleteWebhookResponse deleteWebhook(String accountId, String webhookId) throws DnsimpleException, IOException {
-    HttpResponse response = client.delete(accountId + "/webhooks/" + webhookId);
-    return (DeleteWebhookResponse)client.parseResponse(response, DeleteWebhookResponse.class);
-  }
+    public EmptyResponse deleteWebhook(String accountId, String webhookId) {
+        return client.empty(DELETE, accountId + "/webhooks/" + webhookId, emptyMap(), null);
+    }
 }
