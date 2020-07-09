@@ -1,15 +1,24 @@
 package com.dnsimple.endpoints.http;
 
+import com.dnsimple.Dnsimple;
+import com.dnsimple.request.Filter;
 import com.dnsimple.response.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
+import static com.dnsimple.endpoints.http.HttpRequestFactory.API_VERSION_PATH;
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class HttpEndpointClient {
     private static final Gson gson = new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
@@ -53,14 +62,16 @@ public class HttpEndpointClient {
     }
 
     private <DATA_TYPE, CONTAINER extends ApiResponse> CONTAINER execute(String userAgent, String accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType, Class<CONTAINER> containerType, Supplier<CONTAINER> emptyContainerSupplier) {
-        RawResponse response = requestFactory.execute(userAgent, accessToken, method, path, queryStringParams, body);
+        URI uri = buildUrl(Dnsimple.getApiBase() + API_VERSION_PATH + path, queryStringParams);
+        RawResponse response = requestFactory.execute(userAgent, accessToken, method, uri, queryStringParams, body);
         return response.getStatusCode() != 204
                 ? deserializeContainer(response.getBody(), dataType, containerType)
                 : emptyContainerSupplier.get();
     }
 
     private <DATA_TYPE> DATA_TYPE execute(String userAgent, String accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType) {
-        RawResponse response = requestFactory.execute(userAgent, accessToken, method, path, queryStringParams, body);
+        URI uri = buildUrl(Dnsimple.getApiBase() + API_VERSION_PATH + path, queryStringParams);
+        RawResponse response = requestFactory.execute(userAgent, accessToken, method, uri, queryStringParams, body);
         return response.getStatusCode() != 204 ? deserialize(response.getBody(), dataType) : null;
     }
 
@@ -82,5 +93,17 @@ public class HttpEndpointClient {
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    private static URI buildUrl(String url, Map<String, Object> queryStringParams) {
+        List<String> queryStringItems = new ArrayList<String>();
+        if (queryStringParams.containsKey("filter")) {
+            Filter filter = (Filter) queryStringParams.remove("filter");
+            queryStringItems.add(filter.name + "=" + URLEncoder.encode(filter.value, UTF_8));
+        }
+        queryStringItems.addAll(queryStringParams.entrySet().stream()
+                .map(e -> e.getKey() + "=" + URLEncoder.encode(e.getValue().toString(), UTF_8))
+                .collect(Collectors.toList()));
+        return URI.create(url + (queryStringItems.isEmpty() ? "" : ("?" + String.join("&", queryStringItems))));
     }
 }

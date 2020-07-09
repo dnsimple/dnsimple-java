@@ -37,9 +37,9 @@ public class Java11HttpRequestFactory implements HttpRequestFactory {
     }
 
     @Override
-    public RawResponse execute(String userAgent, String accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body) {
+    public RawResponse execute(String userAgent, String accessToken, HttpMethod method, URI uri, Map<String, Object> queryStringParams, Object body) {
         try {
-            HttpRequest request = buildRequest(path, queryStringParams, body, method, userAgent, accessToken);
+            HttpRequest request = buildRequest(method, uri, body, userAgent, accessToken);
             var response = client.send(request, HttpResponse.BodyHandlers.ofInputStream());
             checkStatusCode(response);
             return new RawResponse(
@@ -52,11 +52,11 @@ public class Java11HttpRequestFactory implements HttpRequestFactory {
         }
     }
 
-    private static HttpRequest buildRequest(String path, Map<String, Object> queryStringParams, Object attributes, HttpMethod method, String userAgent, String accessToken) {
+    private static HttpRequest buildRequest(HttpMethod method, URI uri, Object attributes, String userAgent, String accessToken) {
         var bodyPublisher = attributes != null
                 ? HttpRequest.BodyPublishers.ofString(gson.toJson(attributes))
                 : HttpRequest.BodyPublishers.noBody();
-        return HttpRequest.newBuilder(buildUrl(Dnsimple.getApiBase() + API_VERSION_PATH + path, queryStringParams))
+        return HttpRequest.newBuilder(uri)
                 .header("Accept", "application/json")
                 .header("Content-Type", "application/json")
                 .header("User-Agent", String.join(" ", buildUserAgents(userAgent)))
@@ -71,18 +71,6 @@ public class Java11HttpRequestFactory implements HttpRequestFactory {
             fullUserAgent.add(userAgent);
         fullUserAgent.add(DEFAULT_USER_AGENT);
         return fullUserAgent;
-    }
-
-    private static URI buildUrl(String url, Map<String, Object> queryStringParams) {
-        List<String> queryStringItems = new ArrayList<String>();
-        if (queryStringParams.containsKey("filter")) {
-            Filter filter = (Filter) queryStringParams.remove("filter");
-            queryStringItems.add(filter.name + "=" + URLEncoder.encode(filter.value, UTF_8));
-        }
-        queryStringItems.addAll(queryStringParams.entrySet().stream()
-                .map(e -> e.getKey() + "=" + URLEncoder.encode(e.getValue().toString(), UTF_8))
-                .collect(Collectors.toList()));
-        return URI.create(url + (queryStringItems.isEmpty() ? "" : ("?" + String.join("&", queryStringItems))));
     }
 
     private static void checkStatusCode(HttpResponse<?> response) throws DnsimpleException {
