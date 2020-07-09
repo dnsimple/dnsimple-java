@@ -2,10 +2,15 @@ package com.dnsimple;
 
 import com.dnsimple.endpoints.http.*;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 /**
  * Instances of the Client handle low-level HTTP calls to the API.
  */
 public class Client {
+    public static final URL PRODUCTION_API_BASE = url("https://api.dnsimple.com");
+    public static final URL SANDBOX_API_BASE = url("https://api.sandbox.dnsimple.com");
     private final HttpEndpointClient endpointClient;
     public final Accounts accounts;
     public final Certificates certificates;
@@ -38,7 +43,8 @@ public class Client {
         this.zones = zones;
     }
 
-    public static Client of(HttpEndpointClient endpointClient) {
+    public static Client of(HttpRequestFactory requestFactory, URL apiBase) {
+        HttpEndpointClient endpointClient = new HttpEndpointClient(requestFactory, apiBase);
         return new Client(
                 endpointClient,
                 new AccountsEndpoint(endpointClient),
@@ -55,5 +61,13 @@ public class Client {
                 new WebhooksEndpoint(endpointClient),
                 new ZonesEndpoint(endpointClient)
         );
+    }
+
+    private static URL url(String url) {
+        try {
+            return new URL(url);
+        } catch (MalformedURLException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 }

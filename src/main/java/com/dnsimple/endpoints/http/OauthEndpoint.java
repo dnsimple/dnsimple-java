@@ -44,7 +44,7 @@ public class OauthEndpoint implements Oauth {
     }
 
     public String authorizeUrl(String clientId, Map<Object, Object> options) {
-        String baseUrl = client.getApiBase().replaceFirst("api\\.", "") + "/oauth/authorize";
+        String baseUrl = client.getApiBase().toString().replaceFirst("api\\.", "") + "/oauth/authorize";
         String queryString = String.format("client_id=%s&response_type=code", clientId);
         queryString += options.isEmpty() ? "" : "&" + options.entrySet().stream()
                 .map(e -> e.getKey() + "=" + URLEncoder.encode(e.getValue().toString(), StandardCharsets.UTF_8))

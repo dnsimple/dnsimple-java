@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
 import java.net.URI;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,16 +23,16 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class HttpEndpointClient {
     private static final Gson gson = new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
     private final HttpRequestFactory requestFactory;
-    private final String apiBase;
+    private final URL apiBase;
     private String userAgent;
     private String accessToken;
 
-    public HttpEndpointClient(HttpRequestFactory requestFactory, String apiBase) {
+    public HttpEndpointClient(HttpRequestFactory requestFactory, URL apiBase) {
         this.requestFactory = requestFactory;
         this.apiBase = apiBase;
     }
 
-    public String getApiBase() {
+    public URL getApiBase() {
         return apiBase;
     }
 
@@ -100,7 +101,7 @@ public class HttpEndpointClient {
         }
     }
 
-    private static URI buildUrl(String apiBase, String versionPath, String requestedPath, Map<String, Object> queryStringParams) {
+    private static URI buildUrl(URL apiBase, String versionPath, String requestedPath, Map<String, Object> queryStringParams) {
         List<String> queryStringItems = new ArrayList<String>();
         if (queryStringParams.containsKey("filter")) {
             Filter filter = (Filter) queryStringParams.remove("filter");
