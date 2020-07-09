@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Instances of the Client handle low-level HTTP calls to the API.
+ * The Client class provides access to all the endpoints of DNSimple's API
+ * <p>
+ * Use the Client.Builder to obtain a new instance of this class.
  */
 public class Client {
     private static final URL PRODUCTION_API_BASE = url("https://api.dnsimple.com");
@@ -68,6 +70,12 @@ public class Client {
         );
     }
 
+    /**
+     * Sets the access token for subsequent calls
+     *
+     * @param accessToken
+     * @return this Client object
+     */
     public Client setAccessToken(String accessToken) {
         endpointClient.setAccessToken(accessToken);
         return this;

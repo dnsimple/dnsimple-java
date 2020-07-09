@@ -1,9 +1,6 @@
 package com.dnsimple.endpoints.http;
 
-import com.dnsimple.Dnsimple;
-
 import java.net.URI;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -12,19 +9,15 @@ import java.util.Optional;
  * @see com.dnsimple.endpoints.http.java11.Java11HttpRequestFactory
  */
 public interface HttpRequestFactory {
-    String API_VERSION_PATH = "/v2/";
-
-
     /**
      * Execute an HTTP request to an API endpoint
      *
      * @param userAgent         the user agent to be used on the HTTP request
      * @param accessToken       the access token to be used for authentication against the API
      * @param method            the HTTP method to be used on the HTTP request
-     * @param path              the API endpoint's path
-     * @param queryStringParams a map of query string params to be used on the HTTP request
+     * @param uri               the URI to be requested
      * @param body              the HTTP request's body payload
      * @return an RawResponse object with the status code, headers and body of the HTTP response
      */
-    RawResponse execute(String userAgent, Optional<String> accessToken, HttpMethod method, URI uri, Map<String, Object> queryStringParams, Object body);
+    RawResponse execute(String userAgent, Optional<String> accessToken, HttpMethod method, URI uri, Object body);
 }

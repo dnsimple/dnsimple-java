@@ -1,6 +1,5 @@
 package com.dnsimple.endpoints.http;
 
-import com.dnsimple.Dnsimple;
 import com.dnsimple.Oauth;
 import com.dnsimple.data.OauthToken;
 

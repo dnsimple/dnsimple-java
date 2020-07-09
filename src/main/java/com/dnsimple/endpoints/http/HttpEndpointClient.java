@@ -17,11 +17,11 @@ import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import static com.dnsimple.endpoints.http.HttpRequestFactory.API_VERSION_PATH;
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class HttpEndpointClient {
+    private static final String API_VERSION_PATH = "/v2/";
     private static final Gson gson = new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
     private final HttpRequestFactory requestFactory;
     private final URL apiBase;
@@ -68,7 +68,7 @@ public class HttpEndpointClient {
 
     private <DATA_TYPE, CONTAINER extends ApiResponse> CONTAINER execute(String userAgent, Optional<String> accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType, Class<CONTAINER> containerType, Supplier<CONTAINER> emptyContainerSupplier) {
         URI uri = buildUrl(apiBase, API_VERSION_PATH, path, queryStringParams);
-        RawResponse response = requestFactory.execute(userAgent, accessToken, method, uri, queryStringParams, body);
+        RawResponse response = requestFactory.execute(userAgent, accessToken, method, uri, body);
         return response.getStatusCode() != 204
                 ? deserializeContainer(response.getBody(), dataType, containerType)
                 : emptyContainerSupplier.get();
@@ -76,7 +76,7 @@ public class HttpEndpointClient {
 
     private <DATA_TYPE> DATA_TYPE execute(String userAgent, Optional<String> accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType) {
         URI uri = buildUrl(apiBase, API_VERSION_PATH, path, queryStringParams);
-        RawResponse response = requestFactory.execute(userAgent, accessToken, method, uri, queryStringParams, body);
+        RawResponse response = requestFactory.execute(userAgent, accessToken, method, uri, body);
         return response.getStatusCode() != 204 ? deserialize(response.getBody(), dataType) : null;
     }
 

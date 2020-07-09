@@ -15,7 +15,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Map;
 import java.util.Optional;
 
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
@@ -31,7 +30,7 @@ public class Java11HttpRequestFactory implements HttpRequestFactory {
     }
 
     @Override
-    public RawResponse execute(String userAgent, Optional<String> accessToken, HttpMethod method, URI uri, Map<String, Object> queryStringParams, Object body) {
+    public RawResponse execute(String userAgent, Optional<String> accessToken, HttpMethod method, URI uri, Object body) {
         try {
             HttpRequest request = buildRequest(method, uri, body, userAgent, accessToken);
             var response = client.send(request, HttpResponse.BodyHandlers.ofInputStream());
