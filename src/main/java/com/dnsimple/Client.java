@@ -46,9 +46,11 @@ public class Client {
         this.zones = zones;
     }
 
-    public static Client of(HttpRequestFactory requestFactory, URL apiBase, String extraUserAgent) {
+    public static Client of(HttpRequestFactory requestFactory, URL apiBase, String extraUserAgent, String accessToken) {
         String userAgent = String.join(" ", buildUserAgent(extraUserAgent));
         HttpEndpointClient endpointClient = new HttpEndpointClient(requestFactory, apiBase, userAgent);
+        if (accessToken != null)
+            endpointClient.setAccessToken(accessToken);
         return new Client(
                 endpointClient,
                 new AccountsEndpoint(endpointClient),
@@ -65,6 +67,11 @@ public class Client {
                 new WebhooksEndpoint(endpointClient),
                 new ZonesEndpoint(endpointClient)
         );
+    }
+
+    public Client setAccessToken(String accessToken) {
+        endpointClient.setAccessToken(accessToken);
+        return this;
     }
 
     private static URL url(String url) {
