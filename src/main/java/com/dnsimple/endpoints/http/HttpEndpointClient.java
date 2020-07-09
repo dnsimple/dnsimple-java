@@ -10,8 +10,10 @@ import java.io.*;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.net.URL;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -21,8 +23,11 @@ import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class HttpEndpointClient {
+    private static final Gson gson = new GsonBuilder()
+            .setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES)
+            .registerTypeAdapter(OffsetDateTime.class, new OffsetDateTimeDeserializer())
+            .create();
     private static final String API_VERSION_PATH = "/v2/";
-    private static final Gson gson = new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
     private final HttpRequestFactory requestFactory;
     private final URL apiBase;
     private final String userAgent;

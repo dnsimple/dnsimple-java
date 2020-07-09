@@ -14,7 +14,7 @@ public class IdentityTest extends DnsimpleTestBase {
         server.stubFixtureAt("whoami/success-account.http");
         Whoami data = client.identity.whoami().getData();
         assertThat(data.getUser(), is(nullValue()));
-        assertThat(data.getAccount().getId(), is(1));
+        assertThat(data.getAccount().getId(), is(1L));
         assertThat(data.getAccount().getEmail(), is("example-account@example.com"));
     }
 
