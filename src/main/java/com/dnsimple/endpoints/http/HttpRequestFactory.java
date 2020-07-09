@@ -4,6 +4,7 @@ import com.dnsimple.Dnsimple;
 
 import java.net.URI;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * This interface defined the low level HTTP operations required by this library
@@ -25,5 +26,5 @@ public interface HttpRequestFactory {
      * @param body              the HTTP request's body payload
      * @return an RawResponse object with the status code, headers and body of the HTTP response
      */
-    RawResponse execute(String userAgent, String accessToken, HttpMethod method, URI uri, Map<String, Object> queryStringParams, Object body);
+    RawResponse execute(String userAgent, Optional<String> accessToken, HttpMethod method, URI uri, Map<String, Object> queryStringParams, Object body);
 }

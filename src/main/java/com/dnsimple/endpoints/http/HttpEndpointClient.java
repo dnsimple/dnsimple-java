@@ -13,6 +13,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,7 @@ public class HttpEndpointClient {
     private final HttpRequestFactory requestFactory;
     private final URL apiBase;
     private final String userAgent;
-    private String accessToken;
+    private Optional<String> accessToken = Optional.empty();
 
     public HttpEndpointClient(HttpRequestFactory requestFactory, URL apiBase, String userAgent) {
         this.requestFactory = requestFactory;
@@ -38,7 +39,7 @@ public class HttpEndpointClient {
     }
 
     public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+        this.accessToken = Optional.of(accessToken);
     }
 
     EmptyResponse empty(HttpMethod method, String path, Map<String, Object> queryStringParams, Object body) {
@@ -64,7 +65,7 @@ public class HttpEndpointClient {
         return execute(userAgent, accessToken, method, path, queryStringParams, body, dataType);
     }
 
-    private <DATA_TYPE, CONTAINER extends ApiResponse> CONTAINER execute(String userAgent, String accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType, Class<CONTAINER> containerType, Supplier<CONTAINER> emptyContainerSupplier) {
+    private <DATA_TYPE, CONTAINER extends ApiResponse> CONTAINER execute(String userAgent, Optional<String> accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType, Class<CONTAINER> containerType, Supplier<CONTAINER> emptyContainerSupplier) {
         URI uri = buildUrl(apiBase, API_VERSION_PATH, path, queryStringParams);
         RawResponse response = requestFactory.execute(userAgent, accessToken, method, uri, queryStringParams, body);
         return response.getStatusCode() != 204
@@ -72,7 +73,7 @@ public class HttpEndpointClient {
                 : emptyContainerSupplier.get();
     }
 
-    private <DATA_TYPE> DATA_TYPE execute(String userAgent, String accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType) {
+    private <DATA_TYPE> DATA_TYPE execute(String userAgent, Optional<String> accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType) {
         URI uri = buildUrl(apiBase, API_VERSION_PATH, path, queryStringParams);
         RawResponse response = requestFactory.execute(userAgent, accessToken, method, uri, queryStringParams, body);
         return response.getStatusCode() != 204 ? deserialize(response.getBody(), dataType) : null;

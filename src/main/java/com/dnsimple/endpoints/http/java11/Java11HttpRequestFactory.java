@@ -1,6 +1,5 @@
 package com.dnsimple.endpoints.http.java11;
 
-import com.dnsimple.Dnsimple;
 import com.dnsimple.endpoints.http.HttpMethod;
 import com.dnsimple.endpoints.http.HttpRequestFactory;
 import com.dnsimple.endpoints.http.RawResponse;
@@ -8,25 +7,20 @@ import com.dnsimple.exception.BadRequestException;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.exception.ResourceNotFoundException;
 import com.dnsimple.exception.ServerError;
-import com.dnsimple.request.Filter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static java.net.http.HttpClient.Redirect.ALWAYS;
 import static java.net.http.HttpClient.Version.HTTP_1_1;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class Java11HttpRequestFactory implements HttpRequestFactory {
     private static final Gson gson = new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
@@ -37,7 +31,7 @@ public class Java11HttpRequestFactory implements HttpRequestFactory {
     }
 
     @Override
-    public RawResponse execute(String userAgent, String accessToken, HttpMethod method, URI uri, Map<String, Object> queryStringParams, Object body) {
+    public RawResponse execute(String userAgent, Optional<String> accessToken, HttpMethod method, URI uri, Map<String, Object> queryStringParams, Object body) {
         try {
             HttpRequest request = buildRequest(method, uri, body, userAgent, accessToken);
             var response = client.send(request, HttpResponse.BodyHandlers.ofInputStream());
@@ -52,20 +46,19 @@ public class Java11HttpRequestFactory implements HttpRequestFactory {
         }
     }
 
-    private static HttpRequest buildRequest(HttpMethod method, URI uri, Object attributes, String userAgent, String accessToken) {
+    private static HttpRequest buildRequest(HttpMethod method, URI uri, Object attributes, String userAgent, Optional<String> accessToken) {
         var bodyPublisher = attributes != null
                 ? HttpRequest.BodyPublishers.ofString(gson.toJson(attributes))
                 : HttpRequest.BodyPublishers.noBody();
-        return HttpRequest.newBuilder(uri)
+        HttpRequest.Builder builder = HttpRequest.newBuilder(uri)
                 .header("Accept", "application/json")
                 .header("Content-Type", "application/json")
                 .header("User-Agent", userAgent)
-                .header("Authorization", "Bearer " + accessToken)
-                .method(method.name(), bodyPublisher)
+                .method(method.name(), bodyPublisher);
+        return accessToken.map(token -> builder.header("Authorization", "Bearer " + token))
+                .orElse(builder)
                 .build();
     }
-
-
 
     private static void checkStatusCode(HttpResponse<?> response) throws DnsimpleException {
         int statusCode = response.statusCode();

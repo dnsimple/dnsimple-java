@@ -6,6 +6,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Instances of the Client handle low-level HTTP calls to the API.
@@ -49,8 +50,7 @@ public class Client {
     public static Client of(HttpRequestFactory requestFactory, URL apiBase, String extraUserAgent, String accessToken) {
         String userAgent = String.join(" ", buildUserAgent(extraUserAgent));
         HttpEndpointClient endpointClient = new HttpEndpointClient(requestFactory, apiBase, userAgent);
-        if (accessToken != null)
-            endpointClient.setAccessToken(accessToken);
+        Optional.ofNullable(accessToken).ifPresent(endpointClient::setAccessToken);
         return new Client(
                 endpointClient,
                 new AccountsEndpoint(endpointClient),
