@@ -59,19 +59,13 @@ public class Java11HttpRequestFactory implements HttpRequestFactory {
         return HttpRequest.newBuilder(uri)
                 .header("Accept", "application/json")
                 .header("Content-Type", "application/json")
-                .header("User-Agent", String.join(" ", buildUserAgents(userAgent)))
+                .header("User-Agent", userAgent)
                 .header("Authorization", "Bearer " + accessToken)
                 .method(method.name(), bodyPublisher)
                 .build();
     }
 
-    private static List<String> buildUserAgents(String userAgent) {
-        List<String> fullUserAgent = new ArrayList<>();
-        if (userAgent != null)
-            fullUserAgent.add(userAgent);
-        fullUserAgent.add(DEFAULT_USER_AGENT);
-        return fullUserAgent;
-    }
+
 
     private static void checkStatusCode(HttpResponse<?> response) throws DnsimpleException {
         int statusCode = response.statusCode();

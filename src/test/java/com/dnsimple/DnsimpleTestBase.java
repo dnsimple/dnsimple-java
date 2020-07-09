@@ -33,6 +33,6 @@ public abstract class DnsimpleTestBase {
         server.reset();
 //        ec.setAccessToken(TEST_ACCESS_TOKEN);
 //        ec.setUserAgent(TEST_USER_AGENT);
-        client = Client.of(new Java11HttpRequestFactory(), server.getBaseURL());
+        client = Client.of(new Java11HttpRequestFactory(), server.getBaseURL(), TEST_USER_AGENT);
     }
 }

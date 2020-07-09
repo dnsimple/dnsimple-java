@@ -24,20 +24,17 @@ public class HttpEndpointClient {
     private static final Gson gson = new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
     private final HttpRequestFactory requestFactory;
     private final URL apiBase;
-    private String userAgent;
+    private final String userAgent;
     private String accessToken;
 
-    public HttpEndpointClient(HttpRequestFactory requestFactory, URL apiBase) {
+    public HttpEndpointClient(HttpRequestFactory requestFactory, URL apiBase, String userAgent) {
         this.requestFactory = requestFactory;
         this.apiBase = apiBase;
+        this.userAgent = userAgent;
     }
 
     public URL getApiBase() {
         return apiBase;
-    }
-
-    public void setUserAgent(String userAgent) {
-        this.userAgent = userAgent;
     }
 
     public void setAccessToken(String accessToken) {
@@ -102,7 +99,7 @@ public class HttpEndpointClient {
     }
 
     private static URI buildUrl(URL apiBase, String versionPath, String requestedPath, Map<String, Object> queryStringParams) {
-        List<String> queryStringItems = new ArrayList<String>();
+        List<String> queryStringItems = new ArrayList<>();
         if (queryStringParams.containsKey("filter")) {
             Filter filter = (Filter) queryStringParams.remove("filter");
             queryStringItems.add(filter.name + "=" + URLEncoder.encode(filter.value, UTF_8));

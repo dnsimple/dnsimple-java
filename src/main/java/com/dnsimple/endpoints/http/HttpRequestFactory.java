@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public interface HttpRequestFactory {
     String API_VERSION_PATH = "/v2/";
-    String DEFAULT_USER_AGENT = "dnsimple-java/" + Dnsimple.VERSION;
+
 
     /**
      * Execute an HTTP request to an API endpoint
