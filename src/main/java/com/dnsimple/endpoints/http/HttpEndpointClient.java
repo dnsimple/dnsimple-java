@@ -62,7 +62,7 @@ public class HttpEndpointClient {
     }
 
     private <DATA_TYPE, CONTAINER extends ApiResponse> CONTAINER execute(String userAgent, String accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType, Class<CONTAINER> containerType, Supplier<CONTAINER> emptyContainerSupplier) {
-        URI uri = buildUrl(Dnsimple.getApiBase() + API_VERSION_PATH + path, queryStringParams);
+        URI uri = buildUrl(Dnsimple.getApiBase(), API_VERSION_PATH, path, queryStringParams);
         RawResponse response = requestFactory.execute(userAgent, accessToken, method, uri, queryStringParams, body);
         return response.getStatusCode() != 204
                 ? deserializeContainer(response.getBody(), dataType, containerType)
@@ -70,7 +70,7 @@ public class HttpEndpointClient {
     }
 
     private <DATA_TYPE> DATA_TYPE execute(String userAgent, String accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType) {
-        URI uri = buildUrl(Dnsimple.getApiBase() + API_VERSION_PATH + path, queryStringParams);
+        URI uri = buildUrl(Dnsimple.getApiBase(), API_VERSION_PATH, path, queryStringParams);
         RawResponse response = requestFactory.execute(userAgent, accessToken, method, uri, queryStringParams, body);
         return response.getStatusCode() != 204 ? deserialize(response.getBody(), dataType) : null;
     }
@@ -95,7 +95,7 @@ public class HttpEndpointClient {
         }
     }
 
-    private static URI buildUrl(String url, Map<String, Object> queryStringParams) {
+    private static URI buildUrl(String apiBase, String versionPath, String requestedPath, Map<String, Object> queryStringParams) {
         List<String> queryStringItems = new ArrayList<String>();
         if (queryStringParams.containsKey("filter")) {
             Filter filter = (Filter) queryStringParams.remove("filter");
@@ -104,6 +104,6 @@ public class HttpEndpointClient {
         queryStringItems.addAll(queryStringParams.entrySet().stream()
                 .map(e -> e.getKey() + "=" + URLEncoder.encode(e.getValue().toString(), UTF_8))
                 .collect(Collectors.toList()));
-        return URI.create(url + (queryStringItems.isEmpty() ? "" : ("?" + String.join("&", queryStringItems))));
+        return URI.create(apiBase + versionPath + requestedPath + (queryStringItems.isEmpty() ? "" : ("?" + String.join("&", queryStringItems))));
     }
 }
