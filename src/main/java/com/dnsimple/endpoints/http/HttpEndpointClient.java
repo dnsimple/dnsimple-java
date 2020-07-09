@@ -31,6 +31,10 @@ public class HttpEndpointClient {
         this.apiBase = apiBase;
     }
 
+    public String getApiBase() {
+        return apiBase;
+    }
+
     public void setUserAgent(String userAgent) {
         this.userAgent = userAgent;
     }
