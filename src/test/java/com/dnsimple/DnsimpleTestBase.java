@@ -35,7 +35,7 @@ public abstract class DnsimpleTestBase {
     @Before
     public void setUp() {
         server.reset();
-        HttpEndpointClient ec = new HttpEndpointClient(new Java11HttpRequestFactory());
+        HttpEndpointClient ec = new HttpEndpointClient(new Java11HttpRequestFactory(), server.getBaseURL());
         ec.setAccessToken(TEST_ACCESS_TOKEN);
         ec.setUserAgent(TEST_USER_AGENT);
         client = Client.of(ec);

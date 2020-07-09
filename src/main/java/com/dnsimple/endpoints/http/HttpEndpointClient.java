@@ -1,6 +1,5 @@
 package com.dnsimple.endpoints.http;
 
-import com.dnsimple.Dnsimple;
 import com.dnsimple.request.Filter;
 import com.dnsimple.response.*;
 import com.google.gson.Gson;
@@ -23,11 +22,13 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class HttpEndpointClient {
     private static final Gson gson = new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
     private final HttpRequestFactory requestFactory;
+    private final String apiBase;
     private String userAgent;
     private String accessToken;
 
-    public HttpEndpointClient(HttpRequestFactory requestFactory) {
+    public HttpEndpointClient(HttpRequestFactory requestFactory, String apiBase) {
         this.requestFactory = requestFactory;
+        this.apiBase = apiBase;
     }
 
     public void setUserAgent(String userAgent) {
@@ -62,7 +63,7 @@ public class HttpEndpointClient {
     }
 
     private <DATA_TYPE, CONTAINER extends ApiResponse> CONTAINER execute(String userAgent, String accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType, Class<CONTAINER> containerType, Supplier<CONTAINER> emptyContainerSupplier) {
-        URI uri = buildUrl(Dnsimple.getApiBase(), API_VERSION_PATH, path, queryStringParams);
+        URI uri = buildUrl(apiBase, API_VERSION_PATH, path, queryStringParams);
         RawResponse response = requestFactory.execute(userAgent, accessToken, method, uri, queryStringParams, body);
         return response.getStatusCode() != 204
                 ? deserializeContainer(response.getBody(), dataType, containerType)
@@ -70,7 +71,7 @@ public class HttpEndpointClient {
     }
 
     private <DATA_TYPE> DATA_TYPE execute(String userAgent, String accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType) {
-        URI uri = buildUrl(Dnsimple.getApiBase(), API_VERSION_PATH, path, queryStringParams);
+        URI uri = buildUrl(apiBase, API_VERSION_PATH, path, queryStringParams);
         RawResponse response = requestFactory.execute(userAgent, accessToken, method, uri, queryStringParams, body);
         return response.getStatusCode() != 204 ? deserialize(response.getBody(), dataType) : null;
     }
