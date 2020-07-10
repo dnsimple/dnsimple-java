@@ -1,24 +1,28 @@
 package com.dnsimple.data;
 
+import java.time.OffsetDateTime;
+
 public class Domain {
-    private final Integer id;
-    private final Integer accountId;
-    private final Integer registrantId;
+    private final Long id;
+    private final Long accountId;
+    private final Long registrantId;
     private final String name;
     private final String unicodeName;
+    private final String token;
     private final String state;
-    private final boolean autoRenew;
-    private final boolean privateWhois;
-    private final String expiresAt;
-    private final String createdAt;
-    private final String updatedAt;
+    private final Boolean autoRenew;
+    private final Boolean privateWhois;
+    private final OffsetDateTime expiresAt;
+    private final OffsetDateTime createdAt;
+    private final OffsetDateTime updatedAt;
 
-    public Domain(Integer id, Integer accountId, Integer registrantId, String name, String unicodeName, String state, boolean autoRenew, boolean privateWhois, String expiresAt, String createdAt, String updatedAt) {
+    public Domain(Long id, Long accountId, Long registrantId, String name, String unicodeName, String token, String state, Boolean autoRenew, Boolean privateWhois, OffsetDateTime expiresAt, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
         this.id = id;
         this.accountId = accountId;
         this.registrantId = registrantId;
         this.name = name;
         this.unicodeName = unicodeName;
+        this.token = token;
         this.state = state;
         this.autoRenew = autoRenew;
         this.privateWhois = privateWhois;
@@ -27,15 +31,15 @@ public class Domain {
         this.updatedAt = updatedAt;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public Integer getAccountId() {
+    public Long getAccountId() {
         return accountId;
     }
 
-    public Integer getRegistrantId() {
+    public Long getRegistrantId() {
         return registrantId;
     }
 
@@ -47,36 +51,31 @@ public class Domain {
         return unicodeName;
     }
 
+    public String getToken() {
+        return token;
+    }
+
     public String getState() {
         return state;
     }
 
-    public boolean getAutoRenew() {
+    public Boolean hasAutoRenew() {
         return autoRenew;
     }
 
-    public boolean getPrivateWhois() {
+    public Boolean hasPrivateWhois() {
         return privateWhois;
     }
 
-    public String getExpiresAt() {
+    public OffsetDateTime getExpiresAt() {
         return expiresAt;
     }
 
-    /**
-     * @return the expiration date in ISO8601 format.
-     * @deprecated use {@link Domain#getExpiresAt()} instead.
-     */
-    @Deprecated
-    public String getExpiresOn() {
-        return expiresAt != null ? expiresAt.substring(0, 10) : null;
-    }
-
-    public String getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public String getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 }
