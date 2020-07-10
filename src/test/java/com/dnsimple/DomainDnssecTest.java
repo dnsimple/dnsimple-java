@@ -16,7 +16,7 @@ public class DomainDnssecTest extends DnsimpleTestBase {
     public void testEnableDnssec() {
         server.stubFixtureAt("enableDnssec/success.http");
         SimpleResponse<Dnssec> response = client.domains.enableDnssec("1", "example.com");
-        assertThat(response.getData().getEnabled(), is(true));
+        assertThat(response.getData().isEnabled(), is(true));
     }
 
     @Test
@@ -40,6 +40,6 @@ public class DomainDnssecTest extends DnsimpleTestBase {
     public void testGetDnssec() {
         server.stubFixtureAt("getDnssec/success.http");
         SimpleResponse<Dnssec> response = client.domains.getDnssec("1", "example.com");
-        assertThat(response.getData().getEnabled(), is(true));
+        assertThat(response.getData().isEnabled(), is(true));
     }
 }
