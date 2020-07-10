@@ -19,8 +19,8 @@ public class RegistrarEndpoint implements Registrar {
         this.client = client;
     }
 
-    public SimpleResponse<DomainAvailability> checkDomain(String accountId, String domainName) {
-        return client.simple(GET, accountId + "/registrar/domains/" + domainName + "/check", emptyMap(), null, DomainAvailability.class);
+    public SimpleResponse<DomainCheck> checkDomain(String accountId, String domainName) {
+        return client.simple(GET, accountId + "/registrar/domains/" + domainName + "/check", emptyMap(), null, DomainCheck.class);
     }
 
     public SimpleResponse<DomainRegistration> registerDomain(String accountId, String domainName, Map<String, Object> attributes) {

@@ -1,6 +1,6 @@
 package com.dnsimple;
 
-import com.dnsimple.data.DomainAvailability;
+import com.dnsimple.data.DomainCheck;
 import com.dnsimple.data.DomainRegistration;
 import com.dnsimple.data.DomainRenewal;
 import com.dnsimple.data.DomainTransfer;
@@ -21,12 +21,12 @@ public class RegistrarTest extends DnsimpleTestBase {
     @Test
     public void testCheckDomain() {
         server.stubFixtureAt("checkDomain/success.http");
-        DomainAvailability availability = client.registrar.checkDomain("1010", "ruby.codes").getData();
+        DomainCheck availability = client.registrar.checkDomain("1010", "ruby.codes").getData();
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/ruby.codes/check"));
         assertThat(availability.getDomainName(), is("ruby.codes"));
-        assertThat(availability.getAvailable(), is(true));
-        assertThat(availability.getPremium(), is(true));
+        assertThat(availability.isAvailable(), is(true));
+        assertThat(availability.isPremium(), is(true));
     }
 
     @Test
