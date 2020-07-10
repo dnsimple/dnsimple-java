@@ -6,6 +6,7 @@ import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
 import org.junit.Test;
 
+import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import java.util.Map;
 import static com.dnsimple.endpoints.http.HttpMethod.DELETE;
 import static com.dnsimple.endpoints.http.HttpMethod.GET;
 import static com.dnsimple.tools.CustomMatchers.thrownException;
+import static java.time.ZoneOffset.UTC;
 import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -44,7 +46,7 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
         server.stubFixtureAt("listDelegationSignerRecords/success.http");
         List<DelegationSignerRecord> dsRecords = client.domains.listDelegationSignerRecords("1", "1010").getData();
         assertThat(dsRecords, hasSize(1));
-        assertThat(dsRecords.get(0).getId(), is(24));
+        assertThat(dsRecords.get(0).getId(), is(24L));
     }
 
     @Test
@@ -58,14 +60,14 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
     public void testGetDelegationSignerRecord() {
         server.stubFixtureAt("getDelegationSignerRecord/success.http");
         DelegationSignerRecord dsRecord = client.domains.getDelegationSignerRecord("1", "example.com", "24").getData();
-        assertThat(dsRecord.getId(), is(24));
-        assertThat(dsRecord.getDomainId(), is(1010));
+        assertThat(dsRecord.getId(), is(24L));
+        assertThat(dsRecord.getDomainId(), is(1010L));
         assertThat(dsRecord.getAlgorithm(), is("8"));
         assertThat(dsRecord.getDigest(), is("C1F6E04A5A61FBF65BF9DC8294C363CF11C89E802D926BDAB79C55D27BEFA94F"));
         assertThat(dsRecord.getDigestType(), is("2"));
         assertThat(dsRecord.getKeytag(), is("44620"));
-        assertThat(dsRecord.getCreatedAt(), is("2017-03-03T13:49:58Z"));
-        assertThat(dsRecord.getUpdatedAt(), is("2017-03-03T13:49:58Z"));
+        assertThat(dsRecord.getCreatedAt(), is(OffsetDateTime.of(2017, 3, 3, 13, 49, 58, 0, UTC)));
+        assertThat(dsRecord.getUpdatedAt(), is(OffsetDateTime.of(2017, 3, 3, 13, 49, 58, 0, UTC)));
     }
 
     @Test
@@ -84,7 +86,7 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
         attributes.put("digest_type", "2");
         attributes.put("keytag", "2371");
         SimpleResponse<DelegationSignerRecord> response = client.domains.createDelegationSignerRecord("1", "example.com", attributes);
-        assertThat(response.getData().getId(), is(2));
+        assertThat(response.getData().getId(), is(2L));
     }
 
     @Test
