@@ -217,8 +217,12 @@ public class CertificatesTest extends DnsimpleTestBase {
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/bingo.pizza/certificates/letsencrypt"));
         CertificatePurchase purchase = response.getData();
-        assertThat(purchase.getId(), is(101967));
-        assertThat(purchase.getCertificateId(), is(101967));
+        assertThat(purchase.getId(), is(101967L));
+        assertThat(purchase.getCertificateId(), is(101967L));
+        assertThat(purchase.getState(), is("new"));
+        assertThat(purchase.hasAutoRenew(), is(false));
+        assertThat(purchase.getCreatedAt(), is(OffsetDateTime.of(2020, 6, 18, 18, 54, 17, 0, UTC)));
+        assertThat(purchase.getUpdatedAt(), is(OffsetDateTime.of(2020, 6, 18, 18, 54, 17, 0, UTC)));
     }
 
     @Test
