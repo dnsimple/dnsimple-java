@@ -1,16 +1,19 @@
 package com.dnsimple.data;
 
+import java.time.OffsetDateTime;
+
 public class Collaborator {
-    private final Integer id;
-    private final Integer domainId;
+    private final Long id;
+    private final Long domainId;
     private final String domainName;
-    private final Integer userId;
+    private final Long userId;
     private final String userEmail;
     private final Boolean invitation;
-    private final String createdAt;
-    private final String updatedAt;
+    private final OffsetDateTime createdAt;
+    private final OffsetDateTime updatedAt;
+    private final OffsetDateTime acceptedAt;
 
-    public Collaborator(Integer id, Integer domainId, String domainName, Integer userId, String userEmail, Boolean invitation, String createdAt, String updatedAt) {
+    public Collaborator(Long id, Long domainId, String domainName, Long userId, String userEmail, Boolean invitation, OffsetDateTime createdAt, OffsetDateTime updatedAt, OffsetDateTime acceptedAt) {
         this.id = id;
         this.domainId = domainId;
         this.domainName = domainName;
@@ -19,13 +22,14 @@ public class Collaborator {
         this.invitation = invitation;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.acceptedAt = acceptedAt;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public Integer getDomainId() {
+    public Long getDomainId() {
         return domainId;
     }
 
@@ -33,7 +37,7 @@ public class Collaborator {
         return domainName;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
@@ -41,15 +45,19 @@ public class Collaborator {
         return userEmail;
     }
 
-    public Boolean getInvitation() {
+    public Boolean hasInvitation() {
         return invitation;
     }
 
-    public String getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public String getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
+    }
+
+    public OffsetDateTime getAcceptedAt() {
+        return acceptedAt;
     }
 }
