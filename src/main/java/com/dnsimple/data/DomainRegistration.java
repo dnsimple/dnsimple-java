@@ -1,17 +1,19 @@
 package com.dnsimple.data;
 
+import java.time.OffsetDateTime;
+
 public class DomainRegistration {
-    private final Integer id;
-    private final Integer domainId;
-    private final Integer registrantId;
+    private final Long id;
+    private final Long domainId;
+    private final Long registrantId;
     private final Integer period;
     private final String state;
-    private final boolean autoRenew;
-    private final boolean whoisPrivacy;
-    private final String createdAt;
-    private final String updatedAt;
+    private final Boolean autoRenew;
+    private final Boolean whoisPrivacy;
+    private final OffsetDateTime createdAt;
+    private final OffsetDateTime updatedAt;
 
-    public DomainRegistration(Integer id, Integer domainId, Integer registrantId, Integer period, String state, boolean autoRenew, boolean whoisPrivacy, String createdAt, String updatedAt) {
+    public DomainRegistration(Long id, Long domainId, Long registrantId, Integer period, String state, Boolean autoRenew, Boolean whoisPrivacy, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
         this.id = id;
         this.domainId = domainId;
         this.registrantId = registrantId;
@@ -23,15 +25,15 @@ public class DomainRegistration {
         this.updatedAt = updatedAt;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public Integer getDomainId() {
+    public Long getDomainId() {
         return domainId;
     }
 
-    public Integer getRegistrantId() {
+    public Long getRegistrantId() {
         return registrantId;
     }
 
@@ -43,19 +45,19 @@ public class DomainRegistration {
         return state;
     }
 
-    public boolean hasAutoRenew() {
+    public Boolean hasAutoRenew() {
         return autoRenew;
     }
 
-    public boolean hasWhoisPrivacy() {
+    public Boolean hasWhoisPrivacy() {
         return whoisPrivacy;
     }
 
-    public String getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public String getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 }
