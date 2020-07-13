@@ -1,6 +1,8 @@
 package com.dnsimple.tools;
 
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -47,8 +49,12 @@ public class TestHttpServer implements Runnable {
         this.fixturePath = resourcePath(path);
     }
 
-    public String getBaseURL() {
-        return "http://localhost:" + port;
+    public URL getBaseURL() {
+        try {
+            return new URL("http://localhost:" + port);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void reset() {

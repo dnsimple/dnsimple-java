@@ -1,32 +1,46 @@
 package com.dnsimple.endpoints.http;
 
+import com.dnsimple.request.Filter;
 import com.dnsimple.response.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class HttpEndpointClient {
+    private static final String API_VERSION_PATH = "/v2/";
     private static final Gson gson = new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
     private final HttpRequestFactory requestFactory;
-    private String userAgent;
-    private String accessToken;
+    private final URL apiBase;
+    private final String userAgent;
+    private Optional<String> accessToken;
 
-    public HttpEndpointClient(HttpRequestFactory requestFactory) {
+    public HttpEndpointClient(HttpRequestFactory requestFactory, URL apiBase, String userAgent, Optional<String> accessToken) {
         this.requestFactory = requestFactory;
+        this.apiBase = apiBase;
+        this.userAgent = userAgent;
+        this.accessToken = accessToken;
     }
 
-    public void setUserAgent(String userAgent) {
-        this.userAgent = userAgent;
+    public URL getApiBase() {
+        return apiBase;
     }
 
     public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+        this.accessToken = Optional.of(accessToken);
     }
 
     EmptyResponse empty(HttpMethod method, String path, Map<String, Object> queryStringParams, Object body) {
@@ -52,15 +66,17 @@ public class HttpEndpointClient {
         return execute(userAgent, accessToken, method, path, queryStringParams, body, dataType);
     }
 
-    private <DATA_TYPE, CONTAINER extends ApiResponse> CONTAINER execute(String userAgent, String accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType, Class<CONTAINER> containerType, Supplier<CONTAINER> emptyContainerSupplier) {
-        RawResponse response = requestFactory.execute(userAgent, accessToken, method, path, queryStringParams, body);
+    private <DATA_TYPE, CONTAINER extends ApiResponse> CONTAINER execute(String userAgent, Optional<String> accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType, Class<CONTAINER> containerType, Supplier<CONTAINER> emptyContainerSupplier) {
+        URI uri = buildUrl(apiBase, API_VERSION_PATH, path, queryStringParams);
+        RawResponse response = requestFactory.execute(userAgent, accessToken, method, uri, body);
         return response.getStatusCode() != 204
                 ? deserializeContainer(response.getBody(), dataType, containerType)
                 : emptyContainerSupplier.get();
     }
 
-    private <DATA_TYPE> DATA_TYPE execute(String userAgent, String accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType) {
-        RawResponse response = requestFactory.execute(userAgent, accessToken, method, path, queryStringParams, body);
+    private <DATA_TYPE> DATA_TYPE execute(String userAgent, Optional<String> accessToken, HttpMethod method, String path, Map<String, Object> queryStringParams, Object body, Class<DATA_TYPE> dataType) {
+        URI uri = buildUrl(apiBase, API_VERSION_PATH, path, queryStringParams);
+        RawResponse response = requestFactory.execute(userAgent, accessToken, method, uri, body);
         return response.getStatusCode() != 204 ? deserialize(response.getBody(), dataType) : null;
     }
 
@@ -82,5 +98,17 @@ public class HttpEndpointClient {
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    private static URI buildUrl(URL apiBase, String versionPath, String requestedPath, Map<String, Object> queryStringParams) {
+        List<String> queryStringItems = new ArrayList<>();
+        if (queryStringParams.containsKey("filter")) {
+            Filter filter = (Filter) queryStringParams.remove("filter");
+            queryStringItems.add(filter.name + "=" + URLEncoder.encode(filter.value, UTF_8));
+        }
+        queryStringItems.addAll(queryStringParams.entrySet().stream()
+                .map(e -> e.getKey() + "=" + URLEncoder.encode(e.getValue().toString(), UTF_8))
+                .collect(Collectors.toList()));
+        return URI.create(apiBase + versionPath + requestedPath + (queryStringItems.isEmpty() ? "" : ("?" + String.join("&", queryStringItems))));
     }
 }

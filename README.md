@@ -15,7 +15,7 @@ This library is currently in alpha version, the methods and the implementation s
 
 ## Requirements
 
-This library is tested with Java 6 and later.
+This library is tested with Java 11.
 
 You must also have an activated DNSimple account to access the DNSimple API.
 
@@ -33,6 +33,14 @@ Add this dependency to your project's POM:
 </dependency>
 ```
 
+### Gradle
+
+Add this dependency to your `build.gradle` file:
+
+```groovy
+compile 'com.dnsimple:dnsimple-java:X.X.X'
+```
+
 ## Usage
 
 This library is a Java client you can use to interact with the [DNSimple API v2](https://developer.dnsimple.com/v2/).
@@ -48,10 +56,11 @@ import com.dnsimple.response.WhoamiResponse;
 
 public class MyApp {
   public static void main(String[] args) {
-    Client client = new Client();
-    client.setAccessToken("YOUR-ACCESS-TOKEN");
-    client.setUserAgent("your-user-agent");
-    WhoamiResponse response = client.identity.whoami();
+    Client client = new Client.Builder()
+                              .accessToken("YOUR-ACCESS-TOKEN")
+                              .userAgent("your-user-agent")
+                              .build();
+    SimpleResponse<Account> response = client.identity.whoami();
     Account account = response.getData().getAccount();
     System.out.println("Account: " + account);
   }
@@ -62,7 +71,7 @@ The user agent value will be prepended to additional user-agent information that
 
 ## Sandbox Usage
 
-If you would like to test in the [DNSimple sandbox environment](https://developer.dnsimple.com/sandbox/) then set the base URL:
+If you would like to test in the [DNSimple sandbox environment](https://developer.dnsimple.com/sandbox/) then add the "sandbox()" builder to your client:
 
 ```java
 package myapp;
@@ -72,9 +81,11 @@ import com.dnsimple.Client;
 
 public class MyApp {
   public static void main(String[] args) {
-    Dnsimple.setBaseUrl("https://api.sandbox.dnsimple.com");
-    Client client = new Client();
-    client.setAccessToken("YOUR-ACCESS-TOKEN");
+    Client client = new Client.Builder()
+                              .sandbox()
+                              .accessToken("YOUR-ACCESS-TOKEN")
+                              .userAgent("your-user-agent")
+                              .build();
     // ...
   }
 }
@@ -85,31 +96,6 @@ You will need to ensure you are using an access token created in the sandbox env
 ## Stub for Testing
 
 When developing unit tests for your application, you should stub responses from this client to avoid making any network calls.
-
-You can use any mocking library you choose, however the examples below use Mockito.
-
-Here is an example of a test demonstrating how to do mock the endpoint adapter:
-
-```java
-public class MyTest {
-  @Test
-  public void testSomething() {
-    Account account = new Account(1);
-
-    EndpointAdapter adapter = mock(EndpointAdapter.class);
-    when(adapter.identity()).thenReturn(mock(Identity.class));
-    when(adapter.identity().whoami()).thenReturn(new WhoamiResponse(new Whoami(account)));
-
-    List<Domain> domains = new ArrayList<Domain>();
-    domains.add(new Domain());
-    when(adapter.domains()).thenReturn(mock(Domains.class));
-    when(adapter.domains().listDomains(account.getId().toString())).thenReturn(new ListDomainsResponse(domains));
-
-    Client client = new Client(adapter);
-    // ... your test
-  }
-}
-```
 
 ## License
 
