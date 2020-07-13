@@ -71,7 +71,7 @@ The user agent value will be prepended to additional user-agent information that
 
 ## Sandbox Usage
 
-If you would like to test in the [DNSimple sandbox environment](https://developer.dnsimple.com/sandbox/) then :
+If you would like to test in the [DNSimple sandbox environment](https://developer.dnsimple.com/sandbox/) then add the "sandbox()" builder to your client:
 
 ```java
 package myapp;
