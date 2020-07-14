@@ -278,7 +278,7 @@ public interface Domains {
      * @return The initiate push response
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#initiate">https://developer.dnsimple.com/v2/domains/pushes/#initiate</a>
      */
-    SimpleResponse<Push> initiatePush(String accountId, String domainId, Map<String, Object> attributes);
+    SimpleResponse<DomainPush> initiatePush(String accountId, String domainId, Map<String, Object> attributes);
 
     /**
      * List pushes under a given domain.
@@ -288,7 +288,7 @@ public interface Domains {
      * @return The list pushes response
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#list">https://developer.dnsimple.com/v2/domains/pushes/#list</a>
      */
-    PaginatedResponse<Push> listPushes(String accountId, String domainId);
+    PaginatedResponse<DomainPush> listPushes(String accountId, String domainId);
 
     /**
      * List pushes under a given domain.
@@ -299,7 +299,7 @@ public interface Domains {
      * @return The list pushes response
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#list">https://developer.dnsimple.com/v2/domains/pushes/#list</a>
      */
-    PaginatedResponse<Push> listPushes(String accountId, String domainId, Map<String, Object> options);
+    PaginatedResponse<DomainPush> listPushes(String accountId, String domainId, Map<String, Object> options);
 
     /**
      * Accept a push.
