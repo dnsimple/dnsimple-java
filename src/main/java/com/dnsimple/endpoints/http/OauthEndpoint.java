@@ -1,7 +1,7 @@
 package com.dnsimple.endpoints.http;
 
 import com.dnsimple.Oauth;
-import com.dnsimple.data.OauthToken;
+import com.dnsimple.data.AccessToken;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -19,11 +19,11 @@ public class OauthEndpoint implements Oauth {
         this.client = client;
     }
 
-    public OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret) {
+    public AccessToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret) {
         return exchangeAuthorizationForToken(code, clientId, clientSecret, emptyMap());
     }
 
-    public OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret, Map<String, Object> options) {
+    public AccessToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret, Map<String, Object> options) {
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("code", code);
         attributes.put("client_id", clientId);
@@ -35,7 +35,7 @@ public class OauthEndpoint implements Oauth {
         if (options.containsKey("redirect_uri")) {
             attributes.put("redirect_uri", options.remove("redirect_uri"));
         }
-        return client.raw(POST, "oauth/access_token", emptyMap(), attributes, OauthToken.class);
+        return client.raw(POST, "oauth/access_token", emptyMap(), attributes, AccessToken.class);
     }
 
     public String authorizeUrl(String clientId) {

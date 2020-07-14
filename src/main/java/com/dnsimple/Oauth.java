@@ -1,6 +1,6 @@
 package com.dnsimple;
 
-import com.dnsimple.data.OauthToken;
+import com.dnsimple.data.AccessToken;
 
 import java.util.Map;
 
@@ -20,7 +20,7 @@ public interface Oauth {
      * @return The OauthToken instance
      * @see <a href="https://developer.dnsimple.com/v2/oauth">https://developer.dnsimple.com/v2/oauth</a>
      */
-    OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret);
+    AccessToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret);
 
     /**
      * Exchange the short-lived authorization code for an access token
@@ -33,7 +33,7 @@ public interface Oauth {
      * @return The OauthToken instance
      * @see <a href="https://developer.dnsimple.com/v2/oauth">https://developer.dnsimple.com/v2/oauth</a>
      */
-    OauthToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret, Map<String, Object> options);
+    AccessToken exchangeAuthorizationForToken(String code, String clientId, String clientSecret, Map<String, Object> options);
 
     /**
      * Gets the URL to authorize a user for an application via the OAuth2 flow.
