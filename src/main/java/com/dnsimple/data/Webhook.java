@@ -1,15 +1,15 @@
 package com.dnsimple.data;
 
 public class Webhook {
-    private final Integer id;
+    private final Long id;
     private final String url;
 
-    public Webhook(Integer id, String url) {
+    public Webhook(Long id, String url) {
         this.id = id;
         this.url = url;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
