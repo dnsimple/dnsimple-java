@@ -1,29 +1,35 @@
 package com.dnsimple.data;
 
-public class Template {
-    private final Integer id;
-    private final Integer accountId;
-    private final String name;
-    private final String sid;
-    private final String description;
-    private final String createdAt;
-    private final String updatedAt;
+import java.time.OffsetDateTime;
 
-    public Template(Integer id, Integer accountId, String name, String sid, String description, String createdAt, String updatedAt) {
+public class Template {
+    private final Long id;
+    private final String sid;
+    private final Long accountId;
+    private final String name;
+    private final String description;
+    private final OffsetDateTime createdAt;
+    private final OffsetDateTime updatedAt;
+
+    public Template(Long id, String sid, Long accountId, String name, String description, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
         this.id = id;
+        this.sid = sid;
         this.accountId = accountId;
         this.name = name;
-        this.sid = sid;
         this.description = description;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public Integer getAccountId() {
+    public String getSid() {
+        return sid;
+    }
+
+    public Long getAccountId() {
         return accountId;
     }
 
@@ -31,19 +37,15 @@ public class Template {
         return name;
     }
 
-    public String getShortName() {
-        return sid;
-    }
-
     public String getDescription() {
         return description;
     }
 
-    public String getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public String getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 }
