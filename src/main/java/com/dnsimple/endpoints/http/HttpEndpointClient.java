@@ -10,6 +10,7 @@ import java.io.*;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class HttpEndpointClient {
     private static final Gson gson = new GsonBuilder()
             .setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES)
             .registerTypeAdapter(OffsetDateTime.class, new OffsetDateTimeDeserializer())
+            .registerTypeAdapter(LocalDate.class, new LocalDateDeserializer())
             .create();
     private static final String API_VERSION_PATH = "/v2/";
     private final HttpRequestFactory requestFactory;
