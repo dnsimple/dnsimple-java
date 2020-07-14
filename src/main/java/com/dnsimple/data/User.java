@@ -1,15 +1,15 @@
 package com.dnsimple.data;
 
 public class User {
-    private final Integer id;
+    private final Long id;
     private final String email;
 
-    public User(Integer id, String email) {
+    public User(Long id, String email) {
         this.id = id;
         this.email = email;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
