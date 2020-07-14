@@ -23,7 +23,7 @@ public class TldExtendedAttribute {
         return description;
     }
 
-    public Boolean getRequired() {
+    public Boolean isRequired() {
         return required;
     }
 
