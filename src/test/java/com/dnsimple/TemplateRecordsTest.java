@@ -5,11 +5,13 @@ import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
 import org.junit.Test;
 
+import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.dnsimple.endpoints.http.HttpMethod.*;
+import static java.time.ZoneOffset.UTC;
 import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -41,7 +43,7 @@ public class TemplateRecordsTest extends DnsimpleTestBase {
         server.stubFixtureAt("listTemplateRecords/success.http");
         List<TemplateRecord> templateRecords = client.templates.listTemplateRecords("1", "2").getData();
         assertThat(templateRecords, hasSize(2));
-        assertThat(templateRecords.get(0).getId(), is(296));
+        assertThat(templateRecords.get(0).getId(), is(296L));
     }
 
     @Test
@@ -57,15 +59,15 @@ public class TemplateRecordsTest extends DnsimpleTestBase {
         TemplateRecord record = client.templates.getTemplateRecord("1010", "1", "301").getData();
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/templates/1/records/301"));
-        assertThat(record.getId(), is(301));
-        assertThat(record.getTemplateId(), is(268));
+        assertThat(record.getId(), is(301L));
+        assertThat(record.getTemplateId(), is(268L));
         assertThat(record.getName(), isEmptyOrNullString());
         assertThat(record.getContent(), is("mx.example.com"));
         assertThat(record.getTtl(), is(600));
         assertThat(record.getPriority(), is(10));
         assertThat(record.getType(), is("MX"));
-        assertThat(record.getCreatedAt(), is("2016-05-03T08:03:26Z"));
-        assertThat(record.getUpdatedAt(), is("2016-05-03T08:03:26Z"));
+        assertThat(record.getCreatedAt(), is(OffsetDateTime.of(2016, 5, 3, 8, 3, 26, 0, UTC)));
+        assertThat(record.getUpdatedAt(), is(OffsetDateTime.of(2016, 5, 3, 8, 3, 26, 0, UTC)));
     }
 
     @Test
@@ -87,7 +89,7 @@ public class TemplateRecordsTest extends DnsimpleTestBase {
         attributes.put("name", "www");
         attributes.put("content", "example.com");
         SimpleResponse<TemplateRecord> response = client.templates.createTemplateRecord("1", "300", attributes);
-        assertThat(response.getData().getId(), is(300));
+        assertThat(response.getData().getId(), is(300L));
     }
 
     @Test

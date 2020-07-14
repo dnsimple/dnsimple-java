@@ -1,33 +1,35 @@
 package com.dnsimple.data;
 
+import java.time.OffsetDateTime;
+
 public class TemplateRecord {
-    private final Integer id;
-    private final Integer templateId;
+    private final Long id;
+    private final Long templateId;
     private final String name;
     private final String content;
     private final Integer ttl;
-    private final Integer priority;
     private final String type;
-    private final String createdAt;
-    private final String updatedAt;
+    private final Integer priority;
+    private final OffsetDateTime createdAt;
+    private final OffsetDateTime updatedAt;
 
-    public TemplateRecord(Integer id, Integer templateId, String name, String content, Integer ttl, Integer priority, String type, String createdAt, String updatedAt) {
+    public TemplateRecord(Long id, Long templateId, String name, String content, Integer ttl, String type, Integer priority, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
         this.id = id;
         this.templateId = templateId;
         this.name = name;
         this.content = content;
         this.ttl = ttl;
-        this.priority = priority;
         this.type = type;
+        this.priority = priority;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public Integer getTemplateId() {
+    public Long getTemplateId() {
         return templateId;
     }
 
@@ -43,19 +45,19 @@ public class TemplateRecord {
         return ttl;
     }
 
-    public Integer getPriority() {
-        return priority;
-    }
-
     public String getType() {
         return type;
     }
 
-    public String getCreatedAt() {
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public String getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 }
