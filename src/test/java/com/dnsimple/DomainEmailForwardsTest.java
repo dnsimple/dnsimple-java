@@ -6,12 +6,14 @@ import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
 import org.junit.Test;
 
+import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.dnsimple.endpoints.http.HttpMethod.DELETE;
 import static com.dnsimple.endpoints.http.HttpMethod.GET;
 import static com.dnsimple.tools.CustomMatchers.thrownException;
+import static java.time.ZoneOffset.UTC;
 import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -43,7 +45,7 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
         server.stubFixtureAt("listEmailForwards/success.http");
         PaginatedResponse<EmailForward> response = client.domains.listEmailForwards("1", "example.com");
         assertThat(response.getData(), hasSize(2));
-        assertThat(response.getData().get(0).getId(), is(17702));
+        assertThat(response.getData().get(0).getId(), is(17702L));
     }
 
     @Test
@@ -57,8 +59,12 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
     public void testGetEmailForward() {
         server.stubFixtureAt("getEmailForward/success.http");
         EmailForward emailForward = client.domains.getEmailForward("1", "example.com", "17706").getData();
-        assertThat(emailForward.getId(), is(17706));
-        assertThat(emailForward.getDomainId(), is(228963));
+        assertThat(emailForward.getId(), is(17706L));
+        assertThat(emailForward.getDomainId(), is(228963L));
+        assertThat(emailForward.getTo(), is("jim@another.com"));
+        assertThat(emailForward.getFrom(), is("jim@a-domain.com"));
+        assertThat(emailForward.getCreatedAt(), is(OffsetDateTime.of(2016, 2, 4, 14, 26, 50, 0, UTC)));
+        assertThat(emailForward.getUpdatedAt(), is(OffsetDateTime.of(2016, 2, 4, 14, 26, 50, 0, UTC)));
     }
 
     @Test
@@ -82,7 +88,7 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
         attributes.put("from", "john");
         attributes.put("to", "john@another.com");
         SimpleResponse<EmailForward> response = client.domains.createEmailForward("1", "example.com", attributes);
-        assertThat(response.getData().getId(), is(17706));
+        assertThat(response.getData().getId(), is(17706L));
     }
 
     @Test
