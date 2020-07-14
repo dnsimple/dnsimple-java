@@ -1,6 +1,6 @@
 package com.dnsimple;
 
-import com.dnsimple.data.Whoami;
+import com.dnsimple.data.WhoamiData;
 import com.dnsimple.response.SimpleResponse;
 import org.junit.Test;
 
@@ -12,7 +12,7 @@ public class IdentityTest extends DnsimpleTestBase {
     @Test
     public void testWhoamiWithAccount() {
         server.stubFixtureAt("whoami/success-account.http");
-        Whoami data = client.identity.whoami().getData();
+        WhoamiData data = client.identity.whoami().getData();
         assertThat(data.getUser(), is(nullValue()));
         assertThat(data.getAccount().getId(), is(1L));
         assertThat(data.getAccount().getEmail(), is("example-account@example.com"));
@@ -21,8 +21,8 @@ public class IdentityTest extends DnsimpleTestBase {
     @Test
     public void testWhoamiWithUser() {
         server.stubFixtureAt("whoami/success-user.http");
-        SimpleResponse<Whoami> whoami = client.identity.whoami();
-        Whoami data = whoami.getData();
+        SimpleResponse<WhoamiData> whoami = client.identity.whoami();
+        WhoamiData data = whoami.getData();
         assertThat(data.getUser().getId(), is(1L));
         assertThat(data.getUser().getEmail(), is("example-user@example.com"));
         assertThat(data.getAccount(), is(nullValue()));
