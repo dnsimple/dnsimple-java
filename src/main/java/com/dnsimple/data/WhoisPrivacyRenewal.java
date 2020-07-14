@@ -1,16 +1,19 @@
 package com.dnsimple.data;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+
 public class WhoisPrivacyRenewal {
-    private final Integer id;
-    private final Integer domainId;
-    private final Integer whoisPrivacyId;
+    private final Long id;
+    private final Long domainId;
+    private final Long whoisPrivacyId;
     private final String state;
     private final Boolean enabled;
-    private final String expiresOn;
-    private final String createdAt;
-    private final String updatedAt;
+    private final LocalDate expiresOn;
+    private final OffsetDateTime createdAt;
+    private final OffsetDateTime updatedAt;
 
-    public WhoisPrivacyRenewal(Integer id, Integer domainId, Integer whoisPrivacyId, String state, Boolean enabled, String expiresOn, String createdAt, String updatedAt) {
+    public WhoisPrivacyRenewal(Long id, Long domainId, Long whoisPrivacyId, String state, Boolean enabled, LocalDate expiresOn, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
         this.id = id;
         this.domainId = domainId;
         this.whoisPrivacyId = whoisPrivacyId;
@@ -21,15 +24,15 @@ public class WhoisPrivacyRenewal {
         this.updatedAt = updatedAt;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public Integer getDomainId() {
+    public Long getDomainId() {
         return domainId;
     }
 
-    public Integer getWhoisPrivacyId() {
+    public Long getWhoisPrivacyId() {
         return whoisPrivacyId;
     }
 
@@ -37,19 +40,19 @@ public class WhoisPrivacyRenewal {
         return state;
     }
 
-    public Boolean getEnabled() {
+    public Boolean isEnabled() {
         return enabled;
     }
 
-    public String getExpiresOn() {
+    public LocalDate getExpiresOn() {
         return expiresOn;
     }
 
-    public String getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public String getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 }

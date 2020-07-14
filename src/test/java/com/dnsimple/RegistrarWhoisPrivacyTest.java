@@ -59,6 +59,13 @@ public class RegistrarWhoisPrivacyTest extends DnsimpleTestBase {
         WhoisPrivacyRenewal whoisPrivacyRenewal = client.registrar.renewWhoisPrivacy("1010", "example.com").getData();
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/whois_privacy/renewals"));
-        assertThat(whoisPrivacyRenewal.getId(), is(1));
+        assertThat(whoisPrivacyRenewal.getId(), is(1L));
+        assertThat(whoisPrivacyRenewal.getDomainId(), is(100L));
+        assertThat(whoisPrivacyRenewal.getWhoisPrivacyId(), is(999L));
+        assertThat(whoisPrivacyRenewal.getState(), is("new"));
+        assertThat(whoisPrivacyRenewal.isEnabled(), is(true));
+        assertThat(whoisPrivacyRenewal.getExpiresOn(), is(LocalDate.of(2020, 1, 10)));
+        assertThat(whoisPrivacyRenewal.getCreatedAt(), is(OffsetDateTime.of(2019, 1, 10, 12, 12, 48, 0, UTC)));
+        assertThat(whoisPrivacyRenewal.getUpdatedAt(), is(OffsetDateTime.of(2019, 1, 10, 12, 12, 48, 0, UTC)));
     }
 }
