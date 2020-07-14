@@ -58,7 +58,12 @@ public class RegistrarTest extends DnsimpleTestBase {
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/renewals"));
         assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
-        assertThat(domainRenewal.getId(), is(1));
+        assertThat(domainRenewal.getId(), is(1L));
+        assertThat(domainRenewal.getDomainId(), is(999L));
+        assertThat(domainRenewal.getPeriod(), is(1));
+        assertThat(domainRenewal.getState(), is("new"));
+        assertThat(domainRenewal.getCreatedAt(), is(OffsetDateTime.of(2016, 12, 9, 19, 46, 45, 0, UTC)));
+        assertThat(domainRenewal.getUpdatedAt(), is(OffsetDateTime.of(2016, 12, 9, 19, 46, 45, 0, UTC)));
     }
 
     @Test(expected = DnsimpleException.class)
