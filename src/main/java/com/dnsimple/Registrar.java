@@ -179,7 +179,7 @@ public interface Registrar {
      * @return The change domain delegation to vanity response
      * @see <a href="https://developer.dnsimple.com/v2/registrar/delegation/#delegateToVanity">https://developer.dnsimple.com/v2/registrar/delegation/#delegateToVanity</a>
      */
-    ListResponse<NameServer> changeDomainDelegationToVanity(String accountId, String domainId, List<String> nameServerNames);
+    ListResponse<VanityNameServer> changeDomainDelegationToVanity(String accountId, String domainId, List<String> nameServerNames);
 
     /**
      * Change the domain delegation back to the standard DNSimple name servers.

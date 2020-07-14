@@ -1,7 +1,7 @@
 package com.dnsimple.endpoints.http;
 
 import com.dnsimple.VanityNameServers;
-import com.dnsimple.data.NameServer;
+import com.dnsimple.data.VanityNameServer;
 import com.dnsimple.response.EmptyResponse;
 import com.dnsimple.response.ListResponse;
 
@@ -16,8 +16,8 @@ public class VanityNameServersEndpoint implements VanityNameServers {
         this.client = client;
     }
 
-    public ListResponse<NameServer> enableVanityNameServers(String accountId, String domainId) {
-        return client.list(PUT, accountId + "/vanity/" + domainId, emptyMap(), null, NameServer.class);
+    public ListResponse<VanityNameServer> enableVanityNameServers(String accountId, String domainId) {
+        return client.list(PUT, accountId + "/vanity/" + domainId, emptyMap(), null, VanityNameServer.class);
     }
 
     public EmptyResponse disableVanityNameServers(String accountId, String domainId) {

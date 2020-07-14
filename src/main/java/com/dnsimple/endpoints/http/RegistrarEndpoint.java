@@ -79,8 +79,8 @@ public class RegistrarEndpoint implements Registrar {
         return client.list(PUT, accountId + "/registrar/domains/" + domainId + "/delegation", emptyMap(), nameServerNames, String.class);
     }
 
-    public ListResponse<NameServer> changeDomainDelegationToVanity(String accountId, String domainId, List<String> nameServerNames) {
-        return client.list(PUT, accountId + "/registrar/domains/" + domainId + "/delegation/vanity", emptyMap(), nameServerNames, NameServer.class);
+    public ListResponse<VanityNameServer> changeDomainDelegationToVanity(String accountId, String domainId, List<String> nameServerNames) {
+        return client.list(PUT, accountId + "/registrar/domains/" + domainId + "/delegation/vanity", emptyMap(), nameServerNames, VanityNameServer.class);
     }
 
     public EmptyResponse changeDomainDelegationFromVanity(String accountId, String domainId) {
