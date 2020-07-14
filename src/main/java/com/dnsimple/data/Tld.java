@@ -4,15 +4,21 @@ public class Tld {
     private final String tld;
     private final Integer tldType;
     private final Boolean whoisPrivacy;
-    private final Boolean autorenewOnly;
-    private final Boolean idn;
+    private final Boolean autoRenewOnly;
+    private final Integer minimumRegistration;
+    private final Boolean registrationEnabled;
+    private final Boolean renewalEnabled;
+    private final Boolean transferEnabled;
 
-    public Tld(String tld, Integer tldType, Boolean whoisPrivacy, Boolean autorenewOnly, Boolean idn) {
+    public Tld(String tld, Integer tldType, Boolean whoisPrivacy, Boolean autoRenewOnly, Integer minimumRegistration, Boolean registrationEnabled, Boolean renewalEnabled, Boolean transferEnabled) {
         this.tld = tld;
         this.tldType = tldType;
         this.whoisPrivacy = whoisPrivacy;
-        this.autorenewOnly = autorenewOnly;
-        this.idn = idn;
+        this.autoRenewOnly = autoRenewOnly;
+        this.minimumRegistration = minimumRegistration;
+        this.registrationEnabled = registrationEnabled;
+        this.renewalEnabled = renewalEnabled;
+        this.transferEnabled = transferEnabled;
     }
 
     public String getTld() {
@@ -23,15 +29,27 @@ public class Tld {
         return tldType;
     }
 
-    public Boolean getWhoisPrivacy() {
+    public Boolean supportsWhoisPrivacy() {
         return whoisPrivacy;
     }
 
-    public Boolean getAutorenewOnly() {
-        return autorenewOnly;
+    public Boolean isAutorenewOnly() {
+        return autoRenewOnly;
     }
 
-    public Boolean getIdn() {
-        return idn;
+    public Integer getMinimumRegistration() {
+        return minimumRegistration;
+    }
+
+    public Boolean isRegistrationEnabled() {
+        return registrationEnabled;
+    }
+
+    public Boolean isRenewalEnabled() {
+        return renewalEnabled;
+    }
+
+    public Boolean isTransferEnabled() {
+        return transferEnabled;
     }
 }

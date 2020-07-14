@@ -43,6 +43,13 @@ public class TldsTest extends DnsimpleTestBase {
         List<Tld> tlds = client.tlds.listTlds().getData();
         assertThat(tlds, hasSize(2));
         assertThat(tlds.get(0).getTld(), is("ac"));
+        assertThat(tlds.get(0).getTldType(), is(2));
+        assertThat(tlds.get(0).supportsWhoisPrivacy(), is(false));
+        assertThat(tlds.get(0).isAutorenewOnly(), is(true));
+        assertThat(tlds.get(0).getMinimumRegistration(), is(1));
+        assertThat(tlds.get(0).isRegistrationEnabled(), is(true));
+        assertThat(tlds.get(0).isRenewalEnabled(), is(true));
+        assertThat(tlds.get(0).isTransferEnabled(), is(false));
     }
 
     @Test
