@@ -1,6 +1,6 @@
 package com.dnsimple.tools;
 
-import com.dnsimple.endpoints.http.HttpMethod;
+import com.dnsimple.http.HttpMethod;
 
 import java.io.*;
 import java.net.Socket;

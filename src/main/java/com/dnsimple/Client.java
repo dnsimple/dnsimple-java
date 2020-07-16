@@ -1,7 +1,9 @@
 package com.dnsimple;
 
-import com.dnsimple.endpoints.http.*;
-import com.dnsimple.endpoints.http.java11.Java11HttpRequestFactory;
+import com.dnsimple.endpoints.*;
+import com.dnsimple.http.HttpEndpointClient;
+import com.dnsimple.http.HttpRequestFactory;
+import com.dnsimple.http.java11.Java11HttpRequestFactory;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -54,26 +56,26 @@ public class Client {
         HttpEndpointClient endpointClient = new HttpEndpointClient(httpRequestFactory, apiBase, userAgent, accessToken);
         return new Client(
                 endpointClient,
-                new AccountsEndpoint(endpointClient),
-                new CertificatesEndpoint(endpointClient),
-                new ContactsEndpoint(endpointClient),
-                new DomainsEndpoint(endpointClient),
-                new IdentityEndpoint(endpointClient),
-                new OauthEndpoint(endpointClient),
-                new RegistrarEndpoint(endpointClient),
-                new ServicesEndpoint(endpointClient),
-                new TemplatesEndpoint(endpointClient),
-                new TldsEndpoint(endpointClient),
-                new VanityNameServersEndpoint(endpointClient),
-                new WebhooksEndpoint(endpointClient),
-                new ZonesEndpoint(endpointClient)
+                new Accounts(endpointClient),
+                new Certificates(endpointClient),
+                new Contacts(endpointClient),
+                new Domains(endpointClient),
+                new Identity(endpointClient),
+                new Oauth(endpointClient),
+                new Registrar(endpointClient),
+                new Services(endpointClient),
+                new Templates(endpointClient),
+                new Tlds(endpointClient),
+                new VanityNameServers(endpointClient),
+                new Webhooks(endpointClient),
+                new Zones(endpointClient)
         );
     }
 
     /**
      * Sets the access token for subsequent calls
      *
-     * @param accessToken
+     * @param accessToken the access token to be used
      * @return this Client object
      */
     public Client setAccessToken(String accessToken) {
@@ -116,7 +118,7 @@ public class Client {
         /**
          * Use a custom API base URL
          *
-         * @param url
+         * @param url the base URL of the API to be used
          * @return this Builder object
          */
         public Builder apiBase(String url) {
@@ -127,7 +129,7 @@ public class Client {
         /**
          * Use a custom API base URL
          *
-         * @param url
+         * @param url the base URL of the API to be used
          * @return this Builder object
          */
         public Builder apiBase(URL url) {
@@ -138,7 +140,7 @@ public class Client {
         /**
          * Use a custom HTTP request factory object
          *
-         * @param factory
+         * @param factory factory of HTTP requests to be used
          * @return this Builder object
          */
         public Builder httpRequestFactory(HttpRequestFactory factory) {
@@ -149,7 +151,7 @@ public class Client {
         /**
          * Set an extra user agent that will be prefixed to the default
          *
-         * @param userAgent
+         * @param userAgent userAgent string to be prefixed
          * @return this Builder object
          */
         public Builder extraUserAgent(String userAgent) {
@@ -161,7 +163,7 @@ public class Client {
          * Set a the access token for all API requests. You can set it later
          * directly on the Client object as well.
          *
-         * @param accessToken
+         * @param accessToken the access token to be used
          * @return this Builder object
          */
         public Builder accessToken(String accessToken) {

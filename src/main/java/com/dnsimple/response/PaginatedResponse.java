@@ -4,7 +4,7 @@ import java.util.List;
 
 import static java.util.Collections.emptyList;
 
-public class PaginatedResponse<T> implements ApiResponse {
+public class PaginatedResponse<T> {
     private final List<T> data;
     private final Pagination pagination;
 

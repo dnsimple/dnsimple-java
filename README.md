@@ -52,7 +52,7 @@ package myapp;
 
 import com.dnsimple.Client;
 import com.dnsimple.data.Account;
-import com.dnsimple.response.WhoamiResponse;
+import com.dnsimple.response.SimpleResponse;
 
 public class MyApp {
   public static void main(String[] args) {
@@ -68,6 +68,33 @@ public class MyApp {
 ```
 
 The user agent value will be prepended to additional user-agent information that is set by default in this library. While it is not strictly necessary to set the user agent, it is often helpful for the team at DNSimple when debugging, so please consider setting it.
+
+### List request options
+
+For endpoints that support it, you can set options to filter, limit and sort the results that the API produces thanks to the `ListOptions` class.
+
+```java
+package myapp;
+
+import com.dnsimple.Client;
+import com.dnsimple.data.Certificate;
+import com.dnsimple.response.ListResponse;
+
+public class MyApp {
+  public static void main(String[] args) {
+    //...
+
+    // Use the ListOptions.Builder class to get an create a ListOptions object
+    ListOptions options = new ListOptions.Builder()
+                                         .page(2, 10) // Get the second page of 10 items
+                                         .sortAsc("state") // Sort by state in ascendant order
+                                         .filter("autoRenew", "true") // Filter certificates with enabled auto-renew
+                                         .build();
+    ListResponse<Certificate> response = client.certificates.listCertificates("1", "1", options);
+    //...
+  }
+}
+```
 
 ## Sandbox Usage
 
