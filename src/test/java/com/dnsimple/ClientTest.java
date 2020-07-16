@@ -1,8 +1,9 @@
 package com.dnsimple;
 
+import com.dnsimple.tools.DnsimpleTestBase;
 import org.junit.Test;
 
-import static com.dnsimple.endpoints.http.HttpMethod.GET;
+import static com.dnsimple.http.HttpMethod.GET;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasEntry;
 import static org.hamcrest.Matchers.is;

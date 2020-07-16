@@ -1,6 +1,6 @@
 package com.dnsimple.response;
 
-public class SimpleResponse<T> implements ApiResponse {
+public class SimpleResponse<T> {
     private final T data;
 
     public SimpleResponse(T data) {
