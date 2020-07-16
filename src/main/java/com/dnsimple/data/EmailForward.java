@@ -1,14 +1,16 @@
 package com.dnsimple.data;
 
+import java.time.OffsetDateTime;
+
 public class EmailForward {
-    private final Integer id;
-    private final Integer domainId;
+    private final Long id;
+    private final Long domainId;
     private final String from;
     private final String to;
-    private final String createdAt;
-    private final String updatedAt;
+    private final OffsetDateTime createdAt;
+    private final OffsetDateTime updatedAt;
 
-    public EmailForward(Integer id, Integer domainId, String from, String to, String createdAt, String updatedAt) {
+    public EmailForward(Long id, Long domainId, String from, String to, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
         this.id = id;
         this.domainId = domainId;
         this.from = from;
@@ -17,11 +19,11 @@ public class EmailForward {
         this.updatedAt = updatedAt;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public Integer getDomainId() {
+    public Long getDomainId() {
         return domainId;
     }
 
@@ -33,11 +35,11 @@ public class EmailForward {
         return to;
     }
 
-    public String getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public String getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 }

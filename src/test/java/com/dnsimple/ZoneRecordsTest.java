@@ -7,11 +7,13 @@ import com.dnsimple.response.SimpleResponse;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 
 import static com.dnsimple.endpoints.http.HttpMethod.*;
 import static com.dnsimple.tools.CustomMatchers.thrownException;
+import static java.time.ZoneOffset.UTC;
 import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -43,7 +45,7 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
         server.stubFixtureAt("listZoneRecords/success.http");
         List<ZoneRecord> zoneRecords = client.zones.listZoneRecords("1", "example.com").getData();
         assertThat(zoneRecords, hasSize(5));
-        assertThat(zoneRecords.get(0).getId(), is(1));
+        assertThat(zoneRecords.get(0).getId(), is(1L));
     }
 
     @Test
@@ -57,7 +59,7 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
     public void testGetZoneRecord() {
         server.stubFixtureAt("getZoneRecord/success.http");
         ZoneRecord record = client.zones.getZoneRecord("1", "example.com", "2").getData();
-        assertThat(record.getId(), is(5));
+        assertThat(record.getId(), is(5L));
         assertThat(record.getZoneId(), is("example.com"));
         assertThat(record.getParentId(), is(nullValue()));
         assertThat(record.getName(), is(""));
@@ -65,9 +67,10 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
         assertThat(record.getTtl(), is(600));
         assertThat(record.getPriority(), is(10));
         assertThat(record.getType(), is("MX"));
-        assertThat(record.getSystemRecord(), is(false));
-        assertThat(record.getCreatedAt(), is("2016-10-05T09:51:35Z"));
-        assertThat(record.getUpdatedAt(), is("2016-10-05T09:51:35Z"));
+        assertThat(record.isSystemRecord(), is(false));
+        assertThat(record.getRegions(), contains("SV1", "IAD"));
+        assertThat(record.getCreatedAt(), is(OffsetDateTime.of(2016, 10, 5, 9, 51, 35, 0, UTC)));
+        assertThat(record.getUpdatedAt(), is(OffsetDateTime.of(2016, 10, 5, 9, 51, 35, 0, UTC)));
     }
 
     @Test
@@ -92,7 +95,7 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
     public void testCreateZoneRecordProducesZoneRecord() {
         server.stubFixtureAt("createZoneRecord/created.http");
         SimpleResponse<ZoneRecord> response = client.zones.createZoneRecord("1", "example.com", singletonMap("name", "www"));
-        assertThat(response.getData().getId(), is(1));
+        assertThat(response.getData().getId(), is(1L));
     }
 
     @Test
@@ -103,7 +106,7 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
         assertThat(server.getRecordedRequest().getMethod(), is(PATCH));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/zones/example.com/records/2"));
         assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
-        assertThat(record.getId(), is(5));
+        assertThat(record.getId(), is(5L));
     }
 
     @Test

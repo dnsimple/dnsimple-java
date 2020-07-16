@@ -1,11 +1,11 @@
 package com.dnsimple.data;
 
-public class DomainAvailability {
+public class DomainCheck {
     private final String domain;
     private final Boolean available;
     private final Boolean premium;
 
-    public DomainAvailability(String domain, Boolean available, Boolean premium) {
+    public DomainCheck(String domain, Boolean available, Boolean premium) {
         this.domain = domain;
         this.available = available;
         this.premium = premium;
@@ -15,11 +15,11 @@ public class DomainAvailability {
         return domain;
     }
 
-    public Boolean getAvailable() {
+    public Boolean isAvailable() {
         return available;
     }
 
-    public Boolean getPremium() {
+    public Boolean isPremium() {
         return premium;
     }
 }

@@ -40,7 +40,7 @@ public class DomainServicesTest extends DnsimpleTestBase {
         server.stubFixtureAt("appliedServices/success.http");
         List<Service> services = client.services.appliedServices("1", "example.com").getData();
         assertThat(services, hasSize(1));
-        assertThat(services.get(0).getId(), is(1));
+        assertThat(services.get(0).getId(), is(1L));
     }
 
     @Test

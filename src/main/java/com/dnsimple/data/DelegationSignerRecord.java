@@ -1,16 +1,18 @@
 package com.dnsimple.data;
 
+import java.time.OffsetDateTime;
+
 public class DelegationSignerRecord {
-    private final Integer id;
-    private final Integer domainId;
+    private final Long id;
+    private final Long domainId;
     private final String algorithm;
     private final String digest;
     private final String digestType;
     private final String keytag;
-    private final String createdAt;
-    private final String updatedAt;
+    private final OffsetDateTime createdAt;
+    private final OffsetDateTime updatedAt;
 
-    public DelegationSignerRecord(Integer id, Integer domainId, String algorithm, String digest, String digestType, String keytag, String createdAt, String updatedAt) {
+    public DelegationSignerRecord(Long id, Long domainId, String algorithm, String digest, String digestType, String keytag, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
         this.id = id;
         this.domainId = domainId;
         this.algorithm = algorithm;
@@ -21,11 +23,11 @@ public class DelegationSignerRecord {
         this.updatedAt = updatedAt;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public Integer getDomainId() {
+    public Long getDomainId() {
         return domainId;
     }
 
@@ -45,11 +47,11 @@ public class DelegationSignerRecord {
         return keytag;
     }
 
-    public String getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public String getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 }

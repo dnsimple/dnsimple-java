@@ -1,37 +1,51 @@
 package com.dnsimple.data;
 
-public class CertificateRenewal {
-    private final Integer id;
-    private final Integer oldCertificateId;
-    private final Integer newCertificateId;
-    private final String createdAt;
-    private final String updatedAt;
+import java.time.OffsetDateTime;
 
-    public CertificateRenewal(Integer id, Integer oldCertificateId, Integer newCertificateId, String createdAt, String updatedAt) {
+public class CertificateRenewal {
+    private final Long id;
+    private final Long oldCertificateId;
+    private final Long newCertificateId;
+    private final String state;
+    private final Boolean autoRenew;
+    private final OffsetDateTime createdAt;
+    private final OffsetDateTime updatedAt;
+
+    public CertificateRenewal(Long id, Long oldCertificateId, Long newCertificateId, String state, Boolean autoRenew, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
         this.id = id;
         this.oldCertificateId = oldCertificateId;
         this.newCertificateId = newCertificateId;
+        this.state = state;
+        this.autoRenew = autoRenew;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public Integer getOldCertificateId() {
+    public Long getOldCertificateId() {
         return oldCertificateId;
     }
 
-    public Integer getNewCertificateId() {
+    public Long getNewCertificateId() {
         return newCertificateId;
     }
 
-    public String getCreatedAt() {
+    public String getState() {
+        return state;
+    }
+
+    public Boolean hasAutoRenew() {
+        return autoRenew;
+    }
+
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public String getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 }

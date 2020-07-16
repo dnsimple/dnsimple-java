@@ -5,11 +5,13 @@ import com.dnsimple.exception.ResourceNotFoundException;
 import com.dnsimple.response.PaginatedResponse;
 import org.junit.Test;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import static com.dnsimple.endpoints.http.HttpMethod.DELETE;
 import static com.dnsimple.endpoints.http.HttpMethod.GET;
 import static com.dnsimple.tools.CustomMatchers.thrownException;
+import static java.time.ZoneOffset.UTC;
 import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -37,11 +39,11 @@ public class DomainCollaboratorsTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testCollaboratorsProducesDelegationSignerRecordList() {
+    public void testCollaboratorsProducesCollaboratorList() {
         server.stubFixtureAt("listCollaborators/success.http");
         List<Collaborator> collaborators = client.domains.listCollaborators("1", "example.com").getData();
         assertThat(collaborators, hasSize(2));
-        assertThat(collaborators.get(0).getId(), is(100));
+        assertThat(collaborators.get(0).getId(), is(100L));
     }
 
     @Test
@@ -55,24 +57,27 @@ public class DomainCollaboratorsTest extends DnsimpleTestBase {
     public void testAddColaboratorProducersInvitedUserCollaborator() {
         server.stubFixtureAt("addCollaborator/invite-success.http");
         Collaborator collaborator = client.domains.addCollaborator("1", "example.com", singletonMap("email", "invited-user@example.com")).getData();
-        assertThat(collaborator.getId(), is(101));
-        assertThat(collaborator.getDomainId(), is(1));
+        assertThat(collaborator.getId(), is(101L));
+        assertThat(collaborator.getDomainId(), is(1L));
         assertThat(collaborator.getDomainName(), is("example.com"));
         assertThat(collaborator.getUserId(), is(nullValue()));
         assertThat(collaborator.getUserEmail(), is("invited-user@example.com"));
-        assertThat(collaborator.getInvitation(), is(true));
+        assertThat(collaborator.hasInvitation(), is(true));
     }
 
     @Test
     public void testAddColaboratorProducersExistingUserCollaborator() {
         server.stubFixtureAt("addCollaborator/success.http");
         Collaborator collaborator = client.domains.addCollaborator("1", "example.com", singletonMap("email", "invited-user@example.com")).getData();
-        assertThat(collaborator.getId(), is(100));
-        assertThat(collaborator.getDomainId(), is(1));
+        assertThat(collaborator.getId(), is(100L));
+        assertThat(collaborator.getDomainId(), is(1L));
         assertThat(collaborator.getDomainName(), is("example.com"));
-        assertThat(collaborator.getUserId(), is(999));
+        assertThat(collaborator.getUserId(), is(999L));
         assertThat(collaborator.getUserEmail(), is("existing-user@example.com"));
-        assertThat(collaborator.getInvitation(), is(false));
+        assertThat(collaborator.hasInvitation(), is(false));
+        assertThat(collaborator.getCreatedAt(), is(OffsetDateTime.of(2016, 10, 7, 8, 53, 41, 0, UTC)));
+        assertThat(collaborator.getUpdatedAt(), is(OffsetDateTime.of(2016, 10, 7, 8, 53, 41, 0, UTC)));
+        assertThat(collaborator.getAcceptedAt(), is(OffsetDateTime.of(2016, 10, 7, 8, 53, 41, 0, UTC)));
     }
 
     @Test

@@ -10,6 +10,8 @@ import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
 import org.junit.Test;
 
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +58,7 @@ public class ZonesTest extends DnsimpleTestBase {
         server.stubFixtureAt("listZones/success.http");
         List<Zone> zones = client.zones.listZones("1").getData();
         assertThat(zones, hasSize(2));
-        assertThat(zones.get(0).getId(), is(1));
+        assertThat(zones.get(0).getId(), is(1L));
     }
 
     @Test
@@ -70,11 +72,12 @@ public class ZonesTest extends DnsimpleTestBase {
     public void testGetZone() {
         server.stubFixtureAt("getZone/success.http");
         Zone zone = client.zones.getZone("1", "example.com").getData();
-        assertThat(zone.getId(), is(1));
-        assertThat(zone.getAccountId(), is(1010));
+        assertThat(zone.getId(), is(1L));
+        assertThat(zone.getAccountId(), is(1010L));
         assertThat(zone.getName(), is("example-alpha.com"));
-        assertThat(zone.getCreatedAt(), is("2015-04-23T07:40:03Z"));
-        assertThat(zone.getUpdatedAt(), is("2015-04-23T07:40:03Z"));
+        assertThat(zone.isReverse(), is(false));
+        assertThat(zone.getCreatedAt(), is(OffsetDateTime.of(2015, 4, 23, 7, 40, 3, 0, ZoneOffset.UTC)));
+        assertThat(zone.getUpdatedAt(), is(OffsetDateTime.of(2015, 4, 23, 7, 40, 3, 0, ZoneOffset.UTC)));
     }
 
     @Test

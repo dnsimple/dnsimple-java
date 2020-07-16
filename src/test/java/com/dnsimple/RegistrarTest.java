@@ -1,6 +1,6 @@
 package com.dnsimple;
 
-import com.dnsimple.data.DomainAvailability;
+import com.dnsimple.data.DomainCheck;
 import com.dnsimple.data.DomainRegistration;
 import com.dnsimple.data.DomainRenewal;
 import com.dnsimple.data.DomainTransfer;
@@ -8,10 +8,12 @@ import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.response.SimpleResponse;
 import org.junit.Test;
 
+import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.dnsimple.endpoints.http.HttpMethod.*;
+import static java.time.ZoneOffset.UTC;
 import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -21,12 +23,12 @@ public class RegistrarTest extends DnsimpleTestBase {
     @Test
     public void testCheckDomain() {
         server.stubFixtureAt("checkDomain/success.http");
-        DomainAvailability availability = client.registrar.checkDomain("1010", "ruby.codes").getData();
+        DomainCheck availability = client.registrar.checkDomain("1010", "ruby.codes").getData();
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/ruby.codes/check"));
         assertThat(availability.getDomainName(), is("ruby.codes"));
-        assertThat(availability.getAvailable(), is(true));
-        assertThat(availability.getPremium(), is(true));
+        assertThat(availability.isAvailable(), is(true));
+        assertThat(availability.isPremium(), is(true));
     }
 
     @Test
@@ -38,14 +40,14 @@ public class RegistrarTest extends DnsimpleTestBase {
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/registrations"));
         assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
         DomainRegistration registration = response.getData();
-        assertThat(registration.getId(), is(1));
-        assertThat(registration.getDomainId(), is(999));
-        assertThat(registration.getRegistrantId(), is(2));
+        assertThat(registration.getId(), is(1L));
+        assertThat(registration.getDomainId(), is(999L));
+        assertThat(registration.getRegistrantId(), is(2L));
         assertThat(registration.getState(), is("new"));
         assertThat(registration.hasAutoRenew(), is(false));
         assertThat(registration.hasWhoisPrivacy(), is(false));
-        assertThat(registration.getCreatedAt(), is("2016-12-09T19:35:31Z"));
-        assertThat(registration.getUpdatedAt(), is("2016-12-09T19:35:31Z"));
+        assertThat(registration.getCreatedAt(), is(OffsetDateTime.of(2016, 12, 9, 19, 35, 31, 0, UTC)));
+        assertThat(registration.getUpdatedAt(), is(OffsetDateTime.of(2016, 12, 9, 19, 35, 31, 0, UTC)));
     }
 
     @Test
@@ -56,7 +58,12 @@ public class RegistrarTest extends DnsimpleTestBase {
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/renewals"));
         assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
-        assertThat(domainRenewal.getId(), is(1));
+        assertThat(domainRenewal.getId(), is(1L));
+        assertThat(domainRenewal.getDomainId(), is(999L));
+        assertThat(domainRenewal.getPeriod(), is(1));
+        assertThat(domainRenewal.getState(), is("new"));
+        assertThat(domainRenewal.getCreatedAt(), is(OffsetDateTime.of(2016, 12, 9, 19, 46, 45, 0, UTC)));
+        assertThat(domainRenewal.getUpdatedAt(), is(OffsetDateTime.of(2016, 12, 9, 19, 46, 45, 0, UTC)));
     }
 
     @Test(expected = DnsimpleException.class)

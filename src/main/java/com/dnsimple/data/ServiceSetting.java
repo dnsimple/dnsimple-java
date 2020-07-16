@@ -37,7 +37,7 @@ public class ServiceSetting {
         return example;
     }
 
-    public Boolean getPassword() {
+    public Boolean hasPassword() {
         return password;
     }
 }

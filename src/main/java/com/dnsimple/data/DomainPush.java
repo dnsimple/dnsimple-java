@@ -2,19 +2,21 @@ package com.dnsimple.data;
 
 import java.time.OffsetDateTime;
 
-public class DomainRenewal {
+public class DomainPush {
     private final Long id;
     private final Long domainId;
-    private final Integer period;
-    private final String state;
+    private final Long contactId;
+    private final Long accountId;
+    private final OffsetDateTime acceptedAt;
     private final OffsetDateTime createdAt;
     private final OffsetDateTime updatedAt;
 
-    public DomainRenewal(Long id, Long domainId, Integer period, String state, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
+    public DomainPush(Long id, Long domainId, Long contactId, Long accountId, OffsetDateTime acceptedAt, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
         this.id = id;
         this.domainId = domainId;
-        this.period = period;
-        this.state = state;
+        this.contactId = contactId;
+        this.accountId = accountId;
+        this.acceptedAt = acceptedAt;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -27,12 +29,16 @@ public class DomainRenewal {
         return domainId;
     }
 
-    public Integer getPeriod() {
-        return period;
+    public Long getContactId() {
+        return contactId;
     }
 
-    public String getState() {
-        return state;
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    public OffsetDateTime getAcceptedAt() {
+        return acceptedAt;
     }
 
     public OffsetDateTime getCreatedAt() {

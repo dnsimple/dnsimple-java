@@ -6,12 +6,14 @@ import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
 import org.junit.Test;
 
+import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.dnsimple.endpoints.http.HttpMethod.*;
 import static com.dnsimple.tools.CustomMatchers.thrownException;
+import static java.time.ZoneOffset.UTC;
 import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -43,7 +45,7 @@ public class TemplatesTest extends DnsimpleTestBase {
         server.stubFixtureAt("listTemplates/success.http");
         List<Template> templates = client.templates.listTemplates("1").getData();
         assertThat(templates, hasSize(2));
-        assertThat(templates.get(0).getId(), is(1));
+        assertThat(templates.get(0).getId(), is(1L));
     }
 
     @Test
@@ -59,13 +61,13 @@ public class TemplatesTest extends DnsimpleTestBase {
         Template template = client.templates.getTemplate("1010", "1").getData();
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/templates/1"));
-        assertThat(template.getId(), is(1));
-        assertThat(template.getAccountId(), is(1010));
+        assertThat(template.getId(), is(1L));
+        assertThat(template.getAccountId(), is(1010L));
         assertThat(template.getName(), is("Alpha"));
-        assertThat(template.getShortName(), is("alpha"));
+        assertThat(template.getSid(), is("alpha"));
         assertThat(template.getDescription(), is("An alpha template."));
-        assertThat(template.getCreatedAt(), is("2016-03-22T11:08:58Z"));
-        assertThat(template.getUpdatedAt(), is("2016-03-22T11:08:58Z"));
+        assertThat(template.getCreatedAt(), is(OffsetDateTime.of(2016, 3, 22, 11, 8, 58, 0, UTC)));
+        assertThat(template.getUpdatedAt(), is(OffsetDateTime.of(2016, 3, 22, 11, 8, 58, 0, UTC)));
     }
 
     @Test
@@ -94,7 +96,7 @@ public class TemplatesTest extends DnsimpleTestBase {
         attributes.put("name", "A Template");
         attributes.put("short_name", "a_template");
         SimpleResponse<Template> response = client.templates.createTemplate("1", attributes);
-        assertThat(response.getData().getId(), is(1));
+        assertThat(response.getData().getId(), is(1L));
     }
 
     @Test
@@ -107,7 +109,7 @@ public class TemplatesTest extends DnsimpleTestBase {
         assertThat(server.getRecordedRequest().getMethod(), is(PATCH));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/templates/1"));
         assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
-        assertThat(template.getId(), is(1));
+        assertThat(template.getId(), is(1L));
     }
 
     @Test

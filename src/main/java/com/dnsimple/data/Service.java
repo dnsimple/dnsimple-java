@@ -1,23 +1,24 @@
 package com.dnsimple.data;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 public class Service {
-    private final Integer id;
-    private final String name;
+    private final Long id;
     private final String sid;
+    private final String name;
     private final String description;
     private final String setupDescription;
     private final Boolean requiresSetup;
     private final String defaultSubdomain;
-    private final String createdAt;
-    private final String updatedAt;
+    private final OffsetDateTime createdAt;
+    private final OffsetDateTime updatedAt;
     private final List<ServiceSetting> settings;
 
-    public Service(Integer id, String name, String sid, String description, String setupDescription, Boolean requiresSetup, String defaultSubdomain, String createdAt, String updatedAt, List<ServiceSetting> settings) {
+    public Service(Long id, String sid, String name, String description, String setupDescription, Boolean requiresSetup, String defaultSubdomain, OffsetDateTime createdAt, OffsetDateTime updatedAt, List<ServiceSetting> settings) {
         this.id = id;
-        this.name = name;
         this.sid = sid;
+        this.name = name;
         this.description = description;
         this.setupDescription = setupDescription;
         this.requiresSetup = requiresSetup;
@@ -27,16 +28,16 @@ public class Service {
         this.settings = settings;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
+    }
+
+    public String getSid() {
+        return sid;
     }
 
     public String getName() {
         return name;
-    }
-
-    public String getShortName() {
-        return sid;
     }
 
     public String getDescription() {
@@ -47,7 +48,7 @@ public class Service {
         return setupDescription;
     }
 
-    public Boolean getRequiresSetup() {
+    public Boolean requiresSetup() {
         return requiresSetup;
     }
 
@@ -55,11 +56,11 @@ public class Service {
         return defaultSubdomain;
     }
 
-    public String getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public String getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 

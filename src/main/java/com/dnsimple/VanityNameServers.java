@@ -1,6 +1,6 @@
 package com.dnsimple;
 
-import com.dnsimple.data.NameServer;
+import com.dnsimple.data.VanityNameServer;
 import com.dnsimple.response.EmptyResponse;
 import com.dnsimple.response.ListResponse;
 
@@ -18,7 +18,7 @@ public interface VanityNameServers {
      * @return The enable vanity name server response
      * @see <a href="https://developer.dnsimple.com/v2/domains/vanity/#enable">https://developer.dnsimple.com/v2/domains/vanity/#enable</a>
      */
-    ListResponse<NameServer> enableVanityNameServers(String accountId, String domainId);
+    ListResponse<VanityNameServer> enableVanityNameServers(String accountId, String domainId);
 
     /**
      * Disable vanity name servers for the domain

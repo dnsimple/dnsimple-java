@@ -1,54 +1,61 @@
 package com.dnsimple.data;
 
+import java.time.OffsetDateTime;
+import java.util.List;
+
 public class Certificate {
-    private final Integer id;
-    private final Integer domainId;
-    private final String name;
+    private final Long id;
+    private final Long domainId;
+    private final Long contactId;
     private final String commonName;
+    private final List<String> alternateNames;
     private final Integer years;
-    private final String csr;
     private final String state;
     private final String authorityIdentifier;
-    private final String createdAt;
-    private final String updatedAt;
-    private final String expiresAt;
+    private final Boolean autoRenew;
+    private final OffsetDateTime createdAt;
+    private final OffsetDateTime updatedAt;
+    private final OffsetDateTime expiresAt;
+    private final String csr;
 
-    public Certificate(Integer id, Integer domainId, String name, String commonName, Integer years, String csr, String state, String authorityIdentifier, String createdAt, String updatedAt, String expiresAt) {
+    public Certificate(Long id, Long domainId, Long contactId, String commonName, List<String> alternateNames, Integer years, String state, String authorityIdentifier, Boolean autoRenew, OffsetDateTime createdAt, OffsetDateTime updatedAt, OffsetDateTime expiresAt, String csr) {
         this.id = id;
         this.domainId = domainId;
-        this.name = name;
+        this.contactId = contactId;
         this.commonName = commonName;
+        this.alternateNames = alternateNames;
         this.years = years;
-        this.csr = csr;
         this.state = state;
         this.authorityIdentifier = authorityIdentifier;
+        this.autoRenew = autoRenew;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.expiresAt = expiresAt;
+        this.csr = csr;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public Integer getDomainId() {
+    public Long getDomainId() {
         return domainId;
     }
 
-    public String getName() {
-        return name;
+    public Long getContactId() {
+        return contactId;
     }
 
     public String getCommonName() {
         return commonName;
     }
 
-    public Integer getYears() {
-        return years;
+    public List<String> getAlternateNames() {
+        return alternateNames;
     }
 
-    public String getCsr() {
-        return csr;
+    public Integer getYears() {
+        return years;
     }
 
     public String getState() {
@@ -59,24 +66,23 @@ public class Certificate {
         return authorityIdentifier;
     }
 
-    public String getCreatedAt() {
+    public Boolean hasAutoRenew() {
+        return autoRenew;
+    }
+
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public String getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public String getExpiresAt() {
+    public OffsetDateTime getExpiresAt() {
         return expiresAt;
     }
 
-    /**
-     * @return the expiration date in ISO8601 pattern.
-     * @deprecated use {@link Domain#getExpiresAt()} instead.
-     */
-    @Deprecated
-    public String getExpiresOn() {
-        return expiresAt != null ? expiresAt.substring(0, 10) : null;
+    public String getCertificateRequest() {
+        return csr;
     }
 }

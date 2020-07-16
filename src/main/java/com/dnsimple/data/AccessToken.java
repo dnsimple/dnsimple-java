@@ -1,28 +1,22 @@
 package com.dnsimple.data;
 
-public class OauthToken {
+public class AccessToken {
     private final String accessToken;
     private final String tokenType;
-    private final String scope;
     private final Integer accountId;
 
-    public OauthToken(String accessToken, String tokenType, String scope, Integer accountId) {
+    public AccessToken(String accessToken, String tokenType, Integer accountId) {
         this.accessToken = accessToken;
         this.tokenType = tokenType;
-        this.scope = scope;
         this.accountId = accountId;
     }
 
-    public String getAccessToken() {
+    public String getToken() {
         return accessToken;
     }
 
-    public String getTokenType() {
+    public String getType() {
         return tokenType;
-    }
-
-    public String getScope() {
-        return scope;
     }
 
     public Integer getAccountId() {

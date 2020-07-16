@@ -7,12 +7,14 @@ import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
 import org.junit.Test;
 
+import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.dnsimple.endpoints.http.HttpMethod.*;
 import static com.dnsimple.tools.CustomMatchers.thrownException;
+import static java.time.ZoneOffset.UTC;
 import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -53,7 +55,7 @@ public class DomainsTest extends DnsimpleTestBase {
         server.stubFixtureAt("listDomains/success.http");
         List<Domain> domains = client.domains.listDomains("1").getData();
         assertThat(domains, hasSize(2));
-        assertThat(domains.get(0).getId(), is(181984));
+        assertThat(domains.get(0).getId(), is(181984L));
     }
 
     @Test
@@ -67,17 +69,18 @@ public class DomainsTest extends DnsimpleTestBase {
     public void testGetDomain() {
         server.stubFixtureAt("getDomain/success.http");
         Domain domain = client.domains.getDomain("1", "example.com").getData();
-        assertThat(domain.getId(), is(181984));
-        assertThat(domain.getAccountId(), is(1385));
-        assertThat(domain.getRegistrantId(), is(2715));
+        assertThat(domain.getId(), is(181984L));
+        assertThat(domain.getAccountId(), is(1385L));
+        assertThat(domain.getRegistrantId(), is(2715L));
         assertThat(domain.getName(), is("example-alpha.com"));
         assertThat(domain.getUnicodeName(), is("example-alpha.com"));
+        assertThat(domain.getToken(), is(nullValue()));
         assertThat(domain.getState(), is("registered"));
-        assertThat(domain.getAutoRenew(), is(false));
-        assertThat(domain.getPrivateWhois(), is(false));
-        assertThat(domain.getExpiresAt(), is("2021-06-05T02:15:00Z"));
-        assertThat(domain.getCreatedAt(), is("2020-06-04T19:15:14Z"));
-        assertThat(domain.getUpdatedAt(), is("2020-06-04T19:15:21Z"));
+        assertThat(domain.hasAutoRenew(), is(false));
+        assertThat(domain.hasPrivateWhois(), is(false));
+        assertThat(domain.getExpiresAt(), is(OffsetDateTime.of(2021, 6, 5, 2, 15, 0, 0, UTC)));
+        assertThat(domain.getCreatedAt(), is(OffsetDateTime.of(2020, 6, 4, 19, 15, 14, 0, UTC)));
+        assertThat(domain.getUpdatedAt(), is(OffsetDateTime.of(2020, 6, 4, 19, 15, 21, 0, UTC)));
     }
 
     @Test
@@ -101,7 +104,7 @@ public class DomainsTest extends DnsimpleTestBase {
     public void testCreateDomainProducesDomain() {
         server.stubFixtureAt("createDomain/created.http");
         SimpleResponse<Domain> response = client.domains.createDomain("1", singletonMap("name", "example.com"));
-        assertThat(response.getData().getId(), is(181985));
+        assertThat(response.getData().getId(), is(181985L));
     }
 
     @Test
@@ -116,6 +119,6 @@ public class DomainsTest extends DnsimpleTestBase {
     public void testResetDomainToken() {
         server.stubFixtureAt("resetDomainToken/success.http");
         SimpleResponse<Domain> response = client.domains.resetDomainToken("1", "example.com");
-        assertThat(response.getData().getId(), is(1));
+        assertThat(response.getData().getId(), is(1L));
     }
 }

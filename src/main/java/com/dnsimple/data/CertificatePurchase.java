@@ -1,31 +1,45 @@
 package com.dnsimple.data;
 
-public class CertificatePurchase {
-    private final Integer id;
-    private final Integer certificateId;
-    private final String createdAt;
-    private final String updatedAt;
+import java.time.OffsetDateTime;
 
-    public CertificatePurchase(Integer id, Integer certificateId, String createdAt, String updatedAt) {
+public class CertificatePurchase {
+    private final Long id;
+    private final Long certificateId;
+    private final String state;
+    private final Boolean autoRenew;
+    private final OffsetDateTime createdAt;
+    private final OffsetDateTime updatedAt;
+
+    public CertificatePurchase(Long id, Long certificateId, String state, Boolean autoRenew, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
         this.id = id;
         this.certificateId = certificateId;
+        this.state = state;
+        this.autoRenew = autoRenew;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public Integer getCertificateId() {
+    public Long getCertificateId() {
         return certificateId;
     }
 
-    public String getCreatedAt() {
+    public String getState() {
+        return state;
+    }
+
+    public Boolean hasAutoRenew() {
+        return autoRenew;
+    }
+
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public String getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 }

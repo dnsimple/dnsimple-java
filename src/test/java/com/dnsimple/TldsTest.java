@@ -43,6 +43,13 @@ public class TldsTest extends DnsimpleTestBase {
         List<Tld> tlds = client.tlds.listTlds().getData();
         assertThat(tlds, hasSize(2));
         assertThat(tlds.get(0).getTld(), is("ac"));
+        assertThat(tlds.get(0).getTldType(), is(2));
+        assertThat(tlds.get(0).supportsWhoisPrivacy(), is(false));
+        assertThat(tlds.get(0).isAutorenewOnly(), is(true));
+        assertThat(tlds.get(0).getMinimumRegistration(), is(1));
+        assertThat(tlds.get(0).isRegistrationEnabled(), is(true));
+        assertThat(tlds.get(0).isRenewalEnabled(), is(true));
+        assertThat(tlds.get(0).isTransferEnabled(), is(false));
     }
 
     @Test
@@ -69,7 +76,7 @@ public class TldsTest extends DnsimpleTestBase {
         assertThat(extendedAttributes, hasSize(4));
         assertThat(extendedAttributes.get(0).getName(), is("uk_legal_type"));
         assertThat(extendedAttributes.get(0).getDescription(), is("Legal type of registrant contact"));
-        assertThat(extendedAttributes.get(0).getRequired(), is(false));
+        assertThat(extendedAttributes.get(0).isRequired(), is(false));
         List<TldExtendedAttributeOption> options = extendedAttributes.get(0).getOptions();
         assertThat(options, hasSize(17));
         assertThat(options.get(0).getTitle(), is("UK Individual"));

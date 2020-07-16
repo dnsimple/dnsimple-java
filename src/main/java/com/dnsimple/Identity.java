@@ -1,6 +1,6 @@
 package com.dnsimple;
 
-import com.dnsimple.data.Whoami;
+import com.dnsimple.data.WhoamiData;
 import com.dnsimple.response.SimpleResponse;
 
 /**
@@ -15,5 +15,5 @@ public interface Identity {
      * @return The whoami response
      * @see <a href="https://developer.dnsimple.com/v2/identity/#whoami">https://developer.dnsimple.com/v2/identity/#whoami</a>
      */
-    SimpleResponse<Whoami> whoami();
+    SimpleResponse<WhoamiData> whoami();
 }

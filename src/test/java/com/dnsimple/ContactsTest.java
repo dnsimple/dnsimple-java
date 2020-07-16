@@ -5,12 +5,14 @@ import com.dnsimple.exception.ResourceNotFoundException;
 import com.dnsimple.response.SimpleResponse;
 import org.junit.Test;
 
+import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.dnsimple.endpoints.http.HttpMethod.*;
 import static com.dnsimple.tools.CustomMatchers.thrownException;
+import static java.time.ZoneOffset.UTC;
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -43,7 +45,7 @@ public class ContactsTest extends DnsimpleTestBase {
         server.stubFixtureAt("listContacts/success.http");
         List<Contact> contacts = client.contacts.listContacts("1").getData();
         assertThat(contacts, hasSize(2));
-        assertThat(contacts.get(0).getId(), is(1));
+        assertThat(contacts.get(0).getId(), is(1L));
     }
 
     @Test
@@ -59,24 +61,24 @@ public class ContactsTest extends DnsimpleTestBase {
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/contacts/1"));
         Contact contact = response.getData();
-        assertThat(contact.getId(), is(1));
-        assertThat(contact.getAccountId(), is(1010));
+        assertThat(contact.getId(), is(1L));
+        assertThat(contact.getAccountId(), is(1010L));
         assertThat(contact.getLabel(), is("Default"));
         assertThat(contact.getFirstName(), is("First"));
         assertThat(contact.getLastName(), is("User"));
         assertThat(contact.getJobTitle(), is("CEO"));
-        assertThat(contact.getOrganizationName(), is("Awesome Company"));
+        assertThat(contact.getOrganization(), is("Awesome Company"));
         assertThat(contact.getEmail(), is("first@example.com"));
         assertThat(contact.getPhone(), is("+18001234567"));
         assertThat(contact.getFax(), is("+18011234567"));
         assertThat(contact.getAddress1(), is("Italian Street, 10"));
         assertThat(contact.getAddress2(), is(""));
         assertThat(contact.getCity(), is("Roma"));
-        assertThat(contact.getStateOrProvince(), is("RM"));
+        assertThat(contact.getStateProvince(), is("RM"));
         assertThat(contact.getPostalCode(), is("00100"));
         assertThat(contact.getCountry(), is("IT"));
-        assertThat(contact.getCreatedAt(), is("2016-01-19T20:50:26Z"));
-        assertThat(contact.getUpdatedAt(), is("2016-01-19T20:50:26Z"));
+        assertThat(contact.getCreatedAt(), is(OffsetDateTime.of(2016, 1, 19, 20, 50, 26, 0, UTC)));
+        assertThat(contact.getUpdatedAt(), is(OffsetDateTime.of(2016, 1, 19, 20, 50, 26, 0, UTC)));
     }
 
     @Test
@@ -102,7 +104,7 @@ public class ContactsTest extends DnsimpleTestBase {
     public void testCreateContactProducesContact() {
         server.stubFixtureAt("createContact/created.http");
         Contact contact = client.contacts.createContact("1", emptyMap()).getData();
-        assertThat(contact.getId(), is(1));
+        assertThat(contact.getId(), is(1L));
     }
 
     @Test
@@ -115,7 +117,7 @@ public class ContactsTest extends DnsimpleTestBase {
         assertThat(server.getRecordedRequest().getMethod(), is(PATCH));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/contacts/1"));
         assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
-        assertThat(response.getData().getId(), is(1));
+        assertThat(response.getData().getId(), is(1L));
     }
 
     @Test

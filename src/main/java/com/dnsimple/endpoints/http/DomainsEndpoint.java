@@ -331,8 +331,8 @@ public class DomainsEndpoint implements Domains {
      * @return The initiate push response
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#initiate">https://developer.dnsimple.com/v2/domains/pushes/#initiate</a>
      */
-    public SimpleResponse<Push> initiatePush(String accountId, String domainId, Map<String, Object> attributes) {
-        return client.simple(POST, accountId + "/domains/" + domainId + "/pushes", emptyMap(), attributes, Push.class);
+    public SimpleResponse<DomainPush> initiatePush(String accountId, String domainId, Map<String, Object> attributes) {
+        return client.simple(POST, accountId + "/domains/" + domainId + "/pushes", emptyMap(), attributes, DomainPush.class);
     }
 
     /**
@@ -343,8 +343,8 @@ public class DomainsEndpoint implements Domains {
      * @return The list pushes response
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#list">https://developer.dnsimple.com/v2/domains/pushes/#list</a>
      */
-    public PaginatedResponse<Push> listPushes(String accountId, String domainId) {
-        return client.page(GET, accountId + "/domains/" + domainId + "/pushes", emptyMap(), null, Push.class);
+    public PaginatedResponse<DomainPush> listPushes(String accountId, String domainId) {
+        return client.page(GET, accountId + "/domains/" + domainId + "/pushes", emptyMap(), null, DomainPush.class);
     }
 
     /**
@@ -356,8 +356,8 @@ public class DomainsEndpoint implements Domains {
      * @return The list pushes response
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#list">https://developer.dnsimple.com/v2/domains/pushes/#list</a>
      */
-    public PaginatedResponse<Push> listPushes(String accountId, String domainId, Map<String, Object> options) {
-        return client.page(GET, accountId + "/domains/" + domainId + "/pushes", options, null, Push.class);
+    public PaginatedResponse<DomainPush> listPushes(String accountId, String domainId, Map<String, Object> options) {
+        return client.page(GET, accountId + "/domains/" + domainId + "/pushes", options, null, DomainPush.class);
     }
 
     /**

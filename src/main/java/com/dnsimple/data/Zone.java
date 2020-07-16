@@ -1,14 +1,16 @@
 package com.dnsimple.data;
 
+import java.time.OffsetDateTime;
+
 public class Zone {
-    private final Integer id;
-    private final Integer accountId;
+    private final Long id;
+    private final Long accountId;
     private final String name;
     private final Boolean reverse;
-    private final String createdAt;
-    private final String updatedAt;
+    private final OffsetDateTime createdAt;
+    private final OffsetDateTime updatedAt;
 
-    public Zone(Integer id, Integer accountId, String name, Boolean reverse, String createdAt, String updatedAt) {
+    public Zone(Long id, Long accountId, String name, Boolean reverse, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
         this.id = id;
         this.accountId = accountId;
         this.name = name;
@@ -17,11 +19,11 @@ public class Zone {
         this.updatedAt = updatedAt;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public Integer getAccountId() {
+    public Long getAccountId() {
         return accountId;
     }
 
@@ -29,15 +31,15 @@ public class Zone {
         return name;
     }
 
-    public Boolean getReverse() {
+    public Boolean isReverse() {
         return reverse;
     }
 
-    public String getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public String getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 }

@@ -9,11 +9,13 @@ import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
 import org.junit.Test;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import static com.dnsimple.endpoints.http.HttpMethod.GET;
 import static com.dnsimple.endpoints.http.HttpMethod.POST;
 import static com.dnsimple.tools.CustomMatchers.thrownException;
+import static java.time.ZoneOffset.UTC;
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -46,7 +48,7 @@ public class CertificatesTest extends DnsimpleTestBase {
         server.stubFixtureAt("listCertificates/success.http");
         List<Certificate> certificates = client.certificates.listCertificates("1", "dnsimple.us").getData();
         assertThat(certificates, hasSize(2));
-        assertThat(certificates.get(0).getId(), is(101973));
+        assertThat(certificates.get(0).getId(), is(101973L));
     }
 
     @Test
@@ -63,12 +65,19 @@ public class CertificatesTest extends DnsimpleTestBase {
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/bingo.pizza/certificates/101967"));
         Certificate certificate = response.getData();
-        assertThat(certificate.getId(), is(101967));
-        assertThat(certificate.getDomainId(), is(289333));
-        assertThat(certificate.getName(), is("www"));
+        assertThat(certificate.getId(), is(101967L));
+        assertThat(certificate.getDomainId(), is(289333L));
+        assertThat(certificate.getContactId(), is(2511L));
         assertThat(certificate.getCommonName(), is("www.bingo.pizza"));
+        assertThat(certificate.getAlternateNames(), is(empty()));
         assertThat(certificate.getYears(), is(1));
-        assertThat(certificate.getCsr(), is("" +
+        assertThat(certificate.getState(), is("issued"));
+        assertThat(certificate.getAuthorityIdentifier(), is("letsencrypt"));
+        assertThat(certificate.hasAutoRenew(), is(false));
+        assertThat(certificate.getCreatedAt(), is(OffsetDateTime.of(2020, 6, 18, 18, 54, 17, 0, UTC)));
+        assertThat(certificate.getUpdatedAt(), is(OffsetDateTime.of(2020, 6, 18, 19, 10, 14, 0, UTC)));
+        assertThat(certificate.getExpiresAt(), is(OffsetDateTime.of(2020, 9, 16, 18, 10, 13, 0, UTC)));
+        assertThat(certificate.getCertificateRequest(), is("" +
                 "-----BEGIN CERTIFICATE REQUEST-----\n" +
                 "MIICmTCCAYECAQAwGjEYMBYGA1UEAwwPd3d3LmJpbmdvLnBpenphMIIBIjANBgkq\n" +
                 "hkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAw4+KoZ9IDCK2o5qAQpi+Icu5kksmjQzx\n" +
@@ -85,11 +94,6 @@ public class CertificatesTest extends DnsimpleTestBase {
                 "odQQf5SaqiIK2YaH1dWO//4KpTS9QoTy1+mmAa27apHcmz6X6+G5dvpHZ1qH14V0\n" +
                 "JoMWIK+39HRPq6mDo1UMVet/xFUUrG/H7/tFlYIDVbSpVlpVAFITd/eQkaW/\n" +
                 "-----END CERTIFICATE REQUEST-----\n"));
-        assertThat(certificate.getState(), is("issued"));
-        assertThat(certificate.getAuthorityIdentifier(), is("letsencrypt"));
-        assertThat(certificate.getCreatedAt(), is("2020-06-18T18:54:17Z"));
-        assertThat(certificate.getUpdatedAt(), is("2020-06-18T19:10:14Z"));
-        assertThat(certificate.getExpiresAt(), is("2020-09-16T18:10:13Z"));
     }
 
     @Test
@@ -213,8 +217,12 @@ public class CertificatesTest extends DnsimpleTestBase {
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/bingo.pizza/certificates/letsencrypt"));
         CertificatePurchase purchase = response.getData();
-        assertThat(purchase.getId(), is(101967));
-        assertThat(purchase.getCertificateId(), is(101967));
+        assertThat(purchase.getId(), is(101967L));
+        assertThat(purchase.getCertificateId(), is(101967L));
+        assertThat(purchase.getState(), is("new"));
+        assertThat(purchase.hasAutoRenew(), is(false));
+        assertThat(purchase.getCreatedAt(), is(OffsetDateTime.of(2020, 6, 18, 18, 54, 17, 0, UTC)));
+        assertThat(purchase.getUpdatedAt(), is(OffsetDateTime.of(2020, 6, 18, 18, 54, 17, 0, UTC)));
     }
 
     @Test
@@ -224,8 +232,8 @@ public class CertificatesTest extends DnsimpleTestBase {
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/bingo.pizza/certificates/letsencrypt/101967/issue"));
         Certificate certificate = response.getData();
-        assertThat(certificate.getId(), is(101967));
-        assertThat(certificate.getDomainId(), is(289333));
+        assertThat(certificate.getId(), is(101967L));
+        assertThat(certificate.getDomainId(), is(289333L));
     }
 
     @Test
@@ -235,9 +243,13 @@ public class CertificatesTest extends DnsimpleTestBase {
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/bingo.pizza/certificates/letsencrypt/101967/renewals"));
         CertificateRenewal renewal = response.getData();
-        assertThat(renewal.getId(), is(65082));
-        assertThat(renewal.getOldCertificateId(), is(101967));
-        assertThat(renewal.getNewCertificateId(), is(101972));
+        assertThat(renewal.getId(), is(65082L));
+        assertThat(renewal.getOldCertificateId(), is(101967L));
+        assertThat(renewal.getNewCertificateId(), is(101972L));
+        assertThat(renewal.getState(), is("new"));
+        assertThat(renewal.hasAutoRenew(), is(false));
+        assertThat(renewal.getCreatedAt(), is(OffsetDateTime.of(2020, 6, 18, 19, 56, 20, 0, UTC)));
+        assertThat(renewal.getUpdatedAt(), is(OffsetDateTime.of(2020, 6, 18, 19, 56, 20, 0, UTC)));
     }
 
     @Test
@@ -247,7 +259,7 @@ public class CertificatesTest extends DnsimpleTestBase {
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/bingo.pizza/certificates/letsencrypt/101967/renewals/65082/issue"));
         Certificate certificate = response.getData();
-        assertThat(certificate.getId(), is(101967));
-        assertThat(certificate.getDomainId(), is(289333));
+        assertThat(certificate.getId(), is(101967L));
+        assertThat(certificate.getDomainId(), is(289333L));
     }
 }

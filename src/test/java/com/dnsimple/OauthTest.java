@@ -1,6 +1,6 @@
 package com.dnsimple;
 
-import com.dnsimple.data.OauthToken;
+import com.dnsimple.data.AccessToken;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -19,13 +19,12 @@ public class OauthTest extends DnsimpleTestBase {
         attributes.put("client_id", "super-client-id");
         attributes.put("client_secret", "super-client-secret");
         attributes.put("grant_type", "authorization_code");
-        OauthToken token = client.oauth.exchangeAuthorizationForToken("super-code", "super-client-id", "super-client-secret");
+        AccessToken token = client.oauth.exchangeAuthorizationForToken("super-code", "super-client-id", "super-client-secret");
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/oauth/access_token"));
         assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
-        assertThat(token.getAccessToken(), is("zKQ7OLqF5N1gylcJweA9WodA000BUNJD"));
-        assertThat(token.getTokenType(), is("Bearer"));
-        assertThat(token.getScope(), isEmptyOrNullString());
+        assertThat(token.getToken(), is("zKQ7OLqF5N1gylcJweA9WodA000BUNJD"));
+        assertThat(token.getType(), is("Bearer"));
         assertThat(token.getAccountId(), is(1));
     }
 
@@ -42,13 +41,12 @@ public class OauthTest extends DnsimpleTestBase {
         expectedAttributes.put("grant_type", "authorization_code");
         expectedAttributes.put("state", "some-state");
         expectedAttributes.put("redirect_uri", "some-redirect-uri");
-        OauthToken token = client.oauth.exchangeAuthorizationForToken("super-code", "super-client-id", "super-client-secret", options);
+        AccessToken token = client.oauth.exchangeAuthorizationForToken("super-code", "super-client-id", "super-client-secret", options);
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/oauth/access_token"));
         assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(expectedAttributes));
-        assertThat(token.getAccessToken(), is("zKQ7OLqF5N1gylcJweA9WodA000BUNJD"));
-        assertThat(token.getTokenType(), is("Bearer"));
-        assertThat(token.getScope(), isEmptyOrNullString());
+        assertThat(token.getToken(), is("zKQ7OLqF5N1gylcJweA9WodA000BUNJD"));
+        assertThat(token.getType(), is("Bearer"));
         assertThat(token.getAccountId(), is(1));
     }
 

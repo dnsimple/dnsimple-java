@@ -22,7 +22,7 @@ public interface Registrar {
      * @return The check domain response
      * @see <a href="https://developer.dnsimple.com/v2/registrar/#check">https://developer.dnsimple.com/v2/registrar/#check</a>
      */
-    SimpleResponse<DomainAvailability> checkDomain(String accountId, String domainName);
+    SimpleResponse<DomainCheck> checkDomain(String accountId, String domainName);
 
     /**
      * Registers a domain.
@@ -179,7 +179,7 @@ public interface Registrar {
      * @return The change domain delegation to vanity response
      * @see <a href="https://developer.dnsimple.com/v2/registrar/delegation/#delegateToVanity">https://developer.dnsimple.com/v2/registrar/delegation/#delegateToVanity</a>
      */
-    ListResponse<NameServer> changeDomainDelegationToVanity(String accountId, String domainId, List<String> nameServerNames);
+    ListResponse<VanityNameServer> changeDomainDelegationToVanity(String accountId, String domainId, List<String> nameServerNames);
 
     /**
      * Change the domain delegation back to the standard DNSimple name servers.

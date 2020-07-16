@@ -1,12 +1,14 @@
 package com.dnsimple;
 
-import com.dnsimple.data.NameServer;
+import com.dnsimple.data.VanityNameServer;
 import org.junit.Test;
 
+import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
 
 import static com.dnsimple.endpoints.http.HttpMethod.*;
+import static java.time.ZoneOffset.UTC;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
@@ -44,17 +46,17 @@ public class RegistrarDelegationTest extends DnsimpleTestBase {
     public void testChangeDomainDelegationToVanity() {
         server.stubFixtureAt("changeDomainDelegationToVanity/success.http");
         List<String> nameServerNames = Arrays.asList("ns1.example.com", "ns2.example.com");
-        List<NameServer> delegatedTo = client.registrar.changeDomainDelegationToVanity("1010", "example.com", nameServerNames).getData();
+        List<VanityNameServer> delegatedTo = client.registrar.changeDomainDelegationToVanity("1010", "example.com", nameServerNames).getData();
         assertThat(server.getRecordedRequest().getMethod(), is(PUT));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/delegation/vanity"));
         assertThat(server.getRecordedRequest().getJsonArrayPayload(), is(nameServerNames));
         assertThat(delegatedTo, hasSize(2));
-        NameServer nameServer = delegatedTo.get(0);
-        assertThat(nameServer.getName(), is("ns1.example.com"));
-        assertThat(nameServer.getIpv4(), is("127.0.0.1"));
-        assertThat(nameServer.getIpv6(), is("::1"));
-        assertThat(nameServer.getCreatedAt(), is("2016-07-11T09:40:19Z"));
-        assertThat(nameServer.getUpdatedAt(), is("2016-07-11T09:40:19Z"));
+        VanityNameServer vanityNameServer = delegatedTo.get(0);
+        assertThat(vanityNameServer.getName(), is("ns1.example.com"));
+        assertThat(vanityNameServer.getIpv4(), is("127.0.0.1"));
+        assertThat(vanityNameServer.getIpv6(), is("::1"));
+        assertThat(vanityNameServer.getCreatedAt(), is(OffsetDateTime.of(2016, 7, 11, 9, 40, 19, 0, UTC)));
+        assertThat(vanityNameServer.getUpdatedAt(), is(OffsetDateTime.of(2016, 7, 11, 9, 40, 19, 0, UTC)));
     }
 
     @Test

@@ -1,43 +1,46 @@
 package com.dnsimple.data;
 
-public class WhoisPrivacy {
-    private final Integer id;
-    private final Integer domainId;
-    private final String expiresOn;
-    private final Boolean enabled;
-    private final String createdAt;
-    private final String updatedAt;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
-    public WhoisPrivacy(Integer id, Integer domainId, String expiresOn, Boolean enabled, String createdAt, String updatedAt) {
+public class WhoisPrivacy {
+    private final Long id;
+    private final Long domainId;
+    private final Boolean enabled;
+    private final LocalDate expiresOn;
+    private final OffsetDateTime createdAt;
+    private final OffsetDateTime updatedAt;
+
+    public WhoisPrivacy(Long id, Long domainId, Boolean enabled, LocalDate expiresOn, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
         this.id = id;
         this.domainId = domainId;
-        this.expiresOn = expiresOn;
         this.enabled = enabled;
+        this.expiresOn = expiresOn;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public Integer getDomainId() {
+    public Long getDomainId() {
         return domainId;
     }
 
-    public String getExpiresOn() {
-        return expiresOn;
-    }
-
-    public Boolean getEnabled() {
+    public Boolean isEnabled() {
         return enabled;
     }
 
-    public String getCreatedAt() {
+    public LocalDate getExpiresOn() {
+        return expiresOn;
+    }
+
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public String getUpdatedAt() {
+    public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 }
