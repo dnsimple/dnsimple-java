@@ -3,12 +3,14 @@ package com.dnsimple.endpoints;
 import com.dnsimple.data.*;
 import com.dnsimple.http.HttpEndpointClient;
 import com.dnsimple.request.ListOptions;
+import com.dnsimple.request.RegistrationOptions;
+import com.dnsimple.request.RenewOptions;
+import com.dnsimple.request.TransferOptions;
 import com.dnsimple.response.EmptyResponse;
 import com.dnsimple.response.ListResponse;
 import com.dnsimple.response.SimpleResponse;
 
 import java.util.List;
-import java.util.Map;
 
 import static com.dnsimple.http.HttpMethod.*;
 
@@ -41,38 +43,38 @@ public class Registrar {
      *
      * @param account    The account ID
      * @param domainName The domain to register
-     * @param attributes Attributes to use for the registration
+     * @param options    The options for the domain registration
      * @return The register domain response
      * @see <a href="https://developer.dnsimple.com/v2/registrar/#register">https://developer.dnsimple.com/v2/registrar/#register</a>
      */
-    public SimpleResponse<DomainRegistration> registerDomain(Number account, String domainName, Map<String, Object> attributes) {
-        return client.simple(POST, account + "/registrar/domains/" + domainName + "/registrations", ListOptions.empty(), attributes, DomainRegistration.class);
+    public SimpleResponse<DomainRegistration> registerDomain(Number account, String domainName, RegistrationOptions options) {
+        return client.simple(POST, account + "/registrar/domains/" + domainName + "/registrations", ListOptions.empty(), options, DomainRegistration.class);
     }
 
     /**
      * Renews a domain.
      *
-     * @param account    The account ID
-     * @param domain     The domain name or ID
-     * @param attributes Attributes to use for the renewal
+     * @param account The account ID
+     * @param domain  The domain name or ID
+     * @param options The options for the renewal
      * @return The renew domain response
      * @see <a href="https://developer.dnsimple.com/v2/registrar/#renew">https://developer.dnsimple.com/v2/registrar/#renew</a>
      */
-    public SimpleResponse<DomainRenewal> renewDomain(Number account, String domain, Map<String, Object> attributes) {
-        return client.simple(POST, account + "/registrar/domains/" + domain + "/renewals", ListOptions.empty(), attributes, DomainRenewal.class);
+    public SimpleResponse<DomainRenewal> renewDomain(Number account, String domain, RenewOptions options) {
+        return client.simple(POST, account + "/registrar/domains/" + domain + "/renewals", ListOptions.empty(), options, DomainRenewal.class);
     }
 
     /**
      * Starts the transfer of a domain to DNSimple.
      *
-     * @param account    The account ID
-     * @param domain     The domain name or ID
-     * @param attributes Attributes to use for the transfer
+     * @param account The account ID
+     * @param domain  The domain name or ID
+     * @param options The options for the transfer
      * @return The transfer domain response
      * @see <a href="https://developer.dnsimple.com/v2/registrar/#transfer">https://developer.dnsimple.com/v2/registrar/#transfer</a>
      */
-    public SimpleResponse<DomainTransfer> transferDomain(Number account, String domain, Map<String, Object> attributes) {
-        return client.simple(POST, account + "/registrar/domains/" + domain + "/transfers", ListOptions.empty(), attributes, DomainTransfer.class);
+    public SimpleResponse<DomainTransfer> transferDomain(Number account, String domain, TransferOptions options) {
+        return client.simple(POST, account + "/registrar/domains/" + domain + "/transfers", ListOptions.empty(), options, DomainTransfer.class);
     }
 
     /**
