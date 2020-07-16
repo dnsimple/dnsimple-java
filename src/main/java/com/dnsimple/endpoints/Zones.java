@@ -88,9 +88,9 @@ public class Zones {
     /**
      * Checks if a zone record change is fully distributed to all our nameservers of our regions.
      *
-     * @param account  The account ID
-     * @param zone     The zone name
-     * @param record The zone record ID
+     * @param account The account ID
+     * @param zone    The zone name
+     * @param record  The zone record ID
      * @return The result of the check
      * @see <a href="https://developer.dnsimple.com/v2/zones/#checkZoneRecordDistribution">https://developer.dnsimple.com/v2/zones/#checkZoneRecordDistribution</a>
      */

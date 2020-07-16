@@ -139,7 +139,7 @@ public class Templates {
      *
      * @param account  The account ID
      * @param template The template short name or ID
-     * @param record The record ID
+     * @param record   The record ID
      * @return The get template record response
      * @see <a href="https://developer.dnsimple.com/v2/templates/records/#get">https://developer.dnsimple.com/v2/templates/records/#get</a>
      */

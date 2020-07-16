@@ -277,8 +277,8 @@ public class Domains {
     /**
      * Get a specific email forward associated to a domain using the email forward's ID.
      *
-     * @param account        The account ID
-     * @param domain         The domain name or ID
+     * @param account      The account ID
+     * @param domain       The domain name or ID
      * @param emailForward The email forward ID
      * @return The get email forward response
      * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#get">https://developer.dnsimple.com/v2/domains/email-forwards/#get</a>
@@ -305,8 +305,8 @@ public class Domains {
      * <p>
      * WARNING: this cannot be undone.
      *
-     * @param account        The account ID
-     * @param domain         The domain ID or name or name
+     * @param account      The account ID
+     * @param domain       The domain ID or name or name
      * @param emailForward The email forward ID
      * @return The delete email forward response
      * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#delete">https://developer.dnsimple.com/v2/domains/email-forwards/#delete</a>
@@ -357,7 +357,7 @@ public class Domains {
      * Accept a push.
      *
      * @param account    The account ID
-     * @param push     The push ID
+     * @param push       The push ID
      * @param attributes A Map of attributes required when accepting the push
      * @return The accept push response
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#accept">https://developer.dnsimple.com/v2/domains/pushes/#accept</a>
@@ -370,7 +370,7 @@ public class Domains {
      * Reject a push.
      *
      * @param account The account ID
-     * @param push  The push ID
+     * @param push    The push ID
      * @return The accept push response
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#reject">https://developer.dnsimple.com/v2/domains/pushes/#reject</a>
      */
