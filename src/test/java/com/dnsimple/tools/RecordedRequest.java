@@ -10,8 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.util.stream.Collectors.toMap;
-
 public class RecordedRequest {
     private static final Gson GSON = new Gson();
     private static final Type LIST_GSON_TYPE = new TypeToken<ArrayList<String>>() {
@@ -43,12 +41,7 @@ public class RecordedRequest {
     }
 
     public Map<String, Object> getJsonObjectPayload() {
-        // Compensate for wrong transformations of integers to doubles by Gson in ID fields
-        return GSON.<Map<String, Object>>fromJson(jsonPayload, MAP_GSON_TYPE).entrySet().stream().collect(toMap(
-                Map.Entry::getKey,
-                e -> e.getKey().endsWith("_id") && e.getValue() instanceof Double
-                        ? ((Double) e.getValue()).longValue()
-                        : e.getValue()));
+        return GSON.fromJson(jsonPayload, MAP_GSON_TYPE);
     }
 
     public List<String> getJsonArrayPayload() {

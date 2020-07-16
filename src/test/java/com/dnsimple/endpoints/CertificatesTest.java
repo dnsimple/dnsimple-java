@@ -5,6 +5,7 @@ import com.dnsimple.data.CertificateBundle;
 import com.dnsimple.data.CertificatePurchase;
 import com.dnsimple.data.CertificateRenewal;
 import com.dnsimple.exception.ResourceNotFoundException;
+import com.dnsimple.request.CertificatePurchaseOptions;
 import com.dnsimple.request.ListOptions;
 import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
@@ -13,12 +14,13 @@ import org.junit.Test;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Map;
 
 import static com.dnsimple.http.HttpMethod.GET;
 import static com.dnsimple.http.HttpMethod.POST;
+import static com.dnsimple.tools.CustomMatchers.number;
 import static com.dnsimple.tools.CustomMatchers.thrownException;
 import static java.time.ZoneOffset.UTC;
-import static java.util.Collections.emptyMap;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -212,11 +214,28 @@ public class CertificatesTest extends DnsimpleTestBase {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testPurchaseLetsencryptCertificate() {
         server.stubFixtureAt("purchaseLetsencryptCertificate/success.http");
-        SimpleResponse<CertificatePurchase> response = client.certificates.purchaseLetsencryptCertificate(1010, "bingo.pizza", emptyMap());
+        CertificatePurchaseOptions options = CertificatePurchaseOptions.of(1).autoRenew().name("www").alternateNames("web", "theweb");
+        SimpleResponse<CertificatePurchase> response = client.certificates.purchaseLetsencryptCertificate(1010, "bingo.pizza", options);
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/bingo.pizza/certificates/letsencrypt"));
+        Map<String, Object> payload = server.getRecordedRequest().getJsonObjectPayload();
+        assertThat(payload, hasEntry(is("contact_id"), number(1)));
+        assertThat(payload, hasEntry("auto_renew", true));
+        assertThat(payload, hasEntry("name", "www"));
+        // Hamcrest can't reconcile the types involved in this matcher
+        // because Object (the map's value type) can't be coerced into
+        // Iterable (the type enforced by the `contains` matcher). That
+        // means that we can't do the following assertion:
+        //   assertThat(payload, hasEntry("alternate_names", contains("www", "blabla")));
+        //
+        // Instead, we check the key and value in separated assertions,
+        // casting values as needed. This produces an UncheckedCast warning
+        // that can be safely ignored.
+        assertThat(payload, hasKey("alternate_names"));
+        assertThat((List<String>) payload.get("alternate_names"), contains("web", "theweb"));
         CertificatePurchase purchase = response.getData();
         assertThat(purchase.getId(), is(101967L));
         assertThat(purchase.getCertificateId(), is(101967L));
@@ -240,9 +259,10 @@ public class CertificatesTest extends DnsimpleTestBase {
     @Test
     public void testPurchaseLetsencryptCertificateRenewal() {
         server.stubFixtureAt("purchaseRenewalLetsencryptCertificate/success.http");
-        SimpleResponse<CertificateRenewal> response = client.certificates.purchaseLetsencryptCertificateRenewal(1010, "bingo.pizza", 101967, emptyMap());
+        SimpleResponse<CertificateRenewal> response = client.certificates.purchaseLetsencryptCertificateRenewal(1010, "bingo.pizza", 101967, true);
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/bingo.pizza/certificates/letsencrypt/101967/renewals"));
+        assertThat(server.getRecordedRequest().getJsonObjectPayload(), hasEntry("auto_renew", true));
         CertificateRenewal renewal = response.getData();
         assertThat(renewal.getId(), is(65082L));
         assertThat(renewal.getOldCertificateId(), is(101967L));

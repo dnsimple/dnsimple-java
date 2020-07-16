@@ -5,14 +5,14 @@ import com.dnsimple.data.CertificateBundle;
 import com.dnsimple.data.CertificatePurchase;
 import com.dnsimple.data.CertificateRenewal;
 import com.dnsimple.http.HttpEndpointClient;
+import com.dnsimple.request.CertificatePurchaseOptions;
 import com.dnsimple.request.ListOptions;
 import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
 
-import java.util.Map;
-
 import static com.dnsimple.http.HttpMethod.GET;
 import static com.dnsimple.http.HttpMethod.POST;
+import static java.util.Collections.singletonMap;
 
 /**
  * Provides access to the DNSimple Certificates API.
@@ -96,14 +96,14 @@ public class Certificates {
      * This method creates a new purchase order. The order ID should be used to request the issuance of the certificate
      * using `#purchase_letsencrypt_certificate`.
      *
-     * @param account    The account ID
-     * @param domain     The domain name or ID
-     * @param attributes Attributes for the certificate
+     * @param account The account ID
+     * @param domain  The domain name or ID
+     * @param options The options for the certificate purchase
      * @return The Let's Encrypt purchase response
      * @see <a href="https://developer.dnsimple.com/v2/certificates/#purchaseLetsencryptCertificate">https://developer.dnsimple.com/v2/certificates/#purchaseLetsencryptCertificate</a>
      */
-    public SimpleResponse<CertificatePurchase> purchaseLetsencryptCertificate(Number account, String domain, Map<String, Object> attributes) {
-        return client.simple(POST, account + "/domains/" + domain + "/certificates/letsencrypt", ListOptions.empty(), attributes, CertificatePurchase.class);
+    public SimpleResponse<CertificatePurchase> purchaseLetsencryptCertificate(Number account, String domain, CertificatePurchaseOptions options) {
+        return client.simple(POST, account + "/domains/" + domain + "/certificates/letsencrypt", ListOptions.empty(), options, CertificatePurchase.class);
     }
 
     /**
@@ -131,12 +131,28 @@ public class Certificates {
      * @param account       The account ID
      * @param domain        The domain name or ID
      * @param certificateId The certificate ID
-     * @param attributes    Attributes for the certificate
      * @return The Let's Encrypt purchase renewal response
      * @see <a href="https://developer.dnsimple.com/v2/certificates/#purchaseRenewalLetsencryptCertificate">https://developer.dnsimple.com/v2/certificates/#purchaseRenewalLetsencryptCertificate</a>
      */
-    public SimpleResponse<CertificateRenewal> purchaseLetsencryptCertificateRenewal(Number account, String domain, Number certificateId, Map<String, Object> attributes) {
-        return client.simple(POST, account + "/domains/" + domain + "/certificates/letsencrypt/" + certificateId + "/renewals", ListOptions.empty(), attributes, CertificateRenewal.class);
+    public SimpleResponse<CertificateRenewal> purchaseLetsencryptCertificateRenewal(Number account, String domain, Number certificateId) {
+        return purchaseLetsencryptCertificateRenewal(account, domain, certificateId, false);
+    }
+
+    /**
+     * Purchase a Let's Encrypt certificate renewal.
+     * <p>
+     * This method creates a new renewal order. The order ID should be used to request the issuance of the certificate
+     * using `#issue_letsencrypt_certificate_renewal`.
+     *
+     * @param account       The account ID
+     * @param domain        The domain name or ID
+     * @param certificateId The certificate ID
+     * @param autoRenew     Enable auto-renewal of the certificate
+     * @return The Let's Encrypt purchase renewal response
+     * @see <a href="https://developer.dnsimple.com/v2/certificates/#purchaseRenewalLetsencryptCertificate">https://developer.dnsimple.com/v2/certificates/#purchaseRenewalLetsencryptCertificate</a>
+     */
+    public SimpleResponse<CertificateRenewal> purchaseLetsencryptCertificateRenewal(Number account, String domain, Number certificateId, boolean autoRenew) {
+        return client.simple(POST, account + "/domains/" + domain + "/certificates/letsencrypt/" + certificateId + "/renewals", ListOptions.empty(), singletonMap("auto_renew", autoRenew), CertificateRenewal.class);
     }
 
     /**
