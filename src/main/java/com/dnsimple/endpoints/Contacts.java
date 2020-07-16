@@ -2,12 +2,11 @@ package com.dnsimple.endpoints;
 
 import com.dnsimple.data.Contact;
 import com.dnsimple.http.HttpEndpointClient;
+import com.dnsimple.request.ContactOptions;
 import com.dnsimple.request.ListOptions;
 import com.dnsimple.response.EmptyResponse;
 import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
-
-import java.util.Map;
 
 import static com.dnsimple.http.HttpMethod.*;
 import static java.util.Collections.emptyMap;
@@ -62,26 +61,26 @@ public class Contacts {
     /**
      * Create a contact in the account.
      *
-     * @param account    The account ID
-     * @param attributes A map of attributes to contruct the contact
+     * @param account The account ID
+     * @param options options to create the new contact
      * @return The create contact response
      * @see <a href="https://developer.dnsimple.com/v2/contacts/#create">https://developer.dnsimple.com/v2/contacts/#create</a>
      */
-    public SimpleResponse<Contact> createContact(Number account, Map<String, Object> attributes) {
-        return client.simple(POST, account + "/contacts", ListOptions.empty(), attributes, Contact.class);
+    public SimpleResponse<Contact> createContact(Number account, ContactOptions options) {
+        return client.simple(POST, account + "/contacts", ListOptions.empty(), options, Contact.class);
     }
 
     /**
      * Update a contact in the account.
      *
-     * @param account    The account ID
-     * @param contactId  The contact ID
-     * @param attributes A map of attributes to update the contact
+     * @param account   The account ID
+     * @param contactId The contact ID
+     * @param options   options to update the contact
      * @return The update contact response
      * @see <a href="https://developer.dnsimple.com/v2/contacts/#update">https://developer.dnsimple.com/v2/contacts/#update</a>
      */
-    public SimpleResponse<Contact> updateContact(Number account, Number contactId, Map<String, Object> attributes) {
-        return client.simple(PATCH, account + "/contacts/" + contactId, ListOptions.empty(), attributes, Contact.class);
+    public SimpleResponse<Contact> updateContact(Number account, Number contactId, ContactOptions options) {
+        return client.simple(PATCH, account + "/contacts/" + contactId, ListOptions.empty(), options, Contact.class);
     }
 
     /**

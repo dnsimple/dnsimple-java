@@ -2,20 +2,18 @@ package com.dnsimple.endpoints;
 
 import com.dnsimple.data.Contact;
 import com.dnsimple.exception.ResourceNotFoundException;
+import com.dnsimple.request.ContactOptions;
 import com.dnsimple.request.ListOptions;
 import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.tools.DnsimpleTestBase;
 import org.junit.Test;
 
 import java.time.OffsetDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.dnsimple.http.HttpMethod.*;
 import static com.dnsimple.tools.CustomMatchers.thrownException;
 import static java.time.ZoneOffset.UTC;
-import static java.util.Collections.emptyMap;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -92,32 +90,87 @@ public class ContactsTest extends DnsimpleTestBase {
     @Test
     public void testCreateContactSendsCorrectRequest() {
         server.stubFixtureAt("createContact/created.http");
-        Map<String, Object> attributes = new HashMap<>();
-        attributes.put("first_name", "John");
-        attributes.put("last_name", "Smith");
-        client.contacts.createContact(1010, attributes);
+        ContactOptions options = ContactOptions.of("Jane", "Doe", "123 Main street", "New York", "NY", "12345", "USA", "jane@example.com", "+111111111111")
+                .label("some label")
+                .organizationName("Umbrella corp", "CEO of the universe")
+                .address2("Apt 42")
+                .fax("+122222222222");
+        client.contacts.createContact(1010, options);
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/contacts"));
-        assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
+        assertThat(server.getRecordedRequest().getJsonObjectPayload(), allOf(
+                hasEntry("label", "some label"),
+                hasEntry("first_name", "Jane"),
+                hasEntry("last_name", "Doe"),
+                hasEntry("organization_name", "Umbrella corp"),
+                hasEntry("job_title", "CEO of the universe"),
+                hasEntry("address1", "123 Main street"),
+                hasEntry("address2", "Apt 42"),
+                hasEntry("city", "New York"),
+                hasEntry("state_province", "NY"),
+                hasEntry("postal_code", "12345"),
+                hasEntry("country", "USA"),
+                hasEntry("email", "jane@example.com"),
+                hasEntry("phone", "+111111111111"),
+                hasEntry("fax", "+122222222222")
+        ));
     }
 
     @Test
     public void testCreateContactProducesContact() {
         server.stubFixtureAt("createContact/created.http");
-        Contact contact = client.contacts.createContact(1, emptyMap()).getData();
+        ContactOptions options = ContactOptions.of("Jane", "Doe", "123 Main street", "New York", "NY", "12345", "USA", "jane@example.com", "+111111111111")
+                .label("some label")
+                .organizationName("Umbrella corp", "CEO of the universe")
+                .address2("Apt 42")
+                .fax("+122222222222");
+        Contact contact = client.contacts.createContact(1, options).getData();
+        assertThat(server.getRecordedRequest().getJsonObjectPayload(), allOf(
+                hasEntry("label", "some label"),
+                hasEntry("first_name", "Jane"),
+                hasEntry("last_name", "Doe"),
+                hasEntry("organization_name", "Umbrella corp"),
+                hasEntry("job_title", "CEO of the universe"),
+                hasEntry("address1", "123 Main street"),
+                hasEntry("address2", "Apt 42"),
+                hasEntry("city", "New York"),
+                hasEntry("state_province", "NY"),
+                hasEntry("postal_code", "12345"),
+                hasEntry("country", "USA"),
+                hasEntry("email", "jane@example.com"),
+                hasEntry("phone", "+111111111111"),
+                hasEntry("fax", "+122222222222")
+        ));
         assertThat(contact.getId(), is(1L));
     }
 
     @Test
     public void testUpdateContact() {
         server.stubFixtureAt("updateContact/success.http");
-        Map<String, Object> attributes = new HashMap<>();
-        attributes.put("first_name", "John");
-        attributes.put("last_name", "Smith");
-        SimpleResponse<Contact> response = client.contacts.updateContact(1010, 1, attributes);
+        ContactOptions options = ContactOptions.of("Jane", "Doe", "123 Main street", "New York", "NY", "12345", "USA", "jane@example.com", "+111111111111")
+                .label("some label")
+                .organizationName("Umbrella corp", "CEO of the universe")
+                .address2("Apt 42")
+                .fax("+122222222222");
+        SimpleResponse<Contact> response = client.contacts.updateContact(1010, 1, options);
         assertThat(server.getRecordedRequest().getMethod(), is(PATCH));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/contacts/1"));
-        assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
+        assertThat(server.getRecordedRequest().getJsonObjectPayload(), allOf(
+                hasEntry("label", "some label"),
+                hasEntry("first_name", "Jane"),
+                hasEntry("last_name", "Doe"),
+                hasEntry("organization_name", "Umbrella corp"),
+                hasEntry("job_title", "CEO of the universe"),
+                hasEntry("address1", "123 Main street"),
+                hasEntry("address2", "Apt 42"),
+                hasEntry("city", "New York"),
+                hasEntry("state_province", "NY"),
+                hasEntry("postal_code", "12345"),
+                hasEntry("country", "USA"),
+                hasEntry("email", "jane@example.com"),
+                hasEntry("phone", "+111111111111"),
+                hasEntry("fax", "+122222222222")
+        ));
         assertThat(response.getData().getId(), is(1L));
     }
 
