@@ -8,7 +8,7 @@ public class OauthExtraOptions {
     private final Optional<String> state;
     private final Optional<URI> redirectUri;
 
-    public OauthExtraOptions(Optional<String> state, Optional<URI> redirectUri) {
+    private OauthExtraOptions(Optional<String> state, Optional<URI> redirectUri) {
         this.state = state;
         this.redirectUri = redirectUri;
     }
