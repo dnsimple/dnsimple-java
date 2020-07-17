@@ -7,9 +7,8 @@ import com.dnsimple.response.EmptyResponse;
 import com.dnsimple.response.ListResponse;
 import com.dnsimple.response.SimpleResponse;
 
-import java.util.Map;
-
 import static com.dnsimple.http.HttpMethod.*;
+import static java.util.Collections.singletonMap;
 
 /**
  * Provides access to the DNSimple Webhooks API.
@@ -61,13 +60,13 @@ public class Webhooks {
     /**
      * Create a webhook in the account.
      *
-     * @param account    The account ID
-     * @param attributes A Map of attributes for constructing the webhook
+     * @param account The account ID
+     * @param url     The url of the webhook
      * @return The create webhook response
      * @see <a href="https://developer.dnsimple.com/v2/webhooks/#create">https://developer.dnsimple.com/v2/webhooks/#create</a>
      */
-    public SimpleResponse<Webhook> createWebhook(Number account, Map<String, Object> attributes) {
-        return client.simple(POST, account + "/webhooks", ListOptions.empty(), attributes, Webhook.class);
+    public SimpleResponse<Webhook> createWebhook(Number account, String url) {
+        return client.simple(POST, account + "/webhooks", ListOptions.empty(), singletonMap("url", url), Webhook.class);
     }
 
     /**
