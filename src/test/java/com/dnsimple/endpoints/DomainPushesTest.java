@@ -10,7 +10,6 @@ import java.util.List;
 import static com.dnsimple.http.HttpMethod.DELETE;
 import static com.dnsimple.http.HttpMethod.POST;
 import static java.time.ZoneOffset.UTC;
-import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -18,7 +17,7 @@ public class DomainPushesTest extends DnsimpleTestBase {
     @Test
     public void testInitiatePushProducesPush() {
         server.stubFixtureAt("initiatePush/success.http");
-        DomainPush domainPush = client.domains.initiatePush(1, "example.com", singletonMap("new_account_email", "jim@example.com")).getData();
+        DomainPush domainPush = client.domains.initiatePush(1, "example.com", "jim@example.com").getData();
         assertThat(domainPush.getId(), is(1L));
         assertThat(domainPush.getDomainId(), is(100L));
         assertThat(domainPush.getContactId(), is(nullValue()));
@@ -39,7 +38,7 @@ public class DomainPushesTest extends DnsimpleTestBase {
     @Test
     public void testAcceptPush() {
         server.stubFixtureAt("acceptPush/success.http");
-        client.domains.acceptPush(1010, 200, singletonMap("contact_id", 1));
+        client.domains.acceptPush(1010, 200, 1);
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/pushes/200"));
     }

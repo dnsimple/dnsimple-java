@@ -2,6 +2,7 @@ package com.dnsimple.endpoints;
 
 import com.dnsimple.data.DelegationSignerRecord;
 import com.dnsimple.exception.ResourceNotFoundException;
+import com.dnsimple.request.DSRecordOptions;
 import com.dnsimple.request.ListOptions;
 import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
@@ -9,9 +10,7 @@ import com.dnsimple.tools.DnsimpleTestBase;
 import org.junit.Test;
 
 import java.time.OffsetDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.dnsimple.http.HttpMethod.DELETE;
 import static com.dnsimple.http.HttpMethod.GET;
@@ -81,11 +80,7 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
     @Test
     public void testCreateDelegationSignerRecordProducesDelegationSignerRecord() {
         server.stubFixtureAt("createDelegationSignerRecord/created.http");
-        Map<String, Object> attributes = new HashMap<>();
-        attributes.put("algorithm", "13");
-        attributes.put("digest", "684a1f049d7d082b7f98691657da5a65764913df7f065f6f8c36edf62d66ca03");
-        attributes.put("digest_type", "2");
-        attributes.put("keytag", "2371");
+        DSRecordOptions attributes = DSRecordOptions.of("13", "684a1f049d7d082b7f98691657da5a65764913df7f065f6f8c36edf62d66ca03", "2", "2371");
         SimpleResponse<DelegationSignerRecord> response = client.domains.createDelegationSignerRecord(1, "example.com", attributes);
         assertThat(response.getData().getId(), is(2L));
     }

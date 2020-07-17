@@ -14,7 +14,6 @@ import static com.dnsimple.http.HttpMethod.DELETE;
 import static com.dnsimple.http.HttpMethod.GET;
 import static com.dnsimple.tools.CustomMatchers.thrownException;
 import static java.time.ZoneOffset.UTC;
-import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -58,7 +57,7 @@ public class DomainCollaboratorsTest extends DnsimpleTestBase {
     @Test
     public void testAddColaboratorProducersInvitedUserCollaborator() {
         server.stubFixtureAt("addCollaborator/invite-success.http");
-        Collaborator collaborator = client.domains.addCollaborator(1, "example.com", singletonMap("email", "invited-user@example.com")).getData();
+        Collaborator collaborator = client.domains.addCollaborator(1, "example.com", "invited-user@example.com").getData();
         assertThat(collaborator.getId(), is(101L));
         assertThat(collaborator.getDomainId(), is(1L));
         assertThat(collaborator.getDomainName(), is("example.com"));
@@ -70,7 +69,7 @@ public class DomainCollaboratorsTest extends DnsimpleTestBase {
     @Test
     public void testAddColaboratorProducersExistingUserCollaborator() {
         server.stubFixtureAt("addCollaborator/success.http");
-        Collaborator collaborator = client.domains.addCollaborator(1, "example.com", singletonMap("email", "invited-user@example.com")).getData();
+        Collaborator collaborator = client.domains.addCollaborator(1, "example.com", "invited-user@example.com").getData();
         assertThat(collaborator.getId(), is(100L));
         assertThat(collaborator.getDomainId(), is(1L));
         assertThat(collaborator.getDomainName(), is("example.com"));

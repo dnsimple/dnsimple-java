@@ -10,12 +10,10 @@ import org.junit.Test;
 
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Map;
 
 import static com.dnsimple.http.HttpMethod.*;
 import static com.dnsimple.tools.CustomMatchers.thrownException;
 import static java.time.ZoneOffset.UTC;
-import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -91,17 +89,16 @@ public class DomainsTest extends DnsimpleTestBase {
     @Test
     public void testCreateDomainSendsCorrectRequest() {
         server.stubFixtureAt("createDomain/created.http");
-        Map<String, Object> attributes = singletonMap("name", "example.com");
-        client.domains.createDomain(1010, attributes);
+        client.domains.createDomain(1010, "example.com");
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains"));
-        assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
+        assertThat(server.getRecordedRequest().getJsonObjectPayload(), hasEntry("name", "example.com"));
     }
 
     @Test
     public void testCreateDomainProducesDomain() {
         server.stubFixtureAt("createDomain/created.http");
-        SimpleResponse<Domain> response = client.domains.createDomain(1, singletonMap("name", "example.com"));
+        SimpleResponse<Domain> response = client.domains.createDomain(1, "example.com");
         assertThat(response.getData().getId(), is(181985L));
     }
 

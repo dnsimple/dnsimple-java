@@ -9,8 +9,6 @@ import com.dnsimple.tools.DnsimpleTestBase;
 import org.junit.Test;
 
 import java.time.OffsetDateTime;
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.dnsimple.http.HttpMethod.DELETE;
 import static com.dnsimple.http.HttpMethod.GET;
@@ -85,10 +83,11 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
     @Test
     public void testCreateEmailForwardProducesEmailForward() {
         server.stubFixtureAt("createEmailForward/created.http");
-        Map<String, Object> attributes = new HashMap<>();
-        attributes.put("from", "john");
-        attributes.put("to", "john@another.com");
-        SimpleResponse<EmailForward> response = client.domains.createEmailForward(1, "example.com", attributes);
+        SimpleResponse<EmailForward> response = client.domains.createEmailForward(1, "example.com", "john@example.com", "john@another.com");
+        assertThat(server.getRecordedRequest().getJsonObjectPayload(), allOf(
+                hasEntry("from", "john@example.com"),
+                hasEntry("to", "john@another.com")
+        ));
         assertThat(response.getData().getId(), is(17706L));
     }
 
