@@ -34,6 +34,11 @@ public class CustomMatchers {
         };
     }
 
+    /**
+     * Returns a matcher that will reconcile Number types (int, long, and double). Useful
+     * when combined with number values deserialized with GSON because it's impossible
+     * to predict which specific number type will get.
+     */
     public static BaseMatcher<Object> number(Number expectedValue) {
         if (expectedValue instanceof Float || expectedValue instanceof Byte)
             throw new IllegalArgumentException("Float and Byte not supported by this matcher");
