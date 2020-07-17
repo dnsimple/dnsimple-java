@@ -2,17 +2,18 @@ package com.dnsimple.endpoints;
 
 import com.dnsimple.data.TemplateRecord;
 import com.dnsimple.request.ListOptions;
+import com.dnsimple.request.TemplateRecordOptions;
 import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.tools.DnsimpleTestBase;
 import org.junit.Test;
 
 import java.time.OffsetDateTime;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.dnsimple.http.HttpMethod.*;
+import static com.dnsimple.tools.CustomMatchers.number;
 import static java.time.ZoneOffset.UTC;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -72,24 +73,27 @@ public class TemplateRecordsTest extends DnsimpleTestBase {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testCreateTemplateRecordSendsCorrectRequest() {
         server.stubFixtureAt("createTemplateRecord/created.http");
-        Map<String, Object> attributes = new HashMap<>();
-        attributes.put("name", "www");
-        attributes.put("content", "example.com");
-        client.templates.createTemplateRecord(1010, "1", attributes);
+        var options = TemplateRecordOptions.of("www", "ALIAS", "example.com").ttl(3600).priority(42);
+        client.templates.createTemplateRecord(1010, "1", options);
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/templates/1/records"));
-        assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
+        assertThat(server.getRecordedRequest().getJsonObjectPayload(), allOf(
+                hasEntry("name", "www"),
+                hasEntry("type", "ALIAS"),
+                hasEntry("content", "example.com"),
+                hasEntry(is("ttl"), number(3600)),
+                hasEntry(is("priority"), number(42))
+        ));
     }
 
     @Test
     public void testCreateTemplateRecordProducesTemplateRecord() {
         server.stubFixtureAt("createTemplateRecord/created.http");
-        Map<String, Object> attributes = new HashMap<>();
-        attributes.put("name", "www");
-        attributes.put("content", "example.com");
-        SimpleResponse<TemplateRecord> response = client.templates.createTemplateRecord(1, "300", attributes);
+        var options = TemplateRecordOptions.of("www", "ALIAS", "example.com").ttl(3600).priority(42);
+        SimpleResponse<TemplateRecord> response = client.templates.createTemplateRecord(1, "300", options);
         assertThat(response.getData().getId(), is(300L));
     }
 
