@@ -19,21 +19,21 @@ import static org.hamcrest.Matchers.*;
 public class TldsTest extends DnsimpleTestBase {
     @Test
     public void testListTldsSupportsPagination() {
-        client.tlds.listTlds(new ListOptions.Builder().page(1).build());
+        client.tlds.listTlds(ListOptions.empty().page(1));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/tlds?page=1"));
     }
 
     @Test
     public void testListTldsSupportsExtraRequestOptions() {
-        client.tlds.listTlds(new ListOptions.Builder().filter("foo", "bar").build());
+        client.tlds.listTlds(ListOptions.empty().filter("foo", "bar"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/tlds?foo=bar"));
     }
 
     @Test
     public void testListTldsSupportsSorting() {
-        client.tlds.listTlds(new ListOptions.Builder().sortAsc("name").build());
+        client.tlds.listTlds(ListOptions.empty().sortAsc("name"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/tlds?sort=name%3Aasc"));
     }

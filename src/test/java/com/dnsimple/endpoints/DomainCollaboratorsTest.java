@@ -20,21 +20,21 @@ import static org.hamcrest.Matchers.*;
 public class DomainCollaboratorsTest extends DnsimpleTestBase {
     @Test
     public void testListCollaboratorsSupportsPagination() {
-        client.domains.listCollaborators(1, "example.com", new ListOptions.Builder().page(1).build());
+        client.domains.listCollaborators(1, "example.com", ListOptions.empty().page(1));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/collaborators?page=1"));
     }
 
     @Test
     public void testListCollaboratorsSupportsExtraRequestOptions() {
-        client.domains.listCollaborators(1, "example.com", new ListOptions.Builder().filter("foo", "bar").build());
+        client.domains.listCollaborators(1, "example.com", ListOptions.empty().filter("foo", "bar"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/collaborators?foo=bar"));
     }
 
     @Test
     public void testCollaboratorsSupportsSorting() {
-        client.domains.listCollaborators(1, "example.com", new ListOptions.Builder().sortAsc("created_at").build());
+        client.domains.listCollaborators(1, "example.com", ListOptions.empty().sortAsc("created_at"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/collaborators?sort=created_at%3Aasc"));
     }

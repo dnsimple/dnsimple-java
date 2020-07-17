@@ -20,21 +20,21 @@ import static org.hamcrest.Matchers.*;
 public class ContactsTest extends DnsimpleTestBase {
     @Test
     public void testListContactsSupportsPagination() {
-        client.contacts.listContacts(1, new ListOptions.Builder().page(1).build());
+        client.contacts.listContacts(1, ListOptions.empty().page(1));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/contacts?page=1"));
     }
 
     @Test
     public void testListContactsSupportsExtraRequestOptions() {
-        client.contacts.listContacts(1, new ListOptions.Builder().filter("foo", "bar").build());
+        client.contacts.listContacts(1, ListOptions.empty().filter("foo", "bar"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/contacts?foo=bar"));
     }
 
     @Test
     public void testListContactsSupportsSorting() {
-        client.contacts.listContacts(1, new ListOptions.Builder().sortAsc("last_name").build());
+        client.contacts.listContacts(1, ListOptions.empty().sortAsc("last_name"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/contacts?sort=last_name%3Aasc"));
     }
@@ -88,6 +88,7 @@ public class ContactsTest extends DnsimpleTestBase {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testCreateContactSendsCorrectRequest() {
         server.stubFixtureAt("createContact/created.http");
         ContactOptions options = ContactOptions.of("Jane", "Doe", "123 Main street", "New York", "NY", "12345", "USA", "jane@example.com", "+111111111111")
@@ -117,6 +118,7 @@ public class ContactsTest extends DnsimpleTestBase {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testCreateContactProducesContact() {
         server.stubFixtureAt("createContact/created.http");
         ContactOptions options = ContactOptions.of("Jane", "Doe", "123 Main street", "New York", "NY", "12345", "USA", "jane@example.com", "+111111111111")
@@ -145,6 +147,7 @@ public class ContactsTest extends DnsimpleTestBase {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testUpdateContact() {
         server.stubFixtureAt("updateContact/success.http");
         ContactOptions options = ContactOptions.of("Jane", "Doe", "123 Main street", "New York", "NY", "12345", "USA", "jane@example.com", "+111111111111")

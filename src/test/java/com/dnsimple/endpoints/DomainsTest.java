@@ -20,28 +20,28 @@ import static org.hamcrest.Matchers.*;
 public class DomainsTest extends DnsimpleTestBase {
     @Test
     public void testListDomainsSupportsPagination() {
-        client.domains.listDomains(1, new ListOptions.Builder().page(1).build());
+        client.domains.listDomains(1, ListOptions.empty().page(1));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains?page=1"));
     }
 
     @Test
     public void testListDomainsSupportsExtraRequestOptions() {
-        client.domains.listDomains(1, new ListOptions.Builder().filter("foo", "bar").build());
+        client.domains.listDomains(1, ListOptions.empty().filter("foo", "bar"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains?foo=bar"));
     }
 
     @Test
     public void testListDomainsSupportsSorting() {
-        client.domains.listDomains(1, new ListOptions.Builder().sortAsc("expiration").build());
+        client.domains.listDomains(1, ListOptions.empty().sortAsc("expiration"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains?sort=expiration%3Aasc"));
     }
 
     @Test
     public void testListDomainsSupportsFiltering() {
-        client.domains.listDomains(1, new ListOptions.Builder().filter("name_like", "example").build());
+        client.domains.listDomains(1, ListOptions.empty().filter("name_like", "example"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains?name_like=example"));
     }

@@ -17,21 +17,21 @@ import static org.hamcrest.Matchers.*;
 public class DomainServicesTest extends DnsimpleTestBase {
     @Test
     public void testAppliedServicesSupportsPagination() {
-        client.services.appliedServices(1, "example.com", new ListOptions.Builder().page(1).build());
+        client.services.appliedServices(1, "example.com", ListOptions.empty().page(1));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/services?page=1"));
     }
 
     @Test
     public void testAppliedServicesSupportsExtraRequestOptions() {
-        client.services.appliedServices(1, "example.com", new ListOptions.Builder().filter("foo", "bar").build());
+        client.services.appliedServices(1, "example.com", ListOptions.empty().filter("foo", "bar"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/services?foo=bar"));
     }
 
     @Test
     public void testAppliedServicesSupportsSorting() {
-        client.services.appliedServices(1, "example.com", new ListOptions.Builder().sortAsc("name").build());
+        client.services.appliedServices(1, "example.com", ListOptions.empty().sortAsc("name"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/services?sort=name%3Aasc"));
     }

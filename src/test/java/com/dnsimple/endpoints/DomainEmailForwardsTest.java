@@ -20,21 +20,21 @@ import static org.hamcrest.Matchers.*;
 public class DomainEmailForwardsTest extends DnsimpleTestBase {
     @Test
     public void testListEmailForwardsSupportsPagination() {
-        client.domains.listEmailForwards(1, "example.com", new ListOptions.Builder().page(1).build());
+        client.domains.listEmailForwards(1, "example.com", ListOptions.empty().page(1));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/email_forwards?page=1"));
     }
 
     @Test
     public void testListEmailForwardsSupportsExtraRequestOptions() {
-        client.domains.listEmailForwards(1, "example.com", new ListOptions.Builder().filter("foo", "bar").build());
+        client.domains.listEmailForwards(1, "example.com", ListOptions.empty().filter("foo", "bar"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/email_forwards?foo=bar"));
     }
 
     @Test
     public void testListEmailForwardsSupportsSorting() {
-        client.domains.listEmailForwards(1, "example.com", new ListOptions.Builder().sortAsc("from").build());
+        client.domains.listEmailForwards(1, "example.com", ListOptions.empty().sortAsc("from"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/email_forwards?sort=from%3Aasc"));
     }

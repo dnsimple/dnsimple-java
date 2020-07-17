@@ -24,21 +24,21 @@ import static org.hamcrest.Matchers.*;
 public class TemplatesTest extends DnsimpleTestBase {
     @Test
     public void testListTemplatesSupportsPagination() {
-        client.templates.listTemplates(1, new ListOptions.Builder().page(1).build());
+        client.templates.listTemplates(1, ListOptions.empty().page(1));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/templates?page=1"));
     }
 
     @Test
     public void testListTemplatesSupportsExtraRequestOptions() {
-        client.templates.listTemplates(1, new ListOptions.Builder().filter("foo", "bar").build());
+        client.templates.listTemplates(1, ListOptions.empty().filter("foo", "bar"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/templates?foo=bar"));
     }
 
     @Test
     public void testListTemplatesSupportsSorting() {
-        client.templates.listTemplates(1, new ListOptions.Builder().sortAsc("name").build());
+        client.templates.listTemplates(1, ListOptions.empty().sortAsc("name"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/templates?sort=name%3Aasc"));
     }

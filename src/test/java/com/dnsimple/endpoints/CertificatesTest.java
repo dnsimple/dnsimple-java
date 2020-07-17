@@ -27,21 +27,21 @@ import static org.hamcrest.Matchers.*;
 public class CertificatesTest extends DnsimpleTestBase {
     @Test
     public void testListCertificatesSupportsPagination() {
-        client.certificates.listCertificates(1, "example.com", new ListOptions.Builder().page(1).build());
+        client.certificates.listCertificates(1, "example.com", ListOptions.empty().page(1));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/certificates?page=1"));
     }
 
     @Test
     public void testListCertificatesSupportsExtraRequestOptions() {
-        client.certificates.listCertificates(1, "example.com", new ListOptions.Builder().filter("foo", "bar").build());
+        client.certificates.listCertificates(1, "example.com", ListOptions.empty().filter("foo", "bar"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/certificates?foo=bar"));
     }
 
     @Test
     public void testListCertificatesSupportsSorting() {
-        client.certificates.listCertificates(1, "example.com", new ListOptions.Builder().sortAsc("expires_on").build());
+        client.certificates.listCertificates(1, "example.com", ListOptions.empty().sortAsc("expires_on"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/certificates?sort=expires_on%3Aasc"));
     }

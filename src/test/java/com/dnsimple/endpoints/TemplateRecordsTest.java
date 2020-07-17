@@ -21,21 +21,21 @@ import static org.hamcrest.Matchers.*;
 public class TemplateRecordsTest extends DnsimpleTestBase {
     @Test
     public void testListTemplatesSupportsPagination() {
-        client.templates.listTemplateRecords(1, "2", new ListOptions.Builder().page(1).build());
+        client.templates.listTemplateRecords(1, "2", ListOptions.empty().page(1));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/templates/2/records?page=1"));
     }
 
     @Test
     public void testListTemplatesSupportsExtraRequestOptions() {
-        client.templates.listTemplateRecords(1, "2", new ListOptions.Builder().filter("foo", "bar").build());
+        client.templates.listTemplateRecords(1, "2", ListOptions.empty().filter("foo", "bar"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/templates/2/records?foo=bar"));
     }
 
     @Test
     public void testListTemplatesSupportsSorting() {
-        client.templates.listTemplateRecords(1, "2", new ListOptions.Builder().sortAsc("name").build());
+        client.templates.listTemplateRecords(1, "2", ListOptions.empty().sortAsc("name"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/templates/2/records?sort=name%3Aasc"));
     }
@@ -73,7 +73,6 @@ public class TemplateRecordsTest extends DnsimpleTestBase {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void testCreateTemplateRecordSendsCorrectRequest() {
         server.stubFixtureAt("createTemplateRecord/created.http");
         var options = TemplateRecordOptions.of("www", "ALIAS", "example.com").ttl(3600).priority(42);

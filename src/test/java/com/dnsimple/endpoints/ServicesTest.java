@@ -17,21 +17,21 @@ import static org.hamcrest.Matchers.*;
 public class ServicesTest extends DnsimpleTestBase {
     @Test
     public void testListServicesSupportsPagination() {
-        client.services.listServices(new ListOptions.Builder().page(1).build());
+        client.services.listServices(ListOptions.empty().page(1));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/services?page=1"));
     }
 
     @Test
     public void testListServicesSupportsExtraRequestOptions() {
-        client.services.listServices(new ListOptions.Builder().filter("foo", "bar").build());
+        client.services.listServices(ListOptions.empty().filter("foo", "bar"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/services?foo=bar"));
     }
 
     @Test
     public void testListServicesSupportsSorting() {
-        client.services.listServices(new ListOptions.Builder().sortAsc("name").build());
+        client.services.listServices(ListOptions.empty().sortAsc("name"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/services?sort=name%3Aasc"));
     }

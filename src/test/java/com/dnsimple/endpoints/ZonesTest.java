@@ -23,28 +23,28 @@ import static org.hamcrest.Matchers.*;
 public class ZonesTest extends DnsimpleTestBase {
     @Test
     public void testListZonesSupportsPagination() {
-        client.zones.listZones(1, new ListOptions.Builder().page(1).build());
+        client.zones.listZones(1, ListOptions.empty().page(1));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/zones?page=1"));
     }
 
     @Test
     public void testListZonesSupportsExtraRequestOptions() {
-        client.zones.listZones(1, new ListOptions.Builder().filter("foo", "bar").build());
+        client.zones.listZones(1, ListOptions.empty().filter("foo", "bar"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/zones?foo=bar"));
     }
 
     @Test
     public void testListDomainsSupportsSorting() {
-        client.zones.listZones(1, new ListOptions.Builder().sortAsc("expires_on").build());
+        client.zones.listZones(1, ListOptions.empty().sortAsc("expires_on"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/zones?sort=expires_on%3Aasc"));
     }
 
     @Test
     public void testListZonesSupportsFiltering() {
-        client.zones.listZones(1, new ListOptions.Builder().filter("name_like", "example").build());
+        client.zones.listZones(1, ListOptions.empty().filter("name_like", "example"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/zones?name_like=example"));
     }

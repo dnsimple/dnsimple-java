@@ -22,21 +22,21 @@ import static org.hamcrest.Matchers.*;
 public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
     @Test
     public void testListDelegationSignerRecordsSupportsPagination() {
-        client.domains.listDelegationSignerRecords(1, "1010", new ListOptions.Builder().page(1).build());
+        client.domains.listDelegationSignerRecords(1, "1010", ListOptions.empty().page(1));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/1010/ds_records?page=1"));
     }
 
     @Test
     public void testListDelegationSignerRecordsSupportsExtraRequestOptions() {
-        client.domains.listDelegationSignerRecords(1, "1010", new ListOptions.Builder().filter("foo", "bar").build());
+        client.domains.listDelegationSignerRecords(1, "1010", ListOptions.empty().filter("foo", "bar"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/1010/ds_records?foo=bar"));
     }
 
     @Test
     public void testListDelegationSignerRecordsSupportsSorting() {
-        client.domains.listDelegationSignerRecords(1, "1010", new ListOptions.Builder().sortAsc("created_at").build());
+        client.domains.listDelegationSignerRecords(1, "1010", ListOptions.empty().sortAsc("created_at"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/1010/ds_records?sort=created_at%3Aasc"));
     }

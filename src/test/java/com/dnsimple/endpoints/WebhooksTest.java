@@ -16,7 +16,7 @@ import static org.hamcrest.Matchers.*;
 public class WebhooksTest extends DnsimpleTestBase {
     @Test
     public void testListWebhooksSupportsExtraRequestOptions() {
-        client.webhooks.listWebhooks(1010, new ListOptions.Builder().filter("foo", "bar").build());
+        client.webhooks.listWebhooks(1010, ListOptions.empty().filter("foo", "bar"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/webhooks?foo=bar"));
     }
