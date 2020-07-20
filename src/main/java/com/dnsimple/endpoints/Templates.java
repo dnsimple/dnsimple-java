@@ -4,11 +4,11 @@ import com.dnsimple.data.Template;
 import com.dnsimple.data.TemplateRecord;
 import com.dnsimple.http.HttpEndpointClient;
 import com.dnsimple.request.ListOptions;
+import com.dnsimple.request.TemplateOptions;
+import com.dnsimple.request.TemplateRecordOptions;
 import com.dnsimple.response.EmptyResponse;
 import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
-
-import java.util.Map;
 
 import static com.dnsimple.http.HttpMethod.*;
 
@@ -62,26 +62,26 @@ public class Templates {
     /**
      * Create a template in the account.
      *
-     * @param account    The account ID
-     * @param attributes A map of attributes to contruct the template
+     * @param account The account ID
+     * @param options The template options
      * @return The create template response
      * @see <a href="https://developer.dnsimple.com/v2/templates/#create">https://developer.dnsimple.com/v2/templates/#create</a>
      */
-    public SimpleResponse<Template> createTemplate(Number account, Map<String, Object> attributes) {
-        return client.simple(POST, account + "/templates", ListOptions.empty(), attributes, Template.class);
+    public SimpleResponse<Template> createTemplate(Number account, TemplateOptions options) {
+        return client.simple(POST, account + "/templates", ListOptions.empty(), options, Template.class);
     }
 
     /**
      * Update a template in the account.
      *
-     * @param account    The account ID
-     * @param template   The template short name or ID
-     * @param attributes A map of attributes to update the template
+     * @param account  The account ID
+     * @param template The template short name or ID
+     * @param options  The template options
      * @return The update template response
      * @see <a href="https://developer.dnsimple.com/v2/templates/#update">https://developer.dnsimple.com/v2/templates/#update</a>
      */
-    public SimpleResponse<Template> updateTemplate(Number account, String template, Map<String, Object> attributes) {
-        return client.simple(PATCH, account + "/templates/" + template, ListOptions.empty(), attributes, Template.class);
+    public SimpleResponse<Template> updateTemplate(Number account, String template, TemplateOptions options) {
+        return client.simple(PATCH, account + "/templates/" + template, ListOptions.empty(), options, Template.class);
     }
 
     /**
@@ -150,14 +150,14 @@ public class Templates {
     /**
      * Create a record in the template.
      *
-     * @param account    The account ID
-     * @param template   The template short name or ID
-     * @param attributes A map of attributes to contruct the template record
+     * @param account  The account ID
+     * @param template The template short name or ID
+     * @param options  The template record options
      * @return The create template record response
      * @see <a href="https://developer.dnsimple.com/v2/templates/records#create">https://developer.dnsimple.com/v2/templates/records#create</a>
      */
-    public SimpleResponse<TemplateRecord> createTemplateRecord(Number account, String template, Map<String, Object> attributes) {
-        return client.simple(POST, account + "/templates/" + template + "/records", ListOptions.empty(), attributes, TemplateRecord.class);
+    public SimpleResponse<TemplateRecord> createTemplateRecord(Number account, String template, TemplateRecordOptions options) {
+        return client.simple(POST, account + "/templates/" + template + "/records", ListOptions.empty(), options, TemplateRecord.class);
     }
 
     /**

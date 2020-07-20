@@ -10,40 +10,38 @@ import org.junit.Test;
 
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Map;
 
 import static com.dnsimple.http.HttpMethod.*;
 import static com.dnsimple.tools.CustomMatchers.thrownException;
 import static java.time.ZoneOffset.UTC;
-import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 public class DomainsTest extends DnsimpleTestBase {
     @Test
     public void testListDomainsSupportsPagination() {
-        client.domains.listDomains(1, new ListOptions.Builder().page(1).build());
+        client.domains.listDomains(1, ListOptions.empty().page(1));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains?page=1"));
     }
 
     @Test
     public void testListDomainsSupportsExtraRequestOptions() {
-        client.domains.listDomains(1, new ListOptions.Builder().filter("foo", "bar").build());
+        client.domains.listDomains(1, ListOptions.empty().filter("foo", "bar"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains?foo=bar"));
     }
 
     @Test
     public void testListDomainsSupportsSorting() {
-        client.domains.listDomains(1, new ListOptions.Builder().sortAsc("expiration").build());
+        client.domains.listDomains(1, ListOptions.empty().sortAsc("expiration"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains?sort=expiration%3Aasc"));
     }
 
     @Test
     public void testListDomainsSupportsFiltering() {
-        client.domains.listDomains(1, new ListOptions.Builder().filter("name_like", "example").build());
+        client.domains.listDomains(1, ListOptions.empty().filter("name_like", "example"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains?name_like=example"));
     }
@@ -91,17 +89,16 @@ public class DomainsTest extends DnsimpleTestBase {
     @Test
     public void testCreateDomainSendsCorrectRequest() {
         server.stubFixtureAt("createDomain/created.http");
-        Map<String, Object> attributes = singletonMap("name", "example.com");
-        client.domains.createDomain(1010, attributes);
+        client.domains.createDomain(1010, "example.com");
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains"));
-        assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
+        assertThat(server.getRecordedRequest().getJsonObjectPayload(), hasEntry("name", "example.com"));
     }
 
     @Test
     public void testCreateDomainProducesDomain() {
         server.stubFixtureAt("createDomain/created.http");
-        SimpleResponse<Domain> response = client.domains.createDomain(1, singletonMap("name", "example.com"));
+        SimpleResponse<Domain> response = client.domains.createDomain(1, "example.com");
         assertThat(response.getData().getId(), is(181985L));
     }
 

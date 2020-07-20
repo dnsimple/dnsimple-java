@@ -2,14 +2,17 @@ package com.dnsimple.endpoints;
 
 import com.dnsimple.data.*;
 import com.dnsimple.http.HttpEndpointClient;
+import com.dnsimple.request.DSRecordOptions;
 import com.dnsimple.request.ListOptions;
 import com.dnsimple.response.EmptyResponse;
 import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.dnsimple.http.HttpMethod.*;
+import static java.util.Collections.singletonMap;
 
 /**
  * Provides access to the DNSimple Domains API.
@@ -61,13 +64,13 @@ public class Domains {
     /**
      * Create a domain in an account.
      *
-     * @param account    The account ID
-     * @param attributes A Map of attributes for constructing the domain
+     * @param account The account ID
+     * @param name    The name of the domain
      * @return The create domain response
      * @see <a href="https://developer.dnsimple.com/v2/domains/#create">https://developer.dnsimple.com/v2/domains/#create</a>
      */
-    public SimpleResponse<Domain> createDomain(Number account, Map<String, Object> attributes) {
-        return client.simple(POST, account + "/domains", ListOptions.empty(), attributes, Domain.class);
+    public SimpleResponse<Domain> createDomain(Number account, String name) {
+        return client.simple(POST, account + "/domains", ListOptions.empty(), singletonMap("name", name), Domain.class);
     }
 
     /**
@@ -124,14 +127,14 @@ public class Domains {
     /**
      * Add a collaborator to a domain.
      *
-     * @param account    The account ID
-     * @param domain     The domain ID or name
-     * @param attributes A Map of attributes for constructing the domain
+     * @param account The account ID
+     * @param domain  The domain ID or name
+     * @param email   The email of the collaborator
      * @return The add collaborator response
      * @see <a href="https://developer.dnsimple.com/v2/domains/collaborators/#add">https://developer.dnsimple.com/v2/domains/collaborators/#create</a>
      */
-    public SimpleResponse<Collaborator> addCollaborator(Number account, String domain, Map<String, Object> attributes) {
-        return client.simple(POST, account + "/domains/" + domain + "/collaborators", ListOptions.empty(), attributes, Collaborator.class);
+    public SimpleResponse<Collaborator> addCollaborator(Number account, String domain, String email) {
+        return client.simple(POST, account + "/domains/" + domain + "/collaborators", ListOptions.empty(), singletonMap("email", email), Collaborator.class);
     }
 
     /**
@@ -224,14 +227,14 @@ public class Domains {
     /**
      * Create a delegation signer record for a domain.
      *
-     * @param account    The account ID
-     * @param domain     The domain name or ID
-     * @param attributes A Map of attributes for constructing the delegation signer record
+     * @param account The account ID
+     * @param domain  The domain name or ID
+     * @param options The options to create the DS record
      * @return The create delegation signer record response
      * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-create">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-create</a>
      */
-    public SimpleResponse<DelegationSignerRecord> createDelegationSignerRecord(Number account, String domain, Map<String, Object> attributes) {
-        return client.simple(POST, account + "/domains/" + domain + "/ds_records", ListOptions.empty(), attributes, DelegationSignerRecord.class);
+    public SimpleResponse<DelegationSignerRecord> createDelegationSignerRecord(Number account, String domain, DSRecordOptions options) {
+        return client.simple(POST, account + "/domains/" + domain + "/ds_records", ListOptions.empty(), options, DelegationSignerRecord.class);
     }
 
     /**
@@ -290,14 +293,18 @@ public class Domains {
     /**
      * Create an email forward for a domain.
      *
-     * @param account    The account ID
-     * @param domain     The domain name or ID
-     * @param attributes A Map of attributes for constructing the email forward
+     * @param account The account ID
+     * @param domain  The domain name or ID
+     * @param from    The email address the emails are send to
+     * @param to      The email address the email address the emails are forwarded to.
      * @return The create email forward response
      * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#create">https://developer.dnsimple.com/v2/domains/email-forwards/#create</a>
      */
-    public SimpleResponse<EmailForward> createEmailForward(Number account, String domain, Map<String, Object> attributes) {
-        return client.simple(POST, account + "/domains/" + domain + "/email_forwards", ListOptions.empty(), attributes, EmailForward.class);
+    public SimpleResponse<EmailForward> createEmailForward(Number account, String domain, String from, String to) {
+        Map<String, String> options = new HashMap<>();
+        options.put("from", from);
+        options.put("to", to);
+        return client.simple(POST, account + "/domains/" + domain + "/email_forwards", ListOptions.empty(), options, EmailForward.class);
     }
 
     /**
@@ -318,14 +325,14 @@ public class Domains {
     /**
      * Initiate a push.
      *
-     * @param account    The account ID
-     * @param domain     The domain name or ID
-     * @param attributes A Map of attributes for constructing the push
+     * @param account         The account ID
+     * @param domain          The domain name or ID
+     * @param newAccountEmail The email address of the target DNSimple account
      * @return The initiate push response
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#initiate">https://developer.dnsimple.com/v2/domains/pushes/#initiate</a>
      */
-    public SimpleResponse<DomainPush> initiatePush(Number account, String domain, Map<String, Object> attributes) {
-        return client.simple(POST, account + "/domains/" + domain + "/pushes", ListOptions.empty(), attributes, DomainPush.class);
+    public SimpleResponse<DomainPush> initiatePush(Number account, String domain, String newAccountEmail) {
+        return client.simple(POST, account + "/domains/" + domain + "/pushes", ListOptions.empty(), singletonMap("new_account_email", newAccountEmail), DomainPush.class);
     }
 
     /**
@@ -356,14 +363,14 @@ public class Domains {
     /**
      * Accept a push.
      *
-     * @param account    The account ID
-     * @param push       The push ID
-     * @param attributes A Map of attributes required when accepting the push
+     * @param account   The account ID
+     * @param push      The push ID
+     * @param contactId A contact that belongs to the target DNSimple account
      * @return The accept push response
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#accept">https://developer.dnsimple.com/v2/domains/pushes/#accept</a>
      */
-    public EmptyResponse acceptPush(Number account, Number push, Map<String, Object> attributes) {
-        return client.empty(POST, account + "/pushes/" + push, ListOptions.empty(), attributes);
+    public EmptyResponse acceptPush(Number account, Number push, Number contactId) {
+        return client.empty(POST, account + "/pushes/" + push, ListOptions.empty(), singletonMap("contact_id", contactId.longValue()));
     }
 
     /**

@@ -6,6 +6,8 @@ import com.dnsimple.data.ZoneFile;
 import com.dnsimple.data.ZoneRecord;
 import com.dnsimple.http.HttpEndpointClient;
 import com.dnsimple.request.ListOptions;
+import com.dnsimple.request.ZoneRecordOptions;
+import com.dnsimple.request.ZoneRecordUpdateOptions;
 import com.dnsimple.response.EmptyResponse;
 import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
@@ -139,14 +141,14 @@ public class Zones {
     /**
      * Create a record in a zone.
      *
-     * @param account    The account ID
-     * @param zone       The zone name
-     * @param attributes The zone attributes
+     * @param account The account ID
+     * @param zone    The zone name
+     * @param options Options for the Zone record
      * @return The create zone record response
      * @see <a href="https://developer.dnsimple.com/v2/zones/records/#create">https://developer.dnsimple.com/v2/zones/records/#create</a>
      */
-    public SimpleResponse<ZoneRecord> createZoneRecord(Number account, String zone, Map<String, Object> attributes) {
-        return client.simple(POST, account + "/zones/" + zone + "/records", ListOptions.empty(), attributes, ZoneRecord.class);
+    public SimpleResponse<ZoneRecord> createZoneRecord(Number account, String zone, ZoneRecordOptions options) {
+        return client.simple(POST, account + "/zones/" + zone + "/records", ListOptions.empty(), options, ZoneRecord.class);
     }
 
     /**
@@ -155,12 +157,12 @@ public class Zones {
      * @param account    The account ID
      * @param zone       The zone name
      * @param record     The zone record ID
-     * @param attributes The zone attributes
+     * @param options The options to update the Zone record
      * @return The update zone record response
      * @see <a href="https://developer.dnsimple.com/v2/zones/records/#update">https://developer.dnsimple.com/v2/zones/records/#update</a>
      */
-    public SimpleResponse<ZoneRecord> updateZoneRecord(Number account, String zone, Number record, Map<String, Object> attributes) {
-        return client.simple(PATCH, account + "/zones/" + zone + "/records/" + record, ListOptions.empty(), attributes, ZoneRecord.class);
+    public SimpleResponse<ZoneRecord> updateZoneRecord(Number account, String zone, Number record, ZoneRecordUpdateOptions options) {
+        return client.simple(PATCH, account + "/zones/" + zone + "/records/" + record, ListOptions.empty(), options, ZoneRecord.class);
     }
 
     /**

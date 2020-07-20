@@ -5,20 +5,21 @@ import com.dnsimple.data.DomainRegistration;
 import com.dnsimple.data.DomainRenewal;
 import com.dnsimple.data.DomainTransfer;
 import com.dnsimple.exception.DnsimpleException;
+import com.dnsimple.request.RegistrationOptions;
+import com.dnsimple.request.RenewOptions;
+import com.dnsimple.request.TransferOptions;
 import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.tools.DnsimpleTestBase;
 import org.junit.Test;
 
 import java.time.OffsetDateTime;
-import java.util.HashMap;
 import java.util.Map;
 
 import static com.dnsimple.http.HttpMethod.*;
+import static com.dnsimple.tools.CustomMatchers.number;
 import static java.time.ZoneOffset.UTC;
-import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.hamcrest.Matchers.*;
 
 public class RegistrarTest extends DnsimpleTestBase {
     @Test
@@ -35,11 +36,11 @@ public class RegistrarTest extends DnsimpleTestBase {
     @Test
     public void testRegisterDomain() {
         server.stubFixtureAt("registerDomain/success.http");
-        Map<String, Object> attributes = singletonMap("registrant_id", "10");
-        SimpleResponse<DomainRegistration> response = client.registrar.registerDomain(1010, "example.com", attributes);
+        RegistrationOptions options = RegistrationOptions.of(10);
+        SimpleResponse<DomainRegistration> response = client.registrar.registerDomain(1010, "example.com", options);
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/registrations"));
-        assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
+        assertThat(server.getRecordedRequest().getJsonObjectPayload(), hasEntry(is("registrant_id"), number(10)));
         DomainRegistration registration = response.getData();
         assertThat(registration.getId(), is(1L));
         assertThat(registration.getDomainId(), is(999L));
@@ -54,11 +55,13 @@ public class RegistrarTest extends DnsimpleTestBase {
     @Test
     public void testRenewDomain() {
         server.stubFixtureAt("renewDomain/success.http");
-        Map<String, Object> attributes = singletonMap("period", "3");
-        DomainRenewal domainRenewal = client.registrar.renewDomain(1010, "example.com", attributes).getData();
+        RenewOptions options = RenewOptions.empty().period(3);
+        DomainRenewal domainRenewal = client.registrar.renewDomain(1010, "example.com", options).getData();
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/renewals"));
-        assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
+        Map<String, Object> payload = server.getRecordedRequest().getJsonObjectPayload();
+        assertThat(payload, hasEntry(is("period"), number(3)));
+        assertThat(payload, not(hasKey("premium_price")));
         assertThat(domainRenewal.getId(), is(1L));
         assertThat(domainRenewal.getDomainId(), is(999L));
         assertThat(domainRenewal.getPeriod(), is(1));
@@ -70,26 +73,24 @@ public class RegistrarTest extends DnsimpleTestBase {
     @Test(expected = DnsimpleException.class)
     public void testRenewDomainTooSoon() {
         server.stubFixtureAt("renewDomain/error-tooearly.http");
-        Map<String, Object> attributes = singletonMap("period", "3");
-        client.registrar.renewDomain(1010, "example.com", attributes);
-        assertThat(server.getRecordedRequest().getMethod(), is(POST));
-        assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/renewals"));
-        assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
+        RenewOptions options = RenewOptions.empty().period(3);
+        client.registrar.renewDomain(1010, "example.com", options);
     }
 
     @Test
     public void testTransferDomain() {
         server.stubFixtureAt("transferDomain/success.http");
-        Map<String, Object> attributes = new HashMap<>();
-        attributes.put("registrant_id", 1L);
-        attributes.put("auth_info", "x1y2z3");
-        SimpleResponse<DomainTransfer> response = client.registrar.transferDomain(1010, "example.com", attributes);
+        TransferOptions options = TransferOptions.of(1).authCode("x1y2z3");
+        SimpleResponse<DomainTransfer> response = client.registrar.transferDomain(1010, "example.com", options);
         DomainTransfer transfer = response.getData();
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/transfers"));
         Map<String, Object> jsonObjectPayload = server.getRecordedRequest().getJsonObjectPayload();
-        assertThat(jsonObjectPayload, is(attributes));
-        assertThat(transfer.getId(), is(1));
+        assertThat(jsonObjectPayload, allOf(
+                hasEntry(is("registrant_id"), number(1)),
+                hasEntry("auth_code", "x1y2z3")
+        ));
+        assertThat(transfer.getId(), is(number(1)));
     }
 
     @Test
@@ -131,23 +132,15 @@ public class RegistrarTest extends DnsimpleTestBase {
     @Test(expected = DnsimpleException.class)
     public void testTransferDomainAlreadyInDnsimple() {
         server.stubFixtureAt("transferDomain/error-indnsimple.http");
-        Map<String, Object> attributes = new HashMap<>();
-        attributes.put("registrant_id", 1);
-        attributes.put("auth_info", "x1y2z3");
-        client.registrar.transferDomain(1010, "example.com", attributes);
-        assertThat(server.getRecordedRequest().getMethod(), is(POST));
-        assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/transfers"));
-        assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
+        TransferOptions options = TransferOptions.of(1).authCode("x1y2z3");
+        client.registrar.transferDomain(1010, "example.com", options);
     }
 
     @Test(expected = DnsimpleException.class)
-    public void testTransferDomainAuthInfoRequired() {
+    public void testTransferDomainAuthCodeRequired() {
         server.stubFixtureAt("transferDomain/error-missing-authcode.http");
-        Map<String, Object> attributes = singletonMap("registrant_id", 1);
-        client.registrar.transferDomain(1010, "example.com", attributes);
-        assertThat(server.getRecordedRequest().getMethod(), is(POST));
-        assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/transfers"));
-        assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
+        TransferOptions options = TransferOptions.of(1);
+        client.registrar.transferDomain(1010, "example.com", options);
     }
 
     @Test

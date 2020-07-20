@@ -3,6 +3,7 @@ package com.dnsimple.endpoints;
 import com.dnsimple.data.Template;
 import com.dnsimple.exception.ResourceNotFoundException;
 import com.dnsimple.request.ListOptions;
+import com.dnsimple.request.TemplateOptions;
 import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.tools.DnsimpleTestBase;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.dnsimple.http.HttpMethod.*;
+import static com.dnsimple.tools.CustomMatchers.number;
 import static com.dnsimple.tools.CustomMatchers.thrownException;
 import static java.time.ZoneOffset.UTC;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -22,21 +24,21 @@ import static org.hamcrest.Matchers.*;
 public class TemplatesTest extends DnsimpleTestBase {
     @Test
     public void testListTemplatesSupportsPagination() {
-        client.templates.listTemplates(1, new ListOptions.Builder().page(1).build());
+        client.templates.listTemplates(1, ListOptions.empty().page(1));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/templates?page=1"));
     }
 
     @Test
     public void testListTemplatesSupportsExtraRequestOptions() {
-        client.templates.listTemplates(1, new ListOptions.Builder().filter("foo", "bar").build());
+        client.templates.listTemplates(1, ListOptions.empty().filter("foo", "bar"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/templates?foo=bar"));
     }
 
     @Test
     public void testListTemplatesSupportsSorting() {
-        client.templates.listTemplates(1, new ListOptions.Builder().sortAsc("name").build());
+        client.templates.listTemplates(1, ListOptions.empty().sortAsc("name"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/templates?sort=name%3Aasc"));
     }
@@ -81,35 +83,37 @@ public class TemplatesTest extends DnsimpleTestBase {
     @Test
     public void testCreateTemplateSendsCorrectRequest() {
         server.stubFixtureAt("createTemplate/created.http");
-        Map<String, Object> attributes = new HashMap<>();
-        attributes.put("name", "A Template");
-        attributes.put("short_name", "a_template");
-        client.templates.createTemplate(1010, attributes);
+        TemplateOptions options = TemplateOptions.of("A Template", "a_template", "A template with foo and bar");
+        client.templates.createTemplate(1010, options);
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/templates"));
-        assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
+        assertThat(server.getRecordedRequest().getJsonObjectPayload(), allOf(
+                hasEntry("name", "A Template"),
+                hasEntry("sid", "a_template"),
+                hasEntry("description", "A template with foo and bar")
+        ));
     }
 
     @Test
     public void testCreateTemplateProducesTemplate() {
         server.stubFixtureAt("createTemplate/created.http");
-        Map<String, Object> attributes = new HashMap<>();
-        attributes.put("name", "A Template");
-        attributes.put("short_name", "a_template");
-        SimpleResponse<Template> response = client.templates.createTemplate(1, attributes);
-        assertThat(response.getData().getId(), is(1L));
+        TemplateOptions options = TemplateOptions.of("A Template", "a_template", "A template with foo and bar");
+        SimpleResponse<Template> response = client.templates.createTemplate(1, options);
+        assertThat(response.getData().getId(), is(number(1)));
     }
 
     @Test
     public void testUpdateTemplate() {
         server.stubFixtureAt("updateTemplate/success.http");
-        Map<String, Object> attributes = new HashMap<>();
-        attributes.put("name", "A Template");
-        attributes.put("short_name", "a_template");
-        Template template = client.templates.updateTemplate(1010, "1", attributes).getData();
+        TemplateOptions options = TemplateOptions.of("A Template", "a_template", "A template with foo and bar");
+        Template template = client.templates.updateTemplate(1010, "1", options).getData();
         assertThat(server.getRecordedRequest().getMethod(), is(PATCH));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/templates/1"));
-        assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
+        assertThat(server.getRecordedRequest().getJsonObjectPayload(), allOf(
+                hasEntry("name", "A Template"),
+                hasEntry("sid", "a_template"),
+                hasEntry("description", "A template with foo and bar")
+        ));
         assertThat(template.getId(), is(1L));
     }
 

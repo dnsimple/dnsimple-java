@@ -7,18 +7,16 @@ import com.dnsimple.tools.DnsimpleTestBase;
 import org.junit.Test;
 
 import java.util.List;
-import java.util.Map;
 
 import static com.dnsimple.http.HttpMethod.*;
 import static com.dnsimple.tools.CustomMatchers.thrownException;
-import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 public class WebhooksTest extends DnsimpleTestBase {
     @Test
     public void testListWebhooksSupportsExtraRequestOptions() {
-        client.webhooks.listWebhooks(1010, new ListOptions.Builder().filter("foo", "bar").build());
+        client.webhooks.listWebhooks(1010, ListOptions.empty().filter("foo", "bar"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/webhooks?foo=bar"));
     }
@@ -51,11 +49,10 @@ public class WebhooksTest extends DnsimpleTestBase {
     @Test
     public void testCreateWebhook() {
         server.stubFixtureAt("createWebhook/created.http");
-        Map<String, Object> attributes = singletonMap("url", "https://webhook.test");
-        Webhook webhook = client.webhooks.createWebhook(1010, attributes).getData();
+        Webhook webhook = client.webhooks.createWebhook(1010, "https://webhook.test").getData();
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/webhooks"));
-        assertThat(server.getRecordedRequest().getJsonObjectPayload(), is(attributes));
+        assertThat(server.getRecordedRequest().getJsonObjectPayload(), hasEntry("url", "https://webhook.test"));
         assertThat(webhook.getId(), is(1L));
         assertThat(webhook.getUrl(), is("https://webhook.test"));
     }

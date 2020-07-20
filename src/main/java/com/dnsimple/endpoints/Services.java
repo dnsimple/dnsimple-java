@@ -10,6 +10,7 @@ import com.dnsimple.response.SimpleResponse;
 import java.util.Map;
 
 import static com.dnsimple.http.HttpMethod.*;
+import static java.util.Collections.singletonMap;
 
 /**
  * Provides access to the DNSimple one-click Services API.
@@ -91,7 +92,7 @@ public class Services {
      * @see <a href="https://developer.dnsimple.com/v2/services/domains/#apply">https://developer.dnsimple.com/v2/services/domains/#apply</a>
      */
     public SimpleResponse<Service> applyService(Number account, String domain, String service, Map<String, Object> settings) {
-        return client.simple(POST, account + "/domains/" + domain + "/services/" + service, ListOptions.empty(), settings, Service.class);
+        return client.simple(POST, account + "/domains/" + domain + "/services/" + service, ListOptions.empty(), singletonMap("settings", settings), Service.class);
     }
 
     /**

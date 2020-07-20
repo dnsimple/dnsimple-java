@@ -9,8 +9,6 @@ import com.dnsimple.tools.DnsimpleTestBase;
 import org.junit.Test;
 
 import java.time.OffsetDateTime;
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.dnsimple.http.HttpMethod.DELETE;
 import static com.dnsimple.http.HttpMethod.GET;
@@ -22,21 +20,21 @@ import static org.hamcrest.Matchers.*;
 public class DomainEmailForwardsTest extends DnsimpleTestBase {
     @Test
     public void testListEmailForwardsSupportsPagination() {
-        client.domains.listEmailForwards(1, "example.com", new ListOptions.Builder().page(1).build());
+        client.domains.listEmailForwards(1, "example.com", ListOptions.empty().page(1));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/email_forwards?page=1"));
     }
 
     @Test
     public void testListEmailForwardsSupportsExtraRequestOptions() {
-        client.domains.listEmailForwards(1, "example.com", new ListOptions.Builder().filter("foo", "bar").build());
+        client.domains.listEmailForwards(1, "example.com", ListOptions.empty().filter("foo", "bar"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/email_forwards?foo=bar"));
     }
 
     @Test
     public void testListEmailForwardsSupportsSorting() {
-        client.domains.listEmailForwards(1, "example.com", new ListOptions.Builder().sortAsc("from").build());
+        client.domains.listEmailForwards(1, "example.com", ListOptions.empty().sortAsc("from"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com/email_forwards?sort=from%3Aasc"));
     }
@@ -85,10 +83,11 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
     @Test
     public void testCreateEmailForwardProducesEmailForward() {
         server.stubFixtureAt("createEmailForward/created.http");
-        Map<String, Object> attributes = new HashMap<>();
-        attributes.put("from", "john");
-        attributes.put("to", "john@another.com");
-        SimpleResponse<EmailForward> response = client.domains.createEmailForward(1, "example.com", attributes);
+        SimpleResponse<EmailForward> response = client.domains.createEmailForward(1, "example.com", "john@example.com", "john@another.com");
+        assertThat(server.getRecordedRequest().getJsonObjectPayload(), allOf(
+                hasEntry("from", "john@example.com"),
+                hasEntry("to", "john@another.com")
+        ));
         assertThat(response.getData().getId(), is(17706L));
     }
 

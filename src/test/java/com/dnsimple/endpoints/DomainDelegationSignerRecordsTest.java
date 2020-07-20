@@ -2,6 +2,7 @@ package com.dnsimple.endpoints;
 
 import com.dnsimple.data.DelegationSignerRecord;
 import com.dnsimple.exception.ResourceNotFoundException;
+import com.dnsimple.request.DSRecordOptions;
 import com.dnsimple.request.ListOptions;
 import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
@@ -9,9 +10,7 @@ import com.dnsimple.tools.DnsimpleTestBase;
 import org.junit.Test;
 
 import java.time.OffsetDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.dnsimple.http.HttpMethod.DELETE;
 import static com.dnsimple.http.HttpMethod.GET;
@@ -23,21 +22,21 @@ import static org.hamcrest.Matchers.*;
 public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
     @Test
     public void testListDelegationSignerRecordsSupportsPagination() {
-        client.domains.listDelegationSignerRecords(1, "1010", new ListOptions.Builder().page(1).build());
+        client.domains.listDelegationSignerRecords(1, "1010", ListOptions.empty().page(1));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/1010/ds_records?page=1"));
     }
 
     @Test
     public void testListDelegationSignerRecordsSupportsExtraRequestOptions() {
-        client.domains.listDelegationSignerRecords(1, "1010", new ListOptions.Builder().filter("foo", "bar").build());
+        client.domains.listDelegationSignerRecords(1, "1010", ListOptions.empty().filter("foo", "bar"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/1010/ds_records?foo=bar"));
     }
 
     @Test
     public void testListDelegationSignerRecordsSupportsSorting() {
-        client.domains.listDelegationSignerRecords(1, "1010", new ListOptions.Builder().sortAsc("created_at").build());
+        client.domains.listDelegationSignerRecords(1, "1010", ListOptions.empty().sortAsc("created_at"));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/1010/ds_records?sort=created_at%3Aasc"));
     }
@@ -81,11 +80,7 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
     @Test
     public void testCreateDelegationSignerRecordProducesDelegationSignerRecord() {
         server.stubFixtureAt("createDelegationSignerRecord/created.http");
-        Map<String, Object> attributes = new HashMap<>();
-        attributes.put("algorithm", "13");
-        attributes.put("digest", "684a1f049d7d082b7f98691657da5a65764913df7f065f6f8c36edf62d66ca03");
-        attributes.put("digest_type", "2");
-        attributes.put("keytag", "2371");
+        DSRecordOptions attributes = DSRecordOptions.of("13", "684a1f049d7d082b7f98691657da5a65764913df7f065f6f8c36edf62d66ca03", "2", "2371");
         SimpleResponse<DelegationSignerRecord> response = client.domains.createDelegationSignerRecord(1, "example.com", attributes);
         assertThat(response.getData().getId(), is(2L));
     }

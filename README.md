@@ -85,11 +85,10 @@ public class MyApp {
     //...
 
     // Use the ListOptions.Builder class to get an create a ListOptions object
-    ListOptions options = new ListOptions.Builder()
+    ListOptions options = ListOptions.empty()
                                          .page(2, 10) // Get the second page of 10 items
                                          .sortAsc("state") // Sort by state in ascendant order
-                                         .filter("autoRenew", "true") // Filter certificates with enabled auto-renew
-                                         .build();
+                                     .filter("autoRenew", "true"); // Filter certificates with enabled auto-renew
     ListResponse<Certificate> response = client.certificates.listCertificates("1", "1", options);
     //...
   }
