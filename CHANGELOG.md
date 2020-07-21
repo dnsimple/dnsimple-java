@@ -1,6 +1,6 @@
 # Changelog
 
-### master
+### main
 
 **Warning**: This release contains breaking changes. Please contact DNSimple if you need assistance migrating your project to this version of the Java API Client
 
