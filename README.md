@@ -4,8 +4,6 @@ A Java client for the [DNSimple API v2](https://developer.dnsimple.com/v2/).
 
 [![Build Status](https://travis-ci.org/dnsimple/dnsimple-java.svg?branch=master)](https://travis-ci.org/dnsimple/dnsimple-java)
 
-[DNSimple](https://dnsimple.com/) provides DNS hosting and domain registration that is simple and friendly.
-We provide a full API and an easy-to-use web interface to get your domain registered and set up with a minimal amount of effort.
 
 ## Requirements
 
