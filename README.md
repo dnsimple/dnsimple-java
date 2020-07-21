@@ -2,20 +2,12 @@
 
 A Java client for the [DNSimple API v2](https://developer.dnsimple.com/v2/).
 
-[![Build Status](https://travis-ci.org/dnsimple/dnsimple-java.svg?branch=master)](https://travis-ci.org/dnsimple/dnsimple-java)
+[![Build Status](https://travis-ci.com/dnsimple/dnsimple-java.svg?branch=master)](https://travis-ci.com/dnsimple/dnsimple-java)
 
-[DNSimple](https://dnsimple.com/) provides DNS hosting and domain registration that is simple and friendly.
-We provide a full API and an easy-to-use web interface so you can get your domain registered and set up with a minimal amount of effort.
-
-## :warning: Alpha Warning
-
-This project targets the development of the API client for the [DNSimple API v2](https://developer.dnsimple.com/v2/).
-
-This library is currently in alpha version, the methods and the implementation should be considered a work-in-progress. Changes in the method naming, method signatures, public or internal APIs will happen during the alpha period.
 
 ## Requirements
 
-This library is tested with Java 11.
+This library is tested with Java 11 (AdoptOpenJDK 11.0.7 - HotSpot).
 
 You must also have an activated DNSimple account to access the DNSimple API.
 
@@ -67,11 +59,11 @@ public class MyApp {
 }
 ```
 
-The user agent value will be prepended to additional user-agent information that is set by default in this library. While it is not strictly necessary to set the user agent, it is often helpful for the team at DNSimple when debugging, so please consider setting it.
+The user agent value will be prepended to additional user-agent information set by default in this library. While it is not strictly necessary to set the user agent, it is often helpful for the team at DNSimple when debugging, so please consider setting it.
 
 ### List request options
 
-For endpoints that support it, you can set options to filter, limit and sort the results that the API produces thanks to the `ListOptions` class.
+For endpoints that support it, you can set options to filter, limit, and sort the results that the API produces thanks to the `ListOptions` class.
 
 ```java
 package myapp;
@@ -86,8 +78,8 @@ public class MyApp {
 
     // Use the ListOptions.Builder class to get an create a ListOptions object
     ListOptions options = ListOptions.empty()
-                                         .page(2, 10) // Get the second page of 10 items
-                                         .sortAsc("state") // Sort by state in ascendant order
+                                     .page(2, 10) // Get the second page of 10 items
+                                     .sortAsc("state") // Sort by state in ascendant order
                                      .filter("autoRenew", "true"); // Filter certificates with enabled auto-renew
     ListResponse<Certificate> response = client.certificates.listCertificates("1", "1", options);
     //...
@@ -97,7 +89,7 @@ public class MyApp {
 
 ## Sandbox Usage
 
-If you would like to test in the [DNSimple sandbox environment](https://developer.dnsimple.com/sandbox/) then add the "sandbox()" builder to your client:
+If you would like to test in the [DNSimple sandbox environment](https://developer.dnsimple.com/sandbox/) then add the `sandbox()` builder method to your client:
 
 ```java
 package myapp;

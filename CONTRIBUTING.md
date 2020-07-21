@@ -15,7 +15,7 @@ cd dnsimple-java
 
 The project includes an [ASDF](https://github.com/asdf-vm/asdf) `.tool-versions` file to set up the JVM required to work on the project.
 
-You can install the required version of Java executing `asdf install` at the root directory of the project.
+You can install the required version of Java executing `asdf install` at the project's root directory.
 
 #### 3. Build and test
 
@@ -30,7 +30,7 @@ You can install this project into your local Maven repository by running:
 ```
 (use `gradlew.bat` in Windows instead)
 
-Then, you can import it into any project as if it were published to the Maven Central repo. 
+You can then import it into any project as if it were published to the Maven Central repo. 
 
 ## Testing
 
@@ -43,12 +43,12 @@ To run the test suite:
 
 ## Releasing
 
-This project uses [Semantic Versioning](https://semver.org/). The following instructions uses `<VERSION>` as a placeholder, where `$VERSION` is a `MAJOR.MINOR.BUGFIX` release such as `1.2.0`.
+This project uses [Semantic Versioning](https://semver.org/). The following instructions use `<VERSION>` as a placeholder, where `$VERSION` is a `MAJOR.MINOR.PATCH` release, such as `1.2.0`.
 
 1. [Run the test suite](#testing) and ensure all the tests pass.
 1. Set the version in `dnsimple.java`:
     ```java
-    public abstract class Dnsimple {
+    public interface Dnsimple {
       public static final String VERSION = "<VERSION>";
       //...
     }

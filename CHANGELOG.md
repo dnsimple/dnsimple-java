@@ -2,6 +2,15 @@
 
 ### master
 
+**Warning**: This release contains breaking changes. Please contact DNSimple if you need assistance migrating your project to this version of the Java API Client
+
+- Complete review of input and output data types and names to be more aligned to the API docs.
+- Complete review of error management: now error classes are unchecked and there's more fragmentation to represent specific API related scenarios.
+- Replace the Google API HTTP client with a Java 11 native HTTP client.
+  - Users can now provide their own `HttpRequestFactory` alternative implementation.
+- Removed deprecated members from the 0.x branch.
+- Removed all endpoint related interfaces to prevent unwanted extension of this library.
+
 ### Release 0.7.1
 
 - FIXED: Bug that produced an IllegalArgumentException in all requests that are responded with a HTTP 204 No Content ([GH-30](https://github.com/dnsimple/dnsimple-java/pull/30))
