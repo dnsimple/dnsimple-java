@@ -88,18 +88,6 @@ public class Domains {
     }
 
     /**
-     * Resets the domain token.
-     *
-     * @param account The account ID
-     * @param domain  The domain ID or name or name
-     * @return The reset token domain response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/#reset-token">https://developer.dnsimple.com/v2/domains/#reset-token</a>
-     */
-    public SimpleResponse<Domain> resetDomainToken(Number account, String domain) {
-        return client.simple(POST, account + "/domains/" + domain, ListOptions.empty(), null, Domain.class);
-    }
-
-    /**
      * Lists the collaborators in the domain.
      *
      * @param account The account ID
