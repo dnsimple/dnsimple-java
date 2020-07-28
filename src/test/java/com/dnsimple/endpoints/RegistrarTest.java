@@ -36,7 +36,7 @@ public class RegistrarTest extends DnsimpleTestBase {
     @Test
     public void testCheckDomainPremiumPrice() {
         server.stubFixtureAt("checkDomainPremiumPrice/success.http");
-        DomainPremiumPriceCheck premiumPrice = client.registrar.checkDomainPremiumPrice(1010, "cocoo.co", REGISTRATION).getData();
+        DomainPremiumPriceCheck premiumPrice = client.registrar.getDomainPremiumPrice(1010, "cocoo.co", REGISTRATION).getData();
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/cocoo.co/premium_price?action=registration"));
         assertThat(premiumPrice.getPremiumPrice(), is("2640.00"));
@@ -47,7 +47,7 @@ public class RegistrarTest extends DnsimpleTestBase {
     public void testCheckDomainPremiumPrice_400_notAPremiumDomain() {
         server.stubFixtureAt("checkDomainPremiumPrice/error_400_not_a_premium_domain.http");
         assertThat(
-                () -> client.registrar.checkDomainPremiumPrice(1010, "cocotero.love", REGISTRATION),
+                () -> client.registrar.getDomainPremiumPrice(1010, "cocotero.love", REGISTRATION),
                 thrownException(allOf(
                         is(instanceOf(BadRequestException.class)),
                         property(
@@ -62,7 +62,7 @@ public class RegistrarTest extends DnsimpleTestBase {
     public void testCheckDomainPremiumPrice_400_tld_not_supported() {
         server.stubFixtureAt("checkDomainPremiumPrice/error_400_tld_not_supported.http");
         assertThat(
-                () -> client.registrar.checkDomainPremiumPrice(1010, "cocotero.love", REGISTRATION),
+                () -> client.registrar.getDomainPremiumPrice(1010, "cocotero.love", REGISTRATION),
                 thrownException(allOf(
                         is(instanceOf(BadRequestException.class)),
                         property(
@@ -186,7 +186,7 @@ public class RegistrarTest extends DnsimpleTestBase {
     @Test
     public void testTransferDomainOut() {
         server.stubFixtureAt("authorizeDomainTransferOut/success.http");
-        client.registrar.transferDomainOut(1010, "example.com");
+        client.registrar.authorizeTransferOut(1010, "example.com");
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/authorize_transfer_out"));
     }

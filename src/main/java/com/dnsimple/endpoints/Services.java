@@ -39,7 +39,7 @@ public class Services {
      *
      * @param options The options for the list request
      * @return The list services response
-     * @see <a href="https://developer.dnsimple.com/v2/services/#list">https://developer.dnsimple.com/v2/services/#list</a>
+     * @see <a href="https://developer.dnsimple.com/v2/services/#listServices">https://developer.dnsimple.com/v2/services/#listServices</a>
      */
     public ListResponse<Service> listServices(ListOptions options) {
         return client.list(GET, "services", options, null, Service.class);
@@ -50,7 +50,7 @@ public class Services {
      *
      * @param service The service name or ID
      * @return The get service response
-     * @see <a href="https://developer.dnsimple.com/v2/services/#get">https://developer.dnsimple.com/v2/services/#get</a>
+     * @see <a href="https://developer.dnsimple.com/v2/services/#getService">https://developer.dnsimple.com/v2/services/#getService</a>
      */
     public SimpleResponse<Service> getService(String service) {
         return client.simple(GET, "services/" + service, ListOptions.empty(), null, Service.class);
@@ -62,7 +62,7 @@ public class Services {
      * @param account The account ID
      * @param domain  The domain name or ID
      * @return The applied services response
-     * @see <a href="https://developer.dnsimple.com/v2/services/domains/#applied">https://developer.dnsimple.com/v2/services/domains/#applied</a>
+     * @see <a href="https://developer.dnsimple.com/v2/services/domains/#listDomainAppliedServices">https://developer.dnsimple.com/v2/services/domains/#listDomainAppliedServices</a>
      */
     public PaginatedResponse<Service> appliedServices(Number account, String domain) {
         return client.page(GET, account + "/domains/" + domain + "/services", ListOptions.empty(), null, Service.class);
@@ -75,7 +75,7 @@ public class Services {
      * @param domain  The domain name or ID
      * @param options The options for the list request
      * @return The applied services response
-     * @see <a href="https://developer.dnsimple.com/v2/services/domains/#applied">https://developer.dnsimple.com/v2/services/domains/#applied</a>
+     * @see <a href="https://developer.dnsimple.com/v2/services/domains/#listDomainAppliedServices">https://developer.dnsimple.com/v2/services/domains/#listDomainAppliedServices</a>
      */
     public PaginatedResponse<Service> appliedServices(Number account, String domain, ListOptions options) {
         return client.page(GET, account + "/domains/" + domain + "/services", options, null, Service.class);
@@ -89,7 +89,7 @@ public class Services {
      * @param service  The service name or ID to apply
      * @param settings A Map of settings for the service
      * @return The apply service response
-     * @see <a href="https://developer.dnsimple.com/v2/services/domains/#apply">https://developer.dnsimple.com/v2/services/domains/#apply</a>
+     * @see <a href="https://developer.dnsimple.com/v2/services/domains/#applyServiceToDomain">https://developer.dnsimple.com/v2/services/domains/#applyServiceToDomain</a>
      */
     public SimpleResponse<Service> applyService(Number account, String domain, String service, Map<String, Object> settings) {
         return client.simple(POST, account + "/domains/" + domain + "/services/" + service, ListOptions.empty(), singletonMap("settings", settings), Service.class);
@@ -102,7 +102,7 @@ public class Services {
      * @param domain  The domain name or ID
      * @param service The service name or ID to unapply
      * @return The unapply service response
-     * @see <a href="https://developer.dnsimple.com/v2/services/domains/#apply">https://developer.dnsimple.com/v2/services/domains/#apply</a>
+     * @see <a href="https://developer.dnsimple.com/v2/services/domains/#unapplyServiceFromDomain">https://developer.dnsimple.com/v2/services/domains/#unapplyServiceFromDomain</a>
      */
     public SimpleResponse<Service> unapplyService(Number account, String domain, String service) {
         return client.simple(DELETE, account + "/domains/" + domain + "/services/" + service, ListOptions.empty(), null, Service.class);

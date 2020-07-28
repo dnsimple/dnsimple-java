@@ -27,7 +27,7 @@ public class VanityNameServers {
      * @param account The account ID
      * @param domain  The domain name or ID
      * @return The enable vanity name server response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/vanity/#enable">https://developer.dnsimple.com/v2/domains/vanity/#enable</a>
+     * @see <a href="https://developer.dnsimple.com/v2/domains/vanity/#enableVanityNameServers">https://developer.dnsimple.com/v2/domains/vanity/#enableVanityNameServers</a>
      */
     public ListResponse<VanityNameServer> enableVanityNameServers(Number account, String domain) {
         return client.list(PUT, account + "/vanity/" + domain, ListOptions.empty(), null, VanityNameServer.class);
@@ -39,7 +39,7 @@ public class VanityNameServers {
      * @param account The account ID
      * @param domain  The domain name or ID
      * @return The disable vanity name server response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/vanity/#disable">https://developer.dnsimple.com/v2/domains/vanity/#disable</a>
+     * @see <a href="https://developer.dnsimple.com/v2/domains/vanity/#disableVanityNameServers">https://developer.dnsimple.com/v2/domains/vanity/#disableVanityNameServers</a>
      */
     public EmptyResponse disableVanityNameServers(Number account, String domain) {
         return client.empty(DELETE, account + "/vanity/" + domain, ListOptions.empty(), null);

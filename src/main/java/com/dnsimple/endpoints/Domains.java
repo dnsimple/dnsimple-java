@@ -31,7 +31,7 @@ public class Domains {
      *
      * @param account The account ID
      * @return The list domains response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/#list">https://developer.dnsimple.com/v2/domains/#list</a>
+     * @see <a href="https://developer.dnsimple.com/v2/domains/#listDomains">https://developer.dnsimple.com/v2/domains/#listDomains</a>
      */
     public PaginatedResponse<Domain> listDomains(Number account) {
         return client.page(GET, account + "/domains", ListOptions.empty(), null, Domain.class);
@@ -43,22 +43,10 @@ public class Domains {
      * @param account The account ID
      * @param options The options for the list request
      * @return The list domains response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/#list">https://developer.dnsimple.com/v2/domains/#list</a>
+     * @see <a href="https://developer.dnsimple.com/v2/domains/#listDomains">https://developer.dnsimple.com/v2/domains/#listDomains</a>
      */
     public PaginatedResponse<Domain> listDomains(Number account, ListOptions options) {
         return client.page(GET, account + "/domains", options, null, Domain.class);
-    }
-
-    /**
-     * Get a specific domain associated to an account using the domain's name or ID.
-     *
-     * @param account The account ID
-     * @param domain  The domain name or ID
-     * @return The get domain response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/#get">https://developer.dnsimple.com/v2/domains/#get</a>
-     */
-    public SimpleResponse<Domain> getDomain(Number account, String domain) {
-        return client.simple(GET, account + "/domains/" + domain, ListOptions.empty(), null, Domain.class);
     }
 
     /**
@@ -67,10 +55,22 @@ public class Domains {
      * @param account The account ID
      * @param name    The name of the domain
      * @return The create domain response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/#create">https://developer.dnsimple.com/v2/domains/#create</a>
+     * @see <a href="https://developer.dnsimple.com/v2/domains/#createDomain">https://developer.dnsimple.com/v2/domains/#createDomain</a>
      */
     public SimpleResponse<Domain> createDomain(Number account, String name) {
         return client.simple(POST, account + "/domains", ListOptions.empty(), singletonMap("name", name), Domain.class);
+    }
+
+    /**
+     * Get a specific domain associated to an account using the domain's name or ID.
+     *
+     * @param account The account ID
+     * @param domain  The domain name or ID
+     * @return The get domain response
+     * @see <a href="https://developer.dnsimple.com/v2/domains/#getDomain">https://developer.dnsimple.com/v2/domains/#getDomain</a>
+     */
+    public SimpleResponse<Domain> getDomain(Number account, String domain) {
+        return client.simple(GET, account + "/domains/" + domain, ListOptions.empty(), null, Domain.class);
     }
 
     /**
@@ -81,7 +81,7 @@ public class Domains {
      * @param account The account ID
      * @param domain  The domain ID or name or name
      * @return The delete domain response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/#delete">https://developer.dnsimple.com/v2/domains/#delete</a>
+     * @see <a href="https://developer.dnsimple.com/v2/domains/#deleteDomain">https://developer.dnsimple.com/v2/domains/#deleteDomain</a>
      */
     public EmptyResponse deleteDomain(Number account, String domain) {
         return client.empty(DELETE, account + "/domains/" + domain, ListOptions.empty(), null);
@@ -106,7 +106,7 @@ public class Domains {
      * @param domain  The domain ID or name
      * @param options The options for the list request
      * @return The list collaborators response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/collaborators/#list">https://developer.dnsimple.com/v2/domains/collaborators/#list</a>
+     * @see <a href="https://developer.dnsimple.com/v2/domains/collaborators/#listCollaborators">https://developer.dnsimple.com/v2/domains/collaborators/#listCollaborators</a>
      */
     public PaginatedResponse<Collaborator> listCollaborators(Number account, String domain, ListOptions options) {
         return client.page(GET, account + "/domains/" + domain + "/collaborators", options, null, Collaborator.class);
@@ -119,7 +119,7 @@ public class Domains {
      * @param domain  The domain ID or name
      * @param email   The email of the collaborator
      * @return The add collaborator response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/collaborators/#add">https://developer.dnsimple.com/v2/domains/collaborators/#create</a>
+     * @see <a href="https://developer.dnsimple.com/v2/domains/collaborators/#addCollaborator">https://developer.dnsimple.com/v2/domains/collaborators/#addCollaborator</a>
      */
     public SimpleResponse<Collaborator> addCollaborator(Number account, String domain, String email) {
         return client.simple(POST, account + "/domains/" + domain + "/collaborators", ListOptions.empty(), singletonMap("email", email), Collaborator.class);
@@ -132,7 +132,7 @@ public class Domains {
      * @param domain         The domain ID or name
      * @param collaboratorId The collaborator ID
      * @return The remove collaborator response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/collaborators/#remove">https://developer.dnsimple.com/v2/domains/collaborators/#remove</a>
+     * @see <a href="https://developer.dnsimple.com/v2/domains/collaborators/#removeCollaborator">https://developer.dnsimple.com/v2/domains/collaborators/#removeCollaborator</a>
      */
     public EmptyResponse removeCollaborator(Number account, String domain, String collaboratorId) {
         return client.empty(DELETE, account + "/domains/" + domain + "/collaborators/" + collaboratorId, ListOptions.empty(), null);
@@ -144,7 +144,7 @@ public class Domains {
      * @param account The account ID
      * @param domain  The domain ID or name or name
      * @return The DNSSEC enable response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#enable">https://developer.dnsimple.com/v2/domains/dnssec/#enable</a>
+     * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#enableDomainDnssec">https://developer.dnsimple.com/v2/domains/dnssec/#enableDomainDnssec</a>
      */
     public SimpleResponse<Dnssec> enableDnssec(Number account, String domain) {
         return client.simple(POST, account + "/domains/" + domain + "/dnssec", ListOptions.empty(), null, Dnssec.class);
@@ -156,7 +156,7 @@ public class Domains {
      * @param account The account ID
      * @param domain  The domain ID or name or name
      * @return The DNSSEC disable response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#disable">https://developer.dnsimple.com/v2/domains/dnssec/#disable</a>
+     * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#disableDomainDnsec">https://developer.dnsimple.com/v2/domains/dnssec/#disableDomainDnsec</a>
      */
     public EmptyResponse disableDnssec(Number account, String domain) {
         return client.empty(DELETE, account + "/domains/" + domain + "/dnssec", ListOptions.empty(), null);
@@ -168,7 +168,7 @@ public class Domains {
      * @param account The account ID
      * @param domain  The domain ID or name or name
      * @return The get DNSSEC response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#get">https://developer.dnsimple.com/v2/domains/dnssec/#get</a>
+     * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#getDomainDnssec">https://developer.dnsimple.com/v2/domains/dnssec/#getDomainDnssec</a>
      */
     public SimpleResponse<Dnssec> getDnssec(Number account, String domain) {
         return client.simple(GET, account + "/domains/" + domain + "/dnssec", ListOptions.empty(), null, Dnssec.class);
@@ -180,7 +180,7 @@ public class Domains {
      * @param account The account ID
      * @param domain  The domain ID or name or name
      * @return The list delegation signer records response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list</a>
+     * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#listDomainDelegationSignerRecords">https://developer.dnsimple.com/v2/domains/dnssec/#listDomainDelegationSignerRecords</a>
      */
     public PaginatedResponse<DelegationSignerRecord> listDelegationSignerRecords(Number account, String domain) {
         return client.page(GET, account + "/domains/" + domain + "/ds_records", ListOptions.empty(), null, DelegationSignerRecord.class);
@@ -193,23 +193,10 @@ public class Domains {
      * @param domain  The domain ID or name or name
      * @param options The options for the list request
      * @return The list delegation signer records response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-list</a>
+     * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#listDomainDelegationSignerRecords">https://developer.dnsimple.com/v2/domains/dnssec/#listDomainDelegationSignerRecords</a>
      */
     public PaginatedResponse<DelegationSignerRecord> listDelegationSignerRecords(Number account, String domain, ListOptions options) {
         return client.page(GET, account + "/domains/" + domain + "/ds_records", options, null, DelegationSignerRecord.class);
-    }
-
-    /**
-     * Get a delegation signer record for a domain using the delegation signer records's ID.
-     *
-     * @param account    The account ID
-     * @param domain     The domain name or ID
-     * @param dsRecordId The delegation signer record ID
-     * @return The get delegation signer record response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-get">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-get</a>
-     */
-    public SimpleResponse<DelegationSignerRecord> getDelegationSignerRecord(Number account, String domain, Number dsRecordId) {
-        return client.simple(GET, account + "/domains/" + domain + "/ds_records/" + dsRecordId, ListOptions.empty(), null, DelegationSignerRecord.class);
     }
 
     /**
@@ -219,10 +206,23 @@ public class Domains {
      * @param domain  The domain name or ID
      * @param options The options to create the DS record
      * @return The create delegation signer record response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-create">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-create</a>
+     * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#createDomainDelegationSignerRecord">https://developer.dnsimple.com/v2/domains/dnssec/#createDomainDelegationSignerRecord</a>
      */
     public SimpleResponse<DelegationSignerRecord> createDelegationSignerRecord(Number account, String domain, DSRecordOptions options) {
         return client.simple(POST, account + "/domains/" + domain + "/ds_records", ListOptions.empty(), options, DelegationSignerRecord.class);
+    }
+
+    /**
+     * Get a delegation signer record for a domain using the delegation signer records's ID.
+     *
+     * @param account    The account ID
+     * @param domain     The domain name or ID
+     * @param dsRecordId The delegation signer record ID
+     * @return The get delegation signer record response
+     * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#getDomainDelegationSignerRecord">https://developer.dnsimple.com/v2/domains/dnssec/#getDomainDelegationSignerRecord</a>
+     */
+    public SimpleResponse<DelegationSignerRecord> getDelegationSignerRecord(Number account, String domain, Number dsRecordId) {
+        return client.simple(GET, account + "/domains/" + domain + "/ds_records/" + dsRecordId, ListOptions.empty(), null, DelegationSignerRecord.class);
     }
 
     /**
@@ -234,7 +234,7 @@ public class Domains {
      * @param domain     The domain ID or name or name
      * @param dsRecordId The delegation signer record ID
      * @return The delete delegation signer record response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-delete">https://developer.dnsimple.com/v2/domains/dnssec/#ds-record-delete</a>
+     * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#deleteDomainDelegationSignerRecord">https://developer.dnsimple.com/v2/domains/dnssec/#deleteDomainDelegationSignerRecord</a>
      */
     public EmptyResponse deleteDelegationSignerRecord(Number account, String domain, Number dsRecordId) {
         return client.empty(DELETE, account + "/domains/" + domain + "/ds_records/" + dsRecordId, ListOptions.empty(), null);
@@ -246,7 +246,7 @@ public class Domains {
      * @param account The account ID
      * @param domain  The domain ID or name or name
      * @return The list email forwards response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#list">https://developer.dnsimple.com/v2/domains/email-forwards/#list</a>
+     * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#listEmailForwards">https://developer.dnsimple.com/v2/domains/email-forwards/#listEmailForwards</a>
      */
     public PaginatedResponse<EmailForward> listEmailForwards(Number account, String domain) {
         return client.page(GET, account + "/domains/" + domain + "/email_forwards", ListOptions.empty(), null, EmailForward.class);
@@ -259,23 +259,10 @@ public class Domains {
      * @param domain  The domain ID or name or name
      * @param options The options for the list request
      * @return The list email forwards response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#list">https://developer.dnsimple.com/v2/domains/email-forwards/#list</a>
+     * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#listEmailForwards">https://developer.dnsimple.com/v2/domains/email-forwards/#listEmailForwards</a>
      */
     public PaginatedResponse<EmailForward> listEmailForwards(Number account, String domain, ListOptions options) {
         return client.page(GET, account + "/domains/" + domain + "/email_forwards", options, null, EmailForward.class);
-    }
-
-    /**
-     * Get a specific email forward associated to a domain using the email forward's ID.
-     *
-     * @param account      The account ID
-     * @param domain       The domain name or ID
-     * @param emailForward The email forward ID
-     * @return The get email forward response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#get">https://developer.dnsimple.com/v2/domains/email-forwards/#get</a>
-     */
-    public SimpleResponse<EmailForward> getEmailForward(Number account, String domain, Number emailForward) {
-        return client.simple(GET, account + "/domains/" + domain + "/email_forwards/" + emailForward, ListOptions.empty(), null, EmailForward.class);
     }
 
     /**
@@ -286,13 +273,26 @@ public class Domains {
      * @param from    The email address the emails are send to
      * @param to      The email address the email address the emails are forwarded to.
      * @return The create email forward response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#create">https://developer.dnsimple.com/v2/domains/email-forwards/#create</a>
+     * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#createEmailForward">https://developer.dnsimple.com/v2/domains/email-forwards/#createEmailForward</a>
      */
     public SimpleResponse<EmailForward> createEmailForward(Number account, String domain, String from, String to) {
         Map<String, String> options = new HashMap<>();
         options.put("from", from);
         options.put("to", to);
         return client.simple(POST, account + "/domains/" + domain + "/email_forwards", ListOptions.empty(), options, EmailForward.class);
+    }
+
+    /**
+     * Get a specific email forward associated to a domain using the email forward's ID.
+     *
+     * @param account      The account ID
+     * @param domain       The domain name or ID
+     * @param emailForward The email forward ID
+     * @return The get email forward response
+     * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#getEmailForward">https://developer.dnsimple.com/v2/domains/email-forwards/#getEmailForward</a>
+     */
+    public SimpleResponse<EmailForward> getEmailForward(Number account, String domain, Number emailForward) {
+        return client.simple(GET, account + "/domains/" + domain + "/email_forwards/" + emailForward, ListOptions.empty(), null, EmailForward.class);
     }
 
     /**
@@ -304,7 +304,7 @@ public class Domains {
      * @param domain       The domain ID or name or name
      * @param emailForward The email forward ID
      * @return The delete email forward response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#delete">https://developer.dnsimple.com/v2/domains/email-forwards/#delete</a>
+     * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#deleteEmailForward">https://developer.dnsimple.com/v2/domains/email-forwards/#deleteEmailForward</a>
      */
     public EmptyResponse deleteEmailForward(Number account, String domain, Number emailForward) {
         return client.empty(DELETE, account + "/domains/" + domain + "/email_forwards/" + emailForward, ListOptions.empty(), null);
@@ -317,7 +317,7 @@ public class Domains {
      * @param domain          The domain name or ID
      * @param newAccountEmail The email address of the target DNSimple account
      * @return The initiate push response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#initiate">https://developer.dnsimple.com/v2/domains/pushes/#initiate</a>
+     * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#initiateDomainPush">https://developer.dnsimple.com/v2/domains/pushes/#initiateDomainPush</a>
      */
     public SimpleResponse<DomainPush> initiatePush(Number account, String domain, String newAccountEmail) {
         return client.simple(POST, account + "/domains/" + domain + "/pushes", ListOptions.empty(), singletonMap("new_account_email", newAccountEmail), DomainPush.class);
@@ -329,7 +329,7 @@ public class Domains {
      * @param account The account ID
      * @param domain  The domain ID or name or name
      * @return The list pushes response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#list">https://developer.dnsimple.com/v2/domains/pushes/#list</a>
+     * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#listPushes">https://developer.dnsimple.com/v2/domains/pushes/#listPushes</a>
      */
     public PaginatedResponse<DomainPush> listPushes(Number account, String domain) {
         return client.page(GET, account + "/domains/" + domain + "/pushes", ListOptions.empty(), null, DomainPush.class);
@@ -342,7 +342,7 @@ public class Domains {
      * @param domain  The domain ID or name or name
      * @param options The options for the list request
      * @return The list pushes response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#list">https://developer.dnsimple.com/v2/domains/pushes/#list</a>
+     * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#listPushes">https://developer.dnsimple.com/v2/domains/pushes/#listPushes</a>
      */
     public PaginatedResponse<DomainPush> listPushes(Number account, String domain, ListOptions options) {
         return client.page(GET, account + "/domains/" + domain + "/pushes", options, null, DomainPush.class);
@@ -355,7 +355,7 @@ public class Domains {
      * @param push      The push ID
      * @param contactId A contact that belongs to the target DNSimple account
      * @return The accept push response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#accept">https://developer.dnsimple.com/v2/domains/pushes/#accept</a>
+     * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#acceptPush">https://developer.dnsimple.com/v2/domains/pushes/#acceptPush</a>
      */
     public EmptyResponse acceptPush(Number account, Number push, Number contactId) {
         return client.empty(POST, account + "/pushes/" + push, ListOptions.empty(), singletonMap("contact_id", contactId.longValue()));
@@ -367,7 +367,7 @@ public class Domains {
      * @param account The account ID
      * @param push    The push ID
      * @return The accept push response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#reject">https://developer.dnsimple.com/v2/domains/pushes/#reject</a>
+     * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#rejectPush">https://developer.dnsimple.com/v2/domains/pushes/#rejectPush</a>
      */
     public EmptyResponse rejectPush(Number account, Number push) {
         return client.empty(DELETE, account + "/pushes/" + push, ListOptions.empty(), null);

@@ -27,7 +27,7 @@ public class Webhooks {
      *
      * @param account The account ID
      * @return The list webhooks response
-     * @see <a href="https://developer.dnsimple.com/v2/webhooks/#list">https://developer.dnsimple.com/v2/webhooks/#list</a>
+     * @see <a href="https://developer.dnsimple.com/v2/webhooks/#listWebhooks">https://developer.dnsimple.com/v2/webhooks/#listWebhooks</a>
      */
     public ListResponse<Webhook> listWebhooks(Number account) {
         return client.list(GET, account + "/webhooks", ListOptions.empty(), null, Webhook.class);
@@ -39,22 +39,10 @@ public class Webhooks {
      * @param account The account ID
      * @param options The options for the list request
      * @return The list webhooks response
-     * @see <a href="https://developer.dnsimple.com/v2/webhooks/#list">https://developer.dnsimple.com/v2/webhooks/#list</a>
+     * @see <a href="https://developer.dnsimple.com/v2/webhooks/#listWebhooks">https://developer.dnsimple.com/v2/webhooks/#listWebhooks</a>
      */
     public ListResponse<Webhook> listWebhooks(Number account, ListOptions options) {
         return client.list(GET, account + "/webhooks", options, null, Webhook.class);
-    }
-
-    /**
-     * Get a specific webhook associated to an account using the webhook's ID.
-     *
-     * @param account   The account ID
-     * @param webhookId The webhook ID
-     * @return The get webhook response
-     * @see <a href="https://developer.dnsimple.com/v2/webhooks/#get">https://developer.dnsimple.com/v2/webhooks/#get</a>
-     */
-    public SimpleResponse<Webhook> getWebhook(Number account, Number webhookId) {
-        return client.simple(GET, account + "/webhooks/" + webhookId, ListOptions.empty(), null, Webhook.class);
     }
 
     /**
@@ -63,10 +51,22 @@ public class Webhooks {
      * @param account The account ID
      * @param url     The url of the webhook
      * @return The create webhook response
-     * @see <a href="https://developer.dnsimple.com/v2/webhooks/#create">https://developer.dnsimple.com/v2/webhooks/#create</a>
+     * @see <a href="https://developer.dnsimple.com/v2/webhooks/#createWebhook">https://developer.dnsimple.com/v2/webhooks/#createWebhook</a>
      */
     public SimpleResponse<Webhook> createWebhook(Number account, String url) {
         return client.simple(POST, account + "/webhooks", ListOptions.empty(), singletonMap("url", url), Webhook.class);
+    }
+
+    /**
+     * Get a specific webhook associated to an account using the webhook's ID.
+     *
+     * @param account   The account ID
+     * @param webhookId The webhook ID
+     * @return The get webhook response
+     * @see <a href="https://developer.dnsimple.com/v2/webhooks/#getWebhook">https://developer.dnsimple.com/v2/webhooks/#getWebhook</a>
+     */
+    public SimpleResponse<Webhook> getWebhook(Number account, Number webhookId) {
+        return client.simple(GET, account + "/webhooks/" + webhookId, ListOptions.empty(), null, Webhook.class);
     }
 
     /**
@@ -75,7 +75,7 @@ public class Webhooks {
      * @param account   The account ID
      * @param webhookId The webhook ID
      * @return The delete webhook response
-     * @see <a href="https://developer.dnsimple.com/v2/webhooks/#delete">https://developer.dnsimple.com/v2/webhooks/#delete</a>
+     * @see <a href="https://developer.dnsimple.com/v2/webhooks/#deleteWebhook">https://developer.dnsimple.com/v2/webhooks/#deleteWebhook</a>
      */
     public EmptyResponse deleteWebhook(Number account, Number webhookId) {
         return client.empty(DELETE, account + "/webhooks/" + webhookId, ListOptions.empty(), null);
