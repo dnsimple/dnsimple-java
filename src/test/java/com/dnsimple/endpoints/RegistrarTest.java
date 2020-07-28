@@ -1,9 +1,7 @@
 package com.dnsimple.endpoints;
 
-import com.dnsimple.data.DomainCheck;
-import com.dnsimple.data.DomainRegistration;
-import com.dnsimple.data.DomainRenewal;
-import com.dnsimple.data.DomainTransfer;
+import com.dnsimple.data.*;
+import com.dnsimple.exception.BadRequestException;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.request.RegistrationOptions;
 import com.dnsimple.request.RenewOptions;
@@ -16,8 +14,10 @@ import java.time.OffsetDateTime;
 import java.util.Map;
 
 import static com.dnsimple.http.HttpMethod.*;
-import static com.dnsimple.tools.CustomMatchers.number;
+import static com.dnsimple.request.DomainCheckPremiumPriceAction.REGISTRATION;
+import static com.dnsimple.tools.CustomMatchers.*;
 import static java.time.ZoneOffset.UTC;
+import static java.util.Collections.singletonMap;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -31,6 +31,46 @@ public class RegistrarTest extends DnsimpleTestBase {
         assertThat(availability.getDomainName(), is("ruby.codes"));
         assertThat(availability.isAvailable(), is(true));
         assertThat(availability.isPremium(), is(true));
+    }
+
+    @Test
+    public void testCheckDomainPremiumPrice() {
+        server.stubFixtureAt("checkDomainPremiumPrice/success.http");
+        DomainPremiumPriceCheck premiumPrice = client.registrar.checkDomainPremiumPrice(1010, "cocoo.co", REGISTRATION).getData();
+        assertThat(server.getRecordedRequest().getMethod(), is(GET));
+        assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/cocoo.co/premium_price?action=registration"));
+        assertThat(premiumPrice.getPremiumPrice(), is("2640.00"));
+        assertThat(premiumPrice.getAction(), is("registration"));
+    }
+
+    @Test
+    public void testCheckDomainPremiumPrice_400_notAPremiumDomain() {
+        server.stubFixtureAt("checkDomainPremiumPrice/error_400_not_a_premium_domain.http");
+        assertThat(
+                () -> client.registrar.checkDomainPremiumPrice(1010, "cocotero.love", REGISTRATION),
+                thrownException(allOf(
+                        is(instanceOf(BadRequestException.class)),
+                        property(
+                                BadRequestException::getBody,
+                                equalTo(singletonMap("message", "`cocotero.love` is not a premium domain for registration"))
+                        )
+                ))
+        );
+    }
+
+    @Test
+    public void testCheckDomainPremiumPrice_400_tld_not_supported() {
+        server.stubFixtureAt("checkDomainPremiumPrice/error_400_tld_not_supported.http");
+        assertThat(
+                () -> client.registrar.checkDomainPremiumPrice(1010, "cocotero.love", REGISTRATION),
+                thrownException(allOf(
+                        is(instanceOf(BadRequestException.class)),
+                        property(
+                                BadRequestException::getBody,
+                                equalTo(singletonMap("message", "TLD .LOVE is not supported"))
+                        )
+                ))
+        );
     }
 
     @Test

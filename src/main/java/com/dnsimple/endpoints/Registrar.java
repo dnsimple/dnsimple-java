@@ -2,10 +2,7 @@ package com.dnsimple.endpoints;
 
 import com.dnsimple.data.*;
 import com.dnsimple.http.HttpEndpointClient;
-import com.dnsimple.request.ListOptions;
-import com.dnsimple.request.RegistrationOptions;
-import com.dnsimple.request.RenewOptions;
-import com.dnsimple.request.TransferOptions;
+import com.dnsimple.request.*;
 import com.dnsimple.response.EmptyResponse;
 import com.dnsimple.response.ListResponse;
 import com.dnsimple.response.SimpleResponse;
@@ -36,6 +33,20 @@ public class Registrar {
      */
     public SimpleResponse<DomainCheck> checkDomain(Number account, String domainName) {
         return client.simple(GET, account + "/registrar/domains/" + domainName + "/check", ListOptions.empty(), null, DomainCheck.class);
+    }
+
+    /**
+     * Checks the premium price of a domain for the provided action.
+     *
+     * @param account    The account ID
+     * @param domainName The domain to check
+     * @param action     The action to get the price of
+     * @return The premium price
+     * @see <a href="https://developer.dnsimple.com/v2/registrar/#getDomainPremiumPrice">https://developer.dnsimple.com/v2/registrar/#getDomainPremiumPrice</a>
+     */
+    public SimpleResponse<DomainPremiumPriceCheck> checkDomainPremiumPrice(Number account, String domainName, DomainCheckPremiumPriceAction action) {
+        var options = ListOptions.empty().filter("action", action.name().toLowerCase());
+        return client.simple(GET, account + "/registrar/domains/" + domainName + "/premium_price", options, action, DomainPremiumPriceCheck.class);
     }
 
     /**
