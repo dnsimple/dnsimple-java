@@ -23,7 +23,7 @@ public final class Accounts {
      * Lists the accounts the authenticated entity has access to.
      *
      * @return The list accounts response
-     * @see <a href="https://developer.dnsimple.com/v2/accounts#list">https://developer.dnsimple.com/v2/accounts#list</a>
+     * @see <a href="https://developer.dnsimple.com/v2/accounts#listAccounts">https://developer.dnsimple.com/v2/accounts#listAccounts</a>
      */
     public ListResponse<Account> listAccounts() {
         return client.list(GET, "accounts", ListOptions.empty(), null, Account.class);

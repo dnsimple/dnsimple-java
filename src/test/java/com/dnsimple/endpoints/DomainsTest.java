@@ -109,11 +109,4 @@ public class DomainsTest extends DnsimpleTestBase {
         assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains/example.com"));
     }
-
-    @Test
-    public void testResetDomainToken() {
-        server.stubFixtureAt("resetDomainToken/success.http");
-        SimpleResponse<Domain> response = client.domains.resetDomainToken(1, "example.com");
-        assertThat(response.getData().getId(), is(1L));
-    }
 }

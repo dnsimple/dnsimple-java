@@ -33,7 +33,7 @@ public class Zones {
      *
      * @param account The account ID
      * @return The list zones response
-     * @see <a href="https://developer.dnsimple.com/v2/zones/#list">https://developer.dnsimple.com/v2/zones/#list</a>
+     * @see <a href="https://developer.dnsimple.com/v2/zones/#listZones">https://developer.dnsimple.com/v2/zones/#listZones</a>
      */
     public PaginatedResponse<Zone> listZones(Number account) {
         return client.page(GET, account + "/zones", ListOptions.empty(), null, Zone.class);
@@ -45,7 +45,7 @@ public class Zones {
      * @param account The account ID
      * @param options The options for the list request
      * @return The list zones response
-     * @see <a href="https://developer.dnsimple.com/v2/zones/#list">https://developer.dnsimple.com/v2/zones/#list</a>
+     * @see <a href="https://developer.dnsimple.com/v2/zones/#listZones">https://developer.dnsimple.com/v2/zones/#listZones</a>
      */
     public PaginatedResponse<Zone> listZones(Number account, ListOptions options) {
         return client.page(GET, account + "/zones", options, null, Zone.class);
@@ -57,7 +57,7 @@ public class Zones {
      * @param account The account ID
      * @param zone    The zone name
      * @return The get zone response
-     * @see <a href="https://developer.dnsimple.com/v2/zones/#get">https://developer.dnsimple.com/v2/zones/#get</a>
+     * @see <a href="https://developer.dnsimple.com/v2/zones/#getZone">https://developer.dnsimple.com/v2/zones/#getZone</a>
      */
     public SimpleResponse<Zone> getZone(Number account, String zone) {
         return client.simple(GET, account + "/zones/" + zone, ListOptions.empty(), null, Zone.class);
@@ -69,7 +69,7 @@ public class Zones {
      * @param account The account ID
      * @param zone    The zone name
      * @return The get zone file response
-     * @see <a href="https://developer.dnsimple.com/v2/zones/#get-file">https://developer.dnsimple.com/v2/zones/#get-file</a>
+     * @see <a href="https://developer.dnsimple.com/v2/zones/#getZoneFile">https://developer.dnsimple.com/v2/zones/#getZoneFile</a>
      */
     public SimpleResponse<ZoneFile> getZoneFile(Number account, String zone) {
         return client.simple(GET, account + "/zones/" + zone + "/file", ListOptions.empty(), null, ZoneFile.class);
@@ -88,25 +88,12 @@ public class Zones {
     }
 
     /**
-     * Checks if a zone record change is fully distributed to all our nameservers of our regions.
-     *
-     * @param account The account ID
-     * @param zone    The zone name
-     * @param record  The zone record ID
-     * @return The result of the check
-     * @see <a href="https://developer.dnsimple.com/v2/zones/#checkZoneRecordDistribution">https://developer.dnsimple.com/v2/zones/#checkZoneRecordDistribution</a>
-     */
-    public SimpleResponse<ZoneDistribution> checkZoneRecordDistribution(Number account, String zone, Number record) {
-        return client.simple(GET, account + "/zones/" + zone + "/records/" + record + "/distribution", ListOptions.empty(), null, ZoneDistribution.class);
-    }
-
-    /**
      * Lists the records in the zone.
      *
      * @param account The account ID
      * @param zone    The zone name
      * @return The list zone records response
-     * @see <a href="https://developer.dnsimple.com/v2/zones/records/#list">https://developer.dnsimple.com/v2/zones/records/#list</a>
+     * @see <a href="https://developer.dnsimple.com/v2/zones/records/#listZoneRecords">https://developer.dnsimple.com/v2/zones/records/#listZoneRecords</a>
      */
     public PaginatedResponse<ZoneRecord> listZoneRecords(Number account, String zone) {
         return client.page(GET, account + "/zones/" + zone + "/records", ListOptions.empty(), null, ZoneRecord.class);
@@ -119,23 +106,10 @@ public class Zones {
      * @param zone    The zone name
      * @param options The options for the list request
      * @return The list zone records response
-     * @see <a href="https://developer.dnsimple.com/v2/zones/records/#list">https://developer.dnsimple.com/v2/zones/records/#list</a>
+     * @see <a href="https://developer.dnsimple.com/v2/zones/records/#listZoneRecords">https://developer.dnsimple.com/v2/zones/records/#listZoneRecords</a>
      */
     public PaginatedResponse<ZoneRecord> listZoneRecords(Number account, String zone, ListOptions options) {
         return client.page(GET, account + "/zones/" + zone + "/records", options, null, ZoneRecord.class);
-    }
-
-    /**
-     * Get a specific record associated to a zone using the zone's name or ID.
-     *
-     * @param account The account ID
-     * @param zone    The zone name
-     * @param record  The zone record ID
-     * @return The get zone record response
-     * @see <a href="https://developer.dnsimple.com/v2/zones/records/#get">https://developer.dnsimple.com/v2/zones/records/#get</a>
-     */
-    public SimpleResponse<ZoneRecord> getZoneRecord(Number account, String zone, Number record) {
-        return client.simple(GET, account + "/zones/" + zone + "/records/" + record, ListOptions.empty(), null, ZoneRecord.class);
     }
 
     /**
@@ -145,10 +119,23 @@ public class Zones {
      * @param zone    The zone name
      * @param options Options for the Zone record
      * @return The create zone record response
-     * @see <a href="https://developer.dnsimple.com/v2/zones/records/#create">https://developer.dnsimple.com/v2/zones/records/#create</a>
+     * @see <a href="https://developer.dnsimple.com/v2/zones/records/#createZoneRecord">https://developer.dnsimple.com/v2/zones/records/#createZoneRecord</a>
      */
     public SimpleResponse<ZoneRecord> createZoneRecord(Number account, String zone, ZoneRecordOptions options) {
         return client.simple(POST, account + "/zones/" + zone + "/records", ListOptions.empty(), options, ZoneRecord.class);
+    }
+
+    /**
+     * Get a specific record associated to a zone using the zone's name or ID.
+     *
+     * @param account The account ID
+     * @param zone    The zone name
+     * @param record  The zone record ID
+     * @return The get zone record response
+     * @see <a href="https://developer.dnsimple.com/v2/zones/records/#getZoneRecord">https://developer.dnsimple.com/v2/zones/records/#getZoneRecord</a>
+     */
+    public SimpleResponse<ZoneRecord> getZoneRecord(Number account, String zone, Number record) {
+        return client.simple(GET, account + "/zones/" + zone + "/records/" + record, ListOptions.empty(), null, ZoneRecord.class);
     }
 
     /**
@@ -159,7 +146,7 @@ public class Zones {
      * @param record     The zone record ID
      * @param options The options to update the Zone record
      * @return The update zone record response
-     * @see <a href="https://developer.dnsimple.com/v2/zones/records/#update">https://developer.dnsimple.com/v2/zones/records/#update</a>
+     * @see <a href="https://developer.dnsimple.com/v2/zones/records/#updateZoneRecord">https://developer.dnsimple.com/v2/zones/records/#updateZoneRecord</a>
      */
     public SimpleResponse<ZoneRecord> updateZoneRecord(Number account, String zone, Number record, ZoneRecordUpdateOptions options) {
         return client.simple(PATCH, account + "/zones/" + zone + "/records/" + record, ListOptions.empty(), options, ZoneRecord.class);
@@ -172,9 +159,22 @@ public class Zones {
      * @param zone    The zone name
      * @param record  The zone record ID
      * @return The delete zone record response
-     * @see <a href="https://developer.dnsimple.com/v2/zones/records/#delete">https://developer.dnsimple.com/v2/zones/records/#delete</a>
+     * @see <a href="https://developer.dnsimple.com/v2/zones/records/#deleteZoneRecord">https://developer.dnsimple.com/v2/zones/records/#deleteZoneRecord</a>
      */
     public EmptyResponse deleteZoneRecord(Number account, String zone, Number record) {
         return client.empty(DELETE, account + "/zones/" + zone + "/records/" + record, ListOptions.empty(), null);
+    }
+
+    /**
+     * Checks if a zone record change is fully distributed to all our nameservers of our regions.
+     *
+     * @param account The account ID
+     * @param zone    The zone name
+     * @param record  The zone record ID
+     * @return The result of the check
+     * @see <a href="https://developer.dnsimple.com/v2/zones/#checkZoneRecordDistribution">https://developer.dnsimple.com/v2/zones/#checkZoneRecordDistribution</a>
+     */
+    public SimpleResponse<ZoneDistribution> checkZoneRecordDistribution(Number account, String zone, Number record) {
+        return client.simple(GET, account + "/zones/" + zone + "/records/" + record + "/distribution", ListOptions.empty(), null, ZoneDistribution.class);
     }
 }

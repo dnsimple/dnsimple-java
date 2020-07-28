@@ -29,7 +29,7 @@ public class Templates {
      *
      * @param account The account ID
      * @return The list templates response
-     * @see <a href="https://developer.dnsimple.com/v2/templates/#list">https://developer.dnsimple.com/v2/templates/#list</a>
+     * @see <a href="https://developer.dnsimple.com/v2/templates/#listTemplates">https://developer.dnsimple.com/v2/templates/#listTemplates</a>
      */
     public PaginatedResponse<Template> listTemplates(Number account) {
         return client.page(GET, account + "/templates", ListOptions.empty(), null, Template.class);
@@ -41,22 +41,10 @@ public class Templates {
      * @param account The account ID
      * @param options The options for the list request
      * @return The list templates response
-     * @see <a href="https://developer.dnsimple.com/v2/templates/#list">https://developer.dnsimple.com/v2/templates/#list</a>
+     * @see <a href="https://developer.dnsimple.com/v2/templates/#listTemplates">https://developer.dnsimple.com/v2/templates/#listTemplates</a>
      */
     public PaginatedResponse<Template> listTemplates(Number account, ListOptions options) {
         return client.page(GET, account + "/templates", options, null, Template.class);
-    }
-
-    /**
-     * Get a specific template associated to an account using the templates's ID.
-     *
-     * @param account  The account ID
-     * @param template The template short name or ID
-     * @return The get template response
-     * @see <a href="https://developer.dnsimple.com/v2/templates/#get">https://developer.dnsimple.com/v2/templates/#list</a>
-     */
-    public SimpleResponse<Template> getTemplate(Number account, String template) {
-        return client.simple(GET, account + "/templates/" + template, ListOptions.empty(), null, Template.class);
     }
 
     /**
@@ -65,10 +53,22 @@ public class Templates {
      * @param account The account ID
      * @param options The template options
      * @return The create template response
-     * @see <a href="https://developer.dnsimple.com/v2/templates/#create">https://developer.dnsimple.com/v2/templates/#create</a>
+     * @see <a href="https://developer.dnsimple.com/v2/templates/#createTemplate">https://developer.dnsimple.com/v2/templates/#createTemplate</a>
      */
     public SimpleResponse<Template> createTemplate(Number account, TemplateOptions options) {
         return client.simple(POST, account + "/templates", ListOptions.empty(), options, Template.class);
+    }
+
+    /**
+     * Get a specific template associated to an account using the templates's ID.
+     *
+     * @param account  The account ID
+     * @param template The template short name or ID
+     * @return The get template response
+     * @see <a href="https://developer.dnsimple.com/v2/templates/#getTemplate">https://developer.dnsimple.com/v2/templates/#getTemplate</a>
+     */
+    public SimpleResponse<Template> getTemplate(Number account, String template) {
+        return client.simple(GET, account + "/templates/" + template, ListOptions.empty(), null, Template.class);
     }
 
     /**
@@ -78,7 +78,7 @@ public class Templates {
      * @param template The template short name or ID
      * @param options  The template options
      * @return The update template response
-     * @see <a href="https://developer.dnsimple.com/v2/templates/#update">https://developer.dnsimple.com/v2/templates/#update</a>
+     * @see <a href="https://developer.dnsimple.com/v2/templates/#updateTemplate">https://developer.dnsimple.com/v2/templates/#updateTemplate</a>
      */
     public SimpleResponse<Template> updateTemplate(Number account, String template, TemplateOptions options) {
         return client.simple(PATCH, account + "/templates/" + template, ListOptions.empty(), options, Template.class);
@@ -90,7 +90,7 @@ public class Templates {
      * @param account  The account ID
      * @param template The template short name or ID
      * @return The delete template response
-     * @see <a href="https://developer.dnsimple.com/v2/templates/#delete">https://developer.dnsimple.com/v2/templates/#delete</a>
+     * @see <a href="https://developer.dnsimple.com/v2/templates/#deleteTemplate">https://developer.dnsimple.com/v2/templates/#deleteTemplate</a>
      */
     public EmptyResponse deleteTemplate(Number account, String template) {
         return client.empty(DELETE, account + "/templates/" + template, ListOptions.empty(), null);
@@ -103,7 +103,7 @@ public class Templates {
      * @param template The template short name or ID
      * @param domain   The domain ID or name
      * @return The apply template response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/templates/#apply">https://developer.dnsimple.com/v2/domains/templates/#apply</a>
+     * @see <a href="https://developer.dnsimple.com/v2/domains/templates/#applyTemplateToDomain">https://developer.dnsimple.com/v2/domains/templates/#applyTemplateToDomain</a>
      */
     public EmptyResponse applyTemplate(Number account, String template, String domain) {
         return client.empty(POST, account + "/domains/" + domain + "/templates/" + template, ListOptions.empty(), null);
@@ -115,7 +115,7 @@ public class Templates {
      * @param account  The account ID
      * @param template The template short name or ID
      * @return The list template records response
-     * @see <a href="https://developer.dnsimple.com/v2/templates/records#list">https://developer.dnsimple.com/v2/templates/records#list</a>
+     * @see <a href="https://developer.dnsimple.com/v2/templates/records#listTemplateRecords">https://developer.dnsimple.com/v2/templates/records#listTemplateRecords</a>
      */
     public PaginatedResponse<TemplateRecord> listTemplateRecords(Number account, String template) {
         return client.page(GET, account + "/templates/" + template + "/records", ListOptions.empty(), null, TemplateRecord.class);
@@ -128,23 +128,10 @@ public class Templates {
      * @param template The template short name or ID
      * @param options  The options for the list request
      * @return The list template records response
-     * @see <a href="https://developer.dnsimple.com/v2/templates/records#list">https://developer.dnsimple.com/v2/templates/records#list</a>
+     * @see <a href="https://developer.dnsimple.com/v2/templates/records#listTemplateRecords">https://developer.dnsimple.com/v2/templates/records#listTemplateRecords</a>
      */
     public PaginatedResponse<TemplateRecord> listTemplateRecords(Number account, String template, ListOptions options) {
         return client.page(GET, account + "/templates/" + template + "/records", options, null, TemplateRecord.class);
-    }
-
-    /**
-     * Get a specific record associated to a template using the record's ID.
-     *
-     * @param account  The account ID
-     * @param template The template short name or ID
-     * @param record   The record ID
-     * @return The get template record response
-     * @see <a href="https://developer.dnsimple.com/v2/templates/records/#get">https://developer.dnsimple.com/v2/templates/records/#get</a>
-     */
-    public SimpleResponse<TemplateRecord> getTemplateRecord(Number account, String template, Number record) {
-        return client.simple(GET, account + "/templates/" + template + "/records/" + record, ListOptions.empty(), null, TemplateRecord.class);
     }
 
     /**
@@ -154,10 +141,23 @@ public class Templates {
      * @param template The template short name or ID
      * @param options  The template record options
      * @return The create template record response
-     * @see <a href="https://developer.dnsimple.com/v2/templates/records#create">https://developer.dnsimple.com/v2/templates/records#create</a>
+     * @see <a href="https://developer.dnsimple.com/v2/templates/records#createTemplateRecord">https://developer.dnsimple.com/v2/templates/records#createTemplateRecord</a>
      */
     public SimpleResponse<TemplateRecord> createTemplateRecord(Number account, String template, TemplateRecordOptions options) {
         return client.simple(POST, account + "/templates/" + template + "/records", ListOptions.empty(), options, TemplateRecord.class);
+    }
+
+    /**
+     * Get a specific record associated to a template using the record's ID.
+     *
+     * @param account  The account ID
+     * @param template The template short name or ID
+     * @param record   The record ID
+     * @return The get template record response
+     * @see <a href="https://developer.dnsimple.com/v2/templates/records/#getTemplateRecord">https://developer.dnsimple.com/v2/templates/records/#getTemplateRecord</a>
+     */
+    public SimpleResponse<TemplateRecord> getTemplateRecord(Number account, String template, Number record) {
+        return client.simple(GET, account + "/templates/" + template + "/records/" + record, ListOptions.empty(), null, TemplateRecord.class);
     }
 
     /**
@@ -167,7 +167,7 @@ public class Templates {
      * @param template The template short name or ID
      * @param record   The record ID
      * @return The delete template record response
-     * @see <a href="https://developer.dnsimple.com/v2/templates/records#delete">https://developer.dnsimple.com/v2/templates/records#delete</a>
+     * @see <a href="https://developer.dnsimple.com/v2/templates/records#deleteTemplateRecord">https://developer.dnsimple.com/v2/templates/records#deleteTemplateRecord</a>
      */
     public EmptyResponse deleteTemplateRecord(Number account, String template, Number record) {
         return client.empty(DELETE, account + "/templates/" + template + "/records/" + record, ListOptions.empty(), null);
