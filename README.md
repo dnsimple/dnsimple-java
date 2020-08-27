@@ -44,18 +44,23 @@ package myapp;
 
 import com.dnsimple.Client;
 import com.dnsimple.data.Account;
+import com.dnsimple.data.User;
+import com.dnsimple.data.WhoamiData;
 import com.dnsimple.response.SimpleResponse;
 
 public class MyApp {
-  public static void main(String[] args) {
-    Client client = new Client.Builder()
-                              .accessToken("YOUR-ACCESS-TOKEN")
-                              .userAgent("your-user-agent")
-                              .build();
-    SimpleResponse<Account> response = client.identity.whoami();
-    Account account = response.getData().getAccount();
-    System.out.println("Account: " + account);
-  }
+    public static void main(String[] args) {
+        Client client = new Client.Builder()
+                .sandbox()
+                .accessToken("YOUR-ACCESS-TOKEN")
+                .extraUserAgent("your-user-agent")
+                .build();
+        SimpleResponse<WhoamiData> response = client.identity.whoami();
+        Account account = response.getData().getAccount();
+        User user = response.getData().getUser();
+        System.out.println("Account: " + (account != null ? account.getEmail() : "N/A"));
+        System.out.println("User: " + (user != null ? user.getEmail() : "N/A"));
+    }
 }
 ```
 
@@ -70,6 +75,7 @@ package myapp;
 
 import com.dnsimple.Client;
 import com.dnsimple.data.Certificate;
+import com.dnsimple.request.ListOptions;
 import com.dnsimple.response.ListResponse;
 
 public class MyApp {
@@ -78,10 +84,10 @@ public class MyApp {
 
     // Use the ListOptions.Builder class to get an create a ListOptions object
     ListOptions options = ListOptions.empty()
-                                     .page(2, 10) // Get the second page of 10 items
-                                     .sortAsc("state") // Sort by state in ascendant order
-                                     .filter("autoRenew", "true"); // Filter certificates with enabled auto-renew
-    ListResponse<Certificate> response = client.certificates.listCertificates("1", "1", options);
+                    .page(2, 10) // Get the second page of 10 items
+                    .sortAsc("state") // Sort by state in ascendant order
+                    .filter("autoRenew", "true"); // Filter certificates with enabled auto-renew
+    ListResponse<Certificate> response = client.certificates.listCertificates(1, "1", options);
     //...
   }
 }
