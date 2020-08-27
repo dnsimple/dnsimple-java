@@ -52,8 +52,8 @@ public class MyApp {
     public static void main(String[] args) {
         Client client = new Client.Builder()
                 .sandbox()
-                .accessToken("M68hRSdsyuG1laSqPMbKOBblFLch5l0H")
-                .extraUserAgent("cocotero")
+                .accessToken("YOUR-ACCESS-TOKEN")
+                .extraUserAgent("your-user-agent")
                 .build();
         SimpleResponse<WhoamiData> response = client.identity.whoami();
         Account account = response.getData().getAccount();
