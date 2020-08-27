@@ -1,6 +1,8 @@
 # Changelog
 
-### main
+### `main`
+
+### Release 0.8.0
 
 **Warning**: This release contains breaking changes. Please contact DNSimple if you need assistance migrating your project to this version of the Java API Client
 
