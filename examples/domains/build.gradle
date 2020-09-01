@@ -1,0 +1,16 @@
+plugins {
+    id 'java'
+}
+
+group 'com.dnsimple'
+version '0.0.0'
+sourceCompatibility = '1.11'
+targetCompatibility = '1.11'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.dnsimple:dnsimple-java:0.8.0'
+}
