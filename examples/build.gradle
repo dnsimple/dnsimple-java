@@ -12,5 +12,5 @@ repositories {
 }
 
 dependencies {
-    compile 'com.dnsimple:dnsimple-java:0.8.0'
+    implementation 'com.dnsimple:dnsimple-java:0.8.0'
 }
