@@ -332,7 +332,7 @@ public class Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#listPushes">https://developer.dnsimple.com/v2/domains/pushes/#listPushes</a>
      */
     public PaginatedResponse<DomainPush> listPushes(Number account, String domain) {
-        return client.page(GET, account + "/domains/" + domain + "/pushes", ListOptions.empty(), null, DomainPush.class);
+        return client.page(GET, account + "/pushes", ListOptions.empty(), null, DomainPush.class);
     }
 
     /**
@@ -345,7 +345,7 @@ public class Domains {
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#listPushes">https://developer.dnsimple.com/v2/domains/pushes/#listPushes</a>
      */
     public PaginatedResponse<DomainPush> listPushes(Number account, String domain, ListOptions options) {
-        return client.page(GET, account + "/domains/" + domain + "/pushes", options, null, DomainPush.class);
+        return client.page(GET, account + "/pushes", options, null, DomainPush.class);
     }
 
     /**
