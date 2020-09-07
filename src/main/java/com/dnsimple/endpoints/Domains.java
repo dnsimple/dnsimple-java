@@ -327,25 +327,23 @@ public class Domains {
      * List pushes under a given domain.
      *
      * @param account The account ID
-     * @param domain  The domain ID or name or name
      * @return The list pushes response
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#listPushes">https://developer.dnsimple.com/v2/domains/pushes/#listPushes</a>
      */
-    public PaginatedResponse<DomainPush> listPushes(Number account, String domain) {
-        return client.page(GET, account + "/domains/" + domain + "/pushes", ListOptions.empty(), null, DomainPush.class);
+    public PaginatedResponse<DomainPush> listPushes(Number account) {
+        return client.page(GET, account + "/pushes", ListOptions.empty(), null, DomainPush.class);
     }
 
     /**
      * List pushes under a given domain.
      *
      * @param account The account ID
-     * @param domain  The domain ID or name or name
      * @param options The options for the list request
      * @return The list pushes response
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#listPushes">https://developer.dnsimple.com/v2/domains/pushes/#listPushes</a>
      */
-    public PaginatedResponse<DomainPush> listPushes(Number account, String domain, ListOptions options) {
-        return client.page(GET, account + "/domains/" + domain + "/pushes", options, null, DomainPush.class);
+    public PaginatedResponse<DomainPush> listPushes(Number account, ListOptions options) {
+        return client.page(GET, account + "/pushes", options, null, DomainPush.class);
     }
 
     /**

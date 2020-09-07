@@ -30,7 +30,7 @@ public class DomainPushesTest extends DnsimpleTestBase {
     @Test
     public void testListPushesProducesPushList() {
         server.stubFixtureAt("listPushes/success.http");
-        List<DomainPush> domainPushes = client.domains.listPushes(1, "example.com").getData();
+        List<DomainPush> domainPushes = client.domains.listPushes(1).getData();
         assertThat(domainPushes, hasSize(2));
         assertThat(domainPushes.get(0).getId(), is(1L));
     }
