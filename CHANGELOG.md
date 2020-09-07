@@ -4,7 +4,7 @@
 
 ### Release 0.8.1
 
-- Fix: Align arguments of Domain.listPushes() with current API (#81)
+- Fix: Align arguments of `Domain.listPushes()` with current API (#81)
 - Added project with code examples
 
 ### Release 0.8.0
