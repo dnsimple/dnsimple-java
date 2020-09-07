@@ -2,6 +2,11 @@
 
 ### `main`
 
+### Release 0.8.1
+
+- Fix: Align arguments of Domain.listPushes() with current API (#81)
+- Added project with code examples
+
 ### Release 0.8.0
 
 **Warning**: This release contains breaking changes. Please contact DNSimple if you need assistance migrating your project to this version of the Java API Client
