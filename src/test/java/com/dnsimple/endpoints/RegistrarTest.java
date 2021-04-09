@@ -74,6 +74,28 @@ public class RegistrarTest extends DnsimpleTestBase {
     }
 
     @Test
+    public void testGetDomainPrices() {
+        server.stubFixtureAt("getDomainPrices/success.http");
+
+        DomainPrice prices = client.registrar.getDomainPrices(1010, "bingo.pizza").getData();
+
+        assertThat(server.getRecordedRequest().getMethod(), is(GET));
+        assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/bingo.pizza/prices"));
+        assertThat(prices.getDomain(), is("bingo.pizza"));
+        assertThat(prices.isPremium(), is(true));
+        assertThat(prices.getRegistrationPrice(), is(20.0F));
+        assertThat(prices.getRenewalPrice(), is(20.0F));
+        assertThat(prices.getTransferPrice(), is(20.0F));
+    }
+
+    @Test(expected = DnsimpleException.class)
+    public void testGetDomainPricesWithANotSupportedTLD() {
+        server.stubFixtureAt("getDomainPrices/failure.http");
+
+        client.registrar.getDomainPrices(1010, "bing.pineapple");
+    }
+
+    @Test
     public void testRegisterDomain() {
         server.stubFixtureAt("registerDomain/success.http");
         RegistrationOptions options = RegistrationOptions.of(10);
