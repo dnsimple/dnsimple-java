@@ -2,7 +2,7 @@
 
 ### `main`
 
-- NEW: Added `client.registrar.getDomainPrices` to retrieve if domain is premium and prices to register, transfer, and renewal. (dnsimple/dnsimple-java#93)
+- NEW: Added `client.registrar.getDomainPrices` to retrieve whether a domain is premium and the prices to register, transfer, and renew. (dnsimple/dnsimple-java#93)
 
 ### Release 0.8.1
 
