@@ -2,12 +2,12 @@ package com.dnsimple.data;
 
 public class DomainPrice {
     private final String domain;
-    private final Boolean premium;
-    private final Float registrationPrice;
-    private final Float renewalPrice;
-    private final Float transferPrice;
+    private final boolean premium;
+    private final double registrationPrice;
+    private final double renewalPrice;
+    private final double transferPrice;
 
-    public DomainPrice(String domain, Boolean premium, Float registrationPrice, Float renewalPrice, Float transferPrice) {
+    public DomainPrice(String domain, boolean premium, double registrationPrice, double renewalPrice, double transferPrice) {
         this.domain = domain;
         this.premium = premium;
         this.registrationPrice = registrationPrice;
@@ -19,19 +19,19 @@ public class DomainPrice {
         return domain;
     }
 
-    public Boolean isPremium() {
+    public boolean isPremium() {
         return premium;
     }
 
-    public Float getRegistrationPrice() {
+    public double getRegistrationPrice() {
         return registrationPrice;
     }
 
-    public Float getRenewalPrice() {
+    public double getRenewalPrice() {
         return renewalPrice;
     }
 
-    public Float getTransferPrice() {
+    public double getTransferPrice() {
         return transferPrice;
     }
 }

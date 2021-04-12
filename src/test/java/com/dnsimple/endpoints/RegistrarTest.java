@@ -83,9 +83,9 @@ public class RegistrarTest extends DnsimpleTestBase {
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/bingo.pizza/prices"));
         assertThat(prices.getDomain(), is("bingo.pizza"));
         assertThat(prices.isPremium(), is(true));
-        assertThat(prices.getRegistrationPrice(), is(20.0F));
-        assertThat(prices.getRenewalPrice(), is(20.0F));
-        assertThat(prices.getTransferPrice(), is(20.0F));
+        assertThat(prices.getRegistrationPrice(), is(20.0));
+        assertThat(prices.getRenewalPrice(), is(20.0));
+        assertThat(prices.getTransferPrice(), is(20.0));
     }
 
     @Test(expected = DnsimpleException.class)
