@@ -57,13 +57,13 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
     @Test
     public void testGetEmailForward() {
         server.stubFixtureAt("getEmailForward/success.http");
-        EmailForward emailForward = client.domains.getEmailForward(1, "example.com", 17706).getData();
-        assertThat(emailForward.getId(), is(17706L));
-        assertThat(emailForward.getDomainId(), is(228963L));
-        assertThat(emailForward.getTo(), is("jim@another.com"));
-        assertThat(emailForward.getFrom(), is("jim@a-domain.com"));
-        assertThat(emailForward.getCreatedAt(), is(OffsetDateTime.of(2016, 2, 4, 14, 26, 50, 0, UTC)));
-        assertThat(emailForward.getUpdatedAt(), is(OffsetDateTime.of(2016, 2, 4, 14, 26, 50, 0, UTC)));
+        EmailForward emailForward = client.domains.getEmailForward(1, "example.com", 41872).getData();
+        assertThat(emailForward.getId(), is(41872L));
+        assertThat(emailForward.getDomainId(), is(235146L));
+        assertThat(emailForward.getTo(), is("example@example.com"));
+        assertThat(emailForward.getFrom(), is("example@dnsimple.xyz"));
+        assertThat(emailForward.getCreatedAt(), is(OffsetDateTime.of(2021, 1, 25, 13, 54, 40, 0, UTC)));
+        assertThat(emailForward.getUpdatedAt(), is(OffsetDateTime.of(2021, 1, 25, 13, 54, 40, 0, UTC)));
     }
 
     @Test
@@ -83,12 +83,12 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
     @Test
     public void testCreateEmailForwardProducesEmailForward() {
         server.stubFixtureAt("createEmailForward/created.http");
-        SimpleResponse<EmailForward> response = client.domains.createEmailForward(1, "example.com", "john@example.com", "john@another.com");
+        SimpleResponse<EmailForward> response = client.domains.createEmailForward(1, "example.com", "example@dnsimple.xyz", "example@example.com");
         assertThat(server.getRecordedRequest().getJsonObjectPayload(), allOf(
-                hasEntry("from", "john@example.com"),
-                hasEntry("to", "john@another.com")
+                hasEntry("from", "example@dnsimple.xyz"),
+                hasEntry("to", "example@example.com")
         ));
-        assertThat(response.getData().getId(), is(17706L));
+        assertThat(response.getData().getId(), is(41872L));
     }
 
     @Test
