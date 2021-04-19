@@ -2,6 +2,8 @@
 
 ### `main`
 
+- NEW: Added `client.registrar.getDomainPrices` to retrieve whether a domain is premium and the prices to register, transfer, and renew. (dnsimple/dnsimple-java#93)
+
 ### Release 0.8.1
 
 - Fix: Align arguments of `Domain.listPushes()` with current API (#81)

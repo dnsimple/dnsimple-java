@@ -50,6 +50,19 @@ public class Registrar {
     }
 
     /**
+     * Get prices for registration, transfer, and renewal for a domain.
+     *
+     * @param account    The account ID
+     * @param domainName The domain to check the prices
+     *
+     * @return the domain prices response
+     * @see <a href="https://developer.dnsimple.com/v2/registrar/#getDomainPrices">https://developer.dnsimple.com/v2/registrar/#getDomainPrices</a>
+     */
+    public SimpleResponse<DomainPrice> getDomainPrices(Number account, String domainName) {
+        return client.simple(GET, account + "/registrar/domains/" + domainName + "/prices", ListOptions.empty(), null, DomainPrice.class);
+    }
+
+    /**
      * Registers a domain.
      *
      * @param account    The account ID

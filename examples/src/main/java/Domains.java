@@ -39,6 +39,18 @@ public class Domains {
                 contact.getId()
         );
 
+        // Get the prices to register the domain
+        var prices = client.registrar.getDomainPrices(
+                accountId,
+                domainName
+        ).getData();
+        System.out.printf(
+                "Domain %s - premium? %b - registration price: %f",
+                domainName,
+                prices.isPremium(),
+                prices.getRegistrationPrice()
+        )
+
         // Register the domain
         var registration = client.registrar.registerDomain(
                 accountId,
