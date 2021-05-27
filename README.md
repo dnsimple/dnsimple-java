@@ -123,4 +123,4 @@ When developing unit tests for your application, you should stub responses from 
 
 ## License
 
-Copyright (c) 2016-2020 DNSimple Corporation. This is Free Software distributed under the MIT license.
+Copyright (c) 2016-2021 DNSimple Corporation. This is Free Software distributed under the MIT license.
