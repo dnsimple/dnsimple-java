@@ -16,7 +16,7 @@ dependencies {
 }
 
 group = 'com.dnsimple'
-version = '0.9.0'
+version = '0.9.1'
 description = 'dnsimple-java'
 sourceCompatibility = '1.11'
 targetCompatibility = '1.11'

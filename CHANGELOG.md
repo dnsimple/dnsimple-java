@@ -2,6 +2,10 @@
 
 ### `main`
 
+### Release 0.9.1
+
+- CHANGED: `Registrar.getDomainPremiumPrice()` is deprecated in favour of `Registrar.getDomainPrices()`
+
 ### Release 0.9.0
 
 - NEW: Added `client.registrar.getDomainPrices` to retrieve whether a domain is premium and the prices to register, transfer, and renew. (dnsimple/dnsimple-java#93)
