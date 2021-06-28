@@ -63,9 +63,7 @@ public class ZoneRecordUpdateOptions {
     }
 
     /**
-     * Returns a map with this object's attributes and prunes the `regions` attribute if it's empty
-     *
-     * @return <Map<String,Object>>
+     * @return a map with this object's attributes and prunes the `regions` attribute if it's empty
      */
     public Map<String, Object> asPayload() {
         var map = new HashMap<String, Object>();
