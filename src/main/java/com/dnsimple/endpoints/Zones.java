@@ -12,8 +12,6 @@ import com.dnsimple.response.EmptyResponse;
 import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
 
-import java.util.Map;
-
 import static com.dnsimple.http.HttpMethod.*;
 
 /**
