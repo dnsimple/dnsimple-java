@@ -122,7 +122,7 @@ public class Zones {
      * @see <a href="https://developer.dnsimple.com/v2/zones/records/#createZoneRecord">https://developer.dnsimple.com/v2/zones/records/#createZoneRecord</a>
      */
     public SimpleResponse<ZoneRecord> createZoneRecord(Number account, String zone, ZoneRecordOptions options) {
-        return client.simple(POST, account + "/zones/" + zone + "/records", ListOptions.empty(), options, ZoneRecord.class);
+        return client.simple(POST, account + "/zones/" + zone + "/records", ListOptions.empty(), options.asPayload(), ZoneRecord.class);
     }
 
     /**

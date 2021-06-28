@@ -1,7 +1,9 @@
 package com.dnsimple.request;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -29,7 +31,7 @@ public class ZoneRecordOptions {
      * @param content the content of the record
      */
     public static ZoneRecordOptions of(String name, String type, String content) {
-        return new ZoneRecordOptions(name, type, content, null, null, singletonList("global"));
+        return new ZoneRecordOptions(name, type, content, null, null, emptyList());
     }
 
     /**
@@ -53,4 +55,22 @@ public class ZoneRecordOptions {
     public ZoneRecordOptions regions(String... regions) {
         return new ZoneRecordOptions(name, type, content, ttl, priority, Arrays.asList(regions));
     }
+
+    /**
+     * Returns a map with this object's attributes and prunes the `regions` attribute if it's empty
+     *
+     * @return <Map<String,Object>>
+     */
+    public Map<String, Object> asPayload() {
+        var map = new HashMap<String, Object>();
+        map.put("name", name);
+        map.put("type", type);
+        map.put("content", content);
+        map.put("ttl", ttl);
+        map.put("priority", priority);
+        if (!regions.isEmpty())
+            map.put("regions", regions);
+        return map;
+    }
+
 }
