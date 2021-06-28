@@ -147,7 +147,7 @@ public class Zones {
      * @see <a href="https://developer.dnsimple.com/v2/zones/records/#updateZoneRecord">https://developer.dnsimple.com/v2/zones/records/#updateZoneRecord</a>
      */
     public SimpleResponse<ZoneRecord> updateZoneRecord(Number account, String zone, Number record, ZoneRecordUpdateOptions options) {
-        return client.simple(PATCH, account + "/zones/" + zone + "/records/" + record, ListOptions.empty(), options, ZoneRecord.class);
+        return client.simple(PATCH, account + "/zones/" + zone + "/records/" + record, ListOptions.empty(), options.asPayload(), ZoneRecord.class);
     }
 
     /**
