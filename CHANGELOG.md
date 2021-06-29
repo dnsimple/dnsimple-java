@@ -2,6 +2,10 @@
 
 ### `main`
 
+### Release 0.9.2
+
+- Fix: avoid sending `regions=["global"]` for global zone records and prune the `regions` attribute from the request payload instead  
+
 ### Release 0.9.1
 
 - CHANGED: `Registrar.getDomainPremiumPrice()` is deprecated in favour of `Registrar.getDomainPrices()`

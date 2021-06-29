@@ -4,5 +4,5 @@ package com.dnsimple;
  * Placeholder for this client's version
  */
 public interface Dnsimple {
-    String VERSION = "0.9.0";
+    String VERSION = "0.9.2";
 }
