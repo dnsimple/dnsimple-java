@@ -12,8 +12,6 @@ import com.dnsimple.response.EmptyResponse;
 import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
 
-import java.util.Map;
-
 import static com.dnsimple.http.HttpMethod.*;
 
 /**
@@ -122,7 +120,7 @@ public class Zones {
      * @see <a href="https://developer.dnsimple.com/v2/zones/records/#createZoneRecord">https://developer.dnsimple.com/v2/zones/records/#createZoneRecord</a>
      */
     public SimpleResponse<ZoneRecord> createZoneRecord(Number account, String zone, ZoneRecordOptions options) {
-        return client.simple(POST, account + "/zones/" + zone + "/records", ListOptions.empty(), options, ZoneRecord.class);
+        return client.simple(POST, account + "/zones/" + zone + "/records", ListOptions.empty(), options.asPayload(), ZoneRecord.class);
     }
 
     /**
@@ -149,7 +147,7 @@ public class Zones {
      * @see <a href="https://developer.dnsimple.com/v2/zones/records/#updateZoneRecord">https://developer.dnsimple.com/v2/zones/records/#updateZoneRecord</a>
      */
     public SimpleResponse<ZoneRecord> updateZoneRecord(Number account, String zone, Number record, ZoneRecordUpdateOptions options) {
-        return client.simple(PATCH, account + "/zones/" + zone + "/records/" + record, ListOptions.empty(), options, ZoneRecord.class);
+        return client.simple(PATCH, account + "/zones/" + zone + "/records/" + record, ListOptions.empty(), options.asPayload(), ZoneRecord.class);
     }
 
     /**

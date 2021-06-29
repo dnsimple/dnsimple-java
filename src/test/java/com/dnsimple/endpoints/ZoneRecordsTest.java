@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Map;
 
 import static com.dnsimple.http.HttpMethod.*;
 import static com.dnsimple.tools.CustomMatchers.number;
@@ -96,8 +97,21 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
                 hasEntry("type", "A"),
                 hasEntry("content", "1.2.3.4"),
                 hasEntry(is("ttl"), number(3600)),
-                hasEntry(is("priority"), number(42))
+                hasEntry(is("priority"), number(42)),
+                not(hasKey("regions"))
         ));
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testCreateZoneRecordAtRegionSendsCorrectRequest() {
+        server.stubFixtureAt("createZoneRecord/created.http");
+        var options = ZoneRecordOptions.of("www", "A", "1.2.3.4").ttl(3600).priority(42).regions("SV1", "IAD");
+        client.zones.createZoneRecord(1010, "example.com", options);
+        var jsonPayload = server.getRecordedRequest().getJsonObjectPayload();
+        assertThat(jsonPayload, hasKey("regions"));
+        var regions = (List<String>) jsonPayload.get("regions");
+        assertThat(regions, contains("SV1", "IAD"));
     }
 
     @Test
@@ -109,13 +123,35 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
     }
 
     @Test
+    public void testUpdateZoneRecordSendsCorrectRequest() {
+        server.stubFixtureAt("updateZoneRecord/success.http");
+        var options = ZoneRecordUpdateOptions.empty().name("www");
+        client.zones.updateZoneRecord(1, "example.com", 2, options).getData();
+        assertThat(server.getRecordedRequest().getMethod(), is(PATCH));
+        assertThat(server.getRecordedRequest().getPath(), is("/v2/1/zones/example.com/records/2"));
+        assertThat(server.getRecordedRequest().getJsonObjectPayload(), allOf(
+                hasEntry("name", "www"),
+                not(hasKey("regions"))
+        ));
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testUpdateZoneRecordAtRegionSendsCorrectRequest() {
+        server.stubFixtureAt("updateZoneRecord/success.http");
+        var options = ZoneRecordUpdateOptions.empty().name("www").regions("SV1", "IAD");
+        client.zones.updateZoneRecord(1, "example.com", 2, options).getData();
+        var jsonPayload = server.getRecordedRequest().getJsonObjectPayload();
+        assertThat(jsonPayload, hasKey("regions"));
+        var regions = (List<String>) jsonPayload.get("regions");
+        assertThat(regions, contains("SV1", "IAD"));
+    }
+
+    @Test
     public void testUpdateZoneRecordProducesZoneRecord() {
         server.stubFixtureAt("updateZoneRecord/success.http");
         var options = ZoneRecordUpdateOptions.empty().name("www");
         ZoneRecord record = client.zones.updateZoneRecord(1, "example.com", 2, options).getData();
-        assertThat(server.getRecordedRequest().getMethod(), is(PATCH));
-        assertThat(server.getRecordedRequest().getPath(), is("/v2/1/zones/example.com/records/2"));
-        assertThat(server.getRecordedRequest().getJsonObjectPayload(), hasEntry("name", "www"));
         assertThat(record.getId(), is(5L));
     }
 
