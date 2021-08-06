@@ -87,4 +87,4 @@ Fill in your signing and OSSRH settings:
 
 Submit unit tests for your changes. You can test your changes on your machine by [running the test suite](#testing).
 
-When you submit a PR, tests will also be run on the [continuous integration environment via Travis](https://travis-ci.org/dnsimple/dnsimple-java).
+When you submit a PR, tests will also be run on the [continuous integration environment via Travis](https://travis-ci.com/dnsimple/dnsimple-java).
