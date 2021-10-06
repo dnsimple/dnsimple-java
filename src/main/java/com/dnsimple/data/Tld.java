@@ -9,8 +9,9 @@ public class Tld {
     private final Boolean registrationEnabled;
     private final Boolean renewalEnabled;
     private final Boolean transferEnabled;
+    private final String dnssecInterfaceType;
 
-    public Tld(String tld, Integer tldType, Boolean whoisPrivacy, Boolean autoRenewOnly, Integer minimumRegistration, Boolean registrationEnabled, Boolean renewalEnabled, Boolean transferEnabled) {
+    public Tld(String tld, Integer tldType, Boolean whoisPrivacy, Boolean autoRenewOnly, Integer minimumRegistration, Boolean registrationEnabled, Boolean renewalEnabled, Boolean transferEnabled, String dnssecInterfaceType) {
         this.tld = tld;
         this.tldType = tldType;
         this.whoisPrivacy = whoisPrivacy;
@@ -19,6 +20,7 @@ public class Tld {
         this.registrationEnabled = registrationEnabled;
         this.renewalEnabled = renewalEnabled;
         this.transferEnabled = transferEnabled;
+        this.dnssecInterfaceType = dnssecInterfaceType;
     }
 
     public String getTld() {
@@ -51,5 +53,9 @@ public class Tld {
 
     public Boolean isTransferEnabled() {
         return transferEnabled;
+    }
+
+    public String getDnssecInterfaceType() {
+        return dnssecInterfaceType;
     }
 }
