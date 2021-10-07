@@ -16,9 +16,11 @@ public class DSRecordOptions {
     }
 
     /**
-     * @deprecated Replaced with more specific factory methods {@link #dsData(String, String, String, String)} and {@link #keyData(String, String)}
+     * @deprecated
+     * Replaced with more specific factory methods
+     * <p> Use {@link #dsData(String, String, String, String)}, and {@link #keyData(String, String)} instead.
      */
-    @Deprecated
+    @Deprecated(forRemoval = true)
     public static DSRecordOptions of(String algorithm, String digest, String digestType, String keytag) {
         return new DSRecordOptions(algorithm, digest, digestType, keytag, null);
     }
