@@ -43,14 +43,16 @@ public class TldsTest extends DnsimpleTestBase {
         server.stubFixtureAt("listTlds/success.http");
         List<Tld> tlds = client.tlds.listTlds().getData();
         assertThat(tlds, hasSize(2));
-        assertThat(tlds.get(0).getTld(), is("ac"));
-        assertThat(tlds.get(0).getTldType(), is(2));
-        assertThat(tlds.get(0).supportsWhoisPrivacy(), is(false));
-        assertThat(tlds.get(0).isAutorenewOnly(), is(true));
-        assertThat(tlds.get(0).getMinimumRegistration(), is(1));
-        assertThat(tlds.get(0).isRegistrationEnabled(), is(true));
-        assertThat(tlds.get(0).isRenewalEnabled(), is(true));
-        assertThat(tlds.get(0).isTransferEnabled(), is(false));
+        Tld tld = tlds.get(0);
+        assertThat(tld.getTld(), is("ac"));
+        assertThat(tld.getTldType(), is(2));
+        assertThat(tld.supportsWhoisPrivacy(), is(false));
+        assertThat(tld.isAutorenewOnly(), is(true));
+        assertThat(tld.getMinimumRegistration(), is(1));
+        assertThat(tld.isRegistrationEnabled(), is(true));
+        assertThat(tld.isRenewalEnabled(), is(true));
+        assertThat(tld.isTransferEnabled(), is(false));
+        assertThat(tld.getDnssecInterfaceType(), is("ds"));
     }
 
     @Test
@@ -64,7 +66,16 @@ public class TldsTest extends DnsimpleTestBase {
     public void testGetTld() {
         server.stubFixtureAt("getTld/success.http");
         SimpleResponse<Tld> response = client.tlds.getTld("com");
-        assertThat(response.getData().getTld(), is("com"));
+        Tld tld = response.getData();
+        assertThat(tld.getTld(), is("com"));
+        assertThat(tld.getTldType(), is(1));
+        assertThat(tld.supportsWhoisPrivacy(), is(true));
+        assertThat(tld.isAutorenewOnly(), is(false));
+        assertThat(tld.getMinimumRegistration(), is(1));
+        assertThat(tld.isRegistrationEnabled(), is(true));
+        assertThat(tld.isRenewalEnabled(), is(true));
+        assertThat(tld.isTransferEnabled(), is(true));
+        assertThat(tld.getDnssecInterfaceType(), is("ds"));
     }
 
     @Test

@@ -2,6 +2,9 @@
 
 ### `main`
 
+- CHANGED: Add support for DNSSEC key-data interface (dnsimple/dnsimple-java#109)
+- CHANGED: `DSOptions.of()` is deprecated in favor of `DSOptions.dsData()` (dnsimple/dnsimple-java#109)
+
 ### Release 0.9.2
 
 - Fix: avoid sending `regions=["global"]` for global zone records and prune the `regions` attribute from the request payload instead  
