@@ -9,16 +9,18 @@ public class DelegationSignerRecord {
     private final String digest;
     private final String digestType;
     private final String keytag;
+    private final String publicKey;
     private final OffsetDateTime createdAt;
     private final OffsetDateTime updatedAt;
 
-    public DelegationSignerRecord(Long id, Long domainId, String algorithm, String digest, String digestType, String keytag, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
+    public DelegationSignerRecord(Long id, Long domainId, String algorithm, String digest, String digestType, String keytag, String publicKey, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
         this.id = id;
         this.domainId = domainId;
         this.algorithm = algorithm;
         this.digest = digest;
         this.digestType = digestType;
         this.keytag = keytag;
+        this.publicKey = publicKey;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -45,6 +47,10 @@ public class DelegationSignerRecord {
 
     public String getKeytag() {
         return keytag;
+    }
+
+    public String getPublicKey() {
+        return publicKey;
     }
 
     public OffsetDateTime getCreatedAt() {

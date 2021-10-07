@@ -66,6 +66,7 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
         assertThat(dsRecord.getDigest(), is("C1F6E04A5A61FBF65BF9DC8294C363CF11C89E802D926BDAB79C55D27BEFA94F"));
         assertThat(dsRecord.getDigestType(), is("2"));
         assertThat(dsRecord.getKeytag(), is("44620"));
+        assertThat(dsRecord.getPublicKey(), is(nullValue()));
         assertThat(dsRecord.getCreatedAt(), is(OffsetDateTime.of(2017, 3, 3, 13, 49, 58, 0, UTC)));
         assertThat(dsRecord.getUpdatedAt(), is(OffsetDateTime.of(2017, 3, 3, 13, 49, 58, 0, UTC)));
     }
@@ -80,7 +81,7 @@ public class DomainDelegationSignerRecordsTest extends DnsimpleTestBase {
     @Test
     public void testCreateDelegationSignerRecordProducesDelegationSignerRecord() {
         server.stubFixtureAt("createDelegationSignerRecord/created.http");
-        DSRecordOptions attributes = DSRecordOptions.of("13", "684a1f049d7d082b7f98691657da5a65764913df7f065f6f8c36edf62d66ca03", "2", "2371");
+        DSRecordOptions attributes = DSRecordOptions.dsData("13", "684a1f049d7d082b7f98691657da5a65764913df7f065f6f8c36edf62d66ca03", "2", "2371");
         SimpleResponse<DelegationSignerRecord> response = client.domains.createDelegationSignerRecord(1, "example.com", attributes);
         assertThat(response.getData().getId(), is(2L));
     }
