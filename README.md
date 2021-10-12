@@ -4,7 +4,6 @@ A Java client for the [DNSimple API v2](https://developer.dnsimple.com/v2/).
 
 [![Build Status](https://travis-ci.com/dnsimple/dnsimple-java.svg?branch=main)](https://travis-ci.com/dnsimple/dnsimple-java)
 
-
 ## Requirements
 
 This library is tested with Java 11 (AdoptOpenJDK 11.0.7 - HotSpot).

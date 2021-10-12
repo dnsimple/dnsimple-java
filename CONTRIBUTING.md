@@ -2,7 +2,7 @@
 
 ## Getting started
 
-#### 1. Clone the repository
+### 1. Clone the repository
 
 Clone the repository and move into it:
 
@@ -11,26 +11,27 @@ git clone git@github.com:dnsimple/dnsimple-java.git
 cd dnsimple-java
 ```
 
-#### 2. Install external tools
+### 2. Install external tools
 
 The project includes an [ASDF](https://github.com/asdf-vm/asdf) `.tool-versions` file to set up the JVM required to work on the project.
 
 You can install the required version of Java executing `asdf install` at the project's root directory.
 
-#### 3. Build and test
+### 3. Build and test
 
 [Run the test suite](#testing) to check everything works as expected.
 
-#### 4. Deploy locally for testing
+### 4. Deploy locally for testing
 
 You can install this project into your local Maven repository by running:
 
 ```shell
 ./gradlew clean publishToMavenLocal
 ```
+
 (use `gradlew.bat` in Windows instead)
 
-You can then import it into any project as if it were published to the Maven Central repo. 
+You can then import it into any project as if it were published to the Maven Central repo.
 
 ## Testing
 
@@ -39,6 +40,7 @@ To run the test suite:
 ```shell
 ./gradlew clean test
 ```
+
 (use `gradlew.bat` in Windows instead)
 
 ## Releasing
@@ -80,11 +82,12 @@ This project uses [Semantic Versioning](https://semver.org/). The following inst
 You need to create a `gradle.properties` file in the root directory of the project. Start by copy and pasting the example `gradle.properties.example` file on this repo.
 
 Fill in your signing and OSSRH settings:
-- If you have no GPG setup, you can get your signing `keyId`, `password`, and `secretKeyRingFile` values following the guide at https://central.sonatype.org/pages/working-with-pgp-signatures.html
-- If you don't have an OSSRH account, you can get it following the "Initial Setup" section of the guide at https://central.sonatype.org/pages/ossrh-guide.html
+
+- If you have no GPG setup, you can get your signing `keyId`, `password`, and `secretKeyRingFile` values following the guide at [https://central.sonatype.org/pages/working-with-pgp-signatures.html](https://central.sonatype.org/pages/working-with-pgp-signatures.html)
+- If you don't have an OSSRH account, you can get it following the "Initial Setup" section of the guide at [https://central.sonatype.org/pages/ossrh-guide.html](https://central.sonatype.org/pages/ossrh-guide.html)
 
 ## Requirements for contributing code to this repo
 
 Submit unit tests for your changes. You can test your changes on your machine by [running the test suite](#testing).
 
-When you submit a PR, tests will also be run on the [continuous integration environment via Travis](https://travis-ci.com/dnsimple/dnsimple-java).
+When you submit a PR, tests will also be run on the [continuous integration environment via GitHub Actions](https://github.com/dnsimple/dnsimple-java/actions).
