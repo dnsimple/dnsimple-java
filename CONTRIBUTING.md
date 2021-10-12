@@ -49,32 +49,42 @@ This project uses [Semantic Versioning](https://semver.org/). The following inst
 
 1. [Run the test suite](#testing) and ensure all the tests pass.
 1. Set the version in `dnsimple.java`:
+
     ```java
     public interface Dnsimple {
       public static final String VERSION = "<VERSION>";
       //...
     }
     ```
+
 1. Set the version in `build.gradle`:
+
     ```groovy
     version = '<VERSION>'
     ```
+
 1. Finalize the `## main` section in `CHANGELOG.md` assigning the version.
 1. Commit and push the changes
+
     ```shell
     git commit -a -m "Release $VERSION"
     git push origin main
     ```
+
 1. Wait for CI to complete.
 1. Create a signed tag.
+
     ```shell
     git tag -a v$VERSION -s -m "Release $VERSION"
     git push origin --tags
     ```
+
 1. Publish the signed JAR to OSSRH (be sure to go through the [Release configuration](#release-configuration) section first).
+
     ```shell
     ./gradlew clean publish
     ```
+
     (use `gradlew.bat` in Windows instead)
 
 ### Release configuration
