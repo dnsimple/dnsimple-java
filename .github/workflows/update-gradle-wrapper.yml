@@ -1,6 +1,7 @@
+---
 name: Update Gradle Wrapper
 
-on:
+"on":
   workflow_dispatch:
   schedule:
     - cron: "0 0 * * *"
@@ -11,7 +12,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
       - name: Update Gradle Wrapper
         uses: gradle-update/update-gradle-wrapper-action@v1
         with:
