@@ -45,9 +45,9 @@ jobs:
           distribution: 'adopt'
           cache: gradle
       - name: Grant execute permission for gradlew
-        run: chmod +x gradle
+        run: chmod +x gradlew
       - name: Build with Gradle
-        run: ./gradle build
+        run: ./gradlew build
 
   slack-workflow-status:
     if: always()
