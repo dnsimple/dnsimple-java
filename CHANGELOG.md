@@ -2,6 +2,8 @@
 
 ## `main`
 
+## Release 0.9.3
+
 - CHANGED: Add support for DNSSEC key-data interface (dnsimple/dnsimple-java#109)
 - CHANGED: `DSOptions.of()` is deprecated in favor of `DSOptions.dsData()` (dnsimple/dnsimple-java#109)
 
