@@ -1,14 +1,16 @@
-# Java DNSimple API Wrapper
+# DNSimple Java Client
 
 A Java client for the [DNSimple API v2](https://developer.dnsimple.com/v2/).
 
 [![Build Status](https://github.com/dnsimple/dnsimple-java/actions/workflows/ci.yml/badge.svg)](https://github.com/dnsimple/dnsimple-java/actions/workflows/ci.yml)
+
 
 ## Requirements
 
 This library is tested with Java 11 (AdoptOpenJDK 11.0.7 - HotSpot).
 
 You must also have an activated DNSimple account to access the DNSimple API.
+
 
 ## Installation
 
@@ -31,6 +33,7 @@ Add this dependency to your `build.gradle` file:
 ```groovy
 compile 'com.dnsimple:dnsimple-java:X.X.X'
 ```
+
 
 ## Usage
 
@@ -92,6 +95,7 @@ public class MyApp {
 }
 ```
 
+
 ## Sandbox Usage
 
 If you would like to test in the [DNSimple sandbox environment](https://developer.dnsimple.com/sandbox/) then add the `sandbox()` builder method to your client:
@@ -116,9 +120,11 @@ public class MyApp {
 
 You will need to ensure you are using an access token created in the sandbox environment. Production tokens will *not* work in the sandbox environment.
 
+
 ## Stub for Testing
 
 When developing unit tests for your application, you should stub responses from this client to avoid making any network calls.
+
 
 ## License
 
