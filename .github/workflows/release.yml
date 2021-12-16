@@ -9,6 +9,10 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java-version:
+          - '11'
     steps:
       - name: Checout Code
         uses: actions/checkout@v2
