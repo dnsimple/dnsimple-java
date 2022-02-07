@@ -32,3 +32,9 @@ jobs:
         env:
           MAVEN_USERNAME: ${{ secrets.OSSH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSH_TOKEN }}
+      - name: Print out signed artifacts for testing
+        run: |
+          ls -la build/libs
+          cat build/libs/dnsimple-java-0.9.3.jar.asc
+          cat dnsimple-java-0.9.3-javadoc.jar.asc
+          cat dnsimple-java-0.9.3-sources.jar.asc
