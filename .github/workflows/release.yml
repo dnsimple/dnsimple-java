@@ -28,7 +28,7 @@ jobs:
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
       - name: Publish Package
-        run: gradle publish
+        run: gradle clean build signMavenJavaPublication
         env:
           MAVEN_USERNAME: ${{ secrets.OSSH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSH_TOKEN }}
