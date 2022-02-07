@@ -1,5 +1,5 @@
 ---
-name: release_testing
+name: release
 
 on:
   workflow_dispatch:
@@ -20,11 +20,15 @@ jobs:
           GRADLE_PROPS: ${{ secrets.GRADLE_PROPS }}
         run: |
           echo $GRADLE_PROPS > gradle.properties
-      - name: Write the secring file
+      - name: Setup JAR signing
         env:
-          SECRING_GPG_BASE64: ${{ secrets.SECRING_GPG_BASE64 }}
+          JAR_SIGNING_SECRING_GPG_BASE64: ${{ secrets.JAR_SIGNING_SECRING_GPG_BASE64 }}
+          JAR_SIGNING_GPG_PRIVATE_KEY: ${{ secrets.JAR_SIGNING_GPG_PRIVATE_KEY }}
+          JAR_SIGNING_GPG_PRIVATE_KEY_PASSPHRASE: ${{ secrets.JAR_SIGNING_GPG_PRIVATE_KEY_PASSPHRASE }}
         run: |
-          echo $SECRING_GPG_BASE64 | base64 --decode > secring.gpg
+          echo $JAR_SIGNING_SECRING_GPG_BASE64 | base64 --decode > secring.gpg
+          echo $JAR_SIGNING_GPG_PRIVATE_KEY > private_key.asc
+          gpg --passphrase $JAR_SIGNING_GPG_PRIVATE_KEY_PASSPHRASE --import private_key.asc
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
       - name: Publish Package
