@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
-      - name: Set up JDK 11
+      - name: Set up JVM
         uses: actions/setup-java@v2
         with:
           distribution: 'temurin'
