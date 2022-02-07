@@ -1,0 +1,40 @@
+---
+name: release_testing
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Set up JVM
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Write the Gradle props file
+        env:
+          GRADLE_PROPS: ${{ secrets.GRADLE_PROPS }}
+        run: |
+          echo $GRADLE_PROPS > gradle.properties
+      - name: Write the secring file
+        env:
+          SECRING_GPG_BASE64: ${{ secrets.SECRING_GPG_BASE64 }}
+        run: |
+          echo $SECRING_GPG_BASE64 | base64 --decode > secring.gpg
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: Publish Package
+        run: gradle clean build signMavenJavaPublication
+        env:
+          MAVEN_USERNAME: ${{ secrets.OSSH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSH_TOKEN }}
+      - name: Print out signed artifacts for testing
+        run: |
+          ls -la build/libs
+          cat build/libs/dnsimple-java-0.9.3.jar.asc
+          cat dnsimple-java-0.9.3-javadoc.jar.asc
+          cat dnsimple-java-0.9.3-sources.jar.asc
