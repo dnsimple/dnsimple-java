@@ -22,13 +22,13 @@ jobs:
           echo $GRADLE_PROPS > gradle.properties
       - name: Setup JAR signing
         env:
-          JAR_SIGNING_SECRING_GPG_BASE64: ${{ secrets.JAR_SIGNING_SECRING_GPG_BASE64 }}
-          JAR_SIGNING_GPG_PRIVATE_KEY: ${{ secrets.JAR_SIGNING_GPG_PRIVATE_KEY }}
-          JAR_SIGNING_GPG_PRIVATE_KEY_PASSPHRASE: ${{ secrets.JAR_SIGNING_GPG_PRIVATE_KEY_PASSPHRASE }}
+          JAR_SIGNING_SECRING_GPG_BASE64: ${{ secrets.JAR_SIGNING_SECRING_GPG_BASE64 }} # yamllint disable-line
+          JAR_SIGNING_GPG_PRIVATE_KEY: ${{ secrets.JAR_SIGNING_GPG_PRIVATE_KEY }} # yamllint disable-line 
+          JAR_SIGNING_GPG_PRIVATE_KEY_PASSPHRASE: ${{ secrets.JAR_SIGNING_GPG_PRIVATE_KEY_PASSPHRASE }} # yamllint disable-line
         run: |
           echo $JAR_SIGNING_SECRING_GPG_BASE64 | base64 --decode > secring.gpg
           echo $JAR_SIGNING_GPG_PRIVATE_KEY > private_key.asc
-          gpg --passphrase $JAR_SIGNING_GPG_PRIVATE_KEY_PASSPHRASE --import private_key.asc
+          gpg --passphrase $JAR_SIGNING_GPG_PRIVATE_KEY_PASSPHRASE --import private_key.asc # yamllint disable-line
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
       - name: Publish Package
