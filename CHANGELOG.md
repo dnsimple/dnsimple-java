@@ -2,6 +2,10 @@
 
 ## `main`
 
+## Release 0.9.4
+
+- Added automated release process
+
 ## Release 0.9.3
 
 - CHANGED: Add support for DNSSEC key-data interface (dnsimple/dnsimple-java#109)
