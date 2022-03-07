@@ -1,8 +1,9 @@
 plugins {
     id 'java'
     id 'java-library'
-    id 'maven-publish'
     id 'signing'
+    id "maven-publish"
+    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 }
 
 repositories {
@@ -66,24 +67,22 @@ publishing {
                     url = 'git@github.com:dnsimple/dnsimple-java.git'
                 }
             }
-
-            repositories {
-                maven {
-                    def releaseRepo = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-                    def snapshotRepo = "https://oss.sonatype.org/content/repositories/snapshots/"
-                    url = isReleaseVersion ? releaseRepo : snapshotRepo
-                    credentials {
-                        username = project.hasProperty('ossrhUsername') ? ossrhUsername : "Unknown user"
-                        password = project.hasProperty('ossrhPassword') ? ossrhPassword : "Unknown password"
-                    }
-                }
-            }
         }
     }
 }
 
 signing {
+    def signingKeyId = findProperty("signingKeyId")
+    def signingKey = findProperty("signingKey")
+    def signingPassword = findProperty("signingPassword")
+    useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
     sign publishing.publications.mavenJava
+}
+
+nexusPublishing {
+    repositories {
+        sonatype()
+    }
 }
 
 tasks.withType(Sign) {
