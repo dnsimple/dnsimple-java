@@ -2,7 +2,9 @@
 name: release
 
 on:
-  workflow_dispatch:
+  push:
+    tags:
+      - v*.*.*
 
 jobs:
   publish:
@@ -18,7 +20,7 @@ jobs:
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
       - name: Publish Package
-        run: gradle clean build signMavenJavaPublication publishToSonatype closeSonatypeStagingRepository
+        run: gradle clean build signMavenJavaPublication publishToSonatype closeAndReleaseSonatypeStagingRepository
         env:
           ORG_GRADLE_PROJECT_signingKeyId: ${{ secrets.JAR_SIGNING_KEY_ID }}
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.JAR_SIGNING_KEY }}
