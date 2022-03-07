@@ -29,5 +29,3 @@ jobs:
         run: |
           ls -la build/libs
           cat build/libs/dnsimple-java-0.9.3.jar.asc
-          cat dnsimple-java-0.9.3-javadoc.jar.asc
-          cat dnsimple-java-0.9.3-sources.jar.asc
