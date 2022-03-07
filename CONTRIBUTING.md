@@ -79,22 +79,7 @@ This project uses [Semantic Versioning](https://semver.org/). The following inst
     git push origin --tags
     ```
 
-1. Publish the signed JAR to OSSRH (be sure to go through the [Release configuration](#release-configuration) section first).
-
-    ```shell
-    ./gradlew clean publish
-    ```
-
-    (use `gradlew.bat` in Windows instead)
-
-### Release configuration
-
-You need to create a `gradle.properties` file in the root directory of the project. Start by copy and pasting the example `gradle.properties.example` file on this repo.
-
-Fill in your signing and OSSRH settings:
-
-- If you have no GPG setup, you can get your signing `keyId`, `password`, and `secretKeyRingFile` values following the guide at [https://central.sonatype.org/pages/working-with-pgp-signatures.html](https://central.sonatype.org/pages/working-with-pgp-signatures.html)
-- If you don't have an OSSRH account, you can get it following the "Initial Setup" section of the guide at [https://central.sonatype.org/pages/ossrh-guide.html](https://central.sonatype.org/pages/ossrh-guide.html)
+GitHub will take the new tag and release it automatically into Maven Central
 
 ## Requirements for contributing code to this repo
 
