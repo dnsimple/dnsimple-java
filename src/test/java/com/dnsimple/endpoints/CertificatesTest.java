@@ -217,7 +217,7 @@ public class CertificatesTest extends DnsimpleTestBase {
     @SuppressWarnings("unchecked")
     public void testPurchaseLetsencryptCertificate() {
         server.stubFixtureAt("purchaseLetsencryptCertificate/success.http");
-        CertificatePurchaseOptions options = CertificatePurchaseOptions.of(1).autoRenew().name("www").alternateNames("web", "theweb");
+        CertificatePurchaseOptions options = CertificatePurchaseOptions.of("www").autoRenew().alternateNames("web", "theweb");
         SimpleResponse<CertificatePurchase> response = client.certificates.purchaseLetsencryptCertificate(1010, "bingo.pizza", options);
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/bingo.pizza/certificates/letsencrypt"));

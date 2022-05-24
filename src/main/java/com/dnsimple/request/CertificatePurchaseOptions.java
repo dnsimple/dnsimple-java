@@ -31,8 +31,16 @@ public class CertificatePurchaseOptions {
      * @param contactId This argument has been deprecated and is ignored in upstream API requests
      * @deprecated Please, use the class constructor instead
      */
+    @Deprecated
     public static CertificatePurchaseOptions of(@Deprecated Number contactId) {
         return new CertificatePurchaseOptions(false, "www", emptyList());
+    }
+
+    /**
+     * @param name The name of the certificate to be requested
+     */
+    public static CertificatePurchaseOptions of(String name) {
+        return new CertificatePurchaseOptions(false, name, emptyList());
     }
 
     /**
@@ -43,8 +51,9 @@ public class CertificatePurchaseOptions {
     }
 
     /**
-     * Set a name for the certificate
+     * @deprecated Please, use the {@link #of(String)} factory method instead
      */
+    @Deprecated
     public CertificatePurchaseOptions name(String name) {
         return new CertificatePurchaseOptions(autoRenew, name, alternateNames);
     }
