@@ -222,7 +222,6 @@ public class CertificatesTest extends DnsimpleTestBase {
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/bingo.pizza/certificates/letsencrypt"));
         Map<String, Object> payload = server.getRecordedRequest().getJsonObjectPayload();
-        assertThat(payload, not(hasKey(is("contact_id"))));
         assertThat(payload, hasEntry("auto_renew", true));
         assertThat(payload, hasEntry("name", "www"));
         // Hamcrest can't reconcile the types involved in this matcher
