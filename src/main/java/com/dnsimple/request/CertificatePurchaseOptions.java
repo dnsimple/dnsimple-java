@@ -17,9 +17,7 @@ public class CertificatePurchaseOptions {
     }
 
     /**
-     * Please, use a constructor without deprecated arguments
-     *
-     * @deprecated
+     * @deprecated Please, use a constructor without deprecated arguments
      */
     @Deprecated
     private CertificatePurchaseOptions(@Deprecated Long contactId, boolean autoRenew, String name, List<String> alternateNames) {
@@ -31,6 +29,7 @@ public class CertificatePurchaseOptions {
 
     /**
      * @param contactId This argument has been deprecated and is ignored in upstream API requests
+     * @deprecated Please, use the class constructor instead
      */
     public static CertificatePurchaseOptions of(@Deprecated Number contactId) {
         return new CertificatePurchaseOptions(false, "www", emptyList());
