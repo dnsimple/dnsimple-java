@@ -70,7 +70,6 @@ public class CertificatesTest extends DnsimpleTestBase {
         Certificate certificate = response.getData();
         assertThat(certificate.getId(), is(101967L));
         assertThat(certificate.getDomainId(), is(289333L));
-        assertThat(certificate.getContactId(), nullValue());
         assertThat(certificate.getCommonName(), is("www.bingo.pizza"));
         assertThat(certificate.getAlternateNames(), is(empty()));
         assertThat(certificate.getYears(), is(1));
