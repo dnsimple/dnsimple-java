@@ -2,6 +2,8 @@
 
 ## `main`
 
+- CHANGED: Deprecate Certificate's `contact_id` (dnsimple/dnsimple-java#123)
+
 ## Release 0.9.4
 
 - Added automated release process
