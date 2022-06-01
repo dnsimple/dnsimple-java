@@ -70,7 +70,6 @@ public class CertificatesTest extends DnsimpleTestBase {
         Certificate certificate = response.getData();
         assertThat(certificate.getId(), is(101967L));
         assertThat(certificate.getDomainId(), is(289333L));
-        assertThat(certificate.getContactId(), is(2511L));
         assertThat(certificate.getCommonName(), is("www.bingo.pizza"));
         assertThat(certificate.getAlternateNames(), is(empty()));
         assertThat(certificate.getYears(), is(1));
@@ -217,12 +216,11 @@ public class CertificatesTest extends DnsimpleTestBase {
     @SuppressWarnings("unchecked")
     public void testPurchaseLetsencryptCertificate() {
         server.stubFixtureAt("purchaseLetsencryptCertificate/success.http");
-        CertificatePurchaseOptions options = CertificatePurchaseOptions.of(1).autoRenew().name("www").alternateNames("web", "theweb");
+        CertificatePurchaseOptions options = CertificatePurchaseOptions.of("www").autoRenew().alternateNames("web", "theweb");
         SimpleResponse<CertificatePurchase> response = client.certificates.purchaseLetsencryptCertificate(1010, "bingo.pizza", options);
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/bingo.pizza/certificates/letsencrypt"));
         Map<String, Object> payload = server.getRecordedRequest().getJsonObjectPayload();
-        assertThat(payload, hasEntry(is("contact_id"), number(1)));
         assertThat(payload, hasEntry("auto_renew", true));
         assertThat(payload, hasEntry("name", "www"));
         // Hamcrest can't reconcile the types involved in this matcher
