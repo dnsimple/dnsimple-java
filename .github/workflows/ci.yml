@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Run markdownlint-cli
         uses: nosborn/github-action-markdown-cli@v2.0.0
         with:
@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Run YAML Lint
         uses: actionshub/yamllint@main
 
@@ -36,7 +36,7 @@ jobs:
         java-version:
           - '11'
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up JDK ${{ matrix.java-version }}
         uses: actions/setup-java@v2
         with:
