@@ -25,6 +25,6 @@ public class BadRequestException extends DnsimpleException {
 
     @SuppressWarnings("unchecked")
     public Map<String, List<String>> getAttributeErrors() {
-        return ((Map<String, List<String>>) body.getOrDefault("errors", emptyMap()));
+        return (Map<String, List<String>>) body.getOrDefault("errors", emptyMap());
     }
 }
