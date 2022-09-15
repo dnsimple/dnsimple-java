@@ -10,7 +10,6 @@ import com.dnsimple.exception.BadRequestException;
 import com.dnsimple.request.ContactOptions;
 import com.dnsimple.tools.DnsimpleTestBase;
 import java.util.List;
-import java.util.Map;
 import org.junit.Test;
 
 public class ClientTest extends DnsimpleTestBase {
