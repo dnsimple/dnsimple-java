@@ -1,5 +1,8 @@
 package com.dnsimple.exception;
 
+import static java.util.Collections.emptyMap;
+
+import java.util.List;
 import java.util.Map;
 
 public class BadRequestException extends DnsimpleException {
@@ -18,5 +21,10 @@ public class BadRequestException extends DnsimpleException {
 
     public Map<String, Object> getBody() {
         return body;
+    }
+
+    @SuppressWarnings("unchecked")
+    public Map<String, List<String>> getAttributeErrors() {
+        return (Map<String, List<String>>) body.getOrDefault("errors", emptyMap());
     }
 }

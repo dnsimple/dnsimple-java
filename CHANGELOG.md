@@ -3,6 +3,7 @@
 ## `main`
 
 - CHANGED: Deprecate Certificate's `contact_id` (dnsimple/dnsimple-java#123)
+- CHANGED: Add getter for attribute errors in `BadRequestException` (dnsimple/dnsimple-java#135)
 
 ## Release 0.9.4
 
