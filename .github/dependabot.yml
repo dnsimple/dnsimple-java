@@ -21,3 +21,4 @@ updates:
     labels:
       - task
       - dependencies
+      - automerge
