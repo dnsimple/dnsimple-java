@@ -1,6 +1,6 @@
 # Changelog
 
-## `main`
+## Release 0.9.6
 
 - Update dependencies
 
@@ -20,7 +20,7 @@
 
 ## Release 0.9.2
 
-- Fix: avoid sending `regions=["global"]` for global zone records and prune the `regions` attribute from the request payload instead  
+- Fix: avoid sending `regions=["global"]` for global zone records and prune the `regions` attribute from the request payload instead
 
 ## Release 0.9.1
 

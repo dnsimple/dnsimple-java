@@ -17,7 +17,7 @@ dependencies {
 }
 
 group = 'com.dnsimple'
-version = '0.9.5'
+version = '0.9.6'
 description = 'dnsimple-java'
 sourceCompatibility = '1.11'
 targetCompatibility = '1.11'
@@ -94,4 +94,3 @@ test {
         exceptionFormat = 'full'
     }
 }
-
