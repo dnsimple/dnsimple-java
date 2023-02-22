@@ -2,6 +2,8 @@
 
 ## `main`
 
+- Update dependencies
+
 ## Release 0.9.5
 
 - CHANGED: Deprecate Certificate's `contact_id` (dnsimple/dnsimple-java#123)
