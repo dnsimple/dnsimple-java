@@ -7,6 +7,7 @@ import com.dnsimple.data.CertificateRenewal;
 import com.dnsimple.exception.ResourceNotFoundException;
 import com.dnsimple.request.CertificatePurchaseOptions;
 import com.dnsimple.request.ListOptions;
+import com.dnsimple.request.SignatureAlgorithm;
 import com.dnsimple.response.PaginatedResponse;
 import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.tools.DnsimpleTestBase;
@@ -216,7 +217,7 @@ public class CertificatesTest extends DnsimpleTestBase {
     @SuppressWarnings("unchecked")
     public void testPurchaseLetsencryptCertificate() {
         server.stubFixtureAt("purchaseLetsencryptCertificate/success.http");
-        CertificatePurchaseOptions options = CertificatePurchaseOptions.of("www").autoRenew().alternateNames("web", "theweb");
+        CertificatePurchaseOptions options = CertificatePurchaseOptions.of("www").autoRenew().alternateNames("web", "theweb").signatureAlgorithm(SignatureAlgorithm.ECDSA);
         SimpleResponse<CertificatePurchase> response = client.certificates.purchaseLetsencryptCertificate(1010, "bingo.pizza", options);
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/bingo.pizza/certificates/letsencrypt"));
