@@ -1,5 +1,10 @@
 # Changelog
 
+## main
+
+- BREAKING: `purchaseLetsencryptCertificateRenewal` now takes a `CertificateRenewalPurchaseOptions` object to support the `signatureAlgorithm` field (dnsimple/dnsimple-java#146)
+- NEW: Implement support for `signatureAlgorithm` in `CertificatePurchaseOptions` (dnsimple/dnsimple-java#146)
+
 ## Release 0.9.6
 
 - Update dependencies
