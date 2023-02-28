@@ -50,7 +50,7 @@ public class CertificatePurchaseOptions {
      * Enable auto-renew for the certificate
      */
     public CertificatePurchaseOptions autoRenew() {
-        return new CertificatePurchaseOptions(true, name, alternateNames, SignatureAlgorithm.ECDSA);
+        return new CertificatePurchaseOptions(true, name, alternateNames, signatureAlgorithm);
     }
 
     /**
@@ -58,14 +58,14 @@ public class CertificatePurchaseOptions {
      */
     @Deprecated
     public CertificatePurchaseOptions name(String name) {
-        return new CertificatePurchaseOptions(autoRenew, name, alternateNames, SignatureAlgorithm.ECDSA);
+        return new CertificatePurchaseOptions(autoRenew, name, alternateNames, signatureAlgorithm);
     }
 
     /**
      * Set alternate names for the certificate
      */
     public CertificatePurchaseOptions alternateNames(String... names) {
-        return new CertificatePurchaseOptions(autoRenew, name, Arrays.asList(names), SignatureAlgorithm.ECDSA);
+        return new CertificatePurchaseOptions(autoRenew, name, Arrays.asList(names), signatureAlgorithm);
     }
 
     /**
