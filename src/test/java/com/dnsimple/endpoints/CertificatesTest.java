@@ -6,6 +6,7 @@ import com.dnsimple.data.CertificatePurchase;
 import com.dnsimple.data.CertificateRenewal;
 import com.dnsimple.exception.ResourceNotFoundException;
 import com.dnsimple.request.CertificatePurchaseOptions;
+import com.dnsimple.request.CertificateRenewalPurchaseOptions;
 import com.dnsimple.request.ListOptions;
 import com.dnsimple.request.SignatureAlgorithm;
 import com.dnsimple.response.PaginatedResponse;
@@ -258,7 +259,7 @@ public class CertificatesTest extends DnsimpleTestBase {
     @Test
     public void testPurchaseLetsencryptCertificateRenewal() {
         server.stubFixtureAt("purchaseRenewalLetsencryptCertificate/success.http");
-        SimpleResponse<CertificateRenewal> response = client.certificates.purchaseLetsencryptCertificateRenewal(1010, "bingo.pizza", 101967, true);
+        SimpleResponse<CertificateRenewal> response = client.certificates.purchaseLetsencryptCertificateRenewal(1010, "bingo.pizza", 101967, CertificateRenewalPurchaseOptions.of("www").autoRenew().signatureAlgorithm(SignatureAlgorithm.RSA));
         assertThat(server.getRecordedRequest().getMethod(), is(POST));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/bingo.pizza/certificates/letsencrypt/101967/renewals"));
         assertThat(server.getRecordedRequest().getJsonObjectPayload(), hasEntry("auto_renew", true));
