@@ -19,27 +19,6 @@ public class CertificatePurchaseOptions {
     }
 
     /**
-     * @deprecated Please, use a constructor without deprecated arguments
-     */
-    @Deprecated
-    private CertificatePurchaseOptions(@Deprecated Long contactId, boolean autoRenew, String name, List<String> alternateNames, SignatureAlgorithm signatureAlgorithm) {
-        this.autoRenew = autoRenew;
-        this.name = name;
-        this.alternateNames = alternateNames;
-        this.signatureAlgorithm = signatureAlgorithm;
-    }
-
-
-    /**
-     * @param contactId This argument has been deprecated and is ignored in upstream API requests
-     * @deprecated Please, use the class constructor instead
-     */
-    @Deprecated
-    public static CertificatePurchaseOptions of(@Deprecated Number contactId) {
-        return new CertificatePurchaseOptions(false, "www", emptyList(), SignatureAlgorithm.ECDSA);
-    }
-
-    /**
      * @param name The name of the certificate to be requested
      */
     public static CertificatePurchaseOptions of(String name) {
@@ -51,14 +30,6 @@ public class CertificatePurchaseOptions {
      */
     public CertificatePurchaseOptions autoRenew() {
         return new CertificatePurchaseOptions(true, name, alternateNames, signatureAlgorithm);
-    }
-
-    /**
-     * @deprecated Please, use the {@link #of(String)} factory method instead
-     */
-    @Deprecated
-    public CertificatePurchaseOptions name(String name) {
-        return new CertificatePurchaseOptions(autoRenew, name, alternateNames, signatureAlgorithm);
     }
 
     /**
