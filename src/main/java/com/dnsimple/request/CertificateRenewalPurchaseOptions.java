@@ -9,10 +9,7 @@ public class CertificateRenewalPurchaseOptions {
         this.signatureAlgorithm = signatureAlgorithm;
     }
 
-    /**
-     * @param name The name of the certificate to be renewed
-     */
-    public static CertificateRenewalPurchaseOptions of(String name) {
+    public static CertificateRenewalPurchaseOptions empty() {
         return new CertificateRenewalPurchaseOptions(false, SignatureAlgorithm.ECDSA);
     }
 
