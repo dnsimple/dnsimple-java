@@ -45,7 +45,7 @@ public class Registrar {
      * @see <a href="https://developer.dnsimple.com/v2/registrar/#getDomainPremiumPrice">https://developer.dnsimple.com/v2/registrar/#getDomainPremiumPrice</a>
      * @deprecated As of this version 0.9.1, replaced by {@link #getDomainPrices(Number, String)}
      */
-    @Deprecated 
+    @Deprecated
     public SimpleResponse<DomainPremiumPriceCheck> getDomainPremiumPrice(Number account, String domainName, DomainCheckPremiumPriceAction action) {
         var options = ListOptions.empty().filter("action", action.name().toLowerCase());
         return client.simple(GET, account + "/registrar/domains/" + domainName + "/premium_price", options, action, DomainPremiumPriceCheck.class);
@@ -62,6 +62,34 @@ public class Registrar {
      */
     public SimpleResponse<DomainPrice> getDomainPrices(Number account, String domainName) {
         return client.simple(GET, account + "/registrar/domains/" + domainName + "/prices", ListOptions.empty(), null, DomainPrice.class);
+    }
+
+    /**
+     * Get the details of an existing domain registration.
+     *
+     * @param account            The account ID
+     * @param domainName         The domain to check the registration
+     * @param domainRegistration The domain registration ID
+     *
+     * @return the domain registration response
+     * @see <a href="https://developer.dnsimple.com/v2/registrar/#getDomainRegistration">https://developer.dnsimple.com/v2/registrar/#getDomainRegistration</a>
+     */
+    public SimpleResponse<DomainRegistration> getDomainRegistration(Number account, String domainName, Number domainRegistration) {
+        return client.simple(GET, account + "/registrar/domains/" + domainName + "/registrations/" + domainRegistration, ListOptions.empty(), null, DomainRegistration.class);
+    }
+
+    /**
+     * Get the details of an existing domain renewal.
+     *
+     * @param account            The account ID
+     * @param domainName         The domain to check the renewal
+     * @param domainRenewal The domain renewal ID
+     *
+     * @return the domain renewal response
+     * @see <a href="https://developer.dnsimple.com/v2/registrar/#getDomainRenewal">https://developer.dnsimple.com/v2/registrar/#getDomainRenewal</a>
+     */
+    public SimpleResponse<DomainRenewal> getDomainRenewal(Number account, String domainName, Number domainRenewal) {
+        return client.simple(GET, account + "/registrar/domains/" + domainName + "/renewals/" + domainRenewal, ListOptions.empty(), null, DomainRenewal.class);
     }
 
     /**
