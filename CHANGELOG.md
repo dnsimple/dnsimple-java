@@ -1,10 +1,11 @@
 # Changelog
 
-## main
+## Release 0.10.0
 
 - BREAKING: `purchaseLetsencryptCertificateRenewal` now takes a `CertificateRenewalPurchaseOptions` object to support the `signatureAlgorithm` field (dnsimple/dnsimple-java#146)
 - BREAKING: Remove deprecated certificate methods and constructors that use contact ID, which is no longer supported (dnsimple/dnsimple-java#146)
 - NEW: Implement support for `signatureAlgorithm` in `CertificatePurchaseOptions` (dnsimple/dnsimple-java#146)
+- NEW: Implement the getDomainRegistration and getDomainRenewal Registrar APIs (dnsimple/dnsimple-java#147)
 
 ## Release 0.9.6
 
