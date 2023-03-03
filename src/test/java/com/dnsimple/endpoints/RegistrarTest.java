@@ -96,6 +96,41 @@ public class RegistrarTest extends DnsimpleTestBase {
     }
 
     @Test
+    public void testGetDomainRegistration() {
+        server.stubFixtureAt("getDomainRegistration/success.http");
+
+        DomainRegistration registration = client.registrar.getDomainRegistration(1010, "bingo.pizza", 361).getData();
+
+        assertThat(server.getRecordedRequest().getMethod(), is(GET));
+        assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/bingo.pizza/registrations/361"));
+        assertThat(registration.getId(), is(361L));
+        assertThat(registration.getDomainId(), is(104040L));
+        assertThat(registration.getRegistrantId(), is(2715L));
+        assertThat(registration.getPeriod(), is(1));
+        assertThat(registration.getState(), is("registering"));
+        assertThat(registration.hasAutoRenew(), is(false));
+        assertThat(registration.hasWhoisPrivacy(), is(false));
+        assertThat(registration.getCreatedAt(), is(OffsetDateTime.of(2023, 1, 27, 17, 44, 32, 0, UTC)));
+        assertThat(registration.getUpdatedAt(), is(OffsetDateTime.of(2023, 1, 27, 17, 44, 40, 0, UTC)));
+    }
+
+    @Test
+    public void testGetDomainRenewal() {
+        server.stubFixtureAt("getDomainRenewal/success.http");
+
+        DomainRenewal renewal = client.registrar.getDomainRenewal(1010, "bingo.pizza", 1).getData();
+
+        assertThat(server.getRecordedRequest().getMethod(), is(GET));
+        assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/bingo.pizza/renewals/1"));
+        assertThat(renewal.getId(), is(1L));
+        assertThat(renewal.getDomainId(), is(999L));
+        assertThat(renewal.getPeriod(), is(1));
+        assertThat(renewal.getState(), is("renewed"));
+        assertThat(renewal.getCreatedAt(), is(OffsetDateTime.of(2016, 12, 9, 19, 46, 45, 0, UTC)));
+        assertThat(renewal.getUpdatedAt(), is(OffsetDateTime.of(2016, 12, 12, 19, 46, 45, 0, UTC)));
+    }
+
+    @Test
     public void testRegisterDomain() {
         server.stubFixtureAt("registerDomain/success.http");
         RegistrationOptions options = RegistrationOptions.of(10);
