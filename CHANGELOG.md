@@ -2,6 +2,10 @@
 
 ## main
 
+BREAKING CHANGES
+
+- `CertificateBundle.privateKey` has been moved to its own class called `CertificatePrivateKey`, which is now returned by `Certificates::getCertificatePrivateKey`. (dnsimple/dnsimple-java#150)
+
 ## 0.14.0
 
 ENHANCEMENTS:
