@@ -1,9 +1,6 @@
 package com.dnsimple.endpoints;
 
-import com.dnsimple.data.Certificate;
-import com.dnsimple.data.CertificateBundle;
-import com.dnsimple.data.CertificatePurchase;
-import com.dnsimple.data.CertificateRenewal;
+import com.dnsimple.data.*;
 import com.dnsimple.exception.ResourceNotFoundException;
 import com.dnsimple.request.CertificatePurchaseOptions;
 import com.dnsimple.request.CertificateRenewalPurchaseOptions;
@@ -114,8 +111,7 @@ public class CertificatesTest extends DnsimpleTestBase {
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/weppos.net/certificates/1/download"));
         CertificateBundle certificateBundle = response.getData();
-        assertThat(certificateBundle.getPrivateKey(), is(nullValue()));
-        assertThat(certificateBundle.getServerCertificate(), is("" +
+        assertThat(certificateBundle.getServer(), is("" +
                 "-----BEGIN CERTIFICATE-----\n" +
                 "MIIE7TCCA9WgAwIBAgITAPpTe4O3vjuQ9L4gLsogi/ukujANBgkqhkiG9w0BAQsF\n" +
                 "ADAiMSAwHgYDVQQDDBdGYWtlIExFIEludGVybWVkaWF0ZSBYMTAeFw0xNjA2MTEx\n" +
@@ -145,9 +141,9 @@ public class CertificatesTest extends DnsimpleTestBase {
                 "tQaemFWTjGPgSLXJAtQO30DgNJBHX/fJEaHv6Wy8TF3J0wOGpzGbOwaTX8YAmEzC\n" +
                 "lzzjs+clg5MN5rd1g4POJtU=\n" +
                 "-----END CERTIFICATE-----\n"));
-        assertThat(certificateBundle.getRootCertificate(), is(isEmptyOrNullString()));
-        assertThat(certificateBundle.getIntermediateCertificates(), hasSize(1));
-        assertThat(certificateBundle.getIntermediateCertificates().get(0), is("" +
+        assertThat(certificateBundle.getRoot(), is(isEmptyOrNullString()));
+        assertThat(certificateBundle.getChain(), hasSize(1));
+        assertThat(certificateBundle.getChain().get(0), is("" +
                 "-----BEGIN CERTIFICATE-----\n" +
                 "MIIEqzCCApOgAwIBAgIRAIvhKg5ZRO08VGQx8JdhT+UwDQYJKoZIhvcNAQELBQAw\n" +
                 "GjEYMBYGA1UEAwwPRmFrZSBMRSBSb290IFgxMB4XDTE2MDUyMzIyMDc1OVoXDTM2\n" +
@@ -180,11 +176,11 @@ public class CertificatesTest extends DnsimpleTestBase {
     @Test
     public void testCertificatePrivateKey() {
         server.stubFixtureAt("getCertificatePrivateKey/success.http");
-        SimpleResponse<CertificateBundle> response = client.certificates.getCertificatePrivateKey(1010, "weppos.net", 1);
+        SimpleResponse<CertificatePrivateKey> response = client.certificates.getCertificatePrivateKey(1010, "weppos.net", 1);
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/weppos.net/certificates/1/private_key"));
-        CertificateBundle certificateBundle = response.getData();
-        assertThat(certificateBundle.getPrivateKey(), is("" +
+        CertificatePrivateKey certificatePrivateKey = response.getData();
+        assertThat(certificatePrivateKey.getPrivateKey(), is("" +
                 "-----BEGIN RSA PRIVATE KEY-----\n" +
                 "MIIEowIBAAKCAQEAtzCcMfWoQRt5AMEY0HUb2GaraL1GsWOo6YXdPfe+YDvtnmDw\n" +
                 "23NcoTX7VSeCgU9M3RKs19AsCJcRNTLJ2dmDrAuyCTud9YTAaXQcTOLUhtO8T8+9\n" +
