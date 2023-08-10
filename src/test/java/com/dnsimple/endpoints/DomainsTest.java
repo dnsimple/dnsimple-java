@@ -19,13 +19,6 @@ import static org.hamcrest.Matchers.*;
 
 public class DomainsTest extends DnsimpleTestBase {
     @Test
-    public void testActivateDns() {
-        client.domains.listDomains(1, ListOptions.empty().page(1));
-        assertThat(server.getRecordedRequest().getMethod(), is(GET));
-        assertThat(server.getRecordedRequest().getPath(), is("/v2/1/domains?page=1"));
-    }
-
-    @Test
     public void testListDomainsSupportsPagination() {
         client.domains.listDomains(1, ListOptions.empty().page(1));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
