@@ -268,17 +268,17 @@ public class Domains {
     /**
      * Create an email forward for a domain.
      *
-     * @param account The account ID
-     * @param domain  The domain name or ID
-     * @param from    The email address the emails are send to
-     * @param to      The email address the email address the emails are forwarded to.
+     * @param account          The account ID
+     * @param domain           The domain name or ID
+     * @param aliasEmail       The email address the emails are send to
+     * @param destinationEmail The email address the email address the emails are forwarded to.
      * @return The create email forward response
      * @see <a href="https://developer.dnsimple.com/v2/domains/email-forwards/#createEmailForward">https://developer.dnsimple.com/v2/domains/email-forwards/#createEmailForward</a>
      */
-    public SimpleResponse<EmailForward> createEmailForward(Number account, String domain, String from, String to) {
+    public SimpleResponse<EmailForward> createEmailForward(Number account, String domain, String aliasEmail, String destinationEmail) {
         Map<String, String> options = new HashMap<>();
-        options.put("from", from);
-        options.put("to", to);
+        options.put("alias_email", aliasEmail);
+        options.put("destination_email", destinationEmail);
         return client.simple(POST, account + "/domains/" + domain + "/email_forwards", ListOptions.empty(), options, EmailForward.class);
     }
 

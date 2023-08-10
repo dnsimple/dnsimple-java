@@ -27,6 +27,30 @@ public class Zones {
     }
 
     /**
+     * Activate DNS resolution for the zone in the account.
+     *
+     * @param account The account ID
+     * @param zoneName The zone name
+     * @return The zone
+     * @see <a href="https://developer.dnsimple.com/v2/zones/#activateZoneService">https://developer.dnsimple.com/v2/zones/#activateZoneService</a>
+     */
+    public SimpleResponse<Zone> activateDns(Number account, String zoneName) {
+        return client.simple(PUT, account + "/zones/" + zoneName + "/activation", ListOptions.empty(), null, Zone.class);
+    }
+
+    /**
+     * Deactivate DNS resolution for the zone in the account.
+     *
+     * @param account The account ID
+     * @param zoneName The zone name
+     * @return The zone
+     * @see <a href="https://developer.dnsimple.com/v2/zones/#deactivateZoneService">https://developer.dnsimple.com/v2/zones/#deactivateZoneService</a>
+     */
+    public SimpleResponse<Zone> deactivateDns(Number account, String zoneName) {
+        return client.simple(DELETE, account + "/zones/" + zoneName + "/activation", ListOptions.empty(), null, Zone.class);
+    }
+
+    /**
      * Lists the zones in the account.
      *
      * @param account The account ID

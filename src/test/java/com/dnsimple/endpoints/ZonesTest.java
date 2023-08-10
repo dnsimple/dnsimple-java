@@ -22,6 +22,30 @@ import static org.hamcrest.Matchers.*;
 
 public class ZonesTest extends DnsimpleTestBase {
     @Test
+    public void testActivateDns() {
+        server.stubFixtureAt("activateZoneService/success.http");
+        Zone z = client.zones.activateDns(1010, "example.com").getData();
+        assertThat(z.getId(), is(1L));
+        assertThat(z.getAccountId(), is(1010L));
+        assertThat(z.getName(), is("example.com"));
+        assertThat(z.isReverse(), is(false));
+        assertThat(zone.getCreatedAt(), is(OffsetDateTime.of(2015, 4, 23, 7, 40, 3, 0, ZoneOffset.UTC)));
+        assertThat(zone.getUpdatedAt(), is(OffsetDateTime.of(2015, 4, 23, 7, 40, 3, 0, ZoneOffset.UTC)));
+    }
+
+    @Test
+    public void testDeactivateDns() {
+        server.stubFixtureAt("deactivateZoneService/success.http");
+        Zone z = client.zones.deactivateDns(1010, "example.com").getData();
+        assertThat(z.getId(), is(1L));
+        assertThat(z.getAccountId(), is(1010L));
+        assertThat(z.getName(), is("example.com"));
+        assertThat(z.isReverse(), is(false));
+        assertThat(zone.getCreatedAt(), is(OffsetDateTime.of(2015, 4, 23, 7, 40, 3, 0, ZoneOffset.UTC)));
+        assertThat(zone.getUpdatedAt(), is(OffsetDateTime.of(2015, 4, 23, 7, 40, 3, 0, ZoneOffset.UTC)));
+    }
+
+    @Test
     public void testListZonesSupportsPagination() {
         client.zones.listZones(1, ListOptions.empty().page(1));
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
