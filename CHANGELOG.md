@@ -1,5 +1,14 @@
 # Changelog
 
+## main
+
+## 0.11.0 (Unreleased)
+
+FEATURES:
+
+- NEW: Added `Dnsimple.Zones.activateDns` to activate DNS services (resolution) for a zone. (dnsimple/dnsimple-java#157)
+- NEW: Added `Dnsimple.Zones.deactivateDns` to deactivate DNS services (resolution) for a zone. (dnsimple/dnsimple-java#157)
+
 ## Release 0.10.0
 
 - BREAKING: `purchaseLetsencryptCertificateRenewal` now takes a `CertificateRenewalPurchaseOptions` object to support the `signatureAlgorithm` field (dnsimple/dnsimple-java#146)
