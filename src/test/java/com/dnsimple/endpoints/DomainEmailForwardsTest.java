@@ -85,8 +85,8 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
         server.stubFixtureAt("createEmailForward/created.http");
         SimpleResponse<EmailForward> response = client.domains.createEmailForward(1, "example.com", "example@dnsimple.xyz", "example@example.com");
         assertThat(server.getRecordedRequest().getJsonObjectPayload(), allOf(
-                hasEntry("from", "example@dnsimple.xyz"),
-                hasEntry("to", "example@example.com")
+                hasEntry("alias_name", "example@dnsimple.xyz"),
+                hasEntry("destination_email", "example@example.com")
         ));
         assertThat(response.getData().getId(), is(41872L));
     }
