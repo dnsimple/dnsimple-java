@@ -7,7 +7,9 @@ import com.dnsimple.response.EmptyResponse;
 import com.dnsimple.response.ListResponse;
 import com.dnsimple.response.SimpleResponse;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.dnsimple.http.HttpMethod.*;
 
@@ -289,5 +291,24 @@ public class Registrar {
      */
     public EmptyResponse changeDomainDelegationFromVanity(Number account, String domain) {
         return client.empty(DELETE, account + "/registrar/domains/" + domain + "/delegation/vanity", ListOptions.empty(), null);
+    }
+
+
+    /**
+     * Start a registrant change.
+     *
+     * @param account The account ID
+     * @param domain  The domain name or ID
+     * @param contact The contact ID
+     * @param extendedAttributes Extended attributes
+     * @return The registrant change response
+     * @see <a href="https://developer.dnsimple.com/v2/registrar/#createRegistrantChange">https://developer.dnsimple.com/v2/registrar/#createRegistrantChange</a>
+     */
+    public SimpleResponse<RegistrantChange> createRegistrantChange(Number account, String domain, String contact, Map<String, String> extendedAttributes) {
+        return client.simple(POST, account + "/registrar/registrant_changes", ListOptions.empty(), Map.of(
+                "domain_id", domain,
+                "contact_id", contact,
+                "extended_attributes", extendedAttributes
+        ), RegistrantChange.class);
     }
 }
