@@ -2,6 +2,12 @@
 
 ## main
 
+## 0.11.1 (Unreleased)
+
+FEATURES:
+
+- NEW: Added `Dnsimple.Registrar.createRegistrantChange` to start a registrant change. (dnsimple/dnsimple-java#159)
+
 ## 0.11.0
 
 FEATURES:
