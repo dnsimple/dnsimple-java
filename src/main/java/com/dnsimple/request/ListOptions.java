@@ -1,12 +1,12 @@
 package com.dnsimple.request;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.net.URLEncoder;
+import java.util.*;
 
 import static com.dnsimple.request.PageRequest.MAX_ITEMS_PER_PAGE;
 import static com.dnsimple.request.SortField.Order.ASC;
 import static com.dnsimple.request.SortField.Order.DESC;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
@@ -14,6 +14,7 @@ public class ListOptions {
     private final PageRequest pageRequest;
     private final List<Filter> filters;
     private final List<SortField> sortFields;
+    private final Map<String, String> otherOptions = new HashMap<>();
 
     private ListOptions(PageRequest pageRequest, List<Filter> filters, List<SortField> sortFields) {
         this.pageRequest = pageRequest;
@@ -53,6 +54,11 @@ public class ListOptions {
         return new ListOptions(pageRequest, filters, newSortFields);
     }
 
+    public ListOptions setOtherOption(String name, String value) {
+        this.otherOptions.put(name, value);
+        return this;
+    }
+
     public String asQueryString() {
         List<String> qsParams = new ArrayList<>();
         if (pageRequest != null)
@@ -60,6 +66,13 @@ public class ListOptions {
         qsParams.addAll(filters.stream().map(Filter::asQueryStringParam).collect(toList()));
         if (!sortFields.isEmpty())
             qsParams.add("sort=" + sortFields.stream().map(SortField::asQueryStringParam).collect(joining(",")));
+        for (var e : this.otherOptions.entrySet()) {
+            qsParams.add(String.format(
+                    "%s=%s",
+                    URLEncoder.encode(e.getKey(), UTF_8),
+                    URLEncoder.encode(e.getValue(), UTF_8)
+            ));
+        }
         return qsParams.isEmpty() ? "" : "?" + String.join("&", qsParams);
     }
 }
