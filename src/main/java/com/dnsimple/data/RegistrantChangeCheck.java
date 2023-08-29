@@ -1,6 +1,7 @@
 package com.dnsimple.data;
 
 import java.util.List;
+import java.util.Objects;
 
 public class RegistrantChangeCheck {
     private final Long contactId;
@@ -29,5 +30,18 @@ public class RegistrantChangeCheck {
 
     public Boolean getRegistryOwnerChange() {
         return registryOwnerChange;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RegistrantChangeCheck that = (RegistrantChangeCheck) o;
+        return Objects.equals(contactId, that.contactId) && Objects.equals(domainId, that.domainId) && Objects.equals(extendedAttributes, that.extendedAttributes) && Objects.equals(registryOwnerChange, that.registryOwnerChange);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(contactId, domainId, extendedAttributes, registryOwnerChange);
     }
 }
