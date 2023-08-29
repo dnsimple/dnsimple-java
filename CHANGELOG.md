@@ -6,7 +6,7 @@
 
 FEATURES:
 
-- NEW: Added `Dnsimple.Registrar.createRegistrantChange` to start a registrant change. (dnsimple/dnsimple-java#159)
+- NEW: Added `listRegistrantChanges`, `createRegistrantChange`, `checkRegistrantChange`, `getRegistrantChange`, and `deleteRegistrantChange` methods to `Registrar` to manage registrant changes. (dnsimple/dnsimple-java#159)
 
 ## 0.11.0
 
