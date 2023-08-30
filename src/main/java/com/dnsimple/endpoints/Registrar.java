@@ -309,9 +309,7 @@ public class Registrar {
      * Start a registrant change.
      *
      * @param account The account ID
-     * @param domain  The domain name or ID
-     * @param contact The contact ID
-     * @param extendedAttributes Extended attributes
+     * @param input The input parameters
      * @return The registrant change response
      * @see <a href="https://developer.dnsimple.com/v2/registrar/#createRegistrantChange">https://developer.dnsimple.com/v2/registrar/#createRegistrantChange</a>
      */
