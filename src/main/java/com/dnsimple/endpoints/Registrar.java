@@ -7,7 +7,9 @@ import com.dnsimple.response.EmptyResponse;
 import com.dnsimple.response.ListResponse;
 import com.dnsimple.response.SimpleResponse;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.dnsimple.http.HttpMethod.*;
 
@@ -289,5 +291,65 @@ public class Registrar {
      */
     public EmptyResponse changeDomainDelegationFromVanity(Number account, String domain) {
         return client.empty(DELETE, account + "/registrar/domains/" + domain + "/delegation/vanity", ListOptions.empty(), null);
+    }
+
+    /**
+     * List registrant changes in the account.
+     *
+     * @param account The account ID
+     * @param options List options
+     * @return Registrant changes
+     * @see <a href="https://developer.dnsimple.com/v2/registrar/#listRegistrantChanges">https://developer.dnsimple.com/v2/registrar/#listRegistrantChanges</a>
+     */
+    public ListResponse<RegistrantChange> listRegistrantChanges(Number account, ListOptions options) {
+        return client.list(GET, account + "/registrar/registrant_changes", options, null, RegistrantChange.class);
+    }
+
+    /**
+     * Start a registrant change.
+     *
+     * @param account The account ID
+     * @param input The input parameters
+     * @return The registrant change response
+     * @see <a href="https://developer.dnsimple.com/v2/registrar/#createRegistrantChange">https://developer.dnsimple.com/v2/registrar/#createRegistrantChange</a>
+     */
+    public SimpleResponse<RegistrantChange> createRegistrantChange(Number account, CreateRegistrantChangeInput input) {
+        return client.simple(POST, account + "/registrar/registrant_changes", ListOptions.empty(), input, RegistrantChange.class);
+    }
+
+    /**
+     * Retrieves the requirements of a registrant change.
+     *
+     * @param account The account ID
+     * @param input The domain and contact to check
+     * @return The registrant change check response
+     * @see <a href="https://developer.dnsimple.com/v2/registrar/#checkRegistrantChange">https://developer.dnsimple.com/v2/registrar/#checkRegistrantChange</a>
+     */
+    public SimpleResponse<RegistrantChangeCheck> checkRegistrantChange(Number account, CheckRegistrantChangeInput input) {
+        return client.simple(POST, account + "/registrar/registrant_changes/check", ListOptions.empty(), input, RegistrantChangeCheck.class);
+    }
+
+    /**
+     * Retrieves the details of an existing registrant change.
+     *
+     * @param account The account ID
+     * @param registrantChange The registrant change
+     * @return The registrant change response
+     * @see <a href="https://developer.dnsimple.com/v2/registrar/#getRegistrantChange">https://developer.dnsimple.com/v2/registrar/#getRegistrantChange</a>
+     */
+    public SimpleResponse<RegistrantChange> getRegistrantChange(Number account, Number registrantChange) {
+        return client.simple(GET, account + "/registrar/registrant_changes/" + registrantChange, ListOptions.empty(), null, RegistrantChange.class);
+    }
+
+    /**
+     * Cancel an ongoing registrant change from the account.
+     *
+     * @param account The account ID
+     * @param registrantChange The registrant change
+     * @return The registrant change response
+     * @see <a href="https://developer.dnsimple.com/v2/registrar/#deleteRegistrantChange">https://developer.dnsimple.com/v2/registrar/#deleteRegistrantChange</a>
+     */
+    public EmptyResponse deleteRegistrantChange(Number account, Number registrantChange) {
+        return client.empty(DELETE, account + "/registrar/registrant_changes/" + registrantChange, ListOptions.empty(), null);
     }
 }

@@ -2,6 +2,12 @@
 
 ## main
 
+## 0.12.0 (Unreleased)
+
+FEATURES:
+
+- NEW: Added `listRegistrantChanges`, `createRegistrantChange`, `checkRegistrantChange`, `getRegistrantChange`, and `deleteRegistrantChange` methods to `Registrar` to manage registrant changes. (dnsimple/dnsimple-java#159)
+
 ## 0.11.0
 
 FEATURES:
