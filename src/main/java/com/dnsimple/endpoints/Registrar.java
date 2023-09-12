@@ -352,4 +352,40 @@ public class Registrar {
     public EmptyResponse deleteRegistrantChange(Number account, Number registrantChange) {
         return client.empty(DELETE, account + "/registrar/registrant_changes/" + registrantChange, ListOptions.empty(), null);
     }
+
+    /**
+     * Gets the transfer lock status for a domain.
+     *
+     * @param account The account ID
+     * @param domain The domain name or ID
+     * @return The transfer lock status
+     * @see <a href="https://developer.dnsimple.com/v2/registrar/#getDomainTransferLock">https://developer.dnsimple.com/v2/registrar/#getDomainTransferLock</a>
+     */
+    public SimpleResponse<DomainTransferLock> getDomainTransferLock(Number account, String domain) {
+        return client.simple(GET, account + "/registrar/domains/" + domain + "/transfer_lock", ListOptions.empty(), null, DomainTransferLock.class);
+    }
+
+    /**
+     * Locks the domain to prevent unauthorized transfers.
+     *
+     * @param account The account ID
+     * @param domain The domain name or ID
+     * @return The transfer lock status
+     * @see <a href="https://developer.dnsimple.com/v2/registrar/#enableDomainTransferLock">https://developer.dnsimple.com/v2/registrar/#enableDomainTransferLock</a>
+     */
+    public SimpleResponse<DomainTransferLock> enableDomainTransferLock(Number account, String domain) {
+        return client.simple(POST, account + "/registrar/domains/" + domain + "/transfer_lock", ListOptions.empty(), null, DomainTransferLock.class);
+    }
+
+    /**
+     * Unlocks the domain to allow domain transfers.
+     *
+     * @param account The account ID
+     * @param domain The domain name or ID
+     * @return The transfer lock status
+     * @see <a href="https://developer.dnsimple.com/v2/registrar/#disableDomainTransferLock">https://developer.dnsimple.com/v2/registrar/#disableDomainTransferLock</a>
+     */
+    public SimpleResponse<DomainTransferLock> disableDomainTransferLock(Number account, String domain) {
+        return client.simple(DELETE, account + "/registrar/domains/" + domain + "/transfer_lock", ListOptions.empty(), null, DomainTransferLock.class);
+    }
 }

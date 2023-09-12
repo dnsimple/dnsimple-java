@@ -7,6 +7,7 @@
 FEATURES:
 
 - NEW: Added `listRegistrantChanges`, `createRegistrantChange`, `checkRegistrantChange`, `getRegistrantChange`, and `deleteRegistrantChange` methods to `Registrar` to manage registrant changes. (dnsimple/dnsimple-java#159)
+- NEW: Added `getDomainTransferLock`, `enableDomainTransferLock`, and `disableDomainTransferLock` methods to `Registrar` to manage domain transfer locks. (dnsimple/dnsimple-java#161)
 
 ## 0.11.0
 
