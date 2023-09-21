@@ -2,7 +2,7 @@
 
 ## main
 
-## 0.12.0 (Unreleased)
+## 0.12.0
 
 FEATURES:
 
