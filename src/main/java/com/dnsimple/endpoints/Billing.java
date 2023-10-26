@@ -1,17 +1,11 @@
 package com.dnsimple.endpoints;
 
-import com.dnsimple.data.*;
+import com.dnsimple.data.Charge;
 import com.dnsimple.http.HttpEndpointClient;
-import com.dnsimple.request.*;
-import com.dnsimple.response.EmptyResponse;
+import com.dnsimple.request.ListOptions;
 import com.dnsimple.response.ListResponse;
-import com.dnsimple.response.SimpleResponse;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static com.dnsimple.http.HttpMethod.*;
+import static com.dnsimple.http.HttpMethod.GET;
 
 public class Billing {
     private final HttpEndpointClient client;
@@ -26,11 +20,6 @@ public class Billing {
      * @see <a href="https://developer.dnsimple.com/v2/billing/#listCharges">https://developer.dnsimple.com/v2/billing/#listCharges</a>
      */
     public ListResponse<Charge> listCharges(Number account, ListOptions options) {
-        return client.list(
-                GET,
-                String.format("/%s/billing/charges", account),
-                options,
-                null, Charge.class
-        );
+        return client.list(GET, String.format("/%s/billing/charges", account), options, null, Charge.class);
     }
 }
