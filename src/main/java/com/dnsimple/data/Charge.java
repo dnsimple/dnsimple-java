@@ -6,6 +6,7 @@ import com.dnsimple.data.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Charge {
     private final String invoicedAt;
@@ -46,6 +47,24 @@ public class Charge {
 
     public List<ChargeItem> getItems() {
         return this.items;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Charge charge = (Charge) o;
+        return Objects.equals(invoicedAt, charge.invoicedAt)
+                && Objects.equals(totalAmount, charge.totalAmount)
+                && Objects.equals(balanceAmount, charge.balanceAmount)
+                && Objects.equals(reference, charge.reference)
+                && Objects.equals(state, charge.state)
+                && Objects.equals(items, charge.items);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(invoicedAt, totalAmount, balanceAmount, reference, state, items);
     }
 }
     

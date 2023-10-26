@@ -22,6 +22,7 @@ public class Client {
     private static final String DEFAULT_USER_AGENT = "dnsimple-java/" + Dnsimple.VERSION;
     private final HttpEndpointClient endpointClient;
     public final Accounts accounts;
+    public final Billing billing;
     public final Certificates certificates;
     public final Contacts contacts;
     public final Domains domains;
@@ -35,9 +36,10 @@ public class Client {
     public final Webhooks webhooks;
     public final Zones zones;
 
-    private Client(HttpEndpointClient endpointClient, Accounts accounts, Certificates certificates, Contacts contacts, Domains domains, Identity identity, Oauth oauth, Registrar registrar, Services services, Templates templates, Tlds tlds, VanityNameServers vanityNameServers, Webhooks webhooks, Zones zones) {
+    private Client(HttpEndpointClient endpointClient, Accounts accounts, Billing billing, Certificates certificates, Contacts contacts, Domains domains, Identity identity, Oauth oauth, Registrar registrar, Services services, Templates templates, Tlds tlds, VanityNameServers vanityNameServers, Webhooks webhooks, Zones zones) {
         this.endpointClient = endpointClient;
         this.accounts = accounts;
+        this.billing = billing;
         this.certificates = certificates;
         this.contacts = contacts;
         this.domains = domains;
@@ -57,6 +59,7 @@ public class Client {
         return new Client(
                 endpointClient,
                 new Accounts(endpointClient),
+                new Billing(endpointClient),
                 new Certificates(endpointClient),
                 new Contacts(endpointClient),
                 new Domains(endpointClient),
