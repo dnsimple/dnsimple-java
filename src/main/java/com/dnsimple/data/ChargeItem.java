@@ -1,4 +1,3 @@
-
 package com.dnsimple.data;
 
 import com.dnsimple.data.*;
