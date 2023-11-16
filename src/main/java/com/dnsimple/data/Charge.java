@@ -2,6 +2,7 @@ package com.dnsimple.data;
 
 import com.dnsimple.data.*;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,16 +10,16 @@ import java.util.Objects;
 
 public class Charge {
     private final String invoicedAt;
-    private final String totalAmount;
-    private final String balanceAmount;
+    private final BigDecimal totalAmount;
+    private final BigDecimal balanceAmount;
     private final String reference;
     private final String state;
     private final List<ChargeItem> items;
 
     public Charge(String invoicedAt, String totalAmount, String balanceAmount, String reference, String state, List<ChargeItem> items) {
         this.invoicedAt = invoicedAt;
-        this.totalAmount = totalAmount;
-        this.balanceAmount = balanceAmount;
+        this.totalAmount = new BigDecimal(totalAmount);
+        this.balanceAmount = new BigDecimal(balanceAmount);
         this.reference = reference;
         this.state = state;
         this.items = items;
@@ -28,11 +29,11 @@ public class Charge {
         return this.invoicedAt;
     }
 
-    public String getTotalAmount() {
+    public BigDecimal getTotalAmount() {
         return this.totalAmount;
     }
 
-    public String getBalanceAmount() {
+    public BigDecimal getBalanceAmount() {
         return this.balanceAmount;
     }
 

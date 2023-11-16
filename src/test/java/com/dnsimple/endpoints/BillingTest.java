@@ -7,6 +7,7 @@ import com.dnsimple.request.ListOptions;
 import com.dnsimple.tools.DnsimpleTestBase;
 import org.junit.Test;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,9 @@ public class BillingTest extends DnsimpleTestBase {
         server.stubFixtureAt("listCharges/success.http");
         List<Charge> charges = client.billing.listCharges(1010, ListOptions.empty()).getData();
         assertThat(charges, hasSize(3));
+        assertThat(charges.get(0).getTotalAmount(), is(new BigDecimal("14.50")));
+        assertThat(charges.get(0).getBalanceAmount(), is(new BigDecimal("0.00")));
+        assertThat(charges.get(0).getItems().get(0).getAmount(), is(new BigDecimal("14.50")));
         assertThat(charges.get(0), is(new Charge("2023-08-17T05:53:36Z", "14.50", "0.00", "1-2", "collected", List.of(new ChargeItem("Register bubble-registered.com", "14.50", 1L, "domain-registration", "bubble-registered.com")))));
         assertThat(charges.get(1), is(new Charge("2023-08-17T05:57:53Z", "14.50", "0.00", "2-2", "refunded", List.of(new ChargeItem("Register example.com", "14.50", 2L, "domain-registration", "example.com")))));
         assertThat(charges.get(2), is(new Charge("2023-10-24T07:49:05Z", "1099999.99", "0.00", "4-2", "collected", List.of(new ChargeItem("Test Line Item 1", "99999.99", null, "manual", null), new ChargeItem("Test Line Item 2", "1000000.00", null, "manual", null)))));
