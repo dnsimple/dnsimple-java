@@ -2,7 +2,9 @@
 
 ## main
 
-- NEW: Added `listCharges` methods to `Billing` to manage account billing charges. (dnsimple/dnsimple-java#163)
+## 0.13.0
+
+- NEW: Added `listCharges` method to `Billing` to manage account billing charges. (dnsimple/dnsimple-java#163)
 
 ## 0.12.0
 
