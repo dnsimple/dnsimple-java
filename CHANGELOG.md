@@ -2,7 +2,13 @@
 
 ## main
 
+ENHANCEMENTS:
+
+- NEW: Added `Secondary`, `LastTransferredAt`, `Active` to `Zone` (dnsimple/dnsimple-java)
+
 ## 0.13.0
+
+FEATURES:
 
 - NEW: Added `listCharges` method to `Billing` to manage account billing charges. (dnsimple/dnsimple-java#163)
 
