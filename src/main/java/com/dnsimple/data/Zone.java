@@ -8,18 +8,18 @@ public class Zone {
     private final String name;
     private final Boolean reverse;
     private final Boolean secondary;
-    private final OffsetDateTime last_transferred_at;
+    private final OffsetDateTime lastTransferredAt;
     private final Boolean active;
     private final OffsetDateTime createdAt;
     private final OffsetDateTime updatedAt;
 
-    public Zone(Long id, Long accountId, String name, Boolean reverse, Boolean secondary, OffsetDateTime last_transferred_at, Boolean active, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
+    public Zone(Long id, Long accountId, String name, Boolean reverse, Boolean secondary, OffsetDateTime lastTransferredAt, Boolean active, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
         this.id = id;
         this.accountId = accountId;
         this.name = name;
         this.reverse = reverse;
         this.secondary = secondary;
-        this.last_transferred_at = last_transferred_at;
+        this.lastTransferredAt = lastTransferredAt;
         this.active = active;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -46,7 +46,7 @@ public class Zone {
     }
 
     public OffsetDateTime getLastTransferredAt() {
-        return last_transferred_at;
+        return lastTransferredAt;
     }
 
     public Boolean isActive() {
