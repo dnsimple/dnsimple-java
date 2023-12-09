@@ -19,7 +19,6 @@ import static com.dnsimple.http.HttpMethod.GET;
 import static com.dnsimple.tools.CustomMatchers.thrownException;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertNull;
 
 public class ZonesTest extends DnsimpleTestBase {
     @Test
@@ -107,8 +106,7 @@ public class ZonesTest extends DnsimpleTestBase {
     @Test
     public void testGetZoneWhenZoneNotFound() {
         server.stubFixtureAt("notfound-zone.http");
-        assertThat(() -> client.zones.getZone(1, "example.com"),
-                thrownException(is(instanceOf(ResourceNotFoundException.class))));
+        assertThat(() -> client.zones.getZone(1, "example.com"), thrownException(is(instanceOf(ResourceNotFoundException.class))));
     }
 
     @Test
@@ -129,8 +127,7 @@ public class ZonesTest extends DnsimpleTestBase {
     @Test
     public void testGetZoneFileWhenZoneNotFound() {
         server.stubFixtureAt("notfound-zone.http");
-        assertThat(() -> client.zones.getZoneFile(1, "example.com"),
-                thrownException(is(instanceOf(ResourceNotFoundException.class))));
+        assertThat(() -> client.zones.getZoneFile(1, "example.com"), thrownException(is(instanceOf(ResourceNotFoundException.class))));
     }
 
     @Test
@@ -150,15 +147,13 @@ public class ZonesTest extends DnsimpleTestBase {
     @Test
     public void testCheckZoneDistributionFailedCheck() {
         server.stubFixtureAt("checkZoneDistribution/error.http");
-        assertThat(() -> client.zones.checkZoneDistribution(1, "example.com"),
-                thrownException(is(instanceOf(DnsimpleException.class))));
+        assertThat(() -> client.zones.checkZoneDistribution(1, "example.com"), thrownException(is(instanceOf(DnsimpleException.class))));
     }
 
     @Test
     public void testCheckZoneDistributionWhenZoneNotFound() {
         server.stubFixtureAt("notfound-zone.http");
-        assertThat(() -> client.zones.checkZoneDistribution(1, "example.com"),
-                thrownException(is(instanceOf(ResourceNotFoundException.class))));
+        assertThat(() -> client.zones.checkZoneDistribution(1, "example.com"), thrownException(is(instanceOf(ResourceNotFoundException.class))));
     }
 
     @Test
@@ -178,21 +173,18 @@ public class ZonesTest extends DnsimpleTestBase {
     @Test
     public void testCheckZoneRecordDistributionFailedCheck() {
         server.stubFixtureAt("checkZoneRecordDistribution/error.http");
-        assertThat(() -> client.zones.checkZoneRecordDistribution(1010, "example.com", 1010),
-                thrownException(is(instanceOf(DnsimpleException.class))));
+        assertThat(() -> client.zones.checkZoneRecordDistribution(1010, "example.com", 1010), thrownException(is(instanceOf(DnsimpleException.class))));
     }
 
     @Test
     public void testCheckZoneRecordDistributionWhenZoneNotFound() {
         server.stubFixtureAt("notfound-zone.http");
-        assertThat(() -> client.zones.checkZoneRecordDistribution(1010, "example.com", 1010),
-                thrownException(is(instanceOf(ResourceNotFoundException.class))));
+        assertThat(() -> client.zones.checkZoneRecordDistribution(1010, "example.com", 1010), thrownException(is(instanceOf(ResourceNotFoundException.class))));
     }
 
     @Test
     public void testCheckZoneRecordDistributionWhenZoneRecordNotFound() {
         server.stubFixtureAt("notfound-record.http");
-        assertThat(() -> client.zones.checkZoneRecordDistribution(1010, "example.com", 1010),
-                thrownException(is(instanceOf(ResourceNotFoundException.class))));
+        assertThat(() -> client.zones.checkZoneRecordDistribution(1010, "example.com", 1010), thrownException(is(instanceOf(ResourceNotFoundException.class))));
     }
 }
