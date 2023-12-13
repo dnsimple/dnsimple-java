@@ -96,6 +96,9 @@ public class ZonesTest extends DnsimpleTestBase {
         assertThat(zone.getAccountId(), is(1010L));
         assertThat(zone.getName(), is("example-alpha.com"));
         assertThat(zone.isReverse(), is(false));
+        assertThat(zone.isSecondary(), is(false));
+        assertThat(zone.getLastTransferredAt(), is(nullValue()));
+        assertThat(zone.isActive(), is(true));
         assertThat(zone.getCreatedAt(), is(OffsetDateTime.of(2015, 4, 23, 7, 40, 3, 0, ZoneOffset.UTC)));
         assertThat(zone.getUpdatedAt(), is(OffsetDateTime.of(2015, 4, 23, 7, 40, 3, 0, ZoneOffset.UTC)));
     }
