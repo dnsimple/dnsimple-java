@@ -2,6 +2,8 @@
 
 ## main
 
+## 0.14.0
+
 ENHANCEMENTS:
 
 - NEW: Added `Secondary`, `LastTransferredAt`, `Active` to `Zone` (dnsimple/dnsimple-java)
