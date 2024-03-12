@@ -1,9 +1,6 @@
 package com.dnsimple.endpoints;
 
-import com.dnsimple.data.Certificate;
-import com.dnsimple.data.CertificateBundle;
-import com.dnsimple.data.CertificatePurchase;
-import com.dnsimple.data.CertificateRenewal;
+import com.dnsimple.data.*;
 import com.dnsimple.exception.ResourceNotFoundException;
 import com.dnsimple.request.CertificatePurchaseOptions;
 import com.dnsimple.request.CertificateRenewalPurchaseOptions;
@@ -20,7 +17,6 @@ import java.util.Map;
 
 import static com.dnsimple.http.HttpMethod.GET;
 import static com.dnsimple.http.HttpMethod.POST;
-import static com.dnsimple.tools.CustomMatchers.number;
 import static com.dnsimple.tools.CustomMatchers.thrownException;
 import static java.time.ZoneOffset.UTC;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -81,8 +77,7 @@ public class CertificatesTest extends DnsimpleTestBase {
         assertThat(certificate.getCreatedAt(), is(OffsetDateTime.of(2020, 6, 18, 18, 54, 17, 0, UTC)));
         assertThat(certificate.getUpdatedAt(), is(OffsetDateTime.of(2020, 6, 18, 19, 10, 14, 0, UTC)));
         assertThat(certificate.getExpiresAt(), is(OffsetDateTime.of(2020, 9, 16, 18, 10, 13, 0, UTC)));
-        assertThat(certificate.getCertificateRequest(), is("" +
-                "-----BEGIN CERTIFICATE REQUEST-----\n" +
+        assertThat(certificate.getCertificateRequest(), is("-----BEGIN CERTIFICATE REQUEST-----\n" +
                 "MIICmTCCAYECAQAwGjEYMBYGA1UEAwwPd3d3LmJpbmdvLnBpenphMIIBIjANBgkq\n" +
                 "hkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAw4+KoZ9IDCK2o5qAQpi+Icu5kksmjQzx\n" +
                 "5o5g4B6XhRxhsfHlK/i3iU5hc8CONjyVv8j82835RNsiKrflnxGa9SH68vbQfcn4\n" +
@@ -114,9 +109,7 @@ public class CertificatesTest extends DnsimpleTestBase {
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/weppos.net/certificates/1/download"));
         CertificateBundle certificateBundle = response.getData();
-        assertThat(certificateBundle.getPrivateKey(), is(nullValue()));
-        assertThat(certificateBundle.getServerCertificate(), is("" +
-                "-----BEGIN CERTIFICATE-----\n" +
+        assertThat(certificateBundle.getServerCertificate(), is("-----BEGIN CERTIFICATE-----\n" +
                 "MIIE7TCCA9WgAwIBAgITAPpTe4O3vjuQ9L4gLsogi/ukujANBgkqhkiG9w0BAQsF\n" +
                 "ADAiMSAwHgYDVQQDDBdGYWtlIExFIEludGVybWVkaWF0ZSBYMTAeFw0xNjA2MTEx\n" +
                 "NzQ4MDBaFw0xNjA5MDkxNzQ4MDBaMBkxFzAVBgNVBAMTDnd3dy53ZXBwb3MubmV0\n" +
@@ -147,8 +140,7 @@ public class CertificatesTest extends DnsimpleTestBase {
                 "-----END CERTIFICATE-----\n"));
         assertThat(certificateBundle.getRootCertificate(), is(isEmptyOrNullString()));
         assertThat(certificateBundle.getIntermediateCertificates(), hasSize(1));
-        assertThat(certificateBundle.getIntermediateCertificates().get(0), is("" +
-                "-----BEGIN CERTIFICATE-----\n" +
+        assertThat(certificateBundle.getIntermediateCertificates().get(0), is("-----BEGIN CERTIFICATE-----\n" +
                 "MIIEqzCCApOgAwIBAgIRAIvhKg5ZRO08VGQx8JdhT+UwDQYJKoZIhvcNAQELBQAw\n" +
                 "GjEYMBYGA1UEAwwPRmFrZSBMRSBSb290IFgxMB4XDTE2MDUyMzIyMDc1OVoXDTM2\n" +
                 "MDUyMzIyMDc1OVowIjEgMB4GA1UEAwwXRmFrZSBMRSBJbnRlcm1lZGlhdGUgWDEw\n" +
@@ -180,12 +172,11 @@ public class CertificatesTest extends DnsimpleTestBase {
     @Test
     public void testCertificatePrivateKey() {
         server.stubFixtureAt("getCertificatePrivateKey/success.http");
-        SimpleResponse<CertificateBundle> response = client.certificates.getCertificatePrivateKey(1010, "weppos.net", 1);
+        SimpleResponse<CertificatePrivateKey> response = client.certificates.getCertificatePrivateKey(1010, "weppos.net", 1);
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/weppos.net/certificates/1/private_key"));
-        CertificateBundle certificateBundle = response.getData();
-        assertThat(certificateBundle.getPrivateKey(), is("" +
-                "-----BEGIN RSA PRIVATE KEY-----\n" +
+        CertificatePrivateKey certificatePrivateKey = response.getData();
+        assertThat(certificatePrivateKey.getPrivateKey(), is("-----BEGIN RSA PRIVATE KEY-----\n" +
                 "MIIEowIBAAKCAQEAtzCcMfWoQRt5AMEY0HUb2GaraL1GsWOo6YXdPfe+YDvtnmDw\n" +
                 "23NcoTX7VSeCgU9M3RKs19AsCJcRNTLJ2dmDrAuyCTud9YTAaXQcTOLUhtO8T8+9\n" +
                 "AFVIva2OmAlKCR5saBW3JaRxW7V2aHEd/d1ss1CvNOO7jNppc9NwGSnDHcn3rqNv\n" +
