@@ -2,7 +2,9 @@
 
 ## main
 
-- BREAKING: Remove the `privateKey` property of `CertificateBundle`. Use `Certificates.getCertificatePrivateKey()` instead. See https://github.com/dnsimple/dnsimple-java/issues/118 
+- BREAKING: Remove the `privateKey` property of `CertificateBundle`. Use `Certificates.getCertificatePrivateKey()` instead. See https://github.com/dnsimple/dnsimple-java/issues/118
+- CHANGE: Remove support for Java JDK < 17
+- CHANGE: Add support for Java JDK 21
 
 ## 0.14.0
 
