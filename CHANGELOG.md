@@ -2,6 +2,8 @@
 
 ## main
 
+- BREAKING: Remove the `privateKey` property of `CertificateBundle`. Use `Certificates.getCertificatePrivateKey()` instead. See https://github.com/dnsimple/dnsimple-java/issues/118 
+
 ## 0.14.0
 
 ENHANCEMENTS:
