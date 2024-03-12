@@ -6,7 +6,7 @@ A Java client for the [DNSimple API v2](https://developer.dnsimple.com/v2/).
 
 ## Requirements
 
-This library is tested with Java 11 (Temurin 17) and built for Java 11 JVMs.
+This library is tested with Java 17 (Temurin 21) and built for Java 17 JVMs.
 
 You must also have an activated DNSimple account to access the DNSimple API.
 
