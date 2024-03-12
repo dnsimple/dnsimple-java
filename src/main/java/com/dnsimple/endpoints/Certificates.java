@@ -1,9 +1,6 @@
 package com.dnsimple.endpoints;
 
-import com.dnsimple.data.Certificate;
-import com.dnsimple.data.CertificateBundle;
-import com.dnsimple.data.CertificatePurchase;
-import com.dnsimple.data.CertificateRenewal;
+import com.dnsimple.data.*;
 import com.dnsimple.http.HttpEndpointClient;
 import com.dnsimple.request.CertificatePurchaseOptions;
 import com.dnsimple.request.CertificateRenewalPurchaseOptions;
@@ -86,8 +83,8 @@ public class Certificates {
      * @return The get certificate private key response
      * @see <a href="https://developer.dnsimple.com/v2/certificates/#getCertificatePrivateKey">https://developer.dnsimple.com/v2/certificates/#getCertificatePrivateKey</a>
      */
-    public SimpleResponse<CertificateBundle> getCertificatePrivateKey(Number account, String domain, Number certificateId) {
-        return client.simple(GET, account + "/domains/" + domain + "/certificates/" + certificateId + "/private_key", ListOptions.empty(), null, CertificateBundle.class);
+    public SimpleResponse<CertificatePrivateKey> getCertificatePrivateKey(Number account, String domain, Number certificateId) {
+        return client.simple(GET, account + "/domains/" + domain + "/certificates/" + certificateId + "/private_key", ListOptions.empty(), null, CertificatePrivateKey.class);
     }
 
     /**
