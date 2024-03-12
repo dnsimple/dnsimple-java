@@ -19,10 +19,11 @@ dependencies {
 group = 'com.dnsimple'
 version = '0.14.0'
 description = 'dnsimple-java'
-sourceCompatibility = '1.11'
-targetCompatibility = '1.11'
 
 java {
+    sourceCompatibility = '1.17'
+    targetCompatibility = '1.17'
+
     withJavadocJar()
     withSourcesJar()
 }
