@@ -36,7 +36,7 @@ public class EmailForward {
      */
     @Deprecated(since = "0.10.0", forRemoval = true)
     public String getFrom() {
-        return from;
+        return aliasEmail;
     }
 
     /**
@@ -44,7 +44,7 @@ public class EmailForward {
      */
     @Deprecated(since = "0.10.0", forRemoval = true)
     public String getTo() {
-        return to;
+        return destinationEmail;
     }
 
     public String getAliasEmail() {
