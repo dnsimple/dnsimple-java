@@ -31,10 +31,18 @@ public class EmailForward {
         return domainId;
     }
 
+    /**
+     * @deprecated use {@link #getAliasEmail()} instead
+     */
+    @Deprecated(since = "0.10.0", forRemoval = true)
     public String getFrom() {
         return from;
     }
 
+    /**
+     * @deprecated use {@link #getDestinationEmail} instead
+     */
+    @Deprecated(since = "0.10.0", forRemoval = true)
     public String getTo() {
         return to;
     }
