@@ -2,6 +2,9 @@
 
 ## main
 
+- NEW: Added `alias_email` and `destination_email` to `EmailForward`
+- CHANGED: Deprecated `from` and `to` fields in `EmailForward`
+
 ## 1.0.0
 
 - BREAKING: Remove the `privateKey` property of `CertificateBundle`. Use `Certificates.getCertificatePrivateKey()` instead. See [dnsimple-java#118](https://github.com/dnsimple/dnsimple-java/issues/118)
