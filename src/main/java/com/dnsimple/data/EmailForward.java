@@ -30,7 +30,7 @@ public class EmailForward {
     /**
      * @deprecated use {@link #getAliasEmail()} instead
      */
-    @Deprecated(since = "0.10.0", forRemoval = true)
+    @Deprecated(since = "1.1.0", forRemoval = true)
     public String getFrom() {
         return aliasEmail;
     }
@@ -38,7 +38,7 @@ public class EmailForward {
     /**
      * @deprecated use {@link #getDestinationEmail} instead
      */
-    @Deprecated(since = "0.10.0", forRemoval = true)
+    @Deprecated(since = "1.1.0", forRemoval = true)
     public String getTo() {
         return destinationEmail;
     }
