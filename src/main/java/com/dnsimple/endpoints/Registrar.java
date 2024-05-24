@@ -45,9 +45,9 @@ public class Registrar {
      * @param action     The action to get the price of
      * @return The premium price
      * @see <a href="https://developer.dnsimple.com/v2/registrar/#getDomainPremiumPrice">https://developer.dnsimple.com/v2/registrar/#getDomainPremiumPrice</a>
-     * @deprecated As of this version 0.9.1, replaced by {@link #getDomainPrices(Number, String)}
+     * @deprecated use {@link #getDomainPrices(Number, String)} instead
      */
-    @Deprecated
+    @Deprecated(since="0.9.1", forRemoval = true)
     public SimpleResponse<DomainPremiumPriceCheck> getDomainPremiumPrice(Number account, String domainName, DomainCheckPremiumPriceAction action) {
         var options = ListOptions.empty().filter("action", action.name().toLowerCase());
         return client.simple(GET, account + "/registrar/domains/" + domainName + "/premium_price", options, action, DomainPremiumPriceCheck.class);

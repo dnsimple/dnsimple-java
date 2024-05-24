@@ -43,8 +43,8 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
     public void testListEmailForwardsProducesDomainList() {
         server.stubFixtureAt("listEmailForwards/success.http");
         PaginatedResponse<EmailForward> response = client.domains.listEmailForwards(1, "example.com");
-        assertThat(response.getData(), hasSize(2));
-        assertThat(response.getData().get(0).getId(), is(17702L));
+        assertThat(response.getData(), hasSize(1));
+        assertThat(response.getData().get(0).getId(), is(24809L));
     }
 
     @Test
@@ -62,6 +62,8 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
         assertThat(emailForward.getDomainId(), is(235146L));
         assertThat(emailForward.getTo(), is("example@example.com"));
         assertThat(emailForward.getFrom(), is("example@dnsimple.xyz"));
+        assertThat(emailForward.getAliasEmail(), is("example@dnsimple.xyz"));
+        assertThat(emailForward.getDestinationEmail(), is("example@example.com"));
         assertThat(emailForward.getCreatedAt(), is(OffsetDateTime.of(2021, 1, 25, 13, 54, 40, 0, UTC)));
         assertThat(emailForward.getUpdatedAt(), is(OffsetDateTime.of(2021, 1, 25, 13, 54, 40, 0, UTC)));
     }
