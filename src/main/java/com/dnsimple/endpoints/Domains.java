@@ -94,7 +94,9 @@ public class Domains {
      * @param domain  The domain ID or name
      * @return The list collaborators response
      * @see <a href="https://developer.dnsimple.com/v2/domains/collaborators/#list">https://developer.dnsimple.com/v2/domains/collaborators/#list</a>
+     * @deprecated `DomainCollaborators` have been deprecated and will be removed in the next major version. Please use our Domain Access Control feature.
      */
+    @Deprecated(since = "2.0.0", forRemoval = true)
     public PaginatedResponse<Collaborator> listCollaborators(Number account, String domain) {
         return client.page(GET, account + "/domains/" + domain + "/collaborators", ListOptions.empty(), null, Collaborator.class);
     }
@@ -107,7 +109,9 @@ public class Domains {
      * @param options The options for the list request
      * @return The list collaborators response
      * @see <a href="https://developer.dnsimple.com/v2/domains/collaborators/#listCollaborators">https://developer.dnsimple.com/v2/domains/collaborators/#listCollaborators</a>
+     * @deprecated `DomainCollaborators` have been deprecated and will be removed in the next major version. Please use our Domain Access Control feature.
      */
+    @Deprecated(since = "2.0.0", forRemoval = true)
     public PaginatedResponse<Collaborator> listCollaborators(Number account, String domain, ListOptions options) {
         return client.page(GET, account + "/domains/" + domain + "/collaborators", options, null, Collaborator.class);
     }
@@ -120,7 +124,9 @@ public class Domains {
      * @param email   The email of the collaborator
      * @return The add collaborator response
      * @see <a href="https://developer.dnsimple.com/v2/domains/collaborators/#addCollaborator">https://developer.dnsimple.com/v2/domains/collaborators/#addCollaborator</a>
+     * @deprecated `DomainCollaborators` have been deprecated and will be removed in the next major version. Please use our Domain Access Control feature.
      */
+    @Deprecated(since = "2.0.0", forRemoval = true)
     public SimpleResponse<Collaborator> addCollaborator(Number account, String domain, String email) {
         return client.simple(POST, account + "/domains/" + domain + "/collaborators", ListOptions.empty(), singletonMap("email", email), Collaborator.class);
     }
@@ -133,7 +139,9 @@ public class Domains {
      * @param collaboratorId The collaborator ID
      * @return The remove collaborator response
      * @see <a href="https://developer.dnsimple.com/v2/domains/collaborators/#removeCollaborator">https://developer.dnsimple.com/v2/domains/collaborators/#removeCollaborator</a>
+     * @deprecated `DomainCollaborators` have been deprecated and will be removed in the next major version. Please use our Domain Access Control feature.
      */
+    @Deprecated(since = "2.0.0", forRemoval = true)
     public EmptyResponse removeCollaborator(Number account, String domain, String collaboratorId) {
         return client.empty(DELETE, account + "/domains/" + domain + "/collaborators/" + collaboratorId, ListOptions.empty(), null);
     }
