@@ -13,9 +13,9 @@ cd dnsimple-java
 
 ### 2. Install external tools
 
-The project includes an [ASDF](https://github.com/asdf-vm/asdf) `.tool-versions` file to set up the JVM required to work on the project.
+- Oracle JDK
 
-You can install the required version of Java executing `asdf install` at the project's root directory.
+    From [https://www.oracle.com/java/technologies/downloads/](https://www.oracle.com/java/technologies/downloads/)
 
 ### 3. Build and test
 
