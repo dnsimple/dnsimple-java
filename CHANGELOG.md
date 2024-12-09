@@ -6,6 +6,7 @@
 - CHANGED: Deprecated `from` and `to` fields in `EmailForward`
 - CHANGE: Drop support for Java JDK 17
 - CHANGE: Add support for Java JDK 23
+- CHANGE: `DomainCollaborators` have been deprecated and will be removed in the next major version. Please use our Domain Access Control feature.
 
 ## 1.0.0
 
