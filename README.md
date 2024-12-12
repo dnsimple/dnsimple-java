@@ -6,7 +6,7 @@ A Java client for the [DNSimple API v2](https://developer.dnsimple.com/v2/).
 
 ## Requirements
 
-This library is tested with Java 17 (Temurin 21) and built for Java 17 JVMs.
+This library is tested with Java 21+ (Temurin 21) and built for Java 21+ JVMs.
 
 You must also have an activated DNSimple account to access the DNSimple API.
 
@@ -122,4 +122,4 @@ When developing unit tests for your application, you should stub responses from 
 
 ## License
 
-Copyright (c) 2016-2022 DNSimple Corporation. This is Free Software distributed under the MIT license.
+Copyright (c) 2016-2024 DNSimple Corporation. This is Free Software distributed under the MIT license.
