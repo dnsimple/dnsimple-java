@@ -15,7 +15,7 @@ cd dnsimple-java
 
 - Eclipse Temurin JDK 21.0.5+11-:TS
 
-    From [https://www.oracle.com/java/technologies/downloads/](https://www.oracle.com/java/technologies/downloads/)
+    From [https://adoptium.net/es/temurin/releases/](https://adoptium.net/es/temurin/releases/)
 
 ### 3. Build and test
 
