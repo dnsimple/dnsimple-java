@@ -2,6 +2,8 @@
 
 ## main
 
+## 2.0.0
+
 - NEW: Added `alias_email` and `destination_email` to `EmailForward`
 - CHANGED: Deprecated `from` and `to` fields in `EmailForward`
 - CHANGE: Drop support for Java JDK 17
