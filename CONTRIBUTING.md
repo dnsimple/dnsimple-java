@@ -13,7 +13,7 @@ cd dnsimple-java
 
 ### 2. Install external tools
 
-- Oracle JDK
+- Eclipse Temurin JDK 21.0.5+11-:TS
 
     From [https://www.oracle.com/java/technologies/downloads/](https://www.oracle.com/java/technologies/downloads/)
 
