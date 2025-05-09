@@ -2,6 +2,11 @@
 
 ## main
 
+- BREAKING: `DomainCollaborators` have been removed. Please use our Domain Access Control feature.
+- CHANGED: Updated dependencies
+- CHANGED: Drop support for Java JDK 23
+- CHANGED: Add support for Java JDK 24
+
 ## 2.0.0
 
 - NEW: Added `alias_email` and `destination_email` to `EmailForward`
