@@ -2,6 +2,8 @@
 
 ## main
 
+## 3.0.0
+
 - BREAKING: `DomainCollaborators` have been removed. Please use our Domain Access Control feature.
 - CHANGED: Updated dependencies
 - CHANGED: Drop support for Java JDK 23
