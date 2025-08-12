@@ -63,6 +63,8 @@ This project uses [Semantic Versioning](https://semver.org/). The following inst
     version = '<VERSION>'
     ```
 
+1. Set the version in `VERSION`.
+
 1. Finalize the `## main` section in `CHANGELOG.md` assigning the version.
 1. Commit and push the changes
 

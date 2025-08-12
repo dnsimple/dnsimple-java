@@ -2,6 +2,10 @@
 
 ## main
 
+## 3.0.1
+
+- HOUSEKEEPING: Update release process
+
 ## 3.0.0
 
 - BREAKING: `DomainCollaborators` have been removed. Please use our Domain Access Control feature.
