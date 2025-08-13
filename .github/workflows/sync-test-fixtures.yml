@@ -19,7 +19,7 @@ jobs:
           TMP_DIR=$(mktemp -d)
           curl -fsSL "https://codeload.github.com/dnsimple/dnsimple-developer/tar.gz/refs/heads/main" \
             | tar -xz -C "$TMP_DIR"
-          rsync -a --delete "$TMP_DIR/dnsimple-developer-main/fixtures/v2/api/" tests/resources/com/dnsimple/
+          rsync -a --delete "$TMP_DIR/dnsimple-developer-main/fixtures/v2/api/" src/test/resources/com/dnsimple/
       - name: Create a PR to sync fixtures if there are changes
         run: |
           cat <<'MD' > pr_body.md
@@ -40,7 +40,7 @@ jobs:
           git checkout -b "$BRANCH"
 
           # Stage changes
-          git add tests/resources/com/dnsimple
+          git add src/test/resources/com/dnsimple
 
           # Commit if there are staged changes
           if ! git diff --cached --quiet; then
