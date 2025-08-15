@@ -1,6 +1,7 @@
-HTTP/1.1 204
+HTTP/1.1 204 No Content
 server: nginx
 date: Tue, 22 Aug 2023 11:14:44 GMT
+content-type: application/json; charset=utf-8
 x-ratelimit-limit: 2400
 x-ratelimit-remaining: 2391
 x-ratelimit-reset: 1692705338
