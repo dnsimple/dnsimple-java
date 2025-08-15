@@ -29,8 +29,8 @@ public class ZonesTest extends DnsimpleTestBase {
         assertThat(z.getAccountId(), is(1010L));
         assertThat(z.getName(), is("example.com"));
         assertThat(z.isReverse(), is(false));
-        assertThat(z.getCreatedAt(), is(OffsetDateTime.of(2015, 4, 23, 7, 40, 3, 0, ZoneOffset.UTC)));
-        assertThat(z.getUpdatedAt(), is(OffsetDateTime.of(2015, 4, 23, 7, 40, 3, 0, ZoneOffset.UTC)));
+        assertThat(z.getCreatedAt(), is(OffsetDateTime.of(2022, 9, 28, 4, 45, 24, 0, ZoneOffset.UTC)));
+        assertThat(z.getUpdatedAt(), is(OffsetDateTime.of(2023, 7, 6, 11, 19, 48, 0, ZoneOffset.UTC)));
     }
 
     @Test
@@ -41,8 +41,8 @@ public class ZonesTest extends DnsimpleTestBase {
         assertThat(z.getAccountId(), is(1010L));
         assertThat(z.getName(), is("example.com"));
         assertThat(z.isReverse(), is(false));
-        assertThat(z.getCreatedAt(), is(OffsetDateTime.of(2015, 4, 23, 7, 40, 3, 0, ZoneOffset.UTC)));
-        assertThat(z.getUpdatedAt(), is(OffsetDateTime.of(2015, 4, 23, 7, 40, 3, 0, ZoneOffset.UTC)));
+        assertThat(z.getCreatedAt(), is(OffsetDateTime.of(2022, 9, 28, 4, 45, 24, 0, ZoneOffset.UTC)));
+        assertThat(z.getUpdatedAt(), is(OffsetDateTime.of(2023, 8, 8, 4, 19, 52, 0, ZoneOffset.UTC)));
     }
 
     @Test
