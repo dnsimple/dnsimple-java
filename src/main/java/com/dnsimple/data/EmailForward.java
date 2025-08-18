@@ -7,14 +7,16 @@ public class EmailForward {
     private final Long domainId;
     private final String aliasEmail;
     private final String destinationEmail;
+    private final Boolean active;
     private final OffsetDateTime createdAt;
     private final OffsetDateTime updatedAt;
 
-    public EmailForward(Long id, Long domainId, String aliasEmail, String destinationEmail, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
+    public EmailForward(Long id, Long domainId, String aliasEmail, String destinationEmail, Boolean active, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
         this.id = id;
         this.domainId = domainId;
         this.aliasEmail = aliasEmail;
         this.destinationEmail = destinationEmail;
+        this.active = active;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -49,6 +51,10 @@ public class EmailForward {
 
     public String getDestinationEmail() {
         return destinationEmail;
+    }
+
+    public Boolean isActive() {
+        return active;
     }
 
     public OffsetDateTime getCreatedAt() {
