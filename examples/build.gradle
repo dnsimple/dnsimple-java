@@ -2,10 +2,13 @@ plugins {
     id 'java'
 }
 
-group 'com.dnsimple'
-version '0.0.0'
-sourceCompatibility = '1.11'
-targetCompatibility = '1.11'
+group = 'com.dnsimple'
+version = '0.0.0'
+
+java {
+    sourceCompatibility = '1.17'
+    targetCompatibility = '1.17'
+}
 
 repositories {
     mavenCentral()
