@@ -2,6 +2,8 @@
 
 ## main
 
+- NEW: Added `active` to `EmailForward`
+
 ## 3.0.2
 
 - HOUSEKEEPING: Update release process
