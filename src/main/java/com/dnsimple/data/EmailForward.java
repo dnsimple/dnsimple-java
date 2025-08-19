@@ -29,22 +29,6 @@ public class EmailForward {
         return domainId;
     }
 
-    /**
-     * @deprecated use {@link #getAliasEmail()} instead
-     */
-    @Deprecated(since = "1.1.0", forRemoval = true)
-    public String getFrom() {
-        return aliasEmail;
-    }
-
-    /**
-     * @deprecated use {@link #getDestinationEmail} instead
-     */
-    @Deprecated(since = "1.1.0", forRemoval = true)
-    public String getTo() {
-        return destinationEmail;
-    }
-
     public String getAliasEmail() {
         return aliasEmail;
     }

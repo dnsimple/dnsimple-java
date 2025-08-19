@@ -61,8 +61,6 @@ public class DomainEmailForwardsTest extends DnsimpleTestBase {
         EmailForward emailForward = client.domains.getEmailForward(1, "example.com", 41872).getData();
         assertThat(emailForward.getId(), is(41872L));
         assertThat(emailForward.getDomainId(), is(235146L));
-        assertThat(emailForward.getTo(), is("example@example.com"));
-        assertThat(emailForward.getFrom(), is("example@dnsimple.xyz"));
         assertThat(emailForward.getAliasEmail(), is("example@dnsimple.xyz"));
         assertThat(emailForward.getDestinationEmail(), is("example@example.com"));
         assertThat(emailForward.isActive(), is(true));
