@@ -2,6 +2,8 @@
 
 ## main
 
+## 4.0.0
+
 - BREAKING: Removed `from` and `to` fields from `EmailForward`. Please use `alias_email` and `destination_email` instead.
 - NEW: Added `active` to `EmailForward`
 
