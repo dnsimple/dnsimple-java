@@ -1,5 +1,5 @@
 ---
-name: Release
+name: Release (Test)
 
 on:
   workflow_run:
@@ -15,7 +15,7 @@ jobs:
   publish:
     name: Publish Client
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' && github.ref_type == 'tag' }}
+    # if: ${{ github.event.workflow_run.conclusion == 'success' && github.ref_type == 'tag' }}
     steps:
       - name: Validate tag
         run: |
@@ -24,9 +24,8 @@ jobs:
             echo "Tag $TAG_NAME is valid"
           else
             echo "Tag $TAG_NAME is invalid"
-            # exit 1
+            exit 1
           fi
-          exit 1
       - name: Checkout Code
         uses: actions/checkout@v5
       - name: Set up JVM
@@ -36,11 +35,3 @@ jobs:
           java-version: '17'
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v3
-      - name: Publish Package
-        run: gradle clean build signMavenJavaPublication publishToSonatype closeAndReleaseSonatypeStagingRepository
-        env:
-          ORG_GRADLE_PROJECT_signingKeyId: ${{ secrets.JAR_SIGNING_KEY_ID }}
-          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.JAR_SIGNING_KEY }}
-          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.JAR_SIGNING_SIGNING_PASSWORD }}
-          ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.SONATYPE_CENTRAL_USER_TOKEN_USERNAME }}
-          ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.SONATYPE_CENTRAL_USER_TOKEN_PASSWORD }}
