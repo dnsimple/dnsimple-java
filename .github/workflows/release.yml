@@ -2,23 +2,31 @@
 name: Release
 
 on:
-  push:
-    tags:
-      - v*.*.*
+  workflow_run:
+    workflows:
+      - "CI"
+    types:
+      - completed
+    branches:
+      - main
+      - update-release-workflow
 
 jobs:
   publish:
     name: Publish Client
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.ref_type == 'tag' }}
     steps:
-      - name: Wait for tests to succeed
-        uses: lewagon/wait-on-check-action@v1.4.0
-        with:
-          ref: 'refs/heads/main'
-          running-workflow-name: 'Publish Client'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 10
-          allowed-conclusions: success
+      - name: Validate tag
+        run: |
+          TAG_NAME=${{ github.ref_name }}
+          if [[ $TAG_NAME =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Tag $TAG_NAME is valid"
+          else
+            echo "Tag $TAG_NAME is invalid"
+            # exit 1
+          fi
+          exit 1
       - name: Checkout Code
         uses: actions/checkout@v5
       - name: Set up JVM
