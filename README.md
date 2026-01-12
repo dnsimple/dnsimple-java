@@ -63,8 +63,6 @@ public class MyApp {
 }
 ```
 
-The user agent value will be prepended to additional user-agent information set by default in this library. While it is not strictly necessary to set the user agent, it is often helpful for the team at DNSimple when debugging, so please consider setting it.
-
 ### List request options
 
 For endpoints that support it, you can set options to filter, limit, and sort the results that the API produces thanks to the `ListOptions` class.
@@ -92,7 +90,9 @@ public class MyApp {
 }
 ```
 
-## Sandbox Usage
+## Configuration
+
+### Sandbox Environment
 
 If you would like to test in the [DNSimple sandbox environment](https://developer.dnsimple.com/sandbox/) then add the `sandbox()` builder method to your client:
 
@@ -114,7 +114,22 @@ public class MyApp {
 }
 ```
 
+We highly recommend testing against our sandbox environment before using our production environment. This will allow you to avoid real purchases, live charges on your credit card, and reduce the chance of your running up against rate limits.
+
 You will need to ensure you are using an access token created in the sandbox environment. Production tokens will *not* work in the sandbox environment.
+
+### Setting a custom `User-Agent` header
+
+You can customize the `User-Agent` header for the calls made to the DNSimple API:
+
+```java
+Client client = new Client.Builder()
+                          .accessToken("YOUR-ACCESS-TOKEN")
+                          .extraUserAgent("my-app/1.0")
+                          .build();
+```
+
+The user agent value will be prepended to additional user-agent information set by default in this library. While it is not strictly necessary to set the user agent, it is often helpful for the team at DNSimple when debugging, so please consider setting it.
 
 ## Stub for Testing
 
