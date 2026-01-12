@@ -39,15 +39,15 @@ This document describes the steps to release a new version of DNSimple/Java.
    }
    ```
 
-   Edit `build.gradle`:
+   Edit `build.gradle` (setting the proper version):
 
    ```groovy
    version = '$VERSION'
    ```
 
-   Edit `VERSION`:
+   Edit `VERSION` (setting the proper version):
 
-   ```
+   ```text
    $VERSION
    ```
 
