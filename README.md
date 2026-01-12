@@ -120,6 +120,14 @@ You will need to ensure you are using an access token created in the sandbox env
 
 When developing unit tests for your application, you should stub responses from this client to avoid making any network calls.
 
+## Contributing
+
+Contributions are welcome! Please feel free to submit issues and pull requests. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for details.
+
 ## License
 
 Copyright (c) 2016-2024 DNSimple Corporation. This is Free Software distributed under the MIT license.

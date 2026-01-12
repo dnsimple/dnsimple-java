@@ -42,49 +42,49 @@ FEATURES:
 - NEW: Added `Dnsimple.Zones.activateDns` to activate DNS services (resolution) for a zone. (dnsimple/dnsimple-java#157)
 - NEW: Added `Dnsimple.Zones.deactivateDns` to deactivate DNS services (resolution) for a zone. (dnsimple/dnsimple-java#157)
 
-## Release 0.10.0
+## 0.10.0
 
 - BREAKING: `purchaseLetsencryptCertificateRenewal` now takes a `CertificateRenewalPurchaseOptions` object to support the `signatureAlgorithm` field (dnsimple/dnsimple-java#146)
 - BREAKING: Remove deprecated certificate methods and constructors that use contact ID, which is no longer supported (dnsimple/dnsimple-java#146)
 - NEW: Implement support for `signatureAlgorithm` in `CertificatePurchaseOptions` (dnsimple/dnsimple-java#146)
 - NEW: Implement the getDomainRegistration and getDomainRenewal Registrar APIs (dnsimple/dnsimple-java#147)
 
-## Release 0.9.6
+## 0.9.6
 
 - Update dependencies
 
-## Release 0.9.5
+## 0.9.5
 
 - CHANGED: Deprecate Certificate's `contact_id` (dnsimple/dnsimple-java#123)
 - CHANGED: Add getter for attribute errors in `BadRequestException` (dnsimple/dnsimple-java#135)
 
-## Release 0.9.4
+## 0.9.4
 
 - Added automated release process
 
-## Release 0.9.3
+## 0.9.3
 
 - CHANGED: Add support for DNSSEC key-data interface (dnsimple/dnsimple-java#109)
 - CHANGED: `DSOptions.of()` is deprecated in favor of `DSOptions.dsData()` (dnsimple/dnsimple-java#109)
 
-## Release 0.9.2
+## 0.9.2
 
 - Fix: avoid sending `regions=["global"]` for global zone records and prune the `regions` attribute from the request payload instead
 
-## Release 0.9.1
+## 0.9.1
 
 - CHANGED: `Registrar.getDomainPremiumPrice()` is deprecated in favour of `Registrar.getDomainPrices()`
 
-## Release 0.9.0
+## 0.9.0
 
 - NEW: Added `client.registrar.getDomainPrices` to retrieve whether a domain is premium and the prices to register, transfer, and renew. (dnsimple/dnsimple-java#93)
 
-## Release 0.8.1
+## 0.8.1
 
 - Fix: Align arguments of `Domain.listPushes()` with current API (#81)
 - Added project with code examples
 
-## Release 0.8.0
+## 0.8.0
 
 **Warning**: This release contains breaking changes. Please contact DNSimple if you need assistance migrating your project to this version of the Java API Client
 
@@ -95,7 +95,7 @@ FEATURES:
 - Removed deprecated members from the 0.x branch.
 - Removed all endpoint related interfaces to prevent unwanted extension of this library.
 
-## Release 0.7.1
+## 0.7.1
 
 - FIXED: Bug that produced an IllegalArgumentException in all requests that are responded with a HTTP 204 No Content ([GH-30](https://github.com/dnsimple/dnsimple-java/pull/30))
 
@@ -104,21 +104,21 @@ FEATURES:
 - CHANGED: `Domain.getExpiresOn()` is deprecated in favor of `Domain.getExpiresAt()` ([GH-37](https://github.com/dnsimple/dnsimple-java/pull/37))
 - CHANGED: `Certificate.getExpiresOn()` is deprecated in favor of `Certificate.getExpiresAt()` ([GH-40](https://github.com/dnsimple/dnsimple-java/pull/40))
 
-## Release 0.7.0
+## 0.7.0
 
 - NEW: Added `client.registrar.getDomainTransfer` to retrieve a domain transfer. (dnsimple/dnsimple-java#33)
 - NEW: Added `client.registrar.cancelDomainTransfer` to cancel an in progress domain transfer. (dnsimple/dnsimple-java#33)
 - NEW: Added `DomainTransfer.getStatusDescription()` to identify the failure reason of a transfer. (dnsimple/dnsimple-java#33).
 
-## Release 0.6.0
+## 0.6.0
 
 - NEW: Added WHOIS privacy renewal (GH-12)
 
-## Release 0.5.0
+## 0.5.0
 
 - NEW: Added zone distribution and zone record distribution (GH-11)
 
-## Release 0.4.0
+## 0.4.0
 
 - NEW: Added Let's Encrypt certificate methods (GH-8)
 
