@@ -33,6 +33,10 @@ You can install this project into your local Maven repository by running:
 
 You can then import it into any project as if it were published to the Maven Central repo.
 
+## Changelog
+
+We follow the [Common Changelog](https://common-changelog.org/) format for changelog entries.
+
 ## Testing
 
 To run the test suite:
@@ -42,46 +46,6 @@ To run the test suite:
 ```
 
 (use `gradlew.bat` in Windows instead)
-
-## Releasing
-
-This project uses [Semantic Versioning](https://semver.org/). The following instructions use `<VERSION>` as a placeholder, where `$VERSION` is a `MAJOR.MINOR.PATCH` release, such as `1.2.0`.
-
-1. [Run the test suite](#testing) and ensure all the tests pass.
-1. Set the version in `dnsimple.java`:
-
-    ```java
-    public interface Dnsimple {
-      public static final String VERSION = "<VERSION>";
-      //...
-    }
-    ```
-
-1. Set the version in `build.gradle`:
-
-    ```groovy
-    version = '<VERSION>'
-    ```
-
-1. Set the version in `VERSION`.
-
-1. Finalize the `## main` section in `CHANGELOG.md` assigning the version.
-1. Commit and push the changes
-
-    ```shell
-    git commit -a -m "Release $VERSION"
-    git push origin main
-    ```
-
-1. Wait for CI to complete.
-1. Create a signed tag.
-
-    ```shell
-    git tag -a v$VERSION -s -m "Release $VERSION"
-    git push origin --tags
-    ```
-
-GitHub will take the new tag and release it automatically into Maven Central
 
 ## Requirements for contributing code to this repo
 
