@@ -45,6 +45,12 @@ This document describes the steps to release a new version of DNSimple/Java.
    version = '$VERSION'
    ```
 
+   Edit `VERSION`:
+
+   ```
+   $VERSION
+   ```
+
 4. **Update the changelog** with the new version
 
    Finalize the `## main` section in `CHANGELOG.md` assigning the version.
