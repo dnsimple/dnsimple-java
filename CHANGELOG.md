@@ -2,6 +2,8 @@
 
 ## main
 
+- REMOVED: Removed deprecated `getDomainPremiumPrice`. Use `getDomainPrices` instead.
+
 ## 4.0.1
 
 - HOUSEKEEPING: Update release process
