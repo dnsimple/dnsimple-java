@@ -196,18 +196,6 @@ public class Registrar {
     }
 
     /**
-     * Gets the whois privacy for the domain.
-     *
-     * @param account The account ID
-     * @param domain  The domain name or ID
-     * @return The get whois privacy response
-     * @see <a href="https://developer.dnsimple.com/v2/registrar/whois-privacy/#getWhoisPrivacy">https://developer.dnsimple.com/v2/registrar/whois-privacy/#getWhoisPrivacy</a>
-     */
-    public SimpleResponse<WhoisPrivacy> getWhoisPrivacy(Number account, String domain) {
-        return client.simple(GET, account + "/registrar/domains/" + domain + "/whois_privacy", ListOptions.empty(), null, WhoisPrivacy.class);
-    }
-
-    /**
      * Enable whois privacy for the domain.
      *
      * @param account The account ID
@@ -229,18 +217,6 @@ public class Registrar {
      */
     public SimpleResponse<WhoisPrivacy> disableWhoisPrivacy(Number account, String domain) {
         return client.simple(DELETE, account + "/registrar/domains/" + domain + "/whois_privacy", ListOptions.empty(), null, WhoisPrivacy.class);
-    }
-
-    /**
-     * Renew whois privacy for the domain.
-     *
-     * @param account The account ID
-     * @param domain  The domain name or ID
-     * @return The disable whois privacy response
-     * @see <a href="https://developer.dnsimple.com/v2/registrar/whois-privacy/#renewWhoisPrivacy">https://developer.dnsimple.com/v2/registrar/whois-privacy/#renewWhoisPrivacy</a>
-     */
-    public SimpleResponse<WhoisPrivacyRenewal> renewWhoisPrivacy(Number account, String domain) {
-        return client.simple(POST, account + "/registrar/domains/" + domain + "/whois_privacy/renewals", ListOptions.empty(), null, WhoisPrivacyRenewal.class);
     }
 
     /**
