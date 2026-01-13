@@ -2,6 +2,9 @@
 
 ## main
 
+- REMOVED: Removed deprecated `getWhoisPrivacy` (dnsimple/dnsimple-developer#919)
+- REMOVED: Removed deprecated `renewWhoisPrivacy` (dnsimple/dnsimple-developer#919)
+
 ## 4.0.1
 
 - HOUSEKEEPING: Update release process
