@@ -2,8 +2,6 @@
 
 ## Getting started
 
-### 1. Clone the repository
-
 Clone the repository and move into it:
 
 ```shell
@@ -11,17 +9,9 @@ git clone git@github.com:dnsimple/dnsimple-java.git
 cd dnsimple-java
 ```
 
-### 2. Install external tools
-
-- Eclipse Temurin JDK 21.0.5+11-:TS
-
-    From [https://adoptium.net/es/temurin/releases/](https://adoptium.net/es/temurin/releases/)
-
-### 3. Build and test
+Install Eclipse Temurin JDK 21.0.5+11-LTS from [https://adoptium.net/es/temurin/releases/](https://adoptium.net/es/temurin/releases/).
 
 [Run the test suite](#testing) to check everything works as expected.
-
-### 4. Deploy locally for testing
 
 You can install this project into your local Maven repository by running:
 
