@@ -38,22 +38,6 @@ public class Registrar {
     }
 
     /**
-     * Checks the premium price of a domain for the provided action.
-     *
-     * @param account    The account ID
-     * @param domainName The domain to check
-     * @param action     The action to get the price of
-     * @return The premium price
-     * @see <a href="https://developer.dnsimple.com/v2/registrar/#getDomainPremiumPrice">https://developer.dnsimple.com/v2/registrar/#getDomainPremiumPrice</a>
-     * @deprecated use {@link #getDomainPrices(Number, String)} instead
-     */
-    @Deprecated(since="0.9.1", forRemoval = true)
-    public SimpleResponse<DomainPremiumPriceCheck> getDomainPremiumPrice(Number account, String domainName, DomainCheckPremiumPriceAction action) {
-        var options = ListOptions.empty().filter("action", action.name().toLowerCase());
-        return client.simple(GET, account + "/registrar/domains/" + domainName + "/premium_price", options, action, DomainPremiumPriceCheck.class);
-    }
-
-    /**
      * Get prices for registration, transfer, and renewal for a domain.
      *
      * @param account    The account ID
