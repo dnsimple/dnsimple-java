@@ -1,6 +1,8 @@
 # Changelog
 
-## main
+This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+
+## Unreleased
 
 - REMOVED: Removed deprecated `getDomainPremiumPrice`. Use `getDomainPrices` instead. (dnsimple/dnsimple-developer#916)
 - REMOVED: Removed deprecated `getWhoisPrivacy` (dnsimple/dnsimple-developer#919)
