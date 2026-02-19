@@ -1,6 +1,11 @@
 package com.dnsimple.endpoints;
 
-import com.dnsimple.data.*;
+import com.dnsimple.data.DelegationSignerRecord;
+import com.dnsimple.data.Domain;
+import com.dnsimple.data.DomainPush;
+import com.dnsimple.data.DomainResearchStatus;
+import com.dnsimple.data.Dnssec;
+import com.dnsimple.data.EmailForward;
 import com.dnsimple.http.HttpEndpointClient;
 import com.dnsimple.request.DSRecordOptions;
 import com.dnsimple.request.ListOptions;
@@ -319,5 +324,26 @@ public class Domains {
      */
     public EmptyResponse rejectPush(Number account, Number push) {
         return client.empty(DELETE, account + "/pushes/" + push, ListOptions.empty(), null);
+    }
+
+    /**
+     * Research a domain name for availability and registration status information.
+     * 
+     * This endpoint provides information about a domain's availability status, including whether it's
+     * available for registration, already registered, or has other restrictions.
+     *
+     * @param account     The account ID
+     * @param domainName  The domain name to research
+     * @return The domain research status response
+     * @see <a href="https://developer.dnsimple.com/v2/domains/research/#getDomainsResearchStatus">https://developer.dnsimple.com/v2/domains/research/#getDomainsResearchStatus</a>
+     */
+    public SimpleResponse<DomainResearchStatus> domainResearchStatus(Number account, String domainName) {
+        return client.simple(
+                GET,
+                account + "/domains/research/status",
+                ListOptions.empty().setOtherOption("domain", domainName),
+                null,
+                DomainResearchStatus.class
+        );
     }
 }
