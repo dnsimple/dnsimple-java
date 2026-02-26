@@ -17,19 +17,19 @@ import static org.hamcrest.Matchers.*;
 public class DomainsResearchTest extends DnsimpleTestBase {
 
     @Test
-    public void testDomainResearchStatusBuildsCorrectRequest() {
+    public void testGetDomainResearchStatusBuildsCorrectRequest() {
         server.stubFixtureAt("getDomainsResearchStatus/success-unavailable.http");
-        client.domains.domainResearchStatus(1010, "taken.com");
+        client.domains.getDomainResearchStatus(1010, "taken.com");
 
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/domains/research/status?domain=taken.com"));
     }
 
     @Test
-    public void testDomainResearchStatusReturnsDomainResearchStatus() {
+    public void testGetDomainResearchStatusReturnsDomainResearchStatus() {
         server.stubFixtureAt("getDomainsResearchStatus/success-unavailable.http");
 
-        SimpleResponse<DomainResearchStatus> response = client.domains.domainResearchStatus(1010, "taken.com");
+        SimpleResponse<DomainResearchStatus> response = client.domains.getDomainResearchStatus(1010, "taken.com");
 
         assertThat(response, is(notNullValue()));
         DomainResearchStatus data = response.getData();
@@ -41,10 +41,10 @@ public class DomainsResearchTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testDomainResearchStatusWithAvailableDomain() {
+    public void testGetDomainResearchStatusWithAvailableDomain() {
         server.stubFixtureAt("getDomainsResearchStatus/success-available.http");
 
-        SimpleResponse<DomainResearchStatus> response = client.domains.domainResearchStatus(1010, "available.com");
+        SimpleResponse<DomainResearchStatus> response = client.domains.getDomainResearchStatus(1010, "available.com");
 
         assertThat(response.getData(), is(notNullValue()));
         assertThat(response.getData().getAvailability(), is("available"));
@@ -52,10 +52,10 @@ public class DomainsResearchTest extends DnsimpleTestBase {
     }
 
     @Test
-    public void testDomainResearchStatusWithUnsupportedTld() {
+    public void testGetDomainResearchStatusWithUnsupportedTld() {
         server.stubFixtureAt("getDomainsResearchStatus/success-unsupported-tld.http");
 
-        SimpleResponse<DomainResearchStatus> response = client.domains.domainResearchStatus(1010, "example.unsupported");
+        SimpleResponse<DomainResearchStatus> response = client.domains.getDomainResearchStatus(1010, "example.unsupported");
 
         assertThat(response.getData(), is(notNullValue()));
         assertThat(response.getData().getErrors(), is(not(empty())));

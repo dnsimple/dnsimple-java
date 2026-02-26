@@ -337,7 +337,7 @@ public class Domains {
      * @return The domain research status response
      * @see <a href="https://developer.dnsimple.com/v2/domains/research/#getDomainsResearchStatus">https://developer.dnsimple.com/v2/domains/research/#getDomainsResearchStatus</a>
      */
-    public SimpleResponse<DomainResearchStatus> domainResearchStatus(Number account, String domainName) {
+    public SimpleResponse<DomainResearchStatus> getDomainResearchStatus(Number account, String domainName) {
         return client.simple(
                 GET,
                 account + "/domains/research/status",
