@@ -12,11 +12,26 @@ public class Domain {
     private final String state;
     private final Boolean autoRenew;
     private final Boolean privateWhois;
+    private final Boolean trusteeService;
     private final OffsetDateTime expiresAt;
     private final OffsetDateTime createdAt;
     private final OffsetDateTime updatedAt;
 
-    public Domain(Long id, Long accountId, Long registrantId, String name, String unicodeName, String token, String state, Boolean autoRenew, Boolean privateWhois, OffsetDateTime expiresAt, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
+    public Domain(
+        Long id,
+        Long accountId,
+        Long registrantId,
+        String name,
+        String unicodeName,
+        String token,
+        String state,
+        Boolean autoRenew,
+        Boolean privateWhois,
+        Boolean trusteeService,
+        OffsetDateTime expiresAt,
+        OffsetDateTime createdAt,
+        OffsetDateTime updatedAt
+    ) {
         this.id = id;
         this.accountId = accountId;
         this.registrantId = registrantId;
@@ -26,6 +41,7 @@ public class Domain {
         this.state = state;
         this.autoRenew = autoRenew;
         this.privateWhois = privateWhois;
+        this.trusteeService = trusteeService;
         this.expiresAt = expiresAt;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -65,6 +81,10 @@ public class Domain {
 
     public Boolean hasPrivateWhois() {
         return privateWhois;
+    }
+
+    public Boolean hasTrusteeService() {
+        return trusteeService;
     }
 
     public OffsetDateTime getExpiresAt() {
