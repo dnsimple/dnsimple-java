@@ -10,10 +10,22 @@ public class DomainRegistration {
     private final String state;
     private final Boolean autoRenew;
     private final Boolean whoisPrivacy;
+    private final Boolean trusteeService;
     private final OffsetDateTime createdAt;
     private final OffsetDateTime updatedAt;
 
-    public DomainRegistration(Long id, Long domainId, Long registrantId, Integer period, String state, Boolean autoRenew, Boolean whoisPrivacy, OffsetDateTime createdAt, OffsetDateTime updatedAt) {
+    public DomainRegistration(
+        Long id,
+        Long domainId,
+        Long registrantId,
+        Integer period,
+        String state,
+        Boolean autoRenew,
+        Boolean whoisPrivacy,
+        Boolean trusteeService,
+        OffsetDateTime createdAt,
+        OffsetDateTime updatedAt
+    ) {
         this.id = id;
         this.domainId = domainId;
         this.registrantId = registrantId;
@@ -21,6 +33,7 @@ public class DomainRegistration {
         this.state = state;
         this.autoRenew = autoRenew;
         this.whoisPrivacy = whoisPrivacy;
+        this.trusteeService = trusteeService;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -51,6 +64,10 @@ public class DomainRegistration {
 
     public Boolean hasWhoisPrivacy() {
         return whoisPrivacy;
+    }
+
+    public Boolean hasTrusteeService() {
+        return trusteeService;
     }
 
     public OffsetDateTime getCreatedAt() {

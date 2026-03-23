@@ -4,6 +4,8 @@ public class Tld {
     private final String tld;
     private final Integer tldType;
     private final Boolean whoisPrivacy;
+    private final Boolean trusteeServiceEnabled;
+    private final Boolean trusteeServiceRequired;
     private final Boolean autoRenewOnly;
     private final Integer minimumRegistration;
     private final Boolean registrationEnabled;
@@ -11,10 +13,24 @@ public class Tld {
     private final Boolean transferEnabled;
     private final String dnssecInterfaceType;
 
-    public Tld(String tld, Integer tldType, Boolean whoisPrivacy, Boolean autoRenewOnly, Integer minimumRegistration, Boolean registrationEnabled, Boolean renewalEnabled, Boolean transferEnabled, String dnssecInterfaceType) {
+    public Tld(
+        String tld,
+        Integer tldType,
+        Boolean whoisPrivacy,
+        Boolean trusteeServiceEnabled,
+        Boolean trusteeServiceRequired,
+        Boolean autoRenewOnly,
+        Integer minimumRegistration,
+        Boolean registrationEnabled,
+        Boolean renewalEnabled,
+        Boolean transferEnabled,
+        String dnssecInterfaceType
+    ) {
         this.tld = tld;
         this.tldType = tldType;
         this.whoisPrivacy = whoisPrivacy;
+        this.trusteeServiceEnabled = trusteeServiceEnabled;
+        this.trusteeServiceRequired = trusteeServiceRequired;
         this.autoRenewOnly = autoRenewOnly;
         this.minimumRegistration = minimumRegistration;
         this.registrationEnabled = registrationEnabled;
@@ -33,6 +49,14 @@ public class Tld {
 
     public Boolean supportsWhoisPrivacy() {
         return whoisPrivacy;
+    }
+
+    public Boolean isTrusteeServiceEnabled() {
+        return trusteeServiceEnabled;
+    }
+
+    public Boolean isTrusteeServiceRequired() {
+        return trusteeServiceRequired;
     }
 
     public Boolean isAutorenewOnly() {

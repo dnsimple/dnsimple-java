@@ -47,6 +47,8 @@ public class TldsTest extends DnsimpleTestBase {
         assertThat(tld.getTld(), is("ac"));
         assertThat(tld.getTldType(), is(2));
         assertThat(tld.supportsWhoisPrivacy(), is(false));
+        assertThat(tld.isTrusteeServiceEnabled(), is(false));
+        assertThat(tld.isTrusteeServiceRequired(), is(false));
         assertThat(tld.isAutorenewOnly(), is(true));
         assertThat(tld.getMinimumRegistration(), is(1));
         assertThat(tld.isRegistrationEnabled(), is(true));
@@ -70,6 +72,8 @@ public class TldsTest extends DnsimpleTestBase {
         assertThat(tld.getTld(), is("com"));
         assertThat(tld.getTldType(), is(1));
         assertThat(tld.supportsWhoisPrivacy(), is(true));
+        assertThat(tld.isTrusteeServiceEnabled(), is(false));
+        assertThat(tld.isTrusteeServiceRequired(), is(false));
         assertThat(tld.isAutorenewOnly(), is(false));
         assertThat(tld.getMinimumRegistration(), is(1));
         assertThat(tld.isRegistrationEnabled(), is(true));
