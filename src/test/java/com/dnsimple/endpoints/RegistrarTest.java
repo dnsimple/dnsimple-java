@@ -165,6 +165,7 @@ public class RegistrarTest extends DnsimpleTestBase {
         assertThat(transfer.getState(), is("cancelled"));
         assertThat(transfer.hasAutoRenew(), is(false));
         assertThat(transfer.hasWhoisPrivacy(), is(false));
+        assertThat(transfer.hasTrusteeService(), is(false));
         assertThat(transfer.getStatusDescription(), is("Canceled by customer"));
         assertThat(transfer.getCreatedAt(), is("2020-06-05T18:08:00Z"));
         assertThat(transfer.getUpdatedAt(), is("2020-06-05T18:10:01Z"));
@@ -183,6 +184,7 @@ public class RegistrarTest extends DnsimpleTestBase {
         assertThat(transfer.getState(), is("transferring"));
         assertThat(transfer.hasAutoRenew(), is(false));
         assertThat(transfer.hasWhoisPrivacy(), is(false));
+        assertThat(transfer.hasTrusteeService(), is(false));
         assertThat(transfer.getStatusDescription(), isEmptyOrNullString());
         assertThat(transfer.getCreatedAt(), is("2020-06-05T18:08:00Z"));
         assertThat(transfer.getUpdatedAt(), is("2020-06-05T18:08:04Z"));
