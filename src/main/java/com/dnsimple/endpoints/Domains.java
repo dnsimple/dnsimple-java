@@ -266,16 +266,16 @@ public class Domains {
     }
 
     /**
-     * Initiate a push using a domain push identifier.
+     * Initiate a push using an account identifier.
      *
      * @param account                  The account ID
      * @param domain                   The domain name or ID
-     * @param newDomainPushIdentifier  The domain push identifier of the target account
+     * @param newAccountIdentifier     The account identifier of the target account
      * @return The initiate push response
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#initiateDomainPush">https://developer.dnsimple.com/v2/domains/pushes/#initiateDomainPush</a>
      */
-    public SimpleResponse<DomainPush> initiatePushWithIdentifier(Number account, String domain, String newDomainPushIdentifier) {
-        return client.simple(POST, account + "/domains/" + domain + "/pushes", ListOptions.empty(), singletonMap("new_domain_push_identifier", newDomainPushIdentifier), DomainPush.class);
+    public SimpleResponse<DomainPush> initiatePushWithIdentifier(Number account, String domain, String newAccountIdentifier) {
+        return client.simple(POST, account + "/domains/" + domain + "/pushes", ListOptions.empty(), singletonMap("new_account_identifier", newAccountIdentifier), DomainPush.class);
     }
 
     /**
