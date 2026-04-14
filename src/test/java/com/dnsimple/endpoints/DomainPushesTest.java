@@ -28,6 +28,14 @@ public class DomainPushesTest extends DnsimpleTestBase {
     }
 
     @Test
+    public void testInitiatePushWithIdentifierProducesPush() {
+        server.stubFixtureAt("initiatePush/success.http");
+        DomainPush domainPush = client.domains.initiatePushWithIdentifier(1, "example.com", "abc123").getData();
+        assertThat(domainPush.getId(), is(1L));
+        assertThat(domainPush.getAccountId(), is(2020L));
+    }
+
+    @Test
     public void testListPushesProducesPushList() {
         server.stubFixtureAt("listPushes/success.http");
         List<DomainPush> domainPushes = client.domains.listPushes(1).getData();

@@ -25,6 +25,7 @@ public class AccountsTest extends DnsimpleTestBase {
         assertThat(accounts, hasSize(1));
         assertThat(accounts.get(0).getId(), is(123L));
         assertThat(accounts.get(0).getEmail(), is("john@example.com"));
+        assertThat(accounts.get(0).getName(), is("John"));
         assertThat(accounts.get(0).getPlanIdentifier(), is("dnsimple-personal"));
         assertThat(accounts.get(0).getCreatedAt(), is(OffsetDateTime.of(2011, 9, 11, 17, 15, 58, 0, UTC)));
         assertThat(accounts.get(0).getUpdatedAt(), is(OffsetDateTime.of(2016, 6, 3, 15, 2, 26, 0, UTC)));
