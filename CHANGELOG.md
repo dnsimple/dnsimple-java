@@ -2,6 +2,12 @@
 
 This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## main
+
+### Changed
+
+- Updated the `listCharges` test fixture to include a certificate purchase entry demonstrating that `getProductReference` returns a string even when it represents a numeric ID. (#248)
+
 ## 5.3.0 - 2026-04-15
 
 ### Added
