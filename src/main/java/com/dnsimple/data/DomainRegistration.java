@@ -10,7 +10,7 @@ public class DomainRegistration {
     private final String state;
     private final Boolean autoRenew;
     private final Boolean whoisPrivacy;
-    private final Boolean trusteeService;
+    private final Boolean trustee;
     private final OffsetDateTime createdAt;
     private final OffsetDateTime updatedAt;
 
@@ -22,7 +22,7 @@ public class DomainRegistration {
         String state,
         Boolean autoRenew,
         Boolean whoisPrivacy,
-        Boolean trusteeService,
+        Boolean trustee,
         OffsetDateTime createdAt,
         OffsetDateTime updatedAt
     ) {
@@ -33,7 +33,7 @@ public class DomainRegistration {
         this.state = state;
         this.autoRenew = autoRenew;
         this.whoisPrivacy = whoisPrivacy;
-        this.trusteeService = trusteeService;
+        this.trustee = trustee;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -66,8 +66,8 @@ public class DomainRegistration {
         return whoisPrivacy;
     }
 
-    public Boolean hasTrusteeService() {
-        return trusteeService;
+    public Boolean hasTrustee() {
+        return trustee;
     }
 
     public OffsetDateTime getCreatedAt() {
