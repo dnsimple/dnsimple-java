@@ -45,7 +45,7 @@ public class RegistrarTest extends DnsimpleTestBase {
         assertThat(prices.getRegistrationPrice(), is(20.0));
         assertThat(prices.getRenewalPrice(), is(20.0));
         assertThat(prices.getTransferPrice(), is(20.0));
-        assertThat(prices.getTrusteeServicePrice(), is(20.0));
+        assertThat(prices.getTrusteePrice(), is(20.0));
     }
 
     @Test(expected = DnsimpleException.class)
@@ -70,7 +70,7 @@ public class RegistrarTest extends DnsimpleTestBase {
         assertThat(registration.getState(), is("registering"));
         assertThat(registration.hasAutoRenew(), is(false));
         assertThat(registration.hasWhoisPrivacy(), is(false));
-        assertThat(registration.hasTrusteeService(), is(false));
+        assertThat(registration.hasTrustee(), is(false));
         assertThat(registration.getCreatedAt(), is(OffsetDateTime.of(2023, 1, 27, 17, 44, 32, 0, UTC)));
         assertThat(registration.getUpdatedAt(), is(OffsetDateTime.of(2023, 1, 27, 17, 44, 40, 0, UTC)));
     }
@@ -106,7 +106,7 @@ public class RegistrarTest extends DnsimpleTestBase {
         assertThat(registration.getState(), is("new"));
         assertThat(registration.hasAutoRenew(), is(false));
         assertThat(registration.hasWhoisPrivacy(), is(false));
-        assertThat(registration.hasTrusteeService(), is(false));
+        assertThat(registration.hasTrustee(), is(false));
         assertThat(registration.getCreatedAt(), is(OffsetDateTime.of(2016, 12, 9, 19, 35, 31, 0, UTC)));
         assertThat(registration.getUpdatedAt(), is(OffsetDateTime.of(2016, 12, 9, 19, 35, 31, 0, UTC)));
     }
@@ -165,7 +165,7 @@ public class RegistrarTest extends DnsimpleTestBase {
         assertThat(transfer.getState(), is("cancelled"));
         assertThat(transfer.hasAutoRenew(), is(false));
         assertThat(transfer.hasWhoisPrivacy(), is(false));
-        assertThat(transfer.hasTrusteeService(), is(false));
+        assertThat(transfer.hasTrustee(), is(false));
         assertThat(transfer.getStatusDescription(), is("Canceled by customer"));
         assertThat(transfer.getCreatedAt(), is("2020-06-05T18:08:00Z"));
         assertThat(transfer.getUpdatedAt(), is("2020-06-05T18:10:01Z"));
@@ -184,7 +184,7 @@ public class RegistrarTest extends DnsimpleTestBase {
         assertThat(transfer.getState(), is("transferring"));
         assertThat(transfer.hasAutoRenew(), is(false));
         assertThat(transfer.hasWhoisPrivacy(), is(false));
-        assertThat(transfer.hasTrusteeService(), is(false));
+        assertThat(transfer.hasTrustee(), is(false));
         assertThat(transfer.getStatusDescription(), isEmptyOrNullString());
         assertThat(transfer.getCreatedAt(), is("2020-06-05T18:08:00Z"));
         assertThat(transfer.getUpdatedAt(), is("2020-06-05T18:08:04Z"));
