@@ -2,10 +2,12 @@
 
 This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## main
+## 6.0.0 - 2026-05-05
 
 ### Changed
 
+- **BREAKING**: Renamed `hasTrusteeService()` to `hasTrustee()` in `Domain`, `DomainRegistration`, and `DomainTransfer`. (#252)
+- **BREAKING**: Renamed `getTrusteeServicePrice()` to `getTrusteePrice()` in `DomainPrice`. (#252)
 - Updated the `listCharges` test fixture to include a certificate purchase entry demonstrating that `getProductReference` returns a string even when it represents a numeric ID. (#248)
 
 ## 5.3.0 - 2026-04-15
