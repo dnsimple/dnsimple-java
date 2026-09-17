@@ -82,14 +82,14 @@ public class Registrar {
      * Get the details of an existing domain restore.
      *
      * @param account       The account ID
-     * @param domainName    The domain to check the restore
+     * @param domain        The domain name or ID
      * @param domainRestore The domain restore ID
      *
      * @return the domain restore response
      * @see <a href="https://developer.dnsimple.com/v2/registrar/#getDomainRestore">https://developer.dnsimple.com/v2/registrar/#getDomainRestore</a>
      */
-    public SimpleResponse<DomainRestore> getDomainRestore(Number account, String domainName, Number domainRestore) {
-        return client.simple(GET, account + "/registrar/domains/" + domainName + "/restores/" + domainRestore, ListOptions.empty(), null, DomainRestore.class);
+    public SimpleResponse<DomainRestore> getDomainRestore(Number account, String domain, Number domainRestore) {
+        return client.simple(GET, account + "/registrar/domains/" + domain + "/restores/" + domainRestore, ListOptions.empty(), null, DomainRestore.class);
     }
 
     /**

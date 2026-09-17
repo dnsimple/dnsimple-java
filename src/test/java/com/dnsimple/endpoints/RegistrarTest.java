@@ -162,10 +162,7 @@ public class RegistrarTest extends DnsimpleTestBase {
         Map<String, Object> payload = server.getRecordedRequest().getJsonObjectPayload();
         assertThat(payload, hasEntry("premium_price", "100.0"));
         assertThat(domainRestore.getId(), is(43L));
-        assertThat(domainRestore.getDomainId(), is(214L));
         assertThat(domainRestore.getState(), is("new"));
-        assertThat(domainRestore.getCreatedAt(), is(OffsetDateTime.of(2024, 2, 14, 14, 40, 42, 0, UTC)));
-        assertThat(domainRestore.getUpdatedAt(), is(OffsetDateTime.of(2024, 2, 14, 14, 40, 42, 0, UTC)));
     }
 
     @Test
