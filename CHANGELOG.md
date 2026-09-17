@@ -6,8 +6,8 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is
 
 ### Added
 
-- Added `restoreDomain` to restore a domain.
-- Added `getDomainRestore` to retrieve the details of a domain restore.
+- Added `restoreDomain` to restore a domain. (#267)
+- Added `getDomainRestore` to retrieve the details of a domain restore. (#267)
 
 ## 6.1.0 - 2026-09-17
 
