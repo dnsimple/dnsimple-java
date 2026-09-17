@@ -79,6 +79,20 @@ public class Registrar {
     }
 
     /**
+     * Get the details of an existing domain restore.
+     *
+     * @param account       The account ID
+     * @param domainName    The domain to check the restore
+     * @param domainRestore The domain restore ID
+     *
+     * @return the domain restore response
+     * @see <a href="https://developer.dnsimple.com/v2/registrar/#getDomainRestore">https://developer.dnsimple.com/v2/registrar/#getDomainRestore</a>
+     */
+    public SimpleResponse<DomainRestore> getDomainRestore(Number account, String domainName, Number domainRestore) {
+        return client.simple(GET, account + "/registrar/domains/" + domainName + "/restores/" + domainRestore, ListOptions.empty(), null, DomainRestore.class);
+    }
+
+    /**
      * Registers a domain.
      *
      * @param account    The account ID
@@ -141,6 +155,19 @@ public class Registrar {
      */
     public SimpleResponse<DomainRenewal> renewDomain(Number account, String domain, RenewOptions options) {
         return client.simple(POST, account + "/registrar/domains/" + domain + "/renewals", ListOptions.empty(), options, DomainRenewal.class);
+    }
+
+    /**
+     * Restores a domain.
+     *
+     * @param account The account ID
+     * @param domain  The domain name or ID
+     * @param options The options for the restore
+     * @return The restore domain response
+     * @see <a href="https://developer.dnsimple.com/v2/registrar/#restoreDomain">https://developer.dnsimple.com/v2/registrar/#restoreDomain</a>
+     */
+    public SimpleResponse<DomainRestore> restoreDomain(Number account, String domain, RestoreOptions options) {
+        return client.simple(POST, account + "/registrar/domains/" + domain + "/restores", ListOptions.empty(), options, DomainRestore.class);
     }
 
     /**
