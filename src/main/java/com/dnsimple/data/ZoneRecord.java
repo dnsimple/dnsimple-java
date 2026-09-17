@@ -40,6 +40,10 @@ public class ZoneRecord {
         return zoneId;
     }
 
+    /**
+     * @deprecated the value is always null, and the method will be removed in the next major version
+     */
+    @Deprecated(since = "6.1.0", forRemoval = true)
     public Long getParentId() {
         return parentId;
     }
