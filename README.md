@@ -29,7 +29,7 @@ Add this dependency to your project's POM:
 Add this dependency to your `build.gradle` file:
 
 ```groovy
-compile 'com.dnsimple:dnsimple-java:X.X.X'
+implementation 'com.dnsimple:dnsimple-java:X.X.X'
 ```
 
 ## Usage
@@ -79,7 +79,7 @@ public class MyApp {
   public static void main(String[] args) {
     //...
 
-    // Use the ListOptions.Builder class to get an create a ListOptions object
+    // Start from an empty ListOptions object and chain the options you need
     ListOptions options = ListOptions.empty()
                     .page(2, 10) // Get the second page of 10 items
                     .sortAsc("state") // Sort by state in ascendant order
@@ -99,7 +99,6 @@ If you would like to test in the [DNSimple sandbox environment](https://develope
 ```java
 package myapp;
 
-import com.dnsimple.Dnsimple;
 import com.dnsimple.Client;
 
 public class MyApp {
@@ -107,7 +106,7 @@ public class MyApp {
     Client client = new Client.Builder()
                               .sandbox()
                               .accessToken("YOUR-ACCESS-TOKEN")
-                              .userAgent("your-user-agent")
+                              .extraUserAgent("your-user-agent")
                               .build();
     // ...
   }
