@@ -27,12 +27,10 @@ public class DnsAnalytics {
 
     /**
      * Queries DNS Analytics data for the account. This API is in Public Beta.
-     * <p>
-     * Use the filters start_date, end_date, and groupings, and sort by date, volume, or zone_name.
      *
      * @param account The account ID
      * @param options The options for the query request
-     * @return The DNS Analytics query response
+     * @return The DNS Analytics query response. An entry field is null when the query does not group by it.
      * @see <a href="https://developer.dnsimple.com/v2/dns-analytics/#queryDnsAnalytics">https://developer.dnsimple.com/v2/dns-analytics/#queryDnsAnalytics</a>
      */
     public PaginatedResponseWithQuery<DnsAnalyticsEntry, DnsAnalyticsQuery> query(Number account, ListOptions options) {

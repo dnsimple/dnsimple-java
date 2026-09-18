@@ -13,16 +13,10 @@ public class DnsAnalyticsEntry {
         this.volume = volume;
     }
 
-    /**
-     * @return The zone name, or null when the query does not group by zone name
-     */
     public String getZoneName() {
         return zoneName;
     }
 
-    /**
-     * @return The date, or null when the query does not group by date
-     */
     public LocalDate getDate() {
         return date;
     }
