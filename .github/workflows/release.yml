@@ -30,11 +30,11 @@ jobs:
         uses: actions/setup-java@v6
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '21'
       - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v3
+        uses: gradle/actions/wrapper-validation@v6
       - name: Publish Package
-        run: gradle clean build signMavenJavaPublication publishToSonatype closeAndReleaseSonatypeStagingRepository
+        run: ./gradlew clean build signMavenJavaPublication publishToSonatype closeAndReleaseSonatypeStagingRepository
         env:
           ORG_GRADLE_PROJECT_signingKeyId: ${{ secrets.JAR_SIGNING_KEY_ID }}
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.JAR_SIGNING_KEY }}
