@@ -4,8 +4,10 @@ import com.dnsimple.data.Zone;
 import com.dnsimple.data.ZoneDistribution;
 import com.dnsimple.data.ZoneFile;
 import com.dnsimple.data.ZoneRecord;
+import com.dnsimple.data.ZoneRecordBatchChange;
 import com.dnsimple.http.HttpEndpointClient;
 import com.dnsimple.request.ListOptions;
+import com.dnsimple.request.ZoneRecordBatchChangeOptions;
 import com.dnsimple.request.ZoneRecordOptions;
 import com.dnsimple.request.ZoneRecordUpdateOptions;
 import com.dnsimple.response.EmptyResponse;
@@ -185,6 +187,19 @@ public class Zones {
      */
     public EmptyResponse deleteZoneRecord(Number account, String zone, Number record) {
         return client.empty(DELETE, account + "/zones/" + zone + "/records/" + record, ListOptions.empty(), null);
+    }
+
+    /**
+     * Create, update, and delete records in a zone in one atomic request.
+     *
+     * @param account The account ID
+     * @param zone    The zone name
+     * @param options The records to create, update, and delete
+     * @return The batch change zone records response
+     * @see <a href="https://developer.dnsimple.com/v2/zones/records/#batchChangeZoneRecords">https://developer.dnsimple.com/v2/zones/records/#batchChangeZoneRecords</a>
+     */
+    public SimpleResponse<ZoneRecordBatchChange> batchChangeZoneRecords(Number account, String zone, ZoneRecordBatchChangeOptions options) {
+        return client.simple(POST, account + "/zones/" + zone + "/batch", ListOptions.empty(), options.asPayload(), ZoneRecordBatchChange.class);
     }
 
     /**
