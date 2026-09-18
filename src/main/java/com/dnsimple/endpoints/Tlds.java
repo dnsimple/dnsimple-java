@@ -26,7 +26,7 @@ public class Tlds {
      * Lists supported TLDs for registration
      *
      * @return The list tlds response
-     * @see <a href="https://developer.dnsimple.com/v2/tlds/#list">https://developer.dnsimple.com/v2/tlds/#list</a>
+     * @see <a href="https://developer.dnsimple.com/v2/tlds/#listTlds">https://developer.dnsimple.com/v2/tlds/#listTlds</a>
      */
     public PaginatedResponse<Tld> listTlds() {
         return client.page(GET, "tlds", ListOptions.empty(), null, Tld.class);
@@ -37,7 +37,7 @@ public class Tlds {
      *
      * @param options The options for the list request
      * @return The list tlds response
-     * @see <a href="https://developer.dnsimple.com/v2/tlds/#list">https://developer.dnsimple.com/v2/tlds/#list</a>
+     * @see <a href="https://developer.dnsimple.com/v2/tlds/#listTlds">https://developer.dnsimple.com/v2/tlds/#listTlds</a>
      */
     public PaginatedResponse<Tld> listTlds(ListOptions options) {
         return client.page(GET, "tlds", options, null, Tld.class);
@@ -48,7 +48,7 @@ public class Tlds {
      *
      * @param tld The TLD string (i.e. "com")
      * @return The get tld response
-     * @see <a href="https://developer.dnsimple.com/v2/tlds/#get">https://developer.dnsimple.com/v2/tlds/#get</a>
+     * @see <a href="https://developer.dnsimple.com/v2/tlds/#getTld">https://developer.dnsimple.com/v2/tlds/#getTld</a>
      */
     public SimpleResponse<Tld> getTld(String tld) {
         return client.simple(GET, "tlds/" + tld, ListOptions.empty(), null, Tld.class);
@@ -59,7 +59,7 @@ public class Tlds {
      *
      * @param tld The TLD to retrieve extended attributes for
      * @return The list tlds response
-     * @see <a href="https://developer.dnsimple.com/v2/tlds/#extended-attributes">https://developer.dnsimple.com/v2/tlds/#extended-attributes</a>
+     * @see <a href="https://developer.dnsimple.com/v2/tlds/#getTldExtendedAttributes">https://developer.dnsimple.com/v2/tlds/#getTldExtendedAttributes</a>
      */
     public ListResponse<TldExtendedAttribute> getTldExtendedAttributes(String tld) {
         return client.list(GET, "tlds/" + tld + "/extended_attributes", ListOptions.empty(), null, TldExtendedAttribute.class);

@@ -103,7 +103,7 @@ public class Templates {
      * @param template The template short name or ID
      * @param domain   The domain ID or name
      * @return The apply template response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/templates/#applyTemplateToDomain">https://developer.dnsimple.com/v2/domains/templates/#applyTemplateToDomain</a>
+     * @see <a href="https://developer.dnsimple.com/v2/templates/domains/#applyTemplateToDomain">https://developer.dnsimple.com/v2/templates/domains/#applyTemplateToDomain</a>
      */
     public EmptyResponse applyTemplate(Number account, String template, String domain) {
         return client.empty(POST, account + "/domains/" + domain + "/templates/" + template, ListOptions.empty(), null);

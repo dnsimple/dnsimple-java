@@ -194,7 +194,7 @@ public class Zones {
      * @param zone    The zone name
      * @param record  The zone record ID
      * @return The result of the check
-     * @see <a href="https://developer.dnsimple.com/v2/zones/#checkZoneRecordDistribution">https://developer.dnsimple.com/v2/zones/#checkZoneRecordDistribution</a>
+     * @see <a href="https://developer.dnsimple.com/v2/zones/records/#checkZoneRecordDistribution">https://developer.dnsimple.com/v2/zones/records/#checkZoneRecordDistribution</a>
      */
     public SimpleResponse<ZoneDistribution> checkZoneRecordDistribution(Number account, String zone, Number record) {
         return client.simple(GET, account + "/zones/" + zone + "/records/" + record + "/distribution", ListOptions.empty(), null, ZoneDistribution.class);
