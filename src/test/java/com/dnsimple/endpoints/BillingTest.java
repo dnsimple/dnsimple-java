@@ -11,11 +11,20 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import static com.dnsimple.http.HttpMethod.GET;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 
 public class BillingTest extends DnsimpleTestBase {
+    @Test
+    public void testListChargesSendsCorrectRequest() {
+        server.stubFixtureAt("listCharges/success.http");
+        client.billing.listCharges(1010, ListOptions.empty());
+        assertThat(server.getRecordedRequest().getMethod(), is(GET));
+        assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/billing/charges"));
+    }
+
     @Test
     public void testListChargesProducesChargeList() {
         server.stubFixtureAt("listCharges/success.http");

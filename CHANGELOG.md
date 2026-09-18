@@ -14,6 +14,10 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is
 
 - **BREAKING**: Compiled the library for Java 21. The library no longer runs on Java 17. (#272)
 
+### Fixed
+
+- Fixed the `listCharges` request path, which had a double slash after the `/v2/` prefix. (#275)
+
 ## 6.1.0 - 2026-09-17
 
 ### Deprecated
