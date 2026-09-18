@@ -1,8 +1,11 @@
 package com.dnsimple.endpoints;
 
 import com.dnsimple.data.ZoneRecord;
+import com.dnsimple.data.ZoneRecordBatchChange;
+import com.dnsimple.exception.BadRequestException;
 import com.dnsimple.exception.ResourceNotFoundException;
 import com.dnsimple.request.ListOptions;
+import com.dnsimple.request.ZoneRecordBatchChangeOptions;
 import com.dnsimple.request.ZoneRecordOptions;
 import com.dnsimple.request.ZoneRecordUpdateOptions;
 import com.dnsimple.response.PaginatedResponse;
@@ -17,6 +20,7 @@ import java.util.Map;
 
 import static com.dnsimple.http.HttpMethod.*;
 import static com.dnsimple.tools.CustomMatchers.number;
+import static com.dnsimple.tools.CustomMatchers.property;
 import static com.dnsimple.tools.CustomMatchers.thrownException;
 import static java.time.ZoneOffset.UTC;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -161,5 +165,123 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
         client.zones.deleteZoneRecord(1, "example.com", 2);
         assertThat(server.getRecordedRequest().getMethod(), is(DELETE));
         assertThat(server.getRecordedRequest().getPath(), is("/v2/1/zones/example.com/records/2"));
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testBatchChangeZoneRecordsSendsCorrectRequest() {
+        server.stubFixtureAt("batchChangeZoneRecords/success.http");
+        var options = ZoneRecordBatchChangeOptions.empty()
+                .create(ZoneRecordOptions.of("ab", "A", "3.2.3.4"))
+                .create(ZoneRecordOptions.of("ab", "A", "4.2.3.4").ttl(3600).priority(10).regions("SV1", "IAD"))
+                .update(67622534, ZoneRecordUpdateOptions.empty().content("3.2.3.40"))
+                .delete(67622509);
+        client.zones.batchChangeZoneRecords(1010, "example.com", options);
+        assertThat(server.getRecordedRequest().getMethod(), is(POST));
+        assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/zones/example.com/batch"));
+        var payload = server.getRecordedRequest().getJsonObjectPayload();
+        var creates = (List<Map<String, Object>>) payload.get("creates");
+        assertThat(creates, hasSize(2));
+        assertThat(creates.get(0), is(Map.of("name", "ab", "type", "A", "content", "3.2.3.4")));
+        assertThat(creates.get(1).get("name"), is("ab"));
+        assertThat(creates.get(1).get("type"), is("A"));
+        assertThat(creates.get(1).get("content"), is("4.2.3.4"));
+        assertThat(creates.get(1).get("ttl"), is(number(3600)));
+        assertThat(creates.get(1).get("priority"), is(number(10)));
+        assertThat(creates.get(1).get("regions"), is(List.of("SV1", "IAD")));
+        var updates = (List<Map<String, Object>>) payload.get("updates");
+        assertThat(updates, hasSize(1));
+        assertThat(updates.get(0).keySet(), containsInAnyOrder("id", "content"));
+        assertThat(updates.get(0).get("id"), is(number(67622534)));
+        assertThat(updates.get(0).get("content"), is("3.2.3.40"));
+        var deletes = (List<Map<String, Object>>) payload.get("deletes");
+        assertThat(deletes, hasSize(1));
+        assertThat(deletes.get(0).keySet(), contains("id"));
+        assertThat(deletes.get(0).get("id"), is(number(67622509)));
+    }
+
+    @Test
+    public void testBatchChangeZoneRecordsOmitsEmptyOperations() {
+        server.stubFixtureAt("batchChangeZoneRecords/success.http");
+        var options = ZoneRecordBatchChangeOptions.empty().delete(67622509);
+        client.zones.batchChangeZoneRecords(1010, "example.com", options);
+        assertThat(server.getRecordedRequest().getJsonObjectPayload(), allOf(
+                hasKey("deletes"),
+                not(hasKey("creates")),
+                not(hasKey("updates"))
+        ));
+    }
+
+    @Test
+    public void testBatchChangeZoneRecordsProducesBatchChange() {
+        server.stubFixtureAt("batchChangeZoneRecords/success.http");
+        ZoneRecordBatchChange batch = client.zones.batchChangeZoneRecords(1010, "example.com", ZoneRecordBatchChangeOptions.empty()).getData();
+
+        assertThat(batch.getCreates(), hasSize(2));
+        ZoneRecord created = batch.getCreates().get(0);
+        assertThat(created.getId(), is(67623409L));
+        assertThat(created.getZoneId(), is("example.com"));
+        assertThat(created.getName(), is("ab"));
+        assertThat(created.getContent(), is("3.2.3.4"));
+        assertThat(created.getTtl(), is(3600));
+        assertThat(created.getPriority(), is(nullValue()));
+        assertThat(created.getType(), is("A"));
+        assertThat(created.getRegions(), contains("global"));
+        assertThat(created.isSystemRecord(), is(false));
+        assertThat(created.getCreatedAt(), is(OffsetDateTime.of(2025, 9, 5, 5, 25, 0, 0, UTC)));
+        assertThat(batch.getCreates().get(1).getId(), is(67623410L));
+
+        assertThat(batch.getUpdates(), hasSize(2));
+        ZoneRecord updated = batch.getUpdates().get(0);
+        assertThat(updated.getId(), is(67622534L));
+        assertThat(updated.getName(), is("update1-1757049890"));
+        assertThat(updated.getContent(), is("3.2.3.40"));
+        assertThat(updated.getUpdatedAt(), is(OffsetDateTime.of(2025, 9, 5, 5, 25, 0, 0, UTC)));
+        assertThat(batch.getUpdates().get(1).getId(), is(67622537L));
+
+        assertThat(batch.getDeletes(), hasSize(2));
+        assertThat(batch.getDeletes().get(0).getId(), is(67622509L));
+        assertThat(batch.getDeletes().get(1).getId(), is(67622527L));
+    }
+
+    @Test
+    public void testBatchChangeZoneRecordsWhenCreateValidationFails() {
+        server.stubFixtureAt("batchChangeZoneRecords/error_400_create_validation_failed.http");
+        var options = ZoneRecordBatchChangeOptions.empty().create(ZoneRecordOptions.of("ab", "SPF", "v=spf1 -all"));
+        assertThat(() -> client.zones.batchChangeZoneRecords(1010, "example.com", options), allOf(
+                thrownException(is(instanceOf(BadRequestException.class))),
+                thrownException(property(BadRequestException::getStatusCode, is(400))),
+                thrownException(property((BadRequestException e) -> e.getBody().get("message"), is("Validation failed"))),
+                thrownException(property((BadRequestException e) -> e.getAttributeErrors(), hasKey("creates")))
+        ));
+    }
+
+    @Test
+    public void testBatchChangeZoneRecordsWhenUpdateValidationFails() {
+        server.stubFixtureAt("batchChangeZoneRecords/error_400_update_validation_failed.http");
+        var options = ZoneRecordBatchChangeOptions.empty().update(99999999, ZoneRecordUpdateOptions.empty().content("1.2.3.4"));
+        assertThat(() -> client.zones.batchChangeZoneRecords(1010, "example.com", options), allOf(
+                thrownException(is(instanceOf(BadRequestException.class))),
+                thrownException(property((BadRequestException e) -> e.getBody().get("message"), is("Validation failed"))),
+                thrownException(property((BadRequestException e) -> e.getAttributeErrors(), hasKey("updates")))
+        ));
+    }
+
+    @Test
+    public void testBatchChangeZoneRecordsWhenDeleteValidationFails() {
+        server.stubFixtureAt("batchChangeZoneRecords/error_400_delete_validation_failed.http");
+        var options = ZoneRecordBatchChangeOptions.empty().delete(67622509);
+        assertThat(() -> client.zones.batchChangeZoneRecords(1010, "example.com", options), allOf(
+                thrownException(is(instanceOf(BadRequestException.class))),
+                thrownException(property((BadRequestException e) -> e.getBody().get("message"), is("Validation failed"))),
+                thrownException(property((BadRequestException e) -> e.getAttributeErrors(), hasKey("deletes")))
+        ));
+    }
+
+    @Test
+    public void testBatchChangeZoneRecordsWhenZoneNotFound() {
+        server.stubFixtureAt("notfound-zone.http");
+        assertThat(() -> client.zones.batchChangeZoneRecords(1010, "example.com", ZoneRecordBatchChangeOptions.empty().delete(1)),
+                thrownException(is(instanceOf(ResourceNotFoundException.class))));
     }
 }
