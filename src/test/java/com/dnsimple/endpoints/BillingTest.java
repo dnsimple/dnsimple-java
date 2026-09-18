@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.is;
 
 public class BillingTest extends DnsimpleTestBase {
     @Test
-    public void testListChargesBuildsRequest() {
+    public void testListChargesSendsCorrectRequest() {
         server.stubFixtureAt("listCharges/success.http");
         client.billing.listCharges(1010, ListOptions.empty());
         assertThat(server.getRecordedRequest().getMethod(), is(GET));
