@@ -29,9 +29,9 @@ public class Zones {
     /**
      * Activate DNS resolution for the zone in the account.
      *
-     * @param account The account ID
+     * @param account  The account ID
      * @param zoneName The zone name
-     * @return The zone
+     * @return The activate DNS response
      * @see <a href="https://developer.dnsimple.com/v2/zones/#activateZoneService">https://developer.dnsimple.com/v2/zones/#activateZoneService</a>
      */
     public SimpleResponse<Zone> activateDns(Number account, String zoneName) {
@@ -41,9 +41,9 @@ public class Zones {
     /**
      * Deactivate DNS resolution for the zone in the account.
      *
-     * @param account The account ID
+     * @param account  The account ID
      * @param zoneName The zone name
-     * @return The zone
+     * @return The deactivate DNS response
      * @see <a href="https://developer.dnsimple.com/v2/zones/#deactivateZoneService">https://developer.dnsimple.com/v2/zones/#deactivateZoneService</a>
      */
     public SimpleResponse<Zone> deactivateDns(Number account, String zoneName) {
@@ -102,7 +102,7 @@ public class Zones {
      *
      * @param account The account ID
      * @param zone    The zone name
-     * @return The result of the check
+     * @return The check zone distribution response
      * @see <a href="https://developer.dnsimple.com/v2/zones/#checkZoneDistribution">https://developer.dnsimple.com/v2/zones/#checkZoneDistribution</a>
      */
     public SimpleResponse<ZoneDistribution> checkZoneDistribution(Number account, String zone) {
@@ -163,9 +163,9 @@ public class Zones {
     /**
      * Update a record in a zone.
      *
-     * @param account    The account ID
-     * @param zone       The zone name
-     * @param record     The zone record ID
+     * @param account The account ID
+     * @param zone    The zone name
+     * @param record  The zone record ID
      * @param options The options to update the Zone record
      * @return The update zone record response
      * @see <a href="https://developer.dnsimple.com/v2/zones/records/#updateZoneRecord">https://developer.dnsimple.com/v2/zones/records/#updateZoneRecord</a>
@@ -193,7 +193,7 @@ public class Zones {
      * @param account The account ID
      * @param zone    The zone name
      * @param record  The zone record ID
-     * @return The result of the check
+     * @return The check zone record distribution response
      * @see <a href="https://developer.dnsimple.com/v2/zones/records/#checkZoneRecordDistribution">https://developer.dnsimple.com/v2/zones/records/#checkZoneRecordDistribution</a>
      */
     public SimpleResponse<ZoneDistribution> checkZoneRecordDistribution(Number account, String zone, Number record) {

@@ -42,8 +42,7 @@ public class Registrar {
      *
      * @param account    The account ID
      * @param domainName The domain to check the prices
-     *
-     * @return the domain prices response
+     * @return The get domain prices response
      * @see <a href="https://developer.dnsimple.com/v2/registrar/#getDomainPrices">https://developer.dnsimple.com/v2/registrar/#getDomainPrices</a>
      */
     public SimpleResponse<DomainPrice> getDomainPrices(Number account, String domainName) {
@@ -56,8 +55,7 @@ public class Registrar {
      * @param account            The account ID
      * @param domainName         The domain to check the registration
      * @param domainRegistration The domain registration ID
-     *
-     * @return the domain registration response
+     * @return The get domain registration response
      * @see <a href="https://developer.dnsimple.com/v2/registrar/#getDomainRegistration">https://developer.dnsimple.com/v2/registrar/#getDomainRegistration</a>
      */
     public SimpleResponse<DomainRegistration> getDomainRegistration(Number account, String domainName, Number domainRegistration) {
@@ -67,11 +65,10 @@ public class Registrar {
     /**
      * Get the details of an existing domain renewal.
      *
-     * @param account            The account ID
-     * @param domainName         The domain to check the renewal
+     * @param account       The account ID
+     * @param domainName    The domain to check the renewal
      * @param domainRenewal The domain renewal ID
-     *
-     * @return the domain renewal response
+     * @return The get domain renewal response
      * @see <a href="https://developer.dnsimple.com/v2/registrar/#getDomainRenewal">https://developer.dnsimple.com/v2/registrar/#getDomainRenewal</a>
      */
     public SimpleResponse<DomainRenewal> getDomainRenewal(Number account, String domainName, Number domainRenewal) {
@@ -84,8 +81,7 @@ public class Registrar {
      * @param account       The account ID
      * @param domain        The domain name or ID
      * @param domainRestore The domain restore ID
-     *
-     * @return the domain restore response
+     * @return The get domain restore response
      * @see <a href="https://developer.dnsimple.com/v2/registrar/#getDomainRestore">https://developer.dnsimple.com/v2/registrar/#getDomainRestore</a>
      */
     public SimpleResponse<DomainRestore> getDomainRestore(Number account, String domain, Number domainRestore) {
@@ -124,7 +120,7 @@ public class Registrar {
      * @param account          The account ID
      * @param domain           The domain name or ID
      * @param domainTransferId The domain transfer ID
-     * @return The transfer domain response
+     * @return The get domain transfer response
      * @see <a href="https://developer.dnsimple.com/v2/registrar/#getDomainTransfer">https://developer.dnsimple.com/v2/registrar/#getDomainTransfer</a>
      */
     public SimpleResponse<DomainTransfer> getDomainTransfer(Number account, String domain, Number domainTransferId) {
@@ -137,7 +133,7 @@ public class Registrar {
      * @param account          The account ID
      * @param domain           The domain name or ID
      * @param domainTransferId The domain transfer ID
-     * @return The transfer domain response
+     * @return The cancel domain transfer response
      * @see <a href="https://developer.dnsimple.com/v2/registrar/#cancelDomainTransfer">https://developer.dnsimple.com/v2/registrar/#cancelDomainTransfer</a>
      */
     public SimpleResponse<DomainTransfer> cancelDomainTransfer(Number account, String domain, Number domainTransferId) {
@@ -175,7 +171,7 @@ public class Registrar {
      *
      * @param account The account ID
      * @param domain  The domain name or ID
-     * @return The transfer domain out response
+     * @return The authorize transfer out response
      * @see <a href="https://developer.dnsimple.com/v2/registrar/#authorizeDomainTransferOut">https://developer.dnsimple.com/v2/registrar/#authorizeDomainTransferOut</a>
      */
     public EmptyResponse authorizeTransferOut(Number account, String domain) {
@@ -285,7 +281,7 @@ public class Registrar {
      *
      * @param account The account ID
      * @param options List options
-     * @return Registrant changes
+     * @return The list registrant changes response
      * @see <a href="https://developer.dnsimple.com/v2/registrar/registrant-changes/#listRegistrantChanges">https://developer.dnsimple.com/v2/registrar/registrant-changes/#listRegistrantChanges</a>
      */
     public ListResponse<RegistrantChange> listRegistrantChanges(Number account, ListOptions options) {
@@ -296,8 +292,8 @@ public class Registrar {
      * Start a registrant change.
      *
      * @param account The account ID
-     * @param input The input parameters
-     * @return The registrant change response
+     * @param input   The input parameters
+     * @return The create registrant change response
      * @see <a href="https://developer.dnsimple.com/v2/registrar/registrant-changes/#createRegistrantChange">https://developer.dnsimple.com/v2/registrar/registrant-changes/#createRegistrantChange</a>
      */
     public SimpleResponse<RegistrantChange> createRegistrantChange(Number account, CreateRegistrantChangeInput input) {
@@ -308,8 +304,8 @@ public class Registrar {
      * Retrieves the requirements of a registrant change.
      *
      * @param account The account ID
-     * @param input The domain and contact to check
-     * @return The registrant change check response
+     * @param input   The domain and contact to check
+     * @return The check registrant change response
      * @see <a href="https://developer.dnsimple.com/v2/registrar/registrant-changes/#checkRegistrantChange">https://developer.dnsimple.com/v2/registrar/registrant-changes/#checkRegistrantChange</a>
      */
     public SimpleResponse<RegistrantChangeCheck> checkRegistrantChange(Number account, CheckRegistrantChangeInput input) {
@@ -319,9 +315,9 @@ public class Registrar {
     /**
      * Retrieves the details of an existing registrant change.
      *
-     * @param account The account ID
+     * @param account          The account ID
      * @param registrantChange The registrant change
-     * @return The registrant change response
+     * @return The get registrant change response
      * @see <a href="https://developer.dnsimple.com/v2/registrar/registrant-changes/#getRegistrantChange">https://developer.dnsimple.com/v2/registrar/registrant-changes/#getRegistrantChange</a>
      */
     public SimpleResponse<RegistrantChange> getRegistrantChange(Number account, Number registrantChange) {
@@ -331,9 +327,9 @@ public class Registrar {
     /**
      * Cancel an ongoing registrant change from the account.
      *
-     * @param account The account ID
+     * @param account          The account ID
      * @param registrantChange The registrant change
-     * @return The registrant change response
+     * @return The delete registrant change response
      * @see <a href="https://developer.dnsimple.com/v2/registrar/registrant-changes/#deleteRegistrantChange">https://developer.dnsimple.com/v2/registrar/registrant-changes/#deleteRegistrantChange</a>
      */
     public EmptyResponse deleteRegistrantChange(Number account, Number registrantChange) {
@@ -344,8 +340,8 @@ public class Registrar {
      * Gets the transfer lock status for a domain.
      *
      * @param account The account ID
-     * @param domain The domain name or ID
-     * @return The transfer lock status
+     * @param domain  The domain name or ID
+     * @return The get domain transfer lock response
      * @see <a href="https://developer.dnsimple.com/v2/registrar/transfer-lock/#getDomainTransferLock">https://developer.dnsimple.com/v2/registrar/transfer-lock/#getDomainTransferLock</a>
      */
     public SimpleResponse<DomainTransferLock> getDomainTransferLock(Number account, String domain) {
@@ -356,8 +352,8 @@ public class Registrar {
      * Locks the domain to prevent unauthorized transfers.
      *
      * @param account The account ID
-     * @param domain The domain name or ID
-     * @return The transfer lock status
+     * @param domain  The domain name or ID
+     * @return The enable domain transfer lock response
      * @see <a href="https://developer.dnsimple.com/v2/registrar/transfer-lock/#enableDomainTransferLock">https://developer.dnsimple.com/v2/registrar/transfer-lock/#enableDomainTransferLock</a>
      */
     public SimpleResponse<DomainTransferLock> enableDomainTransferLock(Number account, String domain) {
@@ -368,8 +364,8 @@ public class Registrar {
      * Unlocks the domain to allow domain transfers.
      *
      * @param account The account ID
-     * @param domain The domain name or ID
-     * @return The transfer lock status
+     * @param domain  The domain name or ID
+     * @return The disable domain transfer lock response
      * @see <a href="https://developer.dnsimple.com/v2/registrar/transfer-lock/#disableDomainTransferLock">https://developer.dnsimple.com/v2/registrar/transfer-lock/#disableDomainTransferLock</a>
      */
     public SimpleResponse<DomainTransferLock> disableDomainTransferLock(Number account, String domain) {

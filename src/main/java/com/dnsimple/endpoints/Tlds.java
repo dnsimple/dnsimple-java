@@ -25,7 +25,7 @@ public class Tlds {
     /**
      * Lists supported TLDs for registration
      *
-     * @return The list tlds response
+     * @return The list TLDs response
      * @see <a href="https://developer.dnsimple.com/v2/tlds/#listTlds">https://developer.dnsimple.com/v2/tlds/#listTlds</a>
      */
     public PaginatedResponse<Tld> listTlds() {
@@ -36,7 +36,7 @@ public class Tlds {
      * Lists supported TLDs for registration
      *
      * @param options The options for the list request
-     * @return The list tlds response
+     * @return The list TLDs response
      * @see <a href="https://developer.dnsimple.com/v2/tlds/#listTlds">https://developer.dnsimple.com/v2/tlds/#listTlds</a>
      */
     public PaginatedResponse<Tld> listTlds(ListOptions options) {
@@ -47,7 +47,7 @@ public class Tlds {
      * Get details for a specific tld.
      *
      * @param tld The TLD string (i.e. "com")
-     * @return The get tld response
+     * @return The get TLD response
      * @see <a href="https://developer.dnsimple.com/v2/tlds/#getTld">https://developer.dnsimple.com/v2/tlds/#getTld</a>
      */
     public SimpleResponse<Tld> getTld(String tld) {
@@ -58,7 +58,7 @@ public class Tlds {
      * Get extended attributes for a TLD
      *
      * @param tld The TLD to retrieve extended attributes for
-     * @return The list tlds response
+     * @return The get TLD extended attributes response
      * @see <a href="https://developer.dnsimple.com/v2/tlds/#getTldExtendedAttributes">https://developer.dnsimple.com/v2/tlds/#getTldExtendedAttributes</a>
      */
     public ListResponse<TldExtendedAttribute> getTldExtendedAttributes(String tld) {

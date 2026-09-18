@@ -50,7 +50,7 @@ public class Contacts {
      * Create a contact in the account.
      *
      * @param account The account ID
-     * @param options options to create the new contact
+     * @param options Options to create the new contact
      * @return The create contact response
      * @see <a href="https://developer.dnsimple.com/v2/contacts/#createContact">https://developer.dnsimple.com/v2/contacts/#createContact</a>
      */
@@ -75,7 +75,7 @@ public class Contacts {
      *
      * @param account   The account ID
      * @param contactId The contact ID
-     * @param options   options to update the contact
+     * @param options   Options to update the contact
      * @return The update contact response
      * @see <a href="https://developer.dnsimple.com/v2/contacts/#updateContact">https://developer.dnsimple.com/v2/contacts/#updateContact</a>
      */
