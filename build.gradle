@@ -21,8 +21,8 @@ version = '6.1.0'
 description = 'dnsimple-java'
 
 java {
-    sourceCompatibility = '1.17'
-    targetCompatibility = '1.17'
+    sourceCompatibility = '21'
+    targetCompatibility = '21'
 
     withJavadocJar()
     withSourcesJar()
