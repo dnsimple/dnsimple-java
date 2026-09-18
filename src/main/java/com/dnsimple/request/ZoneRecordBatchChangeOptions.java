@@ -31,9 +31,6 @@ public class ZoneRecordBatchChangeOptions {
 
     /**
      * Add a record to update
-     *
-     * @param id     the zone record ID
-     * @param record the new attributes of the record
      */
     public ZoneRecordBatchChangeOptions update(Number id, ZoneRecordUpdateOptions record) {
         var payload = record.asPayload();
@@ -43,13 +40,9 @@ public class ZoneRecordBatchChangeOptions {
 
     /**
      * Add a record to delete
-     *
-     * @param id the zone record ID
      */
     public ZoneRecordBatchChangeOptions delete(Number id) {
-        var payload = new HashMap<String, Object>();
-        payload.put("id", id);
-        return new ZoneRecordBatchChangeOptions(creates, updates, append(deletes, payload));
+        return new ZoneRecordBatchChangeOptions(creates, updates, append(deletes, Map.<String, Object>of("id", id)));
     }
 
     /**

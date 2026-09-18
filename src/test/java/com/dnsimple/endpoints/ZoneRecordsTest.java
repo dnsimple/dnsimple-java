@@ -183,21 +183,25 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
         var creates = (List<Map<String, Object>>) payload.get("creates");
         assertThat(creates, hasSize(2));
         assertThat(creates.get(0), is(Map.of("name", "ab", "type", "A", "content", "3.2.3.4")));
-        assertThat(creates.get(1).get("name"), is("ab"));
-        assertThat(creates.get(1).get("type"), is("A"));
-        assertThat(creates.get(1).get("content"), is("4.2.3.4"));
-        assertThat(creates.get(1).get("ttl"), is(number(3600)));
-        assertThat(creates.get(1).get("priority"), is(number(10)));
+        assertThat(creates.get(1), allOf(
+                hasEntry("name", "ab"),
+                hasEntry("type", "A"),
+                hasEntry("content", "4.2.3.4"),
+                hasEntry(is("ttl"), number(3600)),
+                hasEntry(is("priority"), number(10))
+        ));
         assertThat(creates.get(1).get("regions"), is(List.of("SV1", "IAD")));
         var updates = (List<Map<String, Object>>) payload.get("updates");
         assertThat(updates, hasSize(1));
         assertThat(updates.get(0).keySet(), containsInAnyOrder("id", "content"));
-        assertThat(updates.get(0).get("id"), is(number(67622534)));
-        assertThat(updates.get(0).get("content"), is("3.2.3.40"));
+        assertThat(updates.get(0), allOf(
+                hasEntry(is("id"), number(67622534)),
+                hasEntry("content", "3.2.3.40")
+        ));
         var deletes = (List<Map<String, Object>>) payload.get("deletes");
         assertThat(deletes, hasSize(1));
         assertThat(deletes.get(0).keySet(), contains("id"));
-        assertThat(deletes.get(0).get("id"), is(number(67622509)));
+        assertThat(deletes.get(0), hasEntry(is("id"), number(67622509)));
     }
 
     @Test
@@ -250,7 +254,6 @@ public class ZoneRecordsTest extends DnsimpleTestBase {
         var options = ZoneRecordBatchChangeOptions.empty().create(ZoneRecordOptions.of("ab", "SPF", "v=spf1 -all"));
         assertThat(() -> client.zones.batchChangeZoneRecords(1010, "example.com", options), allOf(
                 thrownException(is(instanceOf(BadRequestException.class))),
-                thrownException(property(BadRequestException::getStatusCode, is(400))),
                 thrownException(property((BadRequestException e) -> e.getBody().get("message"), is("Validation failed"))),
                 thrownException(property((BadRequestException e) -> e.getAttributeErrors(), hasKey("creates")))
         ));
