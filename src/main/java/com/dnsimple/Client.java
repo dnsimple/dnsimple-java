@@ -25,6 +25,7 @@ public class Client {
     public final Billing billing;
     public final Certificates certificates;
     public final Contacts contacts;
+    public final DnsAnalytics dnsAnalytics;
     public final Domains domains;
     public final Identity identity;
     public final Oauth oauth;
@@ -36,12 +37,13 @@ public class Client {
     public final Webhooks webhooks;
     public final Zones zones;
 
-    private Client(HttpEndpointClient endpointClient, Accounts accounts, Billing billing, Certificates certificates, Contacts contacts, Domains domains, Identity identity, Oauth oauth, Registrar registrar, Services services, Templates templates, Tlds tlds, VanityNameServers vanityNameServers, Webhooks webhooks, Zones zones) {
+    private Client(HttpEndpointClient endpointClient, Accounts accounts, Billing billing, Certificates certificates, Contacts contacts, DnsAnalytics dnsAnalytics, Domains domains, Identity identity, Oauth oauth, Registrar registrar, Services services, Templates templates, Tlds tlds, VanityNameServers vanityNameServers, Webhooks webhooks, Zones zones) {
         this.endpointClient = endpointClient;
         this.accounts = accounts;
         this.billing = billing;
         this.certificates = certificates;
         this.contacts = contacts;
+        this.dnsAnalytics = dnsAnalytics;
         this.domains = domains;
         this.identity = identity;
         this.oauth = oauth;
@@ -62,6 +64,7 @@ public class Client {
                 new Billing(endpointClient),
                 new Certificates(endpointClient),
                 new Contacts(endpointClient),
+                new DnsAnalytics(endpointClient),
                 new Domains(endpointClient),
                 new Identity(endpointClient),
                 new Oauth(endpointClient),
