@@ -5,6 +5,7 @@ import com.dnsimple.exception.BadRequestException;
 import com.dnsimple.exception.DnsimpleException;
 import com.dnsimple.request.RegistrationOptions;
 import com.dnsimple.request.RenewOptions;
+import com.dnsimple.request.RestoreOptions;
 import com.dnsimple.request.TransferOptions;
 import com.dnsimple.response.SimpleResponse;
 import com.dnsimple.tools.DnsimpleTestBase;
@@ -92,6 +93,21 @@ public class RegistrarTest extends DnsimpleTestBase {
     }
 
     @Test
+    public void testGetDomainRestore() {
+        server.stubFixtureAt("getDomainRestore/success.http");
+
+        DomainRestore restore = client.registrar.getDomainRestore(1010, "bingo.pizza", 1).getData();
+
+        assertThat(server.getRecordedRequest().getMethod(), is(GET));
+        assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/bingo.pizza/restores/1"));
+        assertThat(restore.getId(), is(43L));
+        assertThat(restore.getDomainId(), is(214L));
+        assertThat(restore.getState(), is("new"));
+        assertThat(restore.getCreatedAt(), is(OffsetDateTime.of(2024, 2, 14, 14, 40, 42, 0, UTC)));
+        assertThat(restore.getUpdatedAt(), is(OffsetDateTime.of(2024, 2, 14, 14, 40, 42, 0, UTC)));
+    }
+
+    @Test
     public void testRegisterDomain() {
         server.stubFixtureAt("registerDomain/success.http");
         RegistrationOptions options = RegistrationOptions.of(10);
@@ -134,6 +150,19 @@ public class RegistrarTest extends DnsimpleTestBase {
         server.stubFixtureAt("renewDomain/error-tooearly.http");
         RenewOptions options = RenewOptions.empty().period(3);
         client.registrar.renewDomain(1010, "example.com", options);
+    }
+
+    @Test
+    public void testRestoreDomain() {
+        server.stubFixtureAt("restoreDomain/success.http");
+        RestoreOptions options = RestoreOptions.empty().premiumPrice("100.0");
+        DomainRestore domainRestore = client.registrar.restoreDomain(1010, "example.com", options).getData();
+        assertThat(server.getRecordedRequest().getMethod(), is(POST));
+        assertThat(server.getRecordedRequest().getPath(), is("/v2/1010/registrar/domains/example.com/restores"));
+        Map<String, Object> payload = server.getRecordedRequest().getJsonObjectPayload();
+        assertThat(payload, hasEntry("premium_price", "100.0"));
+        assertThat(domainRestore.getId(), is(43L));
+        assertThat(domainRestore.getState(), is("new"));
     }
 
     @Test

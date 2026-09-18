@@ -2,6 +2,13 @@
 
 This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## main
+
+### Added
+
+- Added `restoreDomain` to restore a domain. (#267)
+- Added `getDomainRestore` to retrieve the details of a domain restore. (#267)
+
 ## 6.1.0 - 2026-09-17
 
 ### Deprecated
