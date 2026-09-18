@@ -62,7 +62,7 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is
 
 ### Removed
 
-- **BREAKING:** Removed `from` and `to` fields from `EmailForward`. Please use `alias_email` and `destination_email` instead.
+- **BREAKING**: Removed `from` and `to` fields from `EmailForward`. Please use `alias_email` and `destination_email` instead.
 
 ## 3.0.2
 
@@ -86,7 +86,7 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is
 
 ### Removed
 
-- **BREAKING:** `DomainCollaborators` have been removed. Please use our Domain Access Control feature.
+- **BREAKING**: `DomainCollaborators` have been removed. Please use our Domain Access Control feature.
 
 ## 2.0.0 - 2024-12-12
 
@@ -113,7 +113,7 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is
 
 ### Removed
 
-- **BREAKING:** Removed the `privateKey` property of `CertificateBundle`. Use `Certificates.getCertificatePrivateKey()` instead. See [dnsimple-java#118](https://github.com/dnsimple/dnsimple-java/issues/118)
+- **BREAKING**: Removed the `privateKey` property of `CertificateBundle`. Use `Certificates.getCertificatePrivateKey()` instead. See [dnsimple-java#118](https://github.com/dnsimple/dnsimple-java/issues/118)
 
 ## 0.14.0 - 2023-12-12
 
@@ -150,11 +150,11 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is
 
 ### Changed
 
-- **BREAKING:** `purchaseLetsencryptCertificateRenewal` now takes a `CertificateRenewalPurchaseOptions` object to support the `signatureAlgorithm` field (dnsimple/dnsimple-java#146)
+- **BREAKING**: `purchaseLetsencryptCertificateRenewal` now takes a `CertificateRenewalPurchaseOptions` object to support the `signatureAlgorithm` field (dnsimple/dnsimple-java#146)
 
 ### Removed
 
-- **BREAKING:** Removed deprecated certificate methods and constructors that use contact ID, which is no longer supported (dnsimple/dnsimple-java#146)
+- **BREAKING**: Removed deprecated certificate methods and constructors that use contact ID, which is no longer supported (dnsimple/dnsimple-java#146)
 
 ## 0.9.6 - 2023-02-22
 
@@ -220,8 +220,8 @@ This project uses [Semantic Versioning 2.0.0](http://semver.org/), the format is
 
 ### Changed
 
-- **BREAKING:** Complete review of input and output data types and names to be more aligned to the API docs.
-- **BREAKING:** Complete review of error management: now error classes are unchecked and there's more fragmentation to represent specific API related scenarios.
+- **BREAKING**: Complete review of input and output data types and names to be more aligned to the API docs.
+- **BREAKING**: Complete review of error management: now error classes are unchecked and there's more fragmentation to represent specific API related scenarios.
 - Replace the Google API HTTP client with a Java 11 native HTTP client. Users can now provide their own `HttpRequestFactory` alternative implementation.
 
 ### Removed
