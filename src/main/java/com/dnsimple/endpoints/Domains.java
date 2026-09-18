@@ -111,7 +111,7 @@ public class Domains {
      * @param account The account ID
      * @param domain  The domain ID or name or name
      * @return The DNSSEC disable response
-     * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#disableDomainDnsec">https://developer.dnsimple.com/v2/domains/dnssec/#disableDomainDnsec</a>
+     * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#disableDomainDnssec">https://developer.dnsimple.com/v2/domains/dnssec/#disableDomainDnssec</a>
      */
     public EmptyResponse disableDnssec(Number account, String domain) {
         return client.empty(DELETE, account + "/domains/" + domain + "/dnssec", ListOptions.empty(), null);

@@ -28,7 +28,7 @@ public class Services {
      * Lists the available one-click services.
      *
      * @return The list services response
-     * @see <a href="https://developer.dnsimple.com/v2/services/#list">https://developer.dnsimple.com/v2/services/#list</a>
+     * @see <a href="https://developer.dnsimple.com/v2/services/#listServices">https://developer.dnsimple.com/v2/services/#listServices</a>
      */
     public ListResponse<Service> listServices() {
         return client.list(GET, "services", ListOptions.empty(), null, Service.class);

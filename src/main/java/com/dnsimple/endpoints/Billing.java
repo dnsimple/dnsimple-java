@@ -17,7 +17,7 @@ public class Billing {
     /**
      * Lists the billing charges for the account.
      *
-     * @see <a href="https://developer.dnsimple.com/v2/billing/#listCharges">https://developer.dnsimple.com/v2/billing/#listCharges</a>
+     * @see <a href="https://developer.dnsimple.com/v2/billing-charges/#listCharges">https://developer.dnsimple.com/v2/billing-charges/#listCharges</a>
      */
     public ListResponse<Charge> listCharges(Number account, ListOptions options) {
         return client.list(GET, String.format("/%s/billing/charges", account), options, null, Charge.class);

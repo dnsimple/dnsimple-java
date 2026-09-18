@@ -56,7 +56,7 @@ public class ZoneRecordUpdateOptions {
 
     /**
      * Set new regions where the record will be present.
-     * More info at <a href="https://developer.dnsimple.com/v2/zones/records/#zone-record-regions">https://developer.dnsimple.com/v2/zones/records/#zone-record-regions</a>
+     * More info at <a href="https://developer.dnsimple.com/v2/zones/records/#ZoneRecordRegions">https://developer.dnsimple.com/v2/zones/records/#ZoneRecordRegions</a>
      */
     public ZoneRecordUpdateOptions regions(String... regions) {
         return new ZoneRecordUpdateOptions(name, content, ttl, priority, Arrays.asList(regions));
