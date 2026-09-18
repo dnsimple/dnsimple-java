@@ -26,7 +26,7 @@ public class VanityNameServers {
      *
      * @param account The account ID
      * @param domain  The domain name or ID
-     * @return The enable vanity name server response
+     * @return The enable vanity name servers response
      * @see <a href="https://developer.dnsimple.com/v2/vanity/#enableVanityNameServers">https://developer.dnsimple.com/v2/vanity/#enableVanityNameServers</a>
      */
     public ListResponse<VanityNameServer> enableVanityNameServers(Number account, String domain) {
@@ -38,7 +38,7 @@ public class VanityNameServers {
      *
      * @param account The account ID
      * @param domain  The domain name or ID
-     * @return The disable vanity name server response
+     * @return The disable vanity name servers response
      * @see <a href="https://developer.dnsimple.com/v2/vanity/#disableVanityNameServers">https://developer.dnsimple.com/v2/vanity/#disableVanityNameServers</a>
      */
     public EmptyResponse disableVanityNameServers(Number account, String domain) {

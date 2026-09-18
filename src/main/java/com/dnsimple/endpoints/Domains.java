@@ -98,7 +98,7 @@ public class Domains {
      *
      * @param account The account ID
      * @param domain  The domain ID or name or name
-     * @return The DNSSEC enable response
+     * @return The enable DNSSEC response
      * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#enableDomainDnssec">https://developer.dnsimple.com/v2/domains/dnssec/#enableDomainDnssec</a>
      */
     public SimpleResponse<Dnssec> enableDnssec(Number account, String domain) {
@@ -110,7 +110,7 @@ public class Domains {
      *
      * @param account The account ID
      * @param domain  The domain ID or name or name
-     * @return The DNSSEC disable response
+     * @return The disable DNSSEC response
      * @see <a href="https://developer.dnsimple.com/v2/domains/dnssec/#disableDomainDnssec">https://developer.dnsimple.com/v2/domains/dnssec/#disableDomainDnssec</a>
      */
     public EmptyResponse disableDnssec(Number account, String domain) {
@@ -268,9 +268,9 @@ public class Domains {
     /**
      * Initiate a push using an account identifier.
      *
-     * @param account                  The account ID
-     * @param domain                   The domain name or ID
-     * @param newAccountIdentifier     The account identifier of the target account
+     * @param account              The account ID
+     * @param domain               The domain name or ID
+     * @param newAccountIdentifier The account identifier of the target account
      * @return The initiate push response
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#initiateDomainPush">https://developer.dnsimple.com/v2/domains/pushes/#initiateDomainPush</a>
      */
@@ -334,7 +334,7 @@ public class Domains {
      *
      * @param account The account ID
      * @param push    The push ID
-     * @return The accept push response
+     * @return The reject push response
      * @see <a href="https://developer.dnsimple.com/v2/domains/pushes/#rejectPush">https://developer.dnsimple.com/v2/domains/pushes/#rejectPush</a>
      */
     public EmptyResponse rejectPush(Number account, Number push) {
@@ -347,9 +347,9 @@ public class Domains {
      * This endpoint provides information about a domain's availability status, including whether it's
      * available for registration, already registered, or has other restrictions.
      *
-     * @param account     The account ID
-     * @param domainName  The domain name to research
-     * @return The domain research status response
+     * @param account    The account ID
+     * @param domainName The domain name to research
+     * @return The get domain research status response
      * @see <a href="https://developer.dnsimple.com/v2/domains/research/#getDomainsResearchStatus">https://developer.dnsimple.com/v2/domains/research/#getDomainsResearchStatus</a>
      */
     public SimpleResponse<DomainResearchStatus> getDomainResearchStatus(Number account, String domainName) {

@@ -96,7 +96,7 @@ public class Certificates {
      * @param account The account ID
      * @param domain  The domain name or ID
      * @param options The options for the certificate purchase
-     * @return The Let's Encrypt purchase response
+     * @return The purchase Let's Encrypt certificate response
      * @see <a href="https://developer.dnsimple.com/v2/certificates/#purchaseLetsencryptCertificate">https://developer.dnsimple.com/v2/certificates/#purchaseLetsencryptCertificate</a>
      */
     public SimpleResponse<CertificatePurchase> purchaseLetsencryptCertificate(Number account, String domain, CertificatePurchaseOptions options) {
@@ -112,7 +112,7 @@ public class Certificates {
      * @param account               The account ID
      * @param domain                The domain name or ID
      * @param certificatePurchaseId The ID of the purchase order returned by purchaseLetsencryptCertificate
-     * @return The Let's Encrypt issue response
+     * @return The issue Let's Encrypt certificate response
      * @see <a href="https://developer.dnsimple.com/v2/certificates/#issueLetsencryptCertificate">https://developer.dnsimple.com/v2/certificates/#issueLetsencryptCertificate</a>
      */
     public SimpleResponse<Certificate> issueLetsencryptCertificate(Number account, String domain, Number certificatePurchaseId) {
@@ -129,7 +129,7 @@ public class Certificates {
      * @param domain        The domain name or ID
      * @param certificateId The certificate ID
      * @param options       The options for the certificate renewal
-     * @return The Let's Encrypt purchase renewal response
+     * @return The purchase Let's Encrypt certificate renewal response
      * @see <a href="https://developer.dnsimple.com/v2/certificates/#purchaseRenewalLetsencryptCertificate">https://developer.dnsimple.com/v2/certificates/#purchaseRenewalLetsencryptCertificate</a>
      */
     public SimpleResponse<CertificateRenewal> purchaseLetsencryptCertificateRenewal(Number account, String domain, Number certificateId, CertificateRenewalPurchaseOptions options) {
@@ -146,7 +146,7 @@ public class Certificates {
      * @param domain               The domain name or ID
      * @param certificateId        The domain name or ID
      * @param certificateRenewalId The ID of the purchase order returned by purchaseLetsencryptCertificateRenewal
-     * @return The Let's Encrypt issue response
+     * @return The issue Let's Encrypt certificate renewal response
      * @see <a href="https://developer.dnsimple.com/v2/certificates/#issueRenewalLetsencryptCertificate">https://developer.dnsimple.com/v2/certificates/#issueRenewalLetsencryptCertificate</a>
      */
     public SimpleResponse<Certificate> issueLetsencryptCertificateRenewal(Number account, String domain, Number certificateId, Number certificateRenewalId) {

@@ -17,6 +17,9 @@ public class Billing {
     /**
      * Lists the billing charges for the account.
      *
+     * @param account The account ID
+     * @param options The options for the list request
+     * @return The list charges response
      * @see <a href="https://developer.dnsimple.com/v2/billing-charges/#listCharges">https://developer.dnsimple.com/v2/billing-charges/#listCharges</a>
      */
     public ListResponse<Charge> listCharges(Number account, ListOptions options) {
